@@ -263,6 +263,34 @@ const NCTB_CREATIVE_QUESTIONS_BN = {
                 "answer": "Summary:\nMeherjan, once living happily with landed property, cattle, and family, lost everything to the ruthless erosion of the Jamuna river. Now living in a fragile slum shack on an embankment, aged by hardship and grief, she endures solitary poverty and hunger as a victim of environmental destruction."
             }
         ]
+    },
+    {
+        "id": "cq-eft-u16",
+        "chapterNameBn": "Unit 16: Exploring Space — ‘Bangabandhu Satellite-1 & Moon Landing’",
+        "stimulus": "Seen Comprehension Passage (NCTB English For Today - Unit 16):\n\nHuman beings have always looked up at the night sky with wonder and curiosity. On 20 July 1969, history was made when American astronaut Neil Armstrong stepped onto the surface of the Moon from the Apollo 11 lunar module, declaring: 'That's one small step for man, one giant leap for mankind.'\n\nFast forward to 11 May 2018, another historic milestone was etched into history when Bangladesh successfully launched its first geostationary communication satellite, 'Bangabandhu Satellite-1' (BS-1), into orbit. Launched aboard a SpaceX Falcon 9 rocket from Kennedy Space Center in Florida, BS-1 made Bangladesh the 57th nation in the world to possess its own satellite in space. Located at the 119.1° East orbital longitude, BS-1 provides seamless telecommunication, disaster management warnings, direct-to-home (DTH) broadcast services, and vital oceanic connectivity, saving millions in foreign exchange.",
+        "questions": [
+            {
+                "tag": "1 (A)",
+                "type": "Multiple Choice Questions",
+                "marks": 5,
+                "question": "Choose the correct answer:\n(i) On which date did Neil Armstrong step on the Moon? -> (a) 20 July 1969 (b) 11 May 2018 (c) 26 March 1971 (d) 16 Dec 1971\n(ii) Bangabandhu Satellite-1 made Bangladesh the -> (a) 57th space nation (b) 10th (c) 100th (d) 50th\n(iii) BS-1 is positioned at -> (a) 119.1° East (b) 50° West (c) 0° (d) 180°\n(iv) The rocket that launched BS-1 was -> (a) Falcon 9 (b) Apollo 11 (c) Sputnik (d) Saturn V\n(v) BS-1 benefits Bangladesh by -> (a) enhancing digital broadcasting & disaster forecasting (b) making cars (c) traveling to Mars (d) free food",
+                "answer": "Answers:\n(i) (a) 20 July 1969\n(ii) (a) 57th space nation in the world\n(iii) (a) 119.1° East orbital longitude\n(iv) (a) SpaceX Falcon 9\n(v) (a) enhancing digital telecommunications, DTH broadcasting and disaster management"
+            },
+            {
+                "tag": "1 (B)",
+                "type": "Short Answer Questions",
+                "marks": 10,
+                "question": "Answer the following questions:\n(a) What was the historic significance of Neil Armstrong's words on the Moon?\n(b) When and from where was Bangabandhu Satellite-1 launched?\n(c) How does BS-1 save foreign currency for Bangladesh?\n(d) Explain the strategic and economic advantages of having our own communication satellite in orbit.\n(e) What message does Bangladesh's entry into space exploration send to the younger generation?",
+                "answer": "Model Answers:\n(a) Armstrong's phrase 'One small step for man, one giant leap for mankind' symbolized the triumph of human collective science and boundless capability.\n(b) BS-1 was launched on 11 May 2018 from the Kennedy Space Center in Florida, USA.\n(c) Bangladeshi television channels and telecoms previously rented foreign satellites at huge costs; BS-1 eliminated this dependency and saves millions in foreign currency.\n(d) It ensures telecommunication sovereignty, unhindered maritime communication, real-time cyclone and disaster warning, and enables high-speed internet in remote char and hill tract areas.\n(e) It inspires youth to pursue aerospace, STEM education, software engineering, and aspire to solve national challenges through high-technology innovation."
+            },
+            {
+                "tag": "2",
+                "type": "Summary Writing",
+                "marks": 10,
+                "question": "Write a concise summary of the passage highlighting the two historical space milestones (within 50 words).",
+                "answer": "Summary:\nFrom the legendary 1969 Apollo 11 moon landing to Bangladesh launching 'Bangabandhu Satellite-1' on 11 May 2018 as the world's 57th space-faring nation, humanity has made giant leaps. BS-1 provides vital telecommunications, broadcast independence, and disaster management, elevating Bangladesh's technological sovereignty."
+            }
+        ]
     }
 ],
 

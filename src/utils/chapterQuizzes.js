@@ -1277,6 +1277,264 @@ export const NCTB_10Q_CHAPTER_QUIZZES = {
                 "explanation": "Protecting nature is essential for safeguarding human civilization and survival."
             }
         ]
+    },
+    {
+        "chapterId": "eft-u15",
+        "stageNumber": 5,
+        "chapterNameBn": "Unit 15: Seeing Is Believing (দর্শন ও উপলব্ধি)",
+        "chapterNameEn": "Unit 15: Seeing Is Believing",
+        "pointsReward": 50,
+        "questions": [
+            {
+                "id": 1,
+                "question": "What is the phenomenon of an 'Optical Illusion'?",
+                "options": [
+                    "A deceptive visual impression where perceived reality differs from physical reality",
+                    "An eye disease",
+                    "Blindness",
+                    "Photographic error"
+                ],
+                "correctIndex": 0,
+                "explanation": "Optical illusions demonstrate how the human brain interprets visual sensory data."
+            },
+            {
+                "id": 2,
+                "question": "Why does science urge us to look beyond 'Seeing is believing'?",
+                "options": [
+                    "Because human senses can be deceived; evidence and reason reveal true reality",
+                    "Because seeing is unimportant",
+                    "Because science ignores facts",
+                    "Because books are enough"
+                ],
+                "correctIndex": 0,
+                "explanation": "Scientific methodology relies on empirical experimentation and objective proof rather than superficial visual impressions."
+            },
+            {
+                "id": 3,
+                "question": "Who was the Dutch scientist who developed high-magnification microscopes to discover microscopic organisms?",
+                "options": [
+                    "Antonie van Leeuwenhoek",
+                    "Isaac Newton",
+                    "Albert Einstein",
+                    "Thomas Edison"
+                ],
+                "correctIndex": 0,
+                "explanation": "Leeuwenhoek is celebrated as the father of microbiology for pioneering the microscope."
+            },
+            {
+                "id": 4,
+                "question": "In visual arts, what artistic technique creates the realistic illusion of three-dimensional depth on a two-dimensional surface?",
+                "options": [
+                    "Linear Perspective",
+                    "Calligraphy",
+                    "Monochrome shading",
+                    "Watermark"
+                ],
+                "correctIndex": 0,
+                "explanation": "Renaissance artists mastered linear perspective to render realistic depth on canvas."
+            },
+            {
+                "id": 5,
+                "question": "What is the core cognitive skill developed in Unit 15?",
+                "options": [
+                    "Critical thinking, acute observation and questioning assumptions",
+                    "Blind obedience",
+                    "Superstition",
+                    "Speed reading"
+                ],
+                "correctIndex": 0,
+                "explanation": "Unit 15 encourages students to develop keen, analytical observation and critical questioning."
+            },
+            {
+                "id": 6,
+                "question": "How does context influence visual perception?",
+                "options": [
+                    "Surrounding colors, lighting and backgrounds alter how the brain perceives size and shape",
+                    "Context has no effect",
+                    "It makes objects invisible",
+                    "It changes object weight"
+                ],
+                "correctIndex": 0,
+                "explanation": "Visual context heavily impacts how our neural processing perceives objects."
+            },
+            {
+                "id": 7,
+                "question": "Which ancient proverb best summarizes the wisdom of Unit 15?",
+                "options": [
+                    "'All that glitters is not gold.'",
+                    "'Time is money.'",
+                    "'Honesty is best.'",
+                    "'Practice makes perfect.'"
+                ],
+                "correctIndex": 0,
+                "explanation": "Surface appearances can be deceiving, requiring deeper critical discernment."
+            },
+            {
+                "id": 8,
+                "question": "The word 'Illusion' is closest in meaning to:",
+                "options": [
+                    "Deceptive appearance / Misconception",
+                    "Absolute certainty",
+                    "Physical object",
+                    "Clear statement"
+                ],
+                "correctIndex": 0,
+                "explanation": "Illusion refers to a false or misleading perception of reality."
+            },
+            {
+                "id": 9,
+                "question": "How did the invention of the telescope transform human perception of the cosmos?",
+                "options": [
+                    "It proved the Earth revolves around the Sun and revealed millions of distant stars",
+                    "It made the sky darker",
+                    "It stopped rain",
+                    "It created stars"
+                ],
+                "correctIndex": 0,
+                "explanation": "Galileo's telescope shattered ancient geocentric myths and expanded astronomical vision."
+            },
+            {
+                "id": 10,
+                "question": "What is the ultimate message of Unit 15 for students?",
+                "options": [
+                    "Combine keen visual curiosity with rigorous scientific verification and artistic appreciation",
+                    "Trust everything seen online",
+                    "Avoid asking questions",
+                    "Stop studying science"
+                ],
+                "correctIndex": 0,
+                "explanation": "Cultivate curious, discerning, and evidence-based observation in all aspects of life."
+            }
+        ]
+    },
+    {
+        "chapterId": "eft-u16",
+        "stageNumber": 6,
+        "chapterNameBn": "Unit 16: Exploring Space (মহাকাশ অভিযান)",
+        "chapterNameEn": "Unit 16: Exploring Space",
+        "pointsReward": 50,
+        "questions": [
+            {
+                "id": 1,
+                "question": "Who was the historic first astronaut to set foot on the surface of the Moon during the 1969 Apollo 11 mission?",
+                "options": [
+                    "Neil Armstrong",
+                    "Yuri Gagarin",
+                    "Buzz Aldrin",
+                    "Michael Collins"
+                ],
+                "correctIndex": 0,
+                "explanation": "Neil Armstrong made the first historic moonwalk on 20 July 1969."
+            },
+            {
+                "id": 2,
+                "question": "What iconic phrase did Neil Armstrong declare upon stepping onto the lunar surface?",
+                "options": [
+                    "'That's one small step for man, one giant leap for mankind.'",
+                    "'We came in peace for all mankind.'",
+                    "'The eagle has landed safely.'",
+                    "'Space is our destiny.'"
+                ],
+                "correctIndex": 0,
+                "explanation": "His words encapsulated the triumph of human intellect, engineering and bravery."
+            },
+            {
+                "id": 3,
+                "question": "When was Bangladesh's first geostationary communications satellite 'Bangabandhu Satellite-1' successfully launched?",
+                "options": [
+                    "11 May 2018 (from Kennedy Space Center, Florida)",
+                    "26 March 1971",
+                    "16 December 2020",
+                    "21 February 2015"
+                ],
+                "correctIndex": 0,
+                "explanation": "BS-1 was launched aboard a SpaceX Falcon 9 rocket on 11 May 2018."
+            },
+            {
+                "id": 4,
+                "question": "With the launch of Bangabandhu Satellite-1, Bangladesh became which numbered nation to enter the elite global space club?",
+                "options": [
+                    "The 57th nation in the world",
+                    "The 10th nation",
+                    "The 100th nation",
+                    "The 1st in Asia"
+                ],
+                "correctIndex": 0,
+                "explanation": "Bangladesh proudly joined the global space-faring community as the 57th satellite-owning nation."
+            },
+            {
+                "id": 5,
+                "question": "At which geostationary orbital longitude is Bangabandhu Satellite-1 located?",
+                "options": [
+                    "119.1° East orbital longitude",
+                    "50.5° West",
+                    "0° Greenwich Meridian",
+                    "90° East"
+                ],
+                "correctIndex": 0,
+                "explanation": "BS-1 is parked at 119.1° East, covering Bangladesh, South Asia and neighboring waters."
+            },
+            {
+                "id": 6,
+                "question": "What major socio-economic advantages does Bangabandhu Satellite-1 provide to Bangladesh?",
+                "options": [
+                    "Direct-to-Home (DTH) TV broadcasting, maritime disaster warning, telemedicine and foreign currency savings",
+                    "Free electricity for all",
+                    "Space tourism for everyone",
+                    "Changing the weather"
+                ],
+                "correctIndex": 0,
+                "explanation": "BS-1 saved millions of dollars previously paid to foreign satellite operators and expanded digital reach."
+            },
+            {
+                "id": 7,
+                "question": "Which space agency spearheaded the Apollo 11 lunar landing program in 1969?",
+                "options": [
+                    "NASA (National Aeronautics and Space Administration, USA)",
+                    "ESA",
+                    "Roscosmos",
+                    "ISRO"
+                ],
+                "correctIndex": 0,
+                "explanation": "NASA led the historic Apollo missions under President John F. Kennedy's vision."
+            },
+            {
+                "id": 8,
+                "question": "What robotic rover made historic discoveries regarding water and geological history on Mars?",
+                "options": [
+                    "Curiosity and Perseverance rovers",
+                    "Apollo 11",
+                    "Sputnik 1",
+                    "Voyager 1"
+                ],
+                "correctIndex": 0,
+                "explanation": "NASA's Mars rovers have uncovered evidence of ancient riverbeds and organic minerals on the Red Planet."
+            },
+            {
+                "id": 9,
+                "question": "What is the primary objective of modern deep space telescopes like the James Webb Space Telescope (JWST)?",
+                "options": [
+                    "To observe the earliest galaxies formed after the Big Bang and analyze exoplanet atmospheres",
+                    "To photograph the moon only",
+                    "To send radio signals to Mars",
+                    "To heat the earth"
+                ],
+                "correctIndex": 0,
+                "explanation": "JWST utilizes infrared technology to gaze back billions of years into cosmic dawn."
+            },
+            {
+                "id": 10,
+                "question": "What inspirational message does Unit 16 give to Bangladeshi students?",
+                "options": [
+                    "Dream big, excel in STEM (Science, Tech, Engineering, Math) and contribute to humanity's cosmic journey",
+                    "Avoid studying science",
+                    "Space science is impossible for us",
+                    "Only study politics"
+                ],
+                "correctIndex": 0,
+                "explanation": "Bangladesh's foray into space inspires the new generation to pioneer cutting-edge science and technology."
+            }
+        ]
     }
 ],
 

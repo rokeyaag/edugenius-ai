@@ -2139,6 +2139,160 @@ export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
                 "explanation": "The NCTB curriculum cultivates well-rounded, ethical, and capable global leaders."
             }
         ]
+    },
+    {
+        "id": "eft-u15",
+        "title": "Unit 15: Seeing Is Believing (Lessons 1-4: The Magic of Art, Optical Illusions & Scientific Wonders)",
+        "type": "EFT Unit",
+        "summary": "Explores the marvels of human perception, optical illusions, scientific inventions, the visual arts, and questioning sensory assumptions.",
+        "lectureNotes": [
+            {
+                "title": "1. The Psychology of Perception",
+                "detail": "The human brain interprets visual stimuli based on context, angles, and lighting, often producing optical illusions where things are not as they appear."
+            },
+            {
+                "title": "2. Visual Arts and Masterpieces",
+                "detail": "Art transcends literal reality to evoke profound emotional and intellectual insights, proving that true vision looks beyond surface appearances."
+            },
+            {
+                "title": "3. Scientific Inventions & Microscopes",
+                "detail": "Scientific instruments from Galileo's telescope to modern electron microscopes unveiled unseen realities, revolutionizing human knowledge."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. What is an 'Optical Illusion'?",
+                "options": [
+                    "A visual phenomenon where what we see differs from objective physical reality",
+                    "A physical eye injury",
+                    "Complete blindness",
+                    "A photographic trick only"
+                ],
+                "correct": 0,
+                "explanation": "Optical illusions occur when the brain misinterprets visual cues processed by the eyes."
+            },
+            {
+                "q": "2. What is the core philosophical message behind 'Seeing is believing' in Unit 15?",
+                "options": [
+                    "We must use critical inquiry, scientific evidence and reason rather than blindly trusting surface appearances",
+                    "Always believe everything seen on screen",
+                    "Never look at art",
+                    "Only trust rumors"
+                ],
+                "correct": 0,
+                "explanation": "Critical thinking and scientific inquiry guide human understanding beyond deceptive appearances."
+            },
+            {
+                "q": "3. Which scientific instrument enabled humans to observe microscopic microorganisms for the first time?",
+                "options": [
+                    "The Microscope (Anton van Leeuwenhoek)",
+                    "The Telescope",
+                    "The Barometer",
+                    "The Compass"
+                ],
+                "correct": 0,
+                "explanation": "The optical microscope revealed an entire microscopic universe invisible to the naked human eye."
+            },
+            {
+                "q": "4. How do master artists use perspective in classical painting?",
+                "options": [
+                    "By creating the illusion of 3D depth and distance on a flat two-dimensional surface",
+                    "By using only one color",
+                    "By closing their eyes",
+                    "By drawing without brushes"
+                ],
+                "correct": 0,
+                "explanation": "Linear perspective creates spatial depth and realistic proportion on a flat canvas."
+            },
+            {
+                "q": "5. What value does Unit 15 impart to science and art students?",
+                "options": [
+                    "Cultivating keen observation, open-minded inquiry, and intellectual curiosity",
+                    "Memorizing facts without questioning",
+                    "Ignoring scientific tests",
+                    "Rejecting artistic expressions"
+                ],
+                "correct": 0,
+                "explanation": "Curiosity and evidence-based observation form the bedrock of both arts and sciences."
+            }
+        ]
+    },
+    {
+        "id": "eft-u16",
+        "title": "Unit 16: Exploring Space (Lessons 1-4: The Universe, Apollo Moon Landing & Bangabandhu Satellite-1)",
+        "type": "EFT Unit",
+        "summary": "Chronicles the triumphs of astronomy and space science: The historic 1969 Apollo 11 moon landing, deep space telescopes, and Bangladesh's milestone launch of Bangabandhu Satellite-1.",
+        "lectureNotes": [
+            {
+                "title": "1. The 1969 Apollo 11 Moon Landing",
+                "detail": "On 20 July 1969, Neil Armstrong and Buzz Aldrin stepped onto the Moon. Armstrong's immortal words: 'That's one small step for man, one giant leap for mankind.'"
+            },
+            {
+                "title": "2. Deep Space Exploration & Mars Rovers",
+                "detail": "Robotic space probes like Voyager, Curiosity rover on Mars, and James Webb Space Telescope unveiling galaxies billions of light-years away."
+            },
+            {
+                "title": "3. Bangabandhu Satellite-1 (BS-1)",
+                "detail": "Launched on 11 May 2018 into geostationary orbit (119.1° East longitude), making Bangladesh the 57th nation in the elite global space club."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Who was the first human being to step onto the surface of the Moon on 20 July 1969?",
+                "options": [
+                    "Neil Armstrong (Apollo 11 mission)",
+                    "Yuri Gagarin",
+                    "Buzz Aldrin",
+                    "Michael Collins"
+                ],
+                "correct": 0,
+                "explanation": "Commander Neil Armstrong made history during NASA's Apollo 11 mission."
+            },
+            {
+                "q": "2. What famous words did Neil Armstrong utter upon stepping onto the lunar surface?",
+                "options": [
+                    "'That's one small step for man, one giant leap for mankind.'",
+                    "'We have conquered the stars.'",
+                    "'The earth is flat.'",
+                    "'Mission accomplished.'"
+                ],
+                "correct": 0,
+                "explanation": "His historic phrase captured the momentous achievement of human spaceflight."
+            },
+            {
+                "q": "3. On which historic date was Bangladesh's first communication satellite 'Bangabandhu Satellite-1' launched into space?",
+                "options": [
+                    "11 May 2018 (from Kennedy Space Center, Florida)",
+                    "26 March 1971",
+                    "16 December 2020",
+                    "21 February 2015"
+                ],
+                "correct": 0,
+                "explanation": "Bangabandhu Satellite-1 was launched aboard a SpaceX Falcon 9 rocket on 11 May 2018."
+            },
+            {
+                "q": "4. What orbital slot does Bangabandhu Satellite-1 occupy in geostationary space?",
+                "options": [
+                    "119.1° East orbital longitude",
+                    "50° West",
+                    "0° Equator only",
+                    "180° Meridian"
+                ],
+                "correct": 0,
+                "explanation": "BS-1 is located at the 119.1° East orbital slot, providing telecommunication and broadcast services across South Asia."
+            },
+            {
+                "q": "5. What is the major national benefit of Bangabandhu Satellite-1 for Bangladesh?",
+                "options": [
+                    "Self-reliant telecommunications, disaster forecasting, uninterrupted TV broadcasting, and massive foreign currency savings",
+                    "Traveling to Mars",
+                    "Predicting lottery numbers",
+                    "Producing electricity for cars"
+                ],
+                "correct": 0,
+                "explanation": "It provides digital connectivity, weather monitoring, and satellite broadcast independence."
+            }
+        ]
     }
 ],
 
