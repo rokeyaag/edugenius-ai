@@ -5253,12 +5253,21 @@ ${lectureText}
                   </button>
 
                   <button
-                    onClick={() => handleExportPDF(note)}
-                    className="text-slate-500 hover:text-red-600 transition-colors p-1 px-2 rounded-xl hover:bg-red-50 flex items-center gap-1 border border-slate-200 hover:border-red-200 bg-white"
-                    title="Export Printable PDF Cheat Sheet"
+                    onClick={() => handlePrintPDF(note)}
+                    className="text-slate-600 hover:text-red-600 transition-colors p-1 px-2 rounded-xl hover:bg-red-50 flex items-center gap-1 border border-slate-200 hover:border-red-200 bg-white shadow-sm"
+                    title="প্রিন্ট প্রিভিউ ও Save as PDF"
                   >
-                    <Download className="w-3.5 h-3.5 text-red-600" />
-                    <span className="text-[10px] font-bold text-red-700">PDF</span>
+                    <Printer className="w-3.5 h-3.5 text-red-600" />
+                    <span className="text-[10px] font-bold text-red-700">🖨️ প্রিন্ট</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleDownloadCheatSheet(note)}
+                    className="text-slate-600 hover:text-amber-800 transition-colors p-1 px-2 rounded-xl hover:bg-amber-50 flex items-center gap-1 border border-slate-200 hover:border-amber-200 bg-white shadow-sm"
+                    title="ফাইল ডাউনলোড (Download File)"
+                  >
+                    <Download className="w-3.5 h-3.5 text-amber-600" />
+                    <span className="text-[10px] font-bold text-amber-800">📥 ডাউনলোড ফাইল</span>
                   </button>
                 </div>
               </div>
@@ -5356,12 +5365,21 @@ ${lectureText}
                   )}
 
                   <button
-                    onClick={() => handleExportPDF(note)}
-                    className="p-1.5 px-2.5 rounded-xl bg-white hover:bg-red-50 text-slate-700 hover:text-red-700 border border-slate-200 hover:border-red-200 text-xs font-black flex items-center gap-1 transition-all tap-active shadow-sm"
-                    title="Export Printable PDF Cheat Sheet"
+                    onClick={() => handlePrintPDF(note)}
+                    className="p-1.5 px-2 rounded-xl bg-white hover:bg-red-50 text-slate-700 hover:text-red-700 border border-slate-200 hover:border-red-200 text-xs font-black flex items-center gap-1 transition-all tap-active shadow-sm"
+                    title="প্রিন্ট প্রিভিউ ও Save as PDF"
                   >
-                    <FileDown className="w-3.5 h-3.5 text-red-600" />
-                    <span className="text-[10px]">চিট-শিট PDF</span>
+                    <Printer className="w-3.5 h-3.5 text-red-600" />
+                    <span className="text-[10px]">🖨️ প্রিন্ট</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleDownloadCheatSheet(note)}
+                    className="p-1.5 px-2 rounded-xl bg-white hover:bg-amber-50 text-slate-700 hover:text-amber-800 border border-slate-200 hover:border-amber-200 text-xs font-black flex items-center gap-1 transition-all tap-active shadow-sm"
+                    title="ফাইল ডাউনলোড (Download File)"
+                  >
+                    <Download className="w-3.5 h-3.5 text-amber-600" />
+                    <span className="text-[10px]">📥 ডাউনলোড ফাইল</span>
                   </button>
                 </div>
               </div>

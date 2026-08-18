@@ -477,6 +477,69 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
     }, 1200);
   };
 
+  const handleDownloadCQFile = () => {
+    if (!currentCq) return;
+    const isEnglish = selectedSubjectId === 'english-today';
+    const cleanTitle = currentCq.chapterNameBn || 'সৃজনশীল মডেল টেস্ট';
+
+    const html = `<!DOCTYPE html>
+<html lang="${isEnglish ? 'en' : 'bn'}">
+<head>
+  <meta charset="UTF-8">
+  <title>${cleanTitle} - EduGenius AI CQ Model Sheet</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700;800&display=swap');
+    body { font-family: 'Hind Siliguri', 'Segoe UI', sans-serif; padding: 24px 32px; color: #0f172a; line-height: 1.6; }
+    .header { border-bottom: 3px solid #dc2626; padding-bottom: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+    .stimulus-box { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 14px 18px; border-radius: 0 12px 12px 0; margin-bottom: 20px; font-size: 13px; white-space: pre-line; }
+    .q-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; margin-bottom: 14px; }
+    .q-tag { font-weight: 800; color: #dc2626; margin-bottom: 4px; font-size: 13px; }
+    .q-text { font-weight: 700; margin-bottom: 8px; font-size: 13.5px; }
+    .q-ans { background: #eff6ff; border-left: 3px solid #3b82f6; padding: 10px 14px; font-size: 12.5px; color: #1e3a8a; white-space: pre-line; margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <h2 style="margin:0; font-size: 20px; color: #dc2626;">EduGenius AI — সৃজনশীল ও মডেল প্রশ্নব্যাংক</h2>
+      <div style="font-size: 12px; color: #64748b;">NCTB ২০২৬ কারিকুলাম | ${cleanTitle}</div>
+    </div>
+    <div style="font-size: 12px; text-align: right;">
+      <div>পূর্ণমান: ১০</div>
+      <div>তারিখ: ${new Date().toLocaleDateString('bn-BD')}</div>
+    </div>
+  </div>
+
+  <div class="stimulus-box">
+    <strong>📌 উদ্দীপক / Seen Passage:</strong><br/>
+    ${currentCq.stimulus}
+  </div>
+
+  <div class="questions-list">
+    ${currentCq.questions.map(q => `
+      <div class="q-box">
+        <div class="q-tag">(${q.tag}) ${q.type} [${q.marks} নম্বর]</div>
+        <div class="q-text">${q.question}</div>
+        <div class="q-ans"><strong>মডেল সমাধান:</strong><br/>${q.answer}</div>
+      </div>
+    `).join('')}
+  </div>
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${cleanTitle.replace(/[^a-zA-Z0-9\u0980-\u09FF]/g, '_')}_CreativeQuestion.html`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    showToast(`📥 "${cleanTitle}" ফাইল সফলভাবে ডাউনলোড হয়েছে!`, 'success');
+  };
+
+
   const handlePrintCQ = () => {
     if (!currentCq) return;
     const isEnglish = selectedSubjectId === 'english-today';
@@ -660,13 +723,25 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
             <span>এক ক্লিকে সকল মডেল উত্তর দেখুন</span>
           </button>
 
-          <button
-            onClick={handlePrintCQ}
-            className="text-xs font-bold text-slate-700 hover:text-slate-900 flex items-center gap-1 bg-white px-2.5 py-1.5 rounded-xl border border-slate-200 shadow-sm tap-active"
-          >
-            <Download className="w-3.5 h-3.5 text-red-600" />
-            <span>PDF</span>
-          </button>
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={handlePrintCQ}
+              className="text-xs font-bold text-slate-700 hover:text-slate-900 flex items-center gap-1 bg-white px-2.5 py-1.5 rounded-xl border border-slate-200 shadow-sm tap-active"
+              title="প্রিন্ট প্রিভিউ ও Save as PDF"
+            >
+              <Printer className="w-3.5 h-3.5 text-red-600" />
+              <span>🖨️ প্রিন্ট</span>
+            </button>
+
+            <button
+              onClick={handleDownloadCQFile}
+              className="text-xs font-bold text-slate-700 hover:text-amber-800 flex items-center gap-1 bg-white px-2.5 py-1.5 rounded-xl border border-slate-200 shadow-sm tap-active"
+              title="ফাইল ডাউনলোড (Download File)"
+            >
+              <Download className="w-3.5 h-3.5 text-amber-600" />
+              <span>📥 ডাউনলোড ফাইল</span>
+            </button>
+          </div>
         </div>
       </div>
 
