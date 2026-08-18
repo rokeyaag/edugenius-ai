@@ -4902,16 +4902,7 @@ ${lectureText}
           <p className="text-[11px] text-slate-500 font-medium">সম্পূর্ণ পাঠ্যবইয়ের সকল অধ্যায়ের তালিকা (শ্রেণি ➔ বিষয় ➔ অধ্যায়)</p>
         </div>
 
-        <div className="flex items-center gap-1.5">
-          <button
-            onClick={loadOfficialNctbContent}
-            className="flex items-center gap-1 py-1 px-2.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-black text-[10px] border border-amber-300 shadow-sm tap-active"
-            title="Load all official textbook content"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            <span>বই লোড</span>
-          </button>
-        </div>
+
       </div>
 
       {/* ============================================================== */}
@@ -4924,7 +4915,7 @@ ${lectureText}
           <div className="flex items-center justify-between">
             <label className="text-xs font-black text-slate-900 flex items-center gap-1.5">
               <GraduationCap className="w-4 h-4 text-red-600" />
-              <span>১ম স্তর: শ্রেণি নির্বাচন করুন (Class):</span>
+              <span>শ্রেণি নির্বাচন করুন (Class):</span>
             </label>
             <span className="text-[10px] bg-red-100 text-red-800 font-black px-2 py-0.5 rounded-full border border-red-200">
               NCTB কারিকুলাম ২০২৬
@@ -4958,21 +4949,16 @@ ${lectureText}
           <div className="flex items-center justify-between">
             <label className="text-xs font-black text-slate-900 flex items-center gap-1.5">
               <BookOpen className="w-4 h-4 text-red-600" />
-              <span>২য় স্তর: বিষয় নির্বাচন করুন (Subject):</span>
+              <span>বিষয় নির্বাচন করুন (Subject):</span>
             </label>
-            <div className="flex items-center gap-1">
-              <span className="text-[10px] bg-slate-100 text-slate-700 font-black px-2 py-0.5 rounded-full border border-slate-200">
-                {subjectsList.length}টি বিষয়
-              </span>
-              <button
-                onClick={() => setIsAddSubjectModalOpen(true)}
-                className="text-[10px] font-bold text-red-700 bg-red-50 hover:bg-red-100 px-2 py-0.5 rounded-lg border border-red-200 tap-active flex items-center gap-0.5"
-                title="Add Custom Subject"
-              >
-                <Plus className="w-3 h-3" />
-                <span>বিষয় যোগ</span>
-              </button>
-            </div>
+            <button
+              onClick={() => setIsAddSubjectModalOpen(true)}
+              className="text-[11px] font-bold text-red-700 bg-red-50 hover:bg-red-100 px-2.5 py-1 rounded-xl border border-red-200 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 flex items-center gap-1 shadow-xs cursor-pointer"
+              title="Add Custom Subject"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>বিষয় যোগ</span>
+            </button>
           </div>
 
           <div className="relative">
@@ -5029,11 +5015,8 @@ ${lectureText}
           <div className="flex items-center justify-between">
             <label className="text-xs font-black text-amber-950 flex items-center gap-1.5">
               <Layers className="w-4 h-4 text-amber-700" />
-              <span>৩য় স্তর: [{activeSelectedSub?.nameBn || 'নির্বাচিত বিষয়'}]-এর সম্পূর্ণ অধ্যায় তালিকা:</span>
+              <span>অধ্যায় নির্বাচন ও অনুসন্ধান:</span>
             </label>
-            <span className="text-[10px] bg-amber-100 text-amber-950 font-black px-2.5 py-0.5 rounded-full border border-amber-300">
-              {availableChapters.length}টি অধ্যায়
-            </span>
           </div>
 
           {/* Chapter Selector Dropdown - Strictly for this subject only */}
@@ -5076,36 +5059,7 @@ ${lectureText}
             )}
           </div>
 
-          {/* Quick Chapter Horizontal Filter Pills */}
-          {availableChapters.length > 0 && (
-            <div className="flex items-center gap-1.5 overflow-x-auto pt-0.5 no-scrollbar">
-              <button
-                onClick={() => setSelectedChapterTitle('all')}
-                className={`text-[10px] px-2.5 py-1 rounded-xl font-bold whitespace-nowrap transition-all tap-active shrink-0 ${
-                  selectedChapterTitle === 'all'
-                    ? 'bg-amber-600 text-white shadow-sm'
-                    : 'bg-white text-slate-700 hover:bg-amber-100/60 border border-amber-200'
-                }`}
-              >
-                সব অধ্যায় ({availableChapters.length})
-              </button>
 
-              {availableChapters.map((ch, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setSelectedChapterTitle(ch.title)}
-                  className={`text-[10px] px-2.5 py-1 rounded-xl font-bold whitespace-nowrap transition-all tap-active shrink-0 flex items-center gap-1 ${
-                    selectedChapterTitle === ch.title
-                      ? 'bg-amber-600 text-white shadow-sm'
-                      : 'bg-white text-slate-700 hover:bg-amber-100/60 border border-amber-200'
-                  }`}
-                >
-                  <span>📖</span>
-                  <span className="truncate max-w-[140px]">{ch.title.split('—')[0]}</span>
-                </button>
-              ))}
-            </div>
-          )}
 
         </div>
 
