@@ -200,6 +200,72 @@ const NCTB_CREATIVE_QUESTIONS_BN = {
     }
   ],
 
+  'english-today': [
+    {
+        "id": "cq-eft-u1",
+        "chapterNameBn": "Unit 1: Good Citizens — ‘Can You Live Alone?’",
+        "stimulus": "Seen Comprehension Passage (NCTB English For Today - Unit 1, Lesson 1):\n\nLong ago, a young man who lived in a village found his life full of problems and sufferings. Quarrels, ill feelings, jealousy, enmity — all were part of everyday life there. So, he left his house and went to a jungle to live by himself. There he made a nice little hut with bamboo, reeds and mud. 'Ah, how happy I am here,' said the man to himself.\n\nBut one day he found some mice in his hut. The little creatures soon made holes in his blanket. So he brought a cat to kill the mice. The cat needed milk, so he brought a cow. The cow needed grass and hay, so he brought a cowboy. The cowboy needed food, so he took a wife to cook meals. Then children were born to them, and the man found himself again in a family. So nobody can live alone, unless that person is either an angel or a devil.",
+        "questions": [
+            {
+                "tag": "1 (A)",
+                "type": "Multiple Choice Questions (MCQs)",
+                "marks": 5,
+                "question": "Choose the correct answer from the alternatives:\n(i) Why did the man leave his village? -> (a) to live in peace (b) to hunt (c) to study (d) to travel\n(ii) What destroyed his blanket? -> (a) mice (b) fire (c) rain (d) dog\n(iii) The word 'Enmity' means -> (a) hostility (b) friendship (c) honesty (d) kindness\n(iv) To feed the cowboy, he -> (a) got married (b) bought food (c) moved away (d) hired a cook\n(v) The passage proves that man is a -> (a) social being (b) solitary animal (c) wild creature (d) nomad",
+                "answer": "Answers:\n(i) (a) to live in peace\n(ii) (a) mice\n(iii) (a) hostility / hatred between enemies\n(iv) (a) got married to take a wife to cook meals\n(v) (a) social being who cannot live in complete isolation"
+            },
+            {
+                "tag": "1 (B)",
+                "type": "Short Answer Questions (Comprehension)",
+                "marks": 10,
+                "question": "Answer the following analytical questions based on the passage:\n(a) What made the young man unhappy in his native village?\n(b) How did the man build his shelter in the forest?\n(c) How did a single problem with mice lead to the formation of a full family in the jungle?\n(d) Explain the statement: 'Nobody can live alone, unless that person is either an angel or a devil.'\n(e) What is the main message of the text regarding human society?",
+                "answer": "Model Answers:\n(a) Everyday quarrels, jealousy, ill feelings and enmity among villagers made the young man miserable.\n(b) He constructed a nice little hut using natural materials like bamboo, reeds and mud in the forest.\n(c) The mice damaged his blanket, so he brought a cat; the cat needed milk, which required a cow; the cow needed care, so he hired a cowboy; and the cowboy needed food, which led him to marry a wife who gave birth to children.\n(d) It signifies that only supernatural divine beings (angels) or monstrous beings (devils) can exist without community; normal human beings inherently depend on mutual social cooperation.\n(e) Human beings are inherently social beings who require social relationships, companionship and mutual support for survival and happiness."
+            },
+            {
+                "tag": "2",
+                "type": "Information Transfer & Flow Chart",
+                "marks": 5,
+                "question": "Based on your reading of the passage, complete the sequence of events that brought the man back into family life:\n1. Man moves to forest -> 2. Mice damage blanket -> 3. Brings a cat -> 4. Brings a cow for milk -> 5. Hires a cowboy -> 6. Marries a wife & starts a family.",
+                "answer": "Flowchart Sequence:\n[1. Left village to seek solitary peace] ➔ [2. Built hut; mice damaged blanket] ➔ [3. Brought cat to control mice] ➔ [4. Acquired cow to feed cat] ➔ [5. Employed cowboy to graze cow] ➔ [6. Took a wife to cook food, resulting in a family]."
+            },
+            {
+                "tag": "3",
+                "type": "Summary Writing",
+                "marks": 10,
+                "question": "Write a concise summary of the passage in your own words (within 50-60 words).",
+                "answer": "Summary:\nA young man left his troublesome village to live alone in a forest hut. However, dealing with mice led him step-by-step to bring a cat, a cow, a cowboy, and eventually take a wife. Starting a family in the jungle made him realize that human beings are fundamentally social beings who cannot live happily in isolation."
+            }
+        ]
+    },
+    {
+        "id": "cq-eft-u5",
+        "chapterNameBn": "Unit 5: Nature and Humanity — ‘The Greed of the Roaring Rivers’",
+        "stimulus": "Seen Comprehension Passage (NCTB English For Today - Unit 5, Lesson 1):\n\nMeherjan lives in a slum on the Sirajganj Town Protection Embankment. Her polythene-roofed shelter looks like a cage. She is nearly 45, but looks more than 50. In front of her shelter, she is trying to make a fire to cook the day's only meal. Her weak hands tremble as she adds some fallen leaves and straw to the fire. The whispering wind from the river Jamuna makes the fire unsteady. The dancing of the flames reminds Meherjan of the turmoil in her life.\n\nNot long ago Meherjan had everything — a family, cultivable land and cattle. The erosion of the Jamuna gradually consumed all her landed property. It finally devoured her only last shelter during the last monsoon. It took the river only a day to devour Meherjan's house, trees, vegetable garden and the bamboo bush. She had a happy family once. Over the years, she lost her husband and her family to diseases that cruel hunger and poverty brought to the family. Now, she is the only one left to live on with the loss and the pain. The greedy Jamuna has shattered her dreams and happiness.",
+        "questions": [
+            {
+                "tag": "1 (A)",
+                "type": "Multiple Choice Questions",
+                "marks": 5,
+                "question": "Choose the correct answer:\n(i) Where does Meherjan live currently? -> (a) in a slum on the embankment (b) in a palace (c) in a boat (d) in Dhaka\n(ii) What devoured her landed property? -> (a) river erosion of the Jamuna (b) a storm (c) earthquake (d) bandits\n(iii) The word 'Devour' means -> (a) swallow / consume destructively (b) build (c) protect (d) decorate\n(iv) Meherjan looks older than her age due to -> (a) intense suffering and hardship (b) excessive wealth (c) disease only (d) old clothes\n(v) The Jamuna is described as 'greedy' because -> (a) it relentlessly swallows homesteads and lands (b) it has fish (c) it flows fast (d) it is wide",
+                "answer": "Answers:\n(i) (a) in a slum on the Sirajganj Town Protection Embankment\n(ii) (a) river erosion of the Jamuna\n(iii) (a) to consume destructively / destroy and swallow completely\n(iv) (a) intense grief, hunger, poverty and psychological trauma\n(v) (a) its ferocious monsoon erosion devours families' lands, homes and dreams"
+            },
+            {
+                "tag": "1 (B)",
+                "type": "Short Answer Questions",
+                "marks": 10,
+                "question": "Answer the following analytical questions:\n(a) Describe Meherjan's present living conditions.\n(b) What did Meherjan possess before the river erosion occurred?\n(c) How did Meherjan lose her husband and family members?\n(d) Why does the author use the metaphor 'greedy Jamuna'?\n(e) What does Meherjan's story reveal about climate displaced victims in Bangladesh?",
+                "answer": "Model Answers:\n(a) Meherjan lives in a fragile, cage-like polythene-roofed shack in a slum, struggling to cook even a single daily meal.\n(b) She once had a happy family, arable farming land, cattle, trees, a vegetable garden and a bamboo grove.\n(c) After losing everything to river erosion, severe poverty and malnutrition brought fatal diseases that claimed her husband and relatives.\n(d) The author personifies the ferocious river as 'greedy' because its merciless erosion relentlessly swallows the helpless villagers' lands and memories.\n(e) It highlights the tragic plight of millions of climate refugees in Bangladesh who lose their livelihoods to natural disasters and river erosion."
+            },
+            {
+                "tag": "2",
+                "type": "Summary Writing",
+                "marks": 10,
+                "question": "Write a summary of the passage highlighting Meherjan's tragic transition from prosperity to poverty (within 50 words).",
+                "answer": "Summary:\nMeherjan, once living happily with landed property, cattle, and family, lost everything to the ruthless erosion of the Jamuna river. Now living in a fragile slum shack on an embankment, aged by hardship and grief, she endures solitary poverty and hunger as a victim of environmental destruction."
+            }
+        ]
+    }
+],
+
   'bangla-sohopath': [
     {
       id: 'cq-bsp-1',

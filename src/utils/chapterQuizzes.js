@@ -761,6 +761,525 @@ export const NCTB_10Q_CHAPTER_QUIZZES = {
     }
   ],
 
+  'english-today': [
+    {
+        "chapterId": "eft-u1",
+        "stageNumber": 1,
+        "chapterNameBn": "Unit 1: Good Citizens (সুনাগরিক)",
+        "chapterNameEn": "Unit 1: Good Citizens",
+        "pointsReward": 50,
+        "questions": [
+            {
+                "id": 1,
+                "question": "Why did the young man in Unit 1 Lesson 1 leave his village for the jungle?",
+                "options": [
+                    "To escape quarrels, ill feelings and jealousy in the village",
+                    "To hunt wild animals",
+                    "To become a monk",
+                    "To find treasure"
+                ],
+                "correctIndex": 0,
+                "explanation": "He believed living in complete isolation in the forest would bring peace of mind."
+            },
+            {
+                "id": 2,
+                "question": "What is the ultimate moral of the story 'Can you live alone?'",
+                "options": [
+                    "Man is a social being and cannot live happily in isolation",
+                    "Forests are dangerous",
+                    "Cities are superior to villages",
+                    "Money solves all problems"
+                ],
+                "correctIndex": 0,
+                "explanation": "Human beings need companionship, mutual support and social bonds for genuine fulfillment."
+            },
+            {
+                "id": 3,
+                "question": "What three core elements are essential to becoming a good citizen according to NCTB?",
+                "options": [
+                    "Knowledge, skills, and positive attitudes",
+                    "Power, money, and influence",
+                    "Age, wealth, and strength",
+                    "Certificates, cars, and houses"
+                ],
+                "correctIndex": 0,
+                "explanation": "A good citizen must possess constitutional knowledge, analytical skills, and cooperative attitudes."
+            },
+            {
+                "id": 4,
+                "question": "What does 'Civic Duty' encompass in a democratic society?",
+                "options": [
+                    "Obeying laws, paying taxes, voting, and protecting public property",
+                    "Seeking personal luxury only",
+                    "Traveling abroad constantly",
+                    "Ignoring community affairs"
+                ],
+                "correctIndex": 0,
+                "explanation": "Civic duties are the moral and legal responsibilities of citizens towards their community and nation."
+            },
+            {
+                "id": 5,
+                "question": "Which personal quality is vital for maintaining harmony in a multi-cultural society?",
+                "options": [
+                    "Tolerance and respect for diverse viewpoints",
+                    "Aggressiveness",
+                    "Enforcing one's own beliefs on others",
+                    "Indifference"
+                ],
+                "correctIndex": 0,
+                "explanation": "Tolerance and mutual respect are essential cornerstones of social harmony."
+            },
+            {
+                "id": 6,
+                "question": "Why did the young man in the forest eventually need a family?",
+                "options": [
+                    "Because mice ate his blanket, requiring a cat, a cow, and a wife to manage life",
+                    "Because he was bored",
+                    "To fight forest bears",
+                    "To build a castle"
+                ],
+                "correctIndex": 0,
+                "explanation": "Every basic need created subsequent human dependencies, proving man cannot live alone."
+            },
+            {
+                "id": 7,
+                "question": "What kind of attitude should a responsible citizen exhibit towards public property?",
+                "options": [
+                    "Care, protection and maintenance as shared national wealth",
+                    "Neglect and damage",
+                    "Claiming it as private property",
+                    "Selling it"
+                ],
+                "correctIndex": 0,
+                "explanation": "Protecting public infrastructure is a fundamental duty of every citizen."
+            },
+            {
+                "id": 8,
+                "question": "The word 'Solitude' means:",
+                "options": [
+                    "The state or situation of being alone",
+                    "Crowded festival",
+                    "Loud music",
+                    "Physical strength"
+                ],
+                "correctIndex": 0,
+                "explanation": "Solitude means peaceful isolation or being on one's own."
+            },
+            {
+                "id": 9,
+                "question": "How can a student practice good citizenship in everyday school life?",
+                "options": [
+                    "By following school discipline, respecting teachers, helping peers, and keeping campus clean",
+                    "By breaking benches",
+                    "By skipping classes",
+                    "By arguing with everyone"
+                ],
+                "correctIndex": 0,
+                "explanation": "Everyday school discipline and cooperation are real-world practices of good citizenship."
+            },
+            {
+                "id": 10,
+                "question": "Which philosophical principle underpins Unit 1?",
+                "options": [
+                    "Cooperation and civic responsibility build a peaceful nation",
+                    "Individualism above everything",
+                    "Survival of the richest",
+                    "Fatalism"
+                ],
+                "correctIndex": 0,
+                "explanation": "Unity, active citizenship and social responsibility ensure national prosperity."
+            }
+        ]
+    },
+    {
+        "chapterId": "eft-u2",
+        "stageNumber": 2,
+        "chapterNameBn": "Unit 2: Pastimes (অবসর ও শখ)",
+        "chapterNameEn": "Unit 2: Pastimes",
+        "pointsReward": 50,
+        "questions": [
+            {
+                "id": 1,
+                "question": "Who famously said 'Reading maketh a full man; conference a ready man; and writing an exact man'?",
+                "options": [
+                    "Francis Bacon",
+                    "William Shakespeare",
+                    "John Keats",
+                    "William Wordsworth"
+                ],
+                "correctIndex": 0,
+                "explanation": "Francis Bacon in his classic philosophical essay 'Of Studies'."
+            },
+            {
+                "id": 2,
+                "question": "What is the primary psychological benefit of cultivating a constructive pastime?",
+                "options": [
+                    "Mental rejuvenation, stress relief and creative expression",
+                    "Wasting time",
+                    "Earning quick money",
+                    "Avoiding studies"
+                ],
+                "correctIndex": 0,
+                "explanation": "Healthy hobbies refresh the mind and nourish personal creativity."
+            },
+            {
+                "id": 3,
+                "question": "How have modern youth pastimes shifted over the last two decades?",
+                "options": [
+                    "From traditional outdoor sports to digital screens, mobile gaming and social media",
+                    "From books to farming only",
+                    "No changes occurred",
+                    "Only playing cricket"
+                ],
+                "correctIndex": 0,
+                "explanation": "Technological advancements have moved modern recreational habits towards screen devices."
+            },
+            {
+                "id": 4,
+                "question": "Why is excessive screen time and video gaming considered harmful for teenagers?",
+                "options": [
+                    "It causes physical lethargy, eye strain, social isolation and reduced attention span",
+                    "It improves eyesight",
+                    "It builds physical stamina",
+                    "It cures all illnesses"
+                ],
+                "correctIndex": 0,
+                "explanation": "Sedentary screen addiction negatively affects physical health and social skills."
+            },
+            {
+                "id": 5,
+                "question": "Photography as an artistic pastime trains an individual to:",
+                "options": [
+                    "Observe details, appreciate natural beauty and capture historic moments",
+                    "Spend money recklessly",
+                    "Break cameras",
+                    "Avoid traveling"
+                ],
+                "correctIndex": 0,
+                "explanation": "Photography fosters sharp visual observation and artistic sensitivity."
+            },
+            {
+                "id": 6,
+                "question": "What does Bacon mean by 'Conference maketh a ready man'?",
+                "options": [
+                    "Discussion and debate train the mind to think and respond quickly and intelligently",
+                    "Attending conferences makes one rich",
+                    "Speaking loudly wins arguments",
+                    "Traveling makes a man ready"
+                ],
+                "correctIndex": 0,
+                "explanation": "Intellectual discussions and debates develop spontaneous, articulate communication."
+            },
+            {
+                "id": 7,
+                "question": "Which of the following is an example of an eco-friendly outdoor pastime?",
+                "options": [
+                    "Gardening and tree plantation",
+                    "Loud video gaming",
+                    "Burning plastics",
+                    "Sitting indoors all day"
+                ],
+                "correctIndex": 0,
+                "explanation": "Gardening connects human beings to nature and purifies the living environment."
+            },
+            {
+                "id": 8,
+                "question": "The word 'Pastime' is closest in meaning to:",
+                "options": [
+                    "Recreation / Leisure pursuit",
+                    "Hard labour",
+                    "Compulsory test",
+                    "Severe illness"
+                ],
+                "correctIndex": 0,
+                "explanation": "Pastime refers to an enjoyable leisure activity pursued during free time."
+            },
+            {
+                "id": 9,
+                "question": "How can schools encourage balanced pastimes among students?",
+                "options": [
+                    "By organizing sports tournaments, debate clubs, cultural fests and reading clubs",
+                    "By banning all sports",
+                    "By increasing exam hours",
+                    "By shutting down libraries"
+                ],
+                "correctIndex": 0,
+                "explanation": "Co-curricular clubs and sports foster well-rounded mental and physical growth."
+            },
+            {
+                "id": 10,
+                "question": "What is the key takeaway of Unit 2?",
+                "options": [
+                    "Balance academic commitments with wholesome, creative, and active pastimes",
+                    "Play video games 10 hours a day",
+                    "Avoid reading books",
+                    "Only study without breaks"
+                ],
+                "correctIndex": 0,
+                "explanation": "A healthy mind in a healthy body requires constructive, balanced leisure activities."
+            }
+        ]
+    },
+    {
+        "chapterId": "eft-u3",
+        "stageNumber": 3,
+        "chapterNameBn": "Unit 3: Events and Festivals (জাতীয় ও আন্তর্জাতিক উৎসব)",
+        "chapterNameEn": "Unit 3: Events and Festivals",
+        "pointsReward": 50,
+        "questions": [
+            {
+                "id": 1,
+                "question": "Where did the historic May Day workers' movement take place on 1st May 1886?",
+                "options": [
+                    "Haymarket Square, Chicago, USA",
+                    "London, UK",
+                    "Paris, France",
+                    "Moscow, Russia"
+                ],
+                "correctIndex": 0,
+                "explanation": "The 1886 Haymarket strike in Chicago established the 8-hour working day."
+            },
+            {
+                "id": 2,
+                "question": "What historic tribute did UNESCO pay to 21st February on 17 November 1999?",
+                "options": [
+                    "Proclaimed 21st February as International Mother Language Day",
+                    "Declared it World Poetry Day",
+                    "Declared it World Literacy Day",
+                    "Declared it UN Peace Day"
+                ],
+                "correctIndex": 0,
+                "explanation": "UNESCO recognized Bangladesh's 1952 Language Martyrs by observing 21 February globally."
+            },
+            {
+                "id": 3,
+                "question": "Which historic event marks 26th March in the national history of Bangladesh?",
+                "options": [
+                    "The declaration of Independence of Bangladesh (1971)",
+                    "Victory Day",
+                    "Language Movement Day",
+                    "Constitution Day"
+                ],
+                "correctIndex": 0,
+                "explanation": "26 March is our Independence and National Day, marking the declaration of independence."
+            },
+            {
+                "id": 4,
+                "question": "What is the traditional culinary dish enjoyed on the morning of Pohela Boishakh?",
+                "options": [
+                    "Panta Ilish (fermented rice with fried Hilsa fish)",
+                    "Chicken biryani",
+                    "Sandwiches",
+                    "Noodles"
+                ],
+                "correctIndex": 0,
+                "explanation": "Panta bhat with fried Hilsa, green chilies and onions is our quintessential Boishakhi tradition."
+            },
+            {
+                "id": 5,
+                "question": "What is the primary message of May Day observed worldwide?",
+                "options": [
+                    "Solidarity of the working class and protection of labor rights",
+                    "Shopping discounts",
+                    "Government holidays only",
+                    "Religious rituals"
+                ],
+                "correctIndex": 0,
+                "explanation": "May Day honors the historic struggle of workers against exploitation for fair working hours and wages."
+            },
+            {
+                "id": 6,
+                "question": "Who composed the immortal song 'Amar Bhaier Rokte Rangano Ekushey February'?",
+                "options": [
+                    "Lyrics by Abdul Gaffar Choudhury, melody by Altaf Mahmud",
+                    "Kazi Nazrul Islam",
+                    "Rabindranath Tagore",
+                    "Jasmin Uddin"
+                ],
+                "correctIndex": 0,
+                "explanation": "Written by Abdul Gaffar Choudhury and set to its iconic tune by martyr Altaf Mahmud."
+            },
+            {
+                "id": 7,
+                "question": "What colorful cultural procession is organized by Dhaka University's Fine Arts faculty on Pohela Boishakh?",
+                "options": [
+                    "Mongol Shobhajatra (declared UNESCO Intangible Cultural Heritage)",
+                    "Carnival Parade",
+                    "Torch Rally",
+                    "Military March"
+                ],
+                "correctIndex": 0,
+                "explanation": "Mongol Shobhajatra is recognized by UNESCO as an Intangible Cultural Heritage of Humanity."
+            },
+            {
+                "id": 8,
+                "question": "Who initiated the modern observance of Mother's Day internationally in the early 20th century?",
+                "options": [
+                    "Anna Jarvis (USA)",
+                    "Mother Teresa",
+                    "Florence Nightingale",
+                    "Marie Curie"
+                ],
+                "correctIndex": 0,
+                "explanation": "Anna Jarvis campaigned in the US to honor mothers' unconditional love and sacrifices."
+            },
+            {
+                "id": 9,
+                "question": "What was the demand of the Language Movement martyrs in 1952?",
+                "options": [
+                    "Recognition of Bangla as one of the state languages of Pakistan",
+                    "Separation of schools",
+                    "Free books",
+                    "English as the only medium"
+                ],
+                "correctIndex": 0,
+                "explanation": "Students and citizens demanded Bangla to be the state language of the country."
+            },
+            {
+                "id": 10,
+                "question": "What common theme unites all events and festivals in Unit 3?",
+                "options": [
+                    "Human dignity, cultural identity, sacrifice for rights and universal solidarity",
+                    "Commercial shopping",
+                    "Watching television",
+                    "Travelling to western countries"
+                ],
+                "correctIndex": 0,
+                "explanation": "Festivals and historical commemorations embody our deepest values, struggles, and identity."
+            }
+        ]
+    },
+    {
+        "chapterId": "eft-u5",
+        "stageNumber": 4,
+        "chapterNameBn": "Unit 5: Nature and Humanity (প্রকৃতি ও মানবজীবন)",
+        "chapterNameEn": "Unit 5: Nature and Humanity",
+        "pointsReward": 50,
+        "questions": [
+            {
+                "id": 1,
+                "question": "In Unit 5 Lesson 1, what swallowed Meherjan's homestead, cattle and fertile land?",
+                "options": [
+                    "The relentless riverbank erosion of the roaring Jamuna",
+                    "A fire outbreak",
+                    "An earthquake",
+                    "Industrial construction"
+                ],
+                "correctIndex": 0,
+                "explanation": "The ferocious monsoon erosion of the Jamuna river washed away her entire livelihood."
+            },
+            {
+                "id": 2,
+                "question": "What is the primary greenhouse gas responsible for human-induced global climate change?",
+                "options": [
+                    "Carbon Dioxide (CO2)",
+                    "Oxygen (O2)",
+                    "Nitrogen (N2)",
+                    "Argon"
+                ],
+                "correctIndex": 0,
+                "explanation": "Burning fossil fuels releases massive quantities of CO2, trapping atmospheric solar heat."
+            },
+            {
+                "id": 3,
+                "question": "How does large-scale deforestation accelerate the greenhouse effect?",
+                "options": [
+                    "Trees absorb CO2; destroying forests removes carbon sinks and releases stored carbon",
+                    "Trees cause too much rain",
+                    "Trees cool the ocean directly",
+                    "Trees prevent sunlight"
+                ],
+                "correctIndex": 0,
+                "explanation": "Forests are planet Earth's lungs; clearing them causes carbon accumulation in the atmosphere."
+            },
+            {
+                "id": 4,
+                "question": "What makes Bangladesh one of the most climate-vulnerable nations on Earth?",
+                "options": [
+                    "Low-lying delta topography, rising sea levels and frequent cyclones/floods",
+                    "Cold blizzards",
+                    "Active volcanoes",
+                    "Massive deserts"
+                ],
+                "correctIndex": 0,
+                "explanation": "Its low elevation delta geography makes southern coastal districts prone to sea-level inundation."
+            },
+            {
+                "id": 5,
+                "question": "The phrase 'The greed of the roaring rivers' is a literary example of:",
+                "options": [
+                    "Personification (giving human attributes like 'greed' to a river)",
+                    "Simile",
+                    "Alliteration only",
+                    "Irony"
+                ],
+                "correctIndex": 0,
+                "explanation": "The poetical metaphor personifies the ferocious river as a greedy monster devouring homes."
+            },
+            {
+                "id": 6,
+                "question": "What is the most effective eco-strategy to stabilize vulnerable riverbanks in Bangladesh?",
+                "options": [
+                    "Planting deep-rooted trees like vetiver grass, mangrove forests and constructing geobag embankments",
+                    "Dumping plastic bags",
+                    "Cutting riverside forests",
+                    "Building concrete houses on riverbeds"
+                ],
+                "correctIndex": 0,
+                "explanation": "Afforestation and bio-engineering secure loose alluvial soil along riverbanks."
+            },
+            {
+                "id": 7,
+                "question": "What is the consequence of melting polar ice caps caused by global warming?",
+                "options": [
+                    "Rising global sea levels threatening coastal lowlands with permanent submersion",
+                    "Warmer drinking water",
+                    "Less clouds in the sky",
+                    "More landmass everywhere"
+                ],
+                "correctIndex": 0,
+                "explanation": "Thermal expansion and melting continental ice sheets cause ocean levels to rise steadily."
+            },
+            {
+                "id": 8,
+                "question": "What can individual citizens do daily to reduce environmental pollution?",
+                "options": [
+                    "Reduce plastic use, save electricity, plant trees and recycle waste",
+                    "Burn household trash in the open",
+                    "Leave water taps running",
+                    "Throw polythene in drains"
+                ],
+                "correctIndex": 0,
+                "explanation": "Responsible individual habits aggregate to substantial environmental conservation."
+            },
+            {
+                "id": 9,
+                "question": "Where was Meherjan forced to live after losing her home to river erosion?",
+                "options": [
+                    "In a temporary polythene-roofed shack in a crowded urban slum in Sirajganj",
+                    "In a palace",
+                    "In a hotel in Dhaka",
+                    "In a village farm"
+                ],
+                "correctIndex": 0,
+                "explanation": "She joined thousands of climate refugees living in makeshift slum shelters."
+            },
+            {
+                "id": 10,
+                "question": "What is the central ethical lesson of Unit 5?",
+                "options": [
+                    "Humanity must respect natural ecosystems and practice urgent sustainable stewardship",
+                    "Exploit natural resources without limits",
+                    "Ignore climate warnings",
+                    "Nature has no impact on human destiny"
+                ],
+                "correctIndex": 0,
+                "explanation": "Protecting nature is essential for safeguarding human civilization and survival."
+            }
+        ]
+    }
+],
+
   'bangla-grammar': [
     // পরিচ্ছেদ ১: ভাষা ও বাংলা ভাষা
     {
