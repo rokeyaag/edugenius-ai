@@ -1061,6 +1061,1087 @@ export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
     }
   ],
 
+  'english-today': [
+    {
+        "id": "eft-u1",
+        "title": "Unit 1: Good Citizens (Lessons 1-4: Living in Society, Knowledge, Skills & Responsibilities)",
+        "type": "EFT Unit",
+        "summary": "Explores social coexistence, the fundamental duties of a good citizen, knowledge and attitudes required for civic harmony, and democratic participation.",
+        "lectureNotes": [
+            {
+                "title": "1. Lesson 1: Can You Live Alone?",
+                "detail": "A young man in a village tries to live in the forest alone to escape human strife, but soon realizes that human beings are social beings who fundamentally need each other for survival and peace."
+            },
+            {
+                "title": "2. Lesson 2-3: Knowledge, Skills & Attitudes",
+                "detail": "To become a good citizen, one must acquire knowledge of the country's history, constitution and laws, cultivate analytical skills, and develop positive attitudes of tolerance and civic responsibility."
+            },
+            {
+                "title": "3. Key Board Vocabulary",
+                "detail": "Citizenship, Civic duty, Solitude, Harmony, Democratic society, Coexistence, Responsibility."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Why did the young man in Lesson 1 leave his village for the jungle?",
+                "options": [
+                    "To escape quarrels, ill feelings and jealousy in the village",
+                    "To hunt wild animals",
+                    "To become a monk",
+                    "To find treasure"
+                ],
+                "correct": 0,
+                "explanation": "He thought living alone in isolation would bring peace, but soon needed shelter, companionship and food."
+            },
+            {
+                "q": "2. What is the fundamental moral of Lesson 1 \"Can you live alone?\"?",
+                "options": [
+                    "Man is a social being and cannot live happily in isolation",
+                    "Forests are dangerous places",
+                    "Cities are better than villages",
+                    "Money is everything"
+                ],
+                "correct": 0,
+                "explanation": "Aristotle's maxim: Man is by nature a social animal."
+            },
+            {
+                "q": "3. What are the three essential components of good citizenship mentioned in Unit 1?",
+                "options": [
+                    "Knowledge, skills, and positive attitudes",
+                    "Money, power, and fame",
+                    "Age, height, and wealth",
+                    "Degrees, certificates, and cars"
+                ],
+                "correct": 0,
+                "explanation": "NCTB textbook defines good citizenship as a combination of knowledge, skills and healthy attitudes."
+            },
+            {
+                "q": "4. What does the word \"Civic duty\" mean?",
+                "options": [
+                    "The moral and legal responsibility of a citizen towards society",
+                    "Personal entertainment",
+                    "Paying high taxes only",
+                    "Traveling abroad"
+                ],
+                "correct": 0,
+                "explanation": "Civic duty encompasses obeying laws, voting, and protecting public property."
+            },
+            {
+                "q": "5. Which quality is crucial for peaceful coexistence in a diverse society?",
+                "options": [
+                    "Mutual tolerance and respect for others' opinions",
+                    "Arguing continuously",
+                    "Ignoring neighbours",
+                    "Isolation"
+                ],
+                "correct": 0,
+                "explanation": "Tolerance and mutual respect are essential for social harmony."
+            }
+        ]
+    },
+    {
+        "id": "eft-u2",
+        "title": "Unit 2: Pastimes (Lessons 1-4: Healthy Hobbies, Reading Habits, Digital Shift & Photography)",
+        "type": "EFT Unit",
+        "summary": "Focuses on creative leisure activities, Bacon's philosophy on reading (\"Reading makes a full man\"), evolving modern youth pastimes, and artistic pursuits like photography.",
+        "lectureNotes": [
+            {
+                "title": "1. The Value of Pastimes",
+                "detail": "Pastimes refresh the human mind and body, offering a creative break from daily routine stress and academic pressure."
+            },
+            {
+                "title": "2. \"Reading Makes a Full Man\" (Francis Bacon)",
+                "detail": "Reading broadens perspective, conference (discussion) makes a ready man, and writing makes an exact man."
+            },
+            {
+                "title": "3. Modern Shift in Pastimes",
+                "detail": "Traditional outdoor sports and book reading are increasingly being replaced by video games, social networking, and screen time."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Who famously stated that \"Reading maketh a full man; conference a ready man; and writing an exact man\"?",
+                "options": [
+                    "Francis Bacon",
+                    "William Shakespeare",
+                    "John Keats",
+                    "Charles Dickens"
+                ],
+                "correct": 0,
+                "explanation": "Francis Bacon in his famous essay \"Of Studies\"."
+            },
+            {
+                "q": "2. What is the primary purpose of pursuing a healthy pastime?",
+                "options": [
+                    "To rejuvenate the mind, develop creativity and reduce stress",
+                    "To waste idle time",
+                    "To make quick money",
+                    "To avoid studying"
+                ],
+                "correct": 0,
+                "explanation": "Pastimes provide mental refreshment and foster wholesome personal growth."
+            },
+            {
+                "q": "3. What noticeable change has occurred in the pastimes of modern teenagers?",
+                "options": [
+                    "Increasing shift towards digital screens, video games and social media",
+                    "Only playing football",
+                    "Only gardening",
+                    "Writing letters by hand"
+                ],
+                "correct": 0,
+                "explanation": "Urbanization and technology have shifted youth pastimes toward digital devices."
+            },
+            {
+                "q": "4. The word \"Pastime\" is synonymous with which of the following?",
+                "options": [
+                    "Hobby / Leisure activity",
+                    "Workload",
+                    "Compulsory exam",
+                    "Sickness"
+                ],
+                "correct": 0,
+                "explanation": "Pastime means an activity that someone does regularly for enjoyment."
+            },
+            {
+                "q": "5. How does photography serve as an impactful pastime?",
+                "options": [
+                    "It trains the eye to capture beauty, emotion and historic moments",
+                    "It is the most expensive hobby",
+                    "It requires no effort",
+                    "It replaces reading entirely"
+                ],
+                "correct": 0,
+                "explanation": "Photography combines artistic observation with documentary storytelling."
+            }
+        ]
+    },
+    {
+        "id": "eft-u3",
+        "title": "Unit 3: Events and Festivals (Lessons 1-5: Mother's Day, May Day, 21st Feb, 26th March & Pohela Boishakh)",
+        "type": "EFT Unit",
+        "summary": "Comprehensive exploration of national and international festivals: International Workers' Day (May Day 1886), Language Movement Day (21 Feb), Independence Day (26 March), and Bengali New Year.",
+        "lectureNotes": [
+            {
+                "title": "1. May Day (1st May 1886)",
+                "detail": "Commemorates the historic Chicago Haymarket strike where workers sacrificed lives for an 8-hour workday, ending 14-hour exploitation."
+            },
+            {
+                "title": "2. International Mother Language Day (21 February)",
+                "detail": "Salam, Barkat, Rafiq, Jabbar and Shafiur sacrificed lives in 1952 for Bangla. Declared International Mother Language Day by UNESCO in 1999."
+            },
+            {
+                "title": "3. Independence Day & Pohela Boishakh",
+                "detail": "26 March marks the declaration of our independence in 1971. Pohela Boishakh is the universal secular cultural celebration of the Bengali nation."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Where did the historic May Day workers' movement take place in 1886?",
+                "options": [
+                    "Haymarket Square, Chicago, USA",
+                    "London, UK",
+                    "Paris, France",
+                    "Berlin, Germany"
+                ],
+                "correct": 0,
+                "explanation": "The 1886 Haymarket strike in Chicago established the 8-hour working day."
+            },
+            {
+                "q": "2. What historic decision did UNESCO take on 17 November 1999 regarding 21st February?",
+                "options": [
+                    "Declared 21st February as International Mother Language Day",
+                    "Declared it World Poetry Day",
+                    "Declared it World Peace Day",
+                    "Declared it World Book Day"
+                ],
+                "correct": 0,
+                "explanation": "UNESCO globally recognized Bangladesh's Language Movement Martyrs by designating February 21."
+            },
+            {
+                "q": "3. What is the traditional dish associated with Pohela Boishakh morning in Bangladesh?",
+                "options": [
+                    "Panta Ilish (fermented rice with fried Hilsa fish)",
+                    "Biryani",
+                    "Burger",
+                    "Fried chicken"
+                ],
+                "correct": 0,
+                "explanation": "Panta bhat with fried Hilsa and green chilies is the traditional celebratory meal."
+            },
+            {
+                "q": "4. 26th March is celebrated in Bangladesh as which National Day?",
+                "options": [
+                    "Independence Day",
+                    "Victory Day",
+                    "Martyrs' Day",
+                    "Language Day"
+                ],
+                "correct": 0,
+                "explanation": "26 March marks the official Independence Day, while 16 December is Victory Day."
+            },
+            {
+                "q": "5. Who initiated the modern observance of Mother's Day internationally?",
+                "options": [
+                    "Anna Jarvis (USA)",
+                    "Florence Nightingale",
+                    "Mother Teresa",
+                    "Marie Curie"
+                ],
+                "correct": 0,
+                "explanation": "Anna Jarvis started the Mother's Day movement in the United States in the early 20th century."
+            }
+        ]
+    },
+    {
+        "id": "eft-u4",
+        "title": "Unit 4: Are We Aware? (Lessons 1-5: Civic Sense, The Ferry Boat, Food Safety & Human Resource)",
+        "type": "EFT Unit",
+        "summary": "Focuses on critical awareness: The tragic ferry boat overcrowding lesson, food adulteration dangers, environmental sanitation, and transforming population into skilled human resources.",
+        "lectureNotes": [
+            {
+                "title": "1. Lesson 1: The Ferry Boat",
+                "detail": "Jamil recounts a ferry crossing where passengers recklessly overloaded the wooden boat out of impatience, causing it to capsize."
+            },
+            {
+                "title": "2. Food Safety & Adulteration",
+                "detail": "Toxic chemicals (formalin, carbide, textile dyes) in fruits, milk and fish cause irreversible kidney and liver diseases."
+            },
+            {
+                "title": "3. Human Resource Development",
+                "detail": "A large population is an economic asset, not a burden, if equipped with vocational training, ICT proficiency, and foreign languages."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. In \"The Ferry Boat\" story, why did the small ferry capsize in the river?",
+                "options": [
+                    "It was dangerously overcrowded by impatient passengers",
+                    "It was struck by lightning",
+                    "The boatman was asleep",
+                    "A giant whale hit it"
+                ],
+                "correct": 0,
+                "explanation": "Overcrowding and lack of civic caution caused the boat to sink near the bank."
+            },
+            {
+                "q": "2. How can Bangladesh turn its huge population from a liability into a national asset?",
+                "options": [
+                    "Through quality education, technical skills and vocational training",
+                    "By closing schools",
+                    "By relying only on foreign aid",
+                    "By avoiding technology"
+                ],
+                "correct": 0,
+                "explanation": "Human resource development transforms population pressure into economic productivity."
+            },
+            {
+                "q": "3. Why is food adulteration considered a severe crime against society?",
+                "options": [
+                    "It causes long-term fatal diseases like cancer and organ failure",
+                    "It makes food cheaper",
+                    "It improves taste",
+                    "It increases food weight only"
+                ],
+                "correct": 0,
+                "explanation": "Harmful chemicals in food pose catastrophic health hazards to entire generations."
+            },
+            {
+                "q": "4. What does the term \"Civic consciousness\" refer to?",
+                "options": [
+                    "Awareness of one's civic duties and social responsibilities",
+                    "Only studying political science",
+                    "Knowing road names",
+                    "Speaking foreign languages"
+                ],
+                "correct": 0,
+                "explanation": "Civic consciousness means behaving responsibly for the collective welfare of society."
+            },
+            {
+                "q": "5. What is the moral lesson of Unit 4?",
+                "options": [
+                    "Patience, safety awareness, and active civic responsibility prevent tragedies",
+                    "Always rush to be first",
+                    "Avoid traveling altogether",
+                    "Ignore rules"
+                ],
+                "correct": 0,
+                "explanation": "Awareness, patience and adherence to safety norms save lives."
+            }
+        ]
+    },
+    {
+        "id": "eft-u5",
+        "title": "Unit 5: Nature and Humanity (Lessons 1-5: River Erosion, Meherjan's Tale, Pollution & Climate Change)",
+        "type": "EFT Unit",
+        "summary": "Examines climate vulnerabilities, river erosion along the Jamuna (\"The greed of the roaring rivers\"), greenhouse gases, deforestation, and ecological conservation.",
+        "lectureNotes": [
+            {
+                "title": "1. Meherjan's Story (The Greed of the Roaring Rivers)",
+                "detail": "Living in a polythene-roofed shack in a slum, Meherjan lost her husband, cattle, homestead and arable land to the merciless Jamuna erosion."
+            },
+            {
+                "title": "2. Environmental Pollution (Air, Water, Soil)",
+                "detail": "Brick kilns, vehicular smoke, industrial effluents and polythene bags poison the biosphere and destroy biodiversity."
+            },
+            {
+                "title": "3. Global Climate Crisis",
+                "detail": "Greenhouse gas emissions trap solar radiation, melting glaciers and threatening to submerge low-lying coastal regions of Bangladesh."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. In Unit 5 Lesson 1, what destroyed Meherjan's happy family and homestead?",
+                "options": [
+                    "The relentless river erosion of the roaring Jamuna",
+                    "A devastating fire",
+                    "An earthquake",
+                    "A tornado"
+                ],
+                "correct": 0,
+                "explanation": "Riverbank erosion along the Jamuna devoured her lands, home and livestock."
+            },
+            {
+                "q": "2. What is the primary cause of the Greenhouse Effect leading to global warming?",
+                "options": [
+                    "Excessive emissions of Carbon Dioxide (CO2) and greenhouse gases",
+                    "Planting too many trees",
+                    "Using solar panels",
+                    "Rainfall"
+                ],
+                "correct": 0,
+                "explanation": "Burning fossil fuels increases atmospheric CO2, trapping heat and raising global temperatures."
+            },
+            {
+                "q": "3. How does deforestation directly accelerate climate breakdown?",
+                "options": [
+                    "Trees absorb CO2; destroying forests increases atmospheric carbon and disrupts the water cycle",
+                    "It creates more farmland",
+                    "It makes wood cheaper",
+                    "It reduces wind speed"
+                ],
+                "correct": 0,
+                "explanation": "Forests are Earth's carbon sinks; clearing them exacerbates the greenhouse effect."
+            },
+            {
+                "q": "4. Which river is described as \"greedy and roaring\" in Meherjan's story?",
+                "options": [
+                    "The Jamuna",
+                    "The Nile",
+                    "The Thames",
+                    "The Amazon"
+                ],
+                "correct": 0,
+                "explanation": "The ferocious erosion of the Jamuna river displaced thousands of rural families."
+            },
+            {
+                "q": "5. What urgent measure is needed to protect Bangladesh's ecology?",
+                "options": [
+                    "Massive afforestation, waste recycling and switching to clean renewable energy",
+                    "Cutting down all trees",
+                    "Dumping industrial waste into rivers",
+                    "Building more brick kilns"
+                ],
+                "correct": 0,
+                "explanation": "Tree plantation, river conservation and green technology are vital for ecological survival."
+            }
+        ]
+    },
+    {
+        "id": "eft-u6",
+        "title": "Unit 6: Our Neighbours (Lessons 1-5: Nepal, Sri Lanka, The Maldives, Bhutan & SAARC Heritage)",
+        "type": "EFT Unit",
+        "summary": "A cultural and geographical expedition through South Asian neighbouring nations: Nepal (Land of Everest), Sri Lanka (Pearl of the Indian Ocean), The Maldives (Coral Atolls), and Bhutan (Land of Gross National Happiness).",
+        "lectureNotes": [
+            {
+                "title": "1. Nepal: The Roof of the World",
+                "detail": "Home to Mount Everest (Sagarmatha), scenic Kathmandu valley, Pashupatinath temple, and Lumbini (birthplace of Lord Buddha)."
+            },
+            {
+                "title": "2. Sri Lanka & The Maldives",
+                "detail": "Sri Lanka is famous for Ceylon tea, golden beaches and Anuradhapura heritage. The Maldives is an archipelago of 1,190 coral islands threatened by sea-level rise."
+            },
+            {
+                "title": "3. Bhutan: The Thunder Dragon",
+                "detail": "Bhutan measures progress by Gross National Happiness (GNH) rather than GDP, mandating 60% forest coverage by constitution."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Which South Asian neighbouring nation is renowned as the \"Land of the Thunder Dragon\"?",
+                "options": [
+                    "Bhutan",
+                    "Nepal",
+                    "Sri Lanka",
+                    "Maldives"
+                ],
+                "correct": 0,
+                "explanation": "Bhutan is traditionally known as Druk Yul or the Land of the Thunder Dragon."
+            },
+            {
+                "q": "2. Mount Everest, the highest peak on Earth, is situated in which country?",
+                "options": [
+                    "Nepal",
+                    "India",
+                    "Bhutan",
+                    "Sri Lanka"
+                ],
+                "correct": 0,
+                "explanation": "Mount Everest (8,848.86 m) lies in the Himalayas on the border of Nepal and Tibet."
+            },
+            {
+                "q": "3. Why is Sri Lanka called the \"Pearl of the Indian Ocean\"?",
+                "options": [
+                    "Due to its unique teardrop shape, rich natural beauty and historical gem treasures",
+                    "Because it produces only pearls",
+                    "Because of its round shape",
+                    "Because it is small"
+                ],
+                "correct": 0,
+                "explanation": "Its geographical shape and dazzling natural biodiversity earned it this title."
+            },
+            {
+                "q": "4. What unique index does Bhutan use to evaluate its national progress?",
+                "options": [
+                    "Gross National Happiness (GNH)",
+                    "Gross Domestic Product (GDP)",
+                    "Stock Exchange Index",
+                    "Foreign Trade Surplus"
+                ],
+                "correct": 0,
+                "explanation": "Bhutan pioneered the Gross National Happiness index prioritizing wellbeing and culture over material wealth."
+            },
+            {
+                "q": "5. What existential environmental threat does the Maldives face today?",
+                "options": [
+                    "Rising sea levels caused by global warming threatening to submerge low-lying atolls",
+                    "Severe desertification",
+                    "Heavy snowfall",
+                    "Volcanic eruptions"
+                ],
+                "correct": 0,
+                "explanation": "With an average elevation of just 1.5 meters, the Maldives is vulnerable to ocean rise."
+            }
+        ]
+    },
+    {
+        "id": "eft-u7",
+        "title": "Unit 7: People Who Stand Out (Lessons 1-4: Shilpacharya Zainul Abedin, Mother Teresa & Icons)",
+        "type": "EFT Unit",
+        "summary": "Celebrates remarkable humanitarians and artists: Shilpacharya Zainul Abedin and his 1943 Famine Sketches, Mother Teresa's Nirmal Hriday for the dying destitute, and inspiring heroes.",
+        "lectureNotes": [
+            {
+                "title": "1. Shilpacharya Zainul Abedin (1914-1976)",
+                "detail": "Pioneer of modern Bangladeshi art. His poignant black ink sketches of the 1943 Bengal Famine exposed human suffering and imperial neglect."
+            },
+            {
+                "title": "2. Mother Teresa (1910-1997)",
+                "detail": "Nobel Peace Prize laureate (1979) who founded Missionaries of Charity and \"Nirmal Hriday\" (Home for Dying Destitutes) in Kolkata."
+            },
+            {
+                "title": "3. Core Character Lessons",
+                "detail": "True greatness lies in selfless service to suffering humanity, compassion for the underprivileged, and artistic truth."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Which monumental historic event did Shilpacharya Zainul Abedin depict in his world-famous 1943 sketches?",
+                "options": [
+                    "The tragic Great Bengal Famine of 1943",
+                    "The Liberation War of 1971",
+                    "The French Revolution",
+                    "World War I"
+                ],
+                "correct": 0,
+                "explanation": "His raw, powerful charcoal sketches of starving peasants shocked global conscience."
+            },
+            {
+                "q": "2. Where was the Shilpacharya Zainul Abedin Sangrahashala (Art Gallery) established in 1975?",
+                "options": [
+                    "Mymensingh (on the banks of the Brahmaputra)",
+                    "Dhaka",
+                    "Chittagong",
+                    "Rajshahi"
+                ],
+                "correct": 0,
+                "explanation": "The gallery was established in Mymensingh where Zainul spent his formative childhood."
+            },
+            {
+                "q": "3. In which year was Mother Teresa awarded the Nobel Peace Prize for her selfless humanitarian work?",
+                "options": [
+                    "1979",
+                    "1971",
+                    "1985",
+                    "1990"
+                ],
+                "correct": 0,
+                "explanation": "Mother Teresa received the Nobel Peace Prize in 1979."
+            },
+            {
+                "q": "4. What was the name of the sanctuary for the destitute established by Mother Teresa in Kolkata?",
+                "options": [
+                    "Nirmal Hriday (Pure Heart)",
+                    "Shanti Niketan",
+                    "Ananda Bhavan",
+                    "Asha Kendra"
+                ],
+                "correct": 0,
+                "explanation": "Nirmal Hriday provided dignity, shelter and medical care to dying destitutes."
+            },
+            {
+                "q": "5. What enduring inspiration do we gain from the lives of Zainul Abedin and Mother Teresa?",
+                "options": [
+                    "Dedication to art, empathy for the impoverished, and unconditional love for humanity",
+                    "Desire for fame and luxury",
+                    "Focusing only on money",
+                    "Avoiding social causes"
+                ],
+                "correct": 0,
+                "explanation": "Both icons dedicated their lives to lifting up suffering human beings."
+            }
+        ]
+    },
+    {
+        "id": "eft-u8",
+        "title": "Unit 8: World Heritage (Lessons 1-4: The Shat Gombuj Mosque, Somapura Mahavihara, Statue of Liberty & Lake Baikal)",
+        "type": "EFT Unit",
+        "summary": "Explores renowned UNESCO World Heritage Sites: The 15th-century Sixty Dome Mosque in Bagerhat by Ulugh Khan Jahan, Paharpur Buddhist Vihara, the Statue of Liberty, and Siberia's Lake Baikal.",
+        "lectureNotes": [
+            {
+                "title": "1. The Shat Gombuj Mosque (Bagerhat)",
+                "detail": "Constructed by saint-warrior Ulugh Khan Jahan in the 15th century in Khalifatabad. It has 77 low domes (and 4 on corner towers) and 60 stone pillars."
+            },
+            {
+                "title": "2. Somapura Mahavihara (Paharpur, Naogaon)",
+                "detail": "Built by Pala king Dharmapala in the 8th century. One of the largest Buddhist monasteries south of the Himalayas."
+            },
+            {
+                "title": "3. Statue of Liberty & Lake Baikal",
+                "detail": "The Statue of Liberty in New York was gifted by France in 1886. Lake Baikal in Siberia is the world's deepest and oldest freshwater lake."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Who constructed the historic Shat Gombuj Mosque in Bagerhat in the 15th century?",
+                "options": [
+                    "Ulugh Khan Jahan Ali",
+                    "Emperor Akbar",
+                    "Shah Shuja",
+                    "Mir Jumla"
+                ],
+                "correct": 0,
+                "explanation": "Saint-warrior Ulugh Khan Jahan founded the city of Khalifatabad and built the mosque."
+            },
+            {
+                "q": "2. Despite being called \"Sixty Dome Mosque\", how many actual domes does the Shat Gombuj Mosque possess?",
+                "options": [
+                    "81 domes (77 on roof + 4 on corner towers)",
+                    "Exactly 60 domes",
+                    "100 domes",
+                    "40 domes"
+                ],
+                "correct": 0,
+                "explanation": "It features 77 low domes across 11 rows plus 4 on the corner towers, totaling 81."
+            },
+            {
+                "q": "3. Which ancient dynasty founded the Somapura Mahavihara at Paharpur?",
+                "options": [
+                    "The Pala Dynasty (King Dharmapala)",
+                    "The Sena Dynasty",
+                    "The Maurya Dynasty",
+                    "The Gupta Dynasty"
+                ],
+                "correct": 0,
+                "explanation": "Pala King Dharmapala (781–821 AD) established this monumental Buddhist monastic complex."
+            },
+            {
+                "q": "4. Which nation presented the iconic Statue of Liberty as a gift of friendship to the United States in 1886?",
+                "options": [
+                    "France",
+                    "Great Britain",
+                    "Germany",
+                    "Spain"
+                ],
+                "correct": 0,
+                "explanation": "France gifted the Statue of Liberty to celebrate the centennial of the US Declaration of Independence."
+            },
+            {
+                "q": "5. Lake Baikal, the deepest freshwater lake on Earth, is located in which region?",
+                "options": [
+                    "Siberia, Russia",
+                    "Canada",
+                    "Switzerland",
+                    "Brazil"
+                ],
+                "correct": 0,
+                "explanation": "Lake Baikal in southern Siberia contains nearly 20% of the world's unfrozen surface freshwater."
+            }
+        ]
+    },
+    {
+        "id": "eft-u9",
+        "title": "Unit 9: Unconventional Jobs (Lessons 1-4: Creative Careers, Organic Farming, Wildlife Rescue & Sound Engineering)",
+        "type": "EFT Unit",
+        "summary": "Inspires youth to break stereotypes and pursue unconventional professions in sustainable farming, wildlife photography, audio engineering, and green entrepreneurship.",
+        "lectureNotes": [
+            {
+                "title": "1. Beyond Traditional Desks",
+                "detail": "The modern job market rewards passion, creativity and problem-solving beyond traditional medicine and corporate banking."
+            },
+            {
+                "title": "2. Eco-Farming & Organic Innovations",
+                "detail": "Educated youths returning to agriculture to cultivate dragon fruit, strawberries, organic honey, and dairy farms."
+            },
+            {
+                "title": "3. Environmental Advocacy",
+                "detail": "Careers dedicated to ecological preservation, wildlife conservation, and renewable energy implementation."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. What defines an \"unconventional job\" in modern career perspectives?",
+                "options": [
+                    "A profession that differs from traditional 9-to-5 desk routines and embraces creative innovation",
+                    "An illegal job",
+                    "A job without any income",
+                    "Only manual labor"
+                ],
+                "correct": 0,
+                "explanation": "Unconventional jobs emphasize creative skills, passion and self-directed entrepreneurship."
+            },
+            {
+                "q": "2. Why are educated young entrepreneurs increasingly entering modern agro-farming in Bangladesh?",
+                "options": [
+                    "Because high-value crops like dragon fruit, organic dairy and fisheries offer high profit and self-reliance",
+                    "Because there are no other jobs",
+                    "Because it requires no hard work",
+                    "Because it requires no knowledge"
+                ],
+                "correct": 0,
+                "explanation": "Modern agro-technology allows educated youths to build lucrative green enterprises."
+            },
+            {
+                "q": "3. What skill is paramount for success in creative and non-traditional careers?",
+                "options": [
+                    "Continuous learning, adaptability, passion and digital problem-solving",
+                    "Memorizing textbooks",
+                    "Relying solely on family connections",
+                    "Ignoring feedback"
+                ],
+                "correct": 0,
+                "explanation": "Creativity, passion and digital literacy drive success in unconventional fields."
+            },
+            {
+                "q": "4. How do wildlife rescuers and conservationists benefit the planet?",
+                "options": [
+                    "They safeguard endangered species and preserve critical ecological equilibrium",
+                    "They capture animals for circuses",
+                    "They sell forest wood",
+                    "They destroy habitats"
+                ],
+                "correct": 0,
+                "explanation": "Biodiversity conservation ensures balanced ecosystems for future generations."
+            },
+            {
+                "q": "5. What is the central message of Unit 9 for secondary students?",
+                "options": [
+                    "Follow your genuine passion, develop unique skills, and don't fear choosing innovative career paths",
+                    "Only study for government clerical jobs",
+                    "Avoid taking any risks",
+                    "Work only in foreign countries"
+                ],
+                "correct": 0,
+                "explanation": "It encourages young people to create dynamic, fulfilling career identities."
+            }
+        ]
+    },
+    {
+        "id": "eft-u10",
+        "title": "Unit 10: Dreams (Lessons 1-4: \"I Have a Dream\" by MLK Jr., Pritilata Waddedar & Zahir Raihan)",
+        "type": "EFT Unit",
+        "summary": "Chronicles visionary dreams that altered human history: Martin Luther King Jr.'s civil rights speech (1963), revolutionary martyr Pritilata Waddedar (1932), and legendary filmmaker Zahir Raihan (1971).",
+        "lectureNotes": [
+            {
+                "title": "1. Martin Luther King Jr.: \"I Have a Dream\"",
+                "detail": "Delivered in 1963 at the Lincoln Memorial, Washington D.C., dreaming of a nation where children \"will not be judged by the color of their skin but by the content of their character.\""
+            },
+            {
+                "title": "2. Pritilata Waddedar (1911-1932)",
+                "detail": "Head of the armed raid on the Pahartali European Club (which barred Indians). Swallowed Potassium Cyanide rather than surrender to British forces."
+            },
+            {
+                "title": "3. Zahir Raihan (1935-1972)",
+                "detail": "Visionary filmmaker of \"Jibon Theke Neya\" and documentary \"Stop Genocide\". Disappeared in Jan 1972 while searching for his abducted brother Shahidullah Kaiser."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. In his iconic 1963 speech \"I Have a Dream\", what did Martin Luther King Jr. envision for his four children?",
+                "options": [
+                    "That they would be judged by the content of their character, not the color of their skin",
+                    "That they would become politicians",
+                    "That they would move to Europe",
+                    "That they would become rich"
+                ],
+                "correct": 0,
+                "explanation": "MLK Jr. articulated an immortal dream of racial equality and human dignity."
+            },
+            {
+                "q": "2. Which colonial British establishment did revolutionary hero Pritilata Waddedar lead a raid against in 1932?",
+                "options": [
+                    "Pahartali European Club in Chittagong",
+                    "The Governor's House in Dhaka",
+                    "Calcutta High Court",
+                    "Fort William"
+                ],
+                "correct": 0,
+                "explanation": "She attacked the discriminatory club notorious for the sign \"Dogs and Indians not allowed\"."
+            },
+            {
+                "q": "3. Why did Pritilata embrace martyrdom by taking Potassium Cyanide?",
+                "options": [
+                    "To prevent being captured alive by British colonial police and betray comrades under torture",
+                    "Because she was lost",
+                    "By accidental mistake",
+                    "Due to illness"
+                ],
+                "correct": 0,
+                "explanation": "She chose supreme self-sacrifice as an immortal symbol of anti-colonial resistance."
+            },
+            {
+                "q": "4. Which landmark documentary film was directed by Zahir Raihan during the 1971 Liberation War to expose Pakistani atrocities globally?",
+                "options": [
+                    "Stop Genocide",
+                    "Jibon Theke Neya",
+                    "Kancher Deyal",
+                    "Behula"
+                ],
+                "correct": 0,
+                "explanation": "\"Stop Genocide\" stirred the world's conscience against the 1971 genocide."
+            },
+            {
+                "q": "5. What common virtue connects Martin Luther King Jr., Pritilata, and Zahir Raihan?",
+                "options": [
+                    "Unshakable courage and selfless sacrifice for freedom and human rights",
+                    "They all lived in the same country",
+                    "They were all politicians",
+                    "They were all scientists"
+                ],
+                "correct": 0,
+                "explanation": "All three heroes gave their lives in pursuit of noble, transformative ideals."
+            }
+        ]
+    },
+    {
+        "id": "eft-u11",
+        "title": "Unit 11: Renewable Energy (Lessons 1-4: Solar Power, Wind Energy, Hydroelectricity & Fossil Fuel Crisis)",
+        "type": "EFT Unit",
+        "summary": "Investigates sustainable solutions to the global energy crisis: Harnessing sunlight via solar panels, wind turbine farms, biomass energy, and reducing dependence on depleting fossil fuels.",
+        "lectureNotes": [
+            {
+                "title": "1. The Fossil Fuel Crisis",
+                "detail": "Coal, petroleum and natural gas are finite, non-renewable, and emit millions of tons of greenhouse gases annually."
+            },
+            {
+                "title": "2. Solar and Wind Energy in Bangladesh",
+                "detail": "Solar Home Systems (SHS) have electrified millions of off-grid rural homes in Bangladesh, accompanied by coastal wind installations."
+            },
+            {
+                "title": "3. Sustainable Green Future",
+                "detail": "Transitioning to 100% clean renewable energy is the only pathway to prevent global climate catastrophe."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Which of the following is a classic example of a clean, renewable energy source?",
+                "options": [
+                    "Solar energy",
+                    "Coal",
+                    "Petroleum",
+                    "Diesel"
+                ],
+                "correct": 0,
+                "explanation": "Solar energy is naturally replenished by the sun and produces zero direct carbon emissions."
+            },
+            {
+                "q": "2. Why are conventional fossil fuels (coal, oil, gas) classified as \"non-renewable\"?",
+                "options": [
+                    "Because their finite subterranean reserves cannot be regenerated within human timescales once depleted",
+                    "Because they are too clean",
+                    "Because they come from the ocean",
+                    "Because they never run out"
+                ],
+                "correct": 0,
+                "explanation": "Fossil fuels took millions of years to form and are being rapidly exhausted."
+            },
+            {
+                "q": "3. How have Solar Home Systems (SHS) transformed rural communities in Bangladesh?",
+                "options": [
+                    "Provided clean electricity for lighting, education and mobile connectivity in off-grid villages",
+                    "Replaced all roads",
+                    "Made farming impossible",
+                    "Caused pollution"
+                ],
+                "correct": 0,
+                "explanation": "Bangladesh's rural solar program has been one of the largest and most successful off-grid systems in the world."
+            },
+            {
+                "q": "4. What is the major environmental danger associated with thermal coal-fired power plants?",
+                "options": [
+                    "Massive emissions of carbon dioxide, sulfur dioxide and heavy particulate air pollution",
+                    "They create too much ice",
+                    "They absorb all oxygen",
+                    "They produce too much water"
+                ],
+                "correct": 0,
+                "explanation": "Coal burning is the largest contributor to anthropogenic climate change."
+            },
+            {
+                "q": "5. Which technology harnesses kinetic energy from moving air currents to generate electricity?",
+                "options": [
+                    "Wind turbines",
+                    "Solar panels",
+                    "Biogas digesters",
+                    "Geothermal springs"
+                ],
+                "correct": 0,
+                "explanation": "Wind turbines convert kinetic wind power into mechanical and electrical energy."
+            }
+        ]
+    },
+    {
+        "id": "eft-u12",
+        "title": "Unit 12: Roots (Lessons 1-4: Eid Homecoming, The Pull of the Native Soil & Cultural Identity)",
+        "type": "EFT Unit",
+        "summary": "Reflects on the emotional pull of one's ancestral home: The massive rush of city dwellers returning to rural roots during Eid festivals, self-identity, and the tragedy of losing connection to one's origin.",
+        "lectureNotes": [
+            {
+                "title": "1. What are Roots?",
+                "detail": "Our roots comprise our family, birthplace, cultural heritage and memories that anchor our core human identity."
+            },
+            {
+                "title": "2. The Festive Rush Home (Eid Exodus)",
+                "detail": "Millions of urban dwellers endure grueling traffic, packed trains and river ferries simply to spend holiday moments with loved ones."
+            },
+            {
+                "title": "3. The Rootless Person",
+                "detail": "A person without roots lacks identity, values and spiritual anchoring, floating through life without belonging."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. In Unit 12, what does the metaphor \"Roots\" symbolize in human life?",
+                "options": [
+                    "One's family, birthplace, cultural traditions and ancestral identity",
+                    "Only botanical tree roots",
+                    "The money in a bank",
+                    "The passport of a country"
+                ],
+                "correct": 0,
+                "explanation": "Roots represent the emotional and cultural foundation from which our identity grows."
+            },
+            {
+                "q": "2. Why do millions of people in Dhaka endure immense travel hardship to return to villages before Eid?",
+                "options": [
+                    "Due to the irresistible emotional urge to reunite with family and ancestral roots",
+                    "Because they are evicted from the city",
+                    "Because offices are closed forever",
+                    "To buy land only"
+                ],
+                "correct": 0,
+                "explanation": "The emotional bond with one's native home and family transcends travel difficulties."
+            },
+            {
+                "q": "3. According to the text, what characterizes a \"rootless\" human being?",
+                "options": [
+                    "Someone who has forgotten their heritage and lacks moral anchoring and belonging",
+                    "Someone who travels frequently",
+                    "Someone who lives in a village",
+                    "Someone who speaks multiple languages"
+                ],
+                "correct": 0,
+                "explanation": "A person without roots feels alienated and lacks deep emotional connections."
+            },
+            {
+                "q": "4. How does staying connected to our rural roots benefit urban society?",
+                "options": [
+                    "It preserves cultural empathy, family bonds and keeps people grounded in gratitude",
+                    "It increases city rents",
+                    "It stops trade",
+                    "It delays modern education"
+                ],
+                "correct": 0,
+                "explanation": "Roots maintain community values and mutual solidarity."
+            },
+            {
+                "q": "5. What fundamental philosophical lesson does Unit 12 impart?",
+                "options": [
+                    "Never forget where you came from, cherish your parents and honor your heritage",
+                    "Always stay away from family",
+                    "Change your name frequently",
+                    "Material wealth is superior to family"
+                ],
+                "correct": 0,
+                "explanation": "Honoring one's roots is essential for genuine self-worth and happiness."
+            }
+        ]
+    },
+    {
+        "id": "eft-u13",
+        "title": "Unit 13: Media and E-Communications (Lessons 1-4: Digital Connectivity, Social Networking & E-Learning)",
+        "type": "EFT Unit",
+        "summary": "Analyzes the digital communication revolution: Facebook, email protocols, online search engines, virtual classrooms, e-learning platforms, and responsible cyber hygiene.",
+        "lectureNotes": [
+            {
+                "title": "1. Digital Communication Evolution",
+                "detail": "From postal telegrams to instant global messaging, broadband internet, video conferences and cloud storage."
+            },
+            {
+                "title": "2. Social Networks & E-Learning",
+                "detail": "Platforms like Facebook and YouTube connect billions, while e-learning democratizes quality education across remote areas."
+            },
+            {
+                "title": "3. Cyber Safety & Digital Literacy",
+                "detail": "Protecting privacy, identifying phishing scams, resisting cyberbullying, and preventing social media addiction."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. What revolutionary change has e-communication brought to human society?",
+                "options": [
+                    "Instantaneous global information sharing, seamless messaging and distance collaboration",
+                    "Slowed down mail delivery",
+                    "Made communication impossible",
+                    "Eliminated all computers"
+                ],
+                "correct": 0,
+                "explanation": "Digital communication has compressed distance and made knowledge accessible instantly."
+            },
+            {
+                "q": "2. What is a primary advantage of E-learning for students in developing nations?",
+                "options": [
+                    "Access to high-quality lessons, recorded lectures and study resources anytime from anywhere",
+                    "It eliminates all books",
+                    "It makes teachers unnecessary",
+                    "It requires zero internet"
+                ],
+                "correct": 0,
+                "explanation": "E-learning enables flexible, barrier-free education for learners regardless of location."
+            },
+            {
+                "q": "3. What essential precaution must every student maintain on social media platforms?",
+                "options": [
+                    "Protect personal passwords, avoid sharing sensitive private data, and practice respectful communication",
+                    "Share passwords with strangers",
+                    "Post all banking info",
+                    "Believe every rumor"
+                ],
+                "correct": 0,
+                "explanation": "Cyber hygiene and privacy protection are critical in the digital age."
+            },
+            {
+                "q": "4. What does the term \"Virtual Classroom\" mean?",
+                "options": [
+                    "An online interactive learning space where teachers and students collaborate remotely via the internet",
+                    "A classroom built of glass",
+                    "An imaginary school with no students",
+                    "A physical library"
+                ],
+                "correct": 0,
+                "explanation": "Virtual classrooms simulate real classrooms using video, chat and shared digital whiteboards."
+            },
+            {
+                "q": "5. How should students balance social media usage with academic studies?",
+                "options": [
+                    "Use technology productively with disciplined time management without becoming addicted",
+                    "Spend 12 hours daily on games",
+                    "Never use computers at all",
+                    "Delete all school files"
+                ],
+                "correct": 0,
+                "explanation": "Disciplined, purposeful technology use enhances learning while preserving wellbeing."
+            }
+        ]
+    },
+    {
+        "id": "eft-u14",
+        "title": "Unit 14: Pleasures and Purpose of Life (Lessons 1-4: The Joy of Reading, Wisdom, Fleeting Time & Contentment)",
+        "type": "EFT Unit",
+        "summary": "Philosophical insights into the meaningful life: Ralph Hodgson's poem \"Time, You Old Gipsy Man\", the enduring joy of literature, inner peace, and defining life's true purpose.",
+        "lectureNotes": [
+            {
+                "title": "1. \"Time, You Old Gipsy Man\" (Ralph Hodgson)",
+                "detail": "Poetic personification of time as an unstoppable gypsy nomad whom no king or treasure can bribe to stand still for a single day."
+            },
+            {
+                "title": "2. The Joy of Great Literature",
+                "detail": "Books are living companions that transcend temporal boundaries, allowing readers to converse with the greatest minds of all centuries."
+            },
+            {
+                "title": "3. The Ultimate Purpose of Life",
+                "detail": "True contentment stems from kindness, continuous wisdom pursuit, moral integrity and contributing positively to society."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. In Ralph Hodgson's celebrated poem \"Time, You Old Gipsy Man\", how is time personified?",
+                "options": [
+                    "As an unstoppable gypsy nomad riding his caravan who halts for no one",
+                    "As a wealthy king",
+                    "As a sleeping beggar",
+                    "As a giant rock"
+                ],
+                "correct": 0,
+                "explanation": "Time is metaphorically depicted as a relentless gypsy traveler moving eternally forward."
+            },
+            {
+                "q": "2. What can neither kings with gold nor scholars with prayers persuade Time to do?",
+                "options": [
+                    "Stay still or put up his caravan for even a single day",
+                    "Move faster",
+                    "Disappear",
+                    "Give away gold"
+                ],
+                "correct": 0,
+                "explanation": "Time waits for no man; every passing second is gone forever."
+            },
+            {
+                "q": "3. Why is cultivating a love for classic books considered one of life's supreme pleasures?",
+                "options": [
+                    "Because books provide intellectual nourishment, timeless wisdom and intimate communion with genius minds",
+                    "Because books are heavy",
+                    "Because books decorate shelves",
+                    "Because books guarantee wealth immediately"
+                ],
+                "correct": 0,
+                "explanation": "Literature ennobles the spirit and expands human consciousness beyond everyday limits."
+            },
+            {
+                "q": "4. What constitutes the bedrock of a genuinely happy and purposeful human life?",
+                "options": [
+                    "Moral integrity, compassion for fellow beings, gratitude and continuous self-improvement",
+                    "Hoarding enormous piles of gold",
+                    "Seeking revenge on rivals",
+                    "Living in complete isolation"
+                ],
+                "correct": 0,
+                "explanation": "Human fulfillment is rooted in ethical living, service to others, and spiritual tranquility."
+            },
+            {
+                "q": "5. What is the overarching message of the English for Today textbook for secondary graduates?",
+                "options": [
+                    "Become enlightened, compassionate, skilled, and patriotic global citizens who value truth, culture and humanity",
+                    "Focus only on memorization",
+                    "Disregard society and nature",
+                    "Avoid learning foreign languages"
+                ],
+                "correct": 0,
+                "explanation": "The NCTB curriculum cultivates well-rounded, ethical, and capable global leaders."
+            }
+        ]
+    }
+],
+
   'english-grammar': [
     { id: 'eg-1', title: 'Chapter 1: Parts of Speech (Classification & Functions)', type: 'Grammar', summary: 'In-depth analysis of Nouns, Pronouns, Verbs, Adjectives, Adverbs, Prepositions, Conjunctions, and Interjections.' },
     { id: 'eg-2', title: 'Chapter 2: Nouns, Determiners & Quantifiers', type: 'Grammar', summary: 'Countable/uncountable nouns, abstract/collective forms, and modifiers (much, many, few, little, several).' },
