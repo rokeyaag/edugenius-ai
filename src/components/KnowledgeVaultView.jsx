@@ -4987,27 +4987,7 @@ ${lectureText}
             <ChevronDown className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
 
-          {/* Quick Group Filter Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pt-1 no-scrollbar">
-            {SUBJECT_GROUPS.filter(g => g !== 'সকল বিষয়').map((grp) => (
-              <button
-                key={grp}
-                onClick={() => {
-                  setSelectedGroup(grp);
-                  const firstInGrp = subjectsList.find(s => s.group === grp);
-                  if (firstInGrp) setSelectedSubjectId(firstInGrp.id);
-                  setSelectedChapterTitle('all');
-                }}
-                className={`text-[10px] px-2.5 py-1 rounded-xl font-bold whitespace-nowrap transition-all tap-active shrink-0 ${
-                  activeSelectedSub?.group === grp
-                    ? 'bg-red-600 text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-600 hover:text-slate-900 border border-slate-200'
-                }`}
-              >
-                {grp}
-              </button>
-            ))}
-          </div>
+
         </div>
 
         {/* ================= 3RD LINE: CHAPTER SELECTOR (৩য় লাইন - শুধুমাত্র নির্বাচিত বিষয়ের সমস্ত অধ্যায়) ================= */}
