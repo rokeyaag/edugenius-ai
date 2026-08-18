@@ -5242,32 +5242,32 @@ ${lectureText}
                   </span>
                 </div>
 
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1.5 shrink-0">
                   <button
                     onClick={() => openStudyPad(note, 'lecture')}
-                    className="p-1 px-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-[11px] flex items-center gap-1 shadow-sm tap-active"
-                    title="Open Full Note Page"
+                    className="h-8 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black text-[11px] inline-flex items-center gap-1.5 shadow-sm hover:shadow transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 whitespace-nowrap cursor-pointer"
+                    title="সম্পূর্ণ অধ্যায় ও লেকচার নোটস দেখুন"
                   >
-                    <BookOpen className="w-3.5 h-3.5 text-slate-950" />
-                    <span>📖 নোট পেজ</span>
+                    <BookOpen className="w-3.5 h-3.5 text-slate-950 shrink-0" />
+                    <span>নোট পেজ</span>
                   </button>
 
                   <button
                     onClick={() => handlePrintPDF(note)}
-                    className="text-slate-600 hover:text-red-600 transition-colors p-1 px-2 rounded-xl hover:bg-red-50 flex items-center gap-1 border border-slate-200 hover:border-red-200 bg-white shadow-sm"
+                    className="h-8 px-2.5 rounded-xl bg-white hover:bg-red-50 text-slate-700 hover:text-red-700 border border-slate-200 hover:border-red-300 font-bold text-[11px] inline-flex items-center gap-1 shadow-sm hover:shadow transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 whitespace-nowrap cursor-pointer"
                     title="প্রিন্ট প্রিভিউ ও Save as PDF"
                   >
-                    <Printer className="w-3.5 h-3.5 text-red-600" />
-                    <span className="text-[10px] font-bold text-red-700">🖨️ প্রিন্ট</span>
+                    <Printer className="w-3.5 h-3.5 text-red-600 shrink-0" />
+                    <span>প্রিন্ট</span>
                   </button>
 
                   <button
                     onClick={() => handleDownloadCheatSheet(note)}
-                    className="text-slate-600 hover:text-amber-800 transition-colors p-1 px-2 rounded-xl hover:bg-amber-50 flex items-center gap-1 border border-slate-200 hover:border-amber-200 bg-white shadow-sm"
+                    className="h-8 px-2.5 rounded-xl bg-white hover:bg-amber-50 text-slate-700 hover:text-amber-800 border border-slate-200 hover:border-amber-300 font-bold text-[11px] inline-flex items-center gap-1 shadow-sm hover:shadow transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 whitespace-nowrap cursor-pointer"
                     title="ফাইল ডাউনলোড (Download File)"
                   >
-                    <Download className="w-3.5 h-3.5 text-amber-600" />
-                    <span className="text-[10px] font-bold text-amber-800">📥 ডাউনলোড ফাইল</span>
+                    <Download className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                    <span>ডাউনলোড</span>
                   </button>
                 </div>
               </div>
@@ -5345,41 +5345,42 @@ ${lectureText}
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1.5 shrink-0">
                   <button
                     onClick={() => openStudyPad(note, 'lecture')}
-                    className="p-1.5 px-2.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-950 border border-amber-300 text-xs font-black flex items-center gap-1 transition-all tap-active shadow-sm"
-                    title="Open Interactive Study Pad (Lecture Notes 1st)"
+                    className="h-7 px-2.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 text-[11px] font-black inline-flex items-center gap-1 shadow-sm hover:shadow transition-all duration-200 hover:-translate-y-0.5 active:scale-95 whitespace-nowrap cursor-pointer"
+                    title="লেকচার শিট পড়ুন"
                   >
-                    <BookOpen className="w-3.5 h-3.5 text-amber-800" />
-                    <span className="text-[10px]">লেকচার শিট</span>
+                    <BookOpen className="w-3 h-3 text-slate-950 shrink-0" />
+                    <span>লেকচার শিট</span>
                   </button>
 
                   {isThisActive && (
                     <button
                       onClick={() => setIsScriptModalOpen(true)}
-                      className="px-2 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-[10px] font-bold shadow-sm"
+                      className="h-7 px-2 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-[10px] font-bold inline-flex items-center gap-1 shadow-sm hover:shadow transition-all duration-200 hover:-translate-y-0.5 active:scale-95 whitespace-nowrap cursor-pointer"
                     >
-                      📜 স্ক্রিপ্ট
+                      <FileText className="w-3 h-3 text-blue-600 shrink-0" />
+                      <span>স্ক্রিপ্ট</span>
                     </button>
                   )}
 
                   <button
                     onClick={() => handlePrintPDF(note)}
-                    className="p-1.5 px-2 rounded-xl bg-white hover:bg-red-50 text-slate-700 hover:text-red-700 border border-slate-200 hover:border-red-200 text-xs font-black flex items-center gap-1 transition-all tap-active shadow-sm"
+                    className="h-7 px-2 rounded-lg bg-white hover:bg-red-50 text-slate-700 hover:text-red-700 border border-slate-200 hover:border-red-300 text-[10px] font-bold inline-flex items-center gap-1 shadow-sm hover:shadow transition-all duration-200 hover:-translate-y-0.5 active:scale-95 whitespace-nowrap cursor-pointer"
                     title="প্রিন্ট প্রিভিউ ও Save as PDF"
                   >
-                    <Printer className="w-3.5 h-3.5 text-red-600" />
-                    <span className="text-[10px]">🖨️ প্রিন্ট</span>
+                    <Printer className="w-3 h-3 text-red-600 shrink-0" />
+                    <span>প্রিন্ট</span>
                   </button>
 
                   <button
                     onClick={() => handleDownloadCheatSheet(note)}
-                    className="p-1.5 px-2 rounded-xl bg-white hover:bg-amber-50 text-slate-700 hover:text-amber-800 border border-slate-200 hover:border-amber-200 text-xs font-black flex items-center gap-1 transition-all tap-active shadow-sm"
+                    className="h-7 px-2 rounded-lg bg-white hover:bg-amber-50 text-slate-700 hover:text-amber-800 border border-slate-200 hover:border-amber-300 text-[10px] font-bold inline-flex items-center gap-1 shadow-sm hover:shadow transition-all duration-200 hover:-translate-y-0.5 active:scale-95 whitespace-nowrap cursor-pointer"
                     title="ফাইল ডাউনলোড (Download File)"
                   >
-                    <Download className="w-3.5 h-3.5 text-amber-600" />
-                    <span className="text-[10px]">📥 ডাউনলোড ফাইল</span>
+                    <Download className="w-3 h-3 text-amber-600 shrink-0" />
+                    <span>ডাউনলোড</span>
                   </button>
                 </div>
               </div>
@@ -6158,38 +6159,39 @@ ${lectureText}
             )}
 
             {/* Modal Bottom Action Bar */}
-            <div className="flex items-center justify-between border-t pt-3 gap-2 flex-wrap sm:flex-nowrap">
-              <button
-                onClick={() => handlePrintPDF(studyPadNote)}
-                className="px-3 py-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 font-black text-xs flex items-center gap-1 border border-red-200 shadow-sm tap-active"
-                title="প্রিন্ট প্রিভিউ ও Save as PDF"
-              >
-                <Printer className="w-3.5 h-3.5" />
-                <span>🖨️ প্রিন্ট / PDF</span>
-              </button>
-              <button
-                onClick={() => handleDownloadCheatSheet(studyPadNote)}
-                className="px-3 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 font-black text-xs flex items-center gap-1 border border-amber-200 shadow-sm tap-active"
-                title="অফলাইন ফাইল ডাউনলোড"
-              >
-                <Download className="w-3.5 h-3.5 text-amber-700" />
-                <span>📥 ডাউনলোড</span>
-              </button>
+            <div className="flex items-center justify-between border-t border-slate-200 pt-3 gap-2 flex-wrap sm:flex-nowrap bg-slate-50/50 -mx-4 -mb-4 p-4">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handlePrintPDF(studyPadNote)}
+                  className="h-9 px-3 rounded-xl bg-white hover:bg-red-50 text-slate-700 hover:text-red-700 font-black text-xs inline-flex items-center gap-1.5 border border-slate-200 hover:border-red-300 shadow-sm hover:shadow transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 cursor-pointer"
+                  title="প্রিন্ট প্রিভিউ ও Save as PDF"
+                >
+                  <Printer className="w-3.5 h-3.5 text-red-600 shrink-0" />
+                  <span>প্রিন্ট / PDF</span>
+                </button>
+
+                <button
+                  onClick={() => handleDownloadCheatSheet(studyPadNote)}
+                  className="h-9 px-3 rounded-xl bg-white hover:bg-amber-50 text-slate-700 hover:text-amber-800 font-black text-xs inline-flex items-center gap-1.5 border border-slate-200 hover:border-amber-300 shadow-sm hover:shadow transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 cursor-pointer"
+                  title="অফলাইন ফাইল ডাউনলোড"
+                >
+                  <Download className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                  <span>ডাউনলোড ফাইল</span>
+                </button>
+              </div>
 
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => {
-                    togglePlayAudio(studyPadNote);
-                  }}
-                  className="px-3.5 py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-xs flex items-center gap-1.5 shadow-sm tap-active"
+                  onClick={() => togglePlayAudio(studyPadNote)}
+                  className="h-9 px-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black text-xs inline-flex items-center gap-1.5 shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 cursor-pointer"
                 >
-                  <Headphones className="w-4 h-4 text-slate-900" />
-                  <span>৩ মি. অডিও শুনুন</span>
+                  <Headphones className="w-4 h-4 text-slate-950 shrink-0" />
+                  <span>৩ মি. অডিও</span>
                 </button>
 
                 <button
                   onClick={() => setIsStudyPadOpen(false)}
-                  className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs"
+                  className="h-9 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-all duration-200 hover:-translate-y-0.5 active:scale-95 shadow-sm hover:shadow cursor-pointer"
                 >
                   বন্ধ করুন
                 </button>

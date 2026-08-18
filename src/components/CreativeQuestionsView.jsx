@@ -723,23 +723,23 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
             <span>এক ক্লিকে সকল মডেল উত্তর দেখুন</span>
           </button>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 shrink-0">
             <button
               onClick={handlePrintCQ}
-              className="text-xs font-bold text-slate-700 hover:text-slate-900 flex items-center gap-1 bg-white px-2.5 py-1.5 rounded-xl border border-slate-200 shadow-sm tap-active"
+              className="h-8 px-2.5 rounded-xl bg-white hover:bg-red-50 text-slate-700 hover:text-red-700 border border-slate-200 hover:border-red-300 font-bold text-[11px] inline-flex items-center gap-1 shadow-sm hover:shadow transition-all duration-200 hover:-translate-y-0.5 active:scale-95 whitespace-nowrap cursor-pointer"
               title="প্রিন্ট প্রিভিউ ও Save as PDF"
             >
-              <Printer className="w-3.5 h-3.5 text-red-600" />
-              <span>🖨️ প্রিন্ট</span>
+              <Printer className="w-3.5 h-3.5 text-red-600 shrink-0" />
+              <span>প্রিন্ট</span>
             </button>
 
             <button
               onClick={handleDownloadCQFile}
-              className="text-xs font-bold text-slate-700 hover:text-amber-800 flex items-center gap-1 bg-white px-2.5 py-1.5 rounded-xl border border-slate-200 shadow-sm tap-active"
+              className="h-8 px-2.5 rounded-xl bg-white hover:bg-amber-50 text-slate-700 hover:text-amber-800 border border-slate-200 hover:border-amber-300 font-bold text-[11px] inline-flex items-center gap-1 shadow-sm hover:shadow transition-all duration-200 hover:-translate-y-0.5 active:scale-95 whitespace-nowrap cursor-pointer"
               title="ফাইল ডাউনলোড (Download File)"
             >
-              <Download className="w-3.5 h-3.5 text-amber-600" />
-              <span>📥 ডাউনলোড ফাইল</span>
+              <Download className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+              <span>ডাউনলোড</span>
             </button>
           </div>
         </div>
