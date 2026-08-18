@@ -2297,20 +2297,1624 @@ export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
 ],
 
   'english-grammar': [
-    { id: 'eg-1', title: 'Chapter 1: Parts of Speech (Classification & Functions)', type: 'Grammar', summary: 'In-depth analysis of Nouns, Pronouns, Verbs, Adjectives, Adverbs, Prepositions, Conjunctions, and Interjections.' },
-    { id: 'eg-2', title: 'Chapter 2: Nouns, Determiners & Quantifiers', type: 'Grammar', summary: 'Countable/uncountable nouns, abstract/collective forms, and modifiers (much, many, few, little, several).' },
-    { id: 'eg-3', title: 'Chapter 3: Pronouns & Antecedent Agreement', type: 'Grammar', summary: 'Personal, relative, demonstrative, reflexive, reciprocal pronouns and syntactic agreement.' },
-    { id: 'eg-4', title: 'Chapter 4: Adjectives & Comparison of Adjectives', type: 'Grammar', summary: 'Positive, comparative, superlative degrees, interchange of degrees, and order of adjectives.' },
-    { id: 'eg-5', title: 'Chapter 5: Verbs & Verbals (Gerund, Participle & Infinitive)', type: 'Grammar', summary: 'Finite vs non-finite verbs, present/past participles, gerunds, split infinitives and transitive verbs.' },
-    { id: 'eg-6', title: 'Chapter 6: Adverbs & Adverbial Particles', type: 'Grammar', summary: 'Adverbs of manner, place, time, frequency, degree, reason, and position of adverbs in clauses.' },
-    { id: 'eg-7', title: 'Chapter 7: Conjunctions & Sentence Connectors / Linking Words', type: 'Grammar', summary: 'Coordinating, subordinating, correlative conjunctions and discourse markers (moreover, however, therefore).' },
-    { id: 'eg-8', title: 'Chapter 8: Articles (A, An, The & Zero Article Usage)', type: 'Grammar', summary: 'Definite & indefinite articles, special vowel sounds, geographical names, and omission of articles (zero article).' },
-    { id: 'eg-9', title: 'Chapter 9: Tenses (12 Structures, Usages & Sequence of Tenses)', type: 'Grammar', summary: 'Present, Past, Future tenses (Simple, Continuous, Perfect, Perfect Continuous) and sequence of tenses.' },
-    { id: 'eg-10', title: 'Chapter 10: Right Forms of Verbs & Subject-Verb Agreement', type: 'Grammar', summary: 'Rules for conditional clauses (1st, 2nd, 3rd), as if/as though, since, lest, neither...nor, and subject agreement.' },
-    { id: 'eg-11', title: 'Chapter 11: Voice Transformation (Active, Passive & Quasi-Passive)', type: 'Grammar', summary: 'Active to passive transformation for assertive, interrogative, imperative sentences and reflexive/quasi-passive objects.' },
-    { id: 'eg-12', title: 'Chapter 12: Narration & Reported Speech (Direct & Indirect)', type: 'Grammar', summary: 'Direct and indirect speech conversion rules, tense shifting, pronouns change, and passage narration techniques.' },
-    { id: 'eg-13', title: 'Chapter 13: Transformation of Sentences (Simple, Complex & Compound)', type: 'Grammar', summary: 'Structural sentence conversions (Simple, Complex, Compound) and degree/affirmative-negative shifts.' }
-  ],
+    {
+        "id": "eg-1",
+        "title": "Chapter 1: Parts of Speech (Classification, Functions & Identification)",
+        "type": "Grammar",
+        "summary": "In-depth analysis of the 8 parts of speech: Nouns, Pronouns, Verbs, Adjectives, Adverbs, Prepositions, Conjunctions, and Interjections with contextual sentence identification.",
+        "lectureNotes": [
+            {
+                "title": "1. Definition & Classification",
+                "detail": "Words are classified into 8 parts of speech based on their syntactic function in a sentence."
+            },
+            {
+                "title": "2. Same Word Used as Different Parts of Speech",
+                "detail": "Example: 'Water' (Noun: Water is life. Verb: Water the plants. Adjective: Water bottle)."
+            },
+            {
+                "title": "3. Open vs Closed Word Classes",
+                "detail": "Nouns, verbs, adjectives and adverbs are open classes (expandable); prepositions, pronouns, conjunctions are closed."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. In the sentence 'Please water the flowers daily', what part of speech is 'water'?",
+                "options": [
+                    "Verb (transitive action)",
+                    "Noun",
+                    "Adjective",
+                    "Adverb"
+                ],
+                "correct": 0,
+                "explanation": "Here 'water' denotes the action of giving water to plants, functioning as a verb."
+            },
+            {
+                "q": "2. In 'He arrived after the meeting had started', what part of speech is 'after'?",
+                "options": [
+                    "Subordinating Conjunction (joining clauses)",
+                    "Preposition",
+                    "Adverb",
+                    "Noun"
+                ],
+                "correct": 0,
+                "explanation": "'After' connects the independent clause with a dependent subordinate clause."
+            },
+            {
+                "q": "3. How many traditional parts of speech are recognized in English grammar?",
+                "options": [
+                    "8 parts of speech",
+                    "5",
+                    "10",
+                    "12"
+                ],
+                "correct": 0,
+                "explanation": "Noun, Pronoun, Adjective, Verb, Adverb, Preposition, Conjunction, and Interjection."
+            },
+            {
+                "q": "4. In the phrase 'a fast train', the word 'fast' functions as a/an:",
+                "options": [
+                    "Adjective (modifying the noun 'train')",
+                    "Adverb",
+                    "Noun",
+                    "Verb"
+                ],
+                "correct": 0,
+                "explanation": "'Fast' describes the noun 'train', hence it is an adjective."
+            },
+            {
+                "q": "5. In 'He ran fast', what part of speech is 'fast'?",
+                "options": [
+                    "Adverb (modifying the verb 'ran')",
+                    "Adjective",
+                    "Preposition",
+                    "Noun"
+                ],
+                "correct": 0,
+                "explanation": "Here 'fast' tells how he ran, modifying the verb 'ran'."
+            }
+        ]
+    },
+    {
+        "id": "eg-2",
+        "title": "Chapter 2: Nouns, Determiners & Quantifiers (Countable, Uncountable & Modifiers)",
+        "type": "Grammar",
+        "summary": "Proper, Common, Collective, Material and Abstract nouns; countable vs uncountable rules; and determiners/quantifiers (much, many, few, a few, little, a little).",
+        "lectureNotes": [
+            {
+                "title": "1. Classes of Nouns",
+                "detail": "Proper (specific names), Common (general category), Collective (group as a single unit: jury, flock), Material (uncountable substance), Abstract (quality, state, concept: courage, honesty)."
+            },
+            {
+                "title": "2. Countable vs Uncountable Nouns",
+                "detail": "Countable take plural '-s/-es' and 'many/few'; uncountable take singular verbs and 'much/little/amount of'."
+            },
+            {
+                "title": "3. Few vs A Few / Little vs A Little",
+                "detail": "'Few/Little' = negative meaning (almost none); 'A few/A little' = positive meaning (some quantity exists)."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Which of the following is an Abstract Noun?",
+                "options": [
+                    "Honesty",
+                    "Gold",
+                    "Flock",
+                    "Dhaka"
+                ],
+                "correct": 0,
+                "explanation": "Honesty represents an intangible moral quality and concept."
+            },
+            {
+                "q": "2. Choose the correct quantifier: 'He has _____ friends, so he feels lonely.'",
+                "options": [
+                    "few (negative, almost none)",
+                    "a few",
+                    "many",
+                    "much"
+                ],
+                "correct": 0,
+                "explanation": "'Few' conveys a negative sense indicating almost no friends."
+            },
+            {
+                "q": "3. 'The jury _____ unanimous in its verdict.' (Select correct verb):",
+                "options": [
+                    "was (acting as a single unit)",
+                    "were",
+                    "are",
+                    "have"
+                ],
+                "correct": 0,
+                "explanation": "Collective nouns take singular verbs when acting as an undivided unit."
+            },
+            {
+                "q": "4. Which quantifier is strictly used with Uncountable Nouns?",
+                "options": [
+                    "Much / Little",
+                    "Many",
+                    "Few",
+                    "Several"
+                ],
+                "correct": 0,
+                "explanation": "'Much' and 'Little' modify uncountable mass nouns (e.g., much water, little sugar)."
+            },
+            {
+                "q": "5. 'Information' and 'Advice' in English are categorized as:",
+                "options": [
+                    "Always Uncountable Nouns (take singular verbs)",
+                    "Countable Plural Nouns",
+                    "Collective Nouns",
+                    "Verbs"
+                ],
+                "correct": 0,
+                "explanation": "'Information' and 'advice' cannot be pluralized with '-s'; we say 'a piece of advice'."
+            }
+        ]
+    },
+    {
+        "id": "eg-3",
+        "title": "Chapter 3: Pronouns & Pronoun-Antecedent Agreement",
+        "type": "Grammar",
+        "summary": "Personal, Relative (who, which, that), Demonstrative, Reflexive/Emphatic, Indefinite, Distributive (each, either, neither), Reciprocal pronouns and antecedent agreement rules.",
+        "lectureNotes": [
+            {
+                "title": "1. Pronoun-Antecedent Rule",
+                "detail": "A pronoun must agree with its antecedent in number, person, and gender. (e.g., 'Each of the boys brought his book.')"
+            },
+            {
+                "title": "2. Relative Pronouns",
+                "detail": "'Who' for persons (subject), 'Whom' (object), 'Whose' (possessive), 'Which' for animals/things, 'That' for both."
+            },
+            {
+                "title": "3. Order of Personal Pronouns",
+                "detail": "Normal good context: 2nd -> 3rd -> 1st (231: You, he and I). Confessing fault/guilt: 1st -> 2nd -> 3rd (123: I, you and he)."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Choose the correct pronoun order: '_____ are responsible for the error.' (confessing guilt)",
+                "options": [
+                    "I, you and he (123 rule for fault)",
+                    "You, he and I",
+                    "He, you and I",
+                    "You, I and he"
+                ],
+                "correct": 0,
+                "explanation": "When confessing mistakes or guilt, the 1st person takes priority (123 order)."
+            },
+            {
+                "q": "2. 'Each of the girls must submit _____ assignment on time.'",
+                "options": [
+                    "her (singular agreement with 'Each')",
+                    "their",
+                    "our",
+                    "its"
+                ],
+                "correct": 0,
+                "explanation": "'Each' is grammatically singular and requires a singular possessive pronoun 'her'."
+            },
+            {
+                "q": "3. 'This is the boy _____ father is a doctor.' (Select correct relative pronoun):",
+                "options": [
+                    "whose (possessive)",
+                    "who",
+                    "whom",
+                    "which"
+                ],
+                "correct": 0,
+                "explanation": "'Whose' shows possession linking the boy to his father."
+            },
+            {
+                "q": "4. In 'He hurt himself', 'himself' is a/an:",
+                "options": [
+                    "Reflexive Pronoun (object reflects back to subject)",
+                    "Relative Pronoun",
+                    "Demonstrative Pronoun",
+                    "Indefinite Pronoun"
+                ],
+                "correct": 0,
+                "explanation": "When the subject and object refer to the identical entity, reflexive pronouns are used."
+            },
+            {
+                "q": "5. 'One should do _____ duty diligently.' (Select correct possessive):",
+                "options": [
+                    "one's",
+                    "his",
+                    "their",
+                    "her"
+                ],
+                "correct": 0,
+                "explanation": "The indefinite pronoun 'One' must be followed by 'one's'."
+            }
+        ]
+    },
+    {
+        "id": "eg-4",
+        "title": "Chapter 4: Adjectives & Comparison of Adjectives (Degrees of Comparison)",
+        "type": "Grammar",
+        "summary": "Qualitative, quantitative, numeral, and demonstrative adjectives; Positive, Comparative, Superlative degrees; and rules for degree transformation.",
+        "lectureNotes": [
+            {
+                "title": "1. Degree Forms",
+                "detail": "Regular: tall -> taller -> tallest. Irregular: good -> better -> best; bad -> worse -> worst; much/many -> more -> most."
+            },
+            {
+                "title": "2. Positive to Comparative Transformation",
+                "detail": "'No other metal is as useful as iron' -> 'Iron is more useful than any other metal.'"
+            },
+            {
+                "title": "3. Superlative with 'One of the'",
+                "detail": "'Akbar was one of the greatest kings' -> 'Very few kings were as great as Akbar.'"
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Transform into Superlative: 'Iron is more useful than any other metal.'",
+                "options": [
+                    "Iron is the most useful metal.",
+                    "Iron is one of the useful metals.",
+                    "No other metal is useful.",
+                    "Iron is useful than all."
+                ],
+                "correct": 0,
+                "explanation": "'More useful than any other' converts to 'the most useful'."
+            },
+            {
+                "q": "2. What is the comparative degree of the irregular adjective 'Bad'?",
+                "options": [
+                    "Worse",
+                    "Badder",
+                    "Baddest",
+                    "Worst"
+                ],
+                "correct": 0,
+                "explanation": "The degrees of 'bad' are bad -> worse -> worst."
+            },
+            {
+                "q": "3. Change into Positive degree: 'Dhaka is bigger than most other cities in Bangladesh.'",
+                "options": [
+                    "Very few cities in Bangladesh are as big as Dhaka.",
+                    "No other city is as big as Dhaka.",
+                    "Dhaka is the biggest city.",
+                    "Some cities are big."
+                ],
+                "correct": 0,
+                "explanation": "'Bigger than most other' transforms to 'Very few... as big as'."
+            },
+            {
+                "q": "4. Which preposition is used after Latin comparative adjectives like 'Senior, Junior, Superior, Inferior'?",
+                "options": [
+                    "to (e.g., senior to me)",
+                    "than",
+                    "from",
+                    "of"
+                ],
+                "correct": 0,
+                "explanation": "Latin comparatives end in '-ior' and strictly take 'to', not 'than'."
+            },
+            {
+                "q": "5. 'He is the _____ of the two brothers.' (Select correct degree):",
+                "options": [
+                    "taller (comparing two specific persons)",
+                    "tallest",
+                    "tall",
+                    "most tall"
+                ],
+                "correct": 0,
+                "explanation": "When comparing exactly two items, use 'the + comparative degree' (the taller of the two)."
+            }
+        ]
+    },
+    {
+        "id": "eg-5",
+        "title": "Chapter 5: Verbs & Verbals (Finite, Non-Finite, Gerund, Participle & Infinitive)",
+        "type": "Grammar",
+        "summary": "Finite verbs (transitive, intransitive, linking) vs Non-finite verbs (Infinitive: to + V1, Gerund: V+ing as noun, Participles: Present, Past, Perfect).",
+        "lectureNotes": [
+            {
+                "title": "1. Gerund (Noun + Verb)",
+                "detail": "'Walking is good for health' (Subject noun). 'I enjoy swimming' (Object noun)."
+            },
+            {
+                "title": "2. Present Participle (Adjective + Verb)",
+                "detail": "'A barking dog seldom bites' (modifies 'dog'). 'I saw the boy running' (describes action)."
+            },
+            {
+                "title": "3. Gerund vs Participle Distinction",
+                "detail": "If V+ing can be replaced with 'it/something', it is a Gerund; if it describes ongoing quality/action, it is a Participle."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. In the sentence 'Swimming is an excellent exercise', what verbal is 'Swimming'?",
+                "options": [
+                    "Gerund (functioning as subject noun)",
+                    "Present Participle",
+                    "Infinitive",
+                    "Finite verb"
+                ],
+                "correct": 0,
+                "explanation": "'Swimming' acts as the noun subject of the sentence, making it a Gerund."
+            },
+            {
+                "q": "2. In 'Do not board a running bus', what verbal is 'running'?",
+                "options": [
+                    "Present Participle (functioning as an adjective modifying 'bus')",
+                    "Gerund",
+                    "Infinitive",
+                    "Main verb"
+                ],
+                "correct": 0,
+                "explanation": "'Running' qualifies the noun 'bus' like an adjective, making it a Participle."
+            },
+            {
+                "q": "3. Which verb structure represents an Infinitive?",
+                "options": [
+                    "to + Base Form of Verb (to + V1)",
+                    "V + ing",
+                    "Having + V3",
+                    "V + ed"
+                ],
+                "correct": 0,
+                "explanation": "An infinitive consists of 'to' followed by the base form of a verb."
+            },
+            {
+                "q": "4. Identify the non-finite verb in 'Hearing the noise, the thief ran away':",
+                "options": [
+                    "Hearing (Present Participle)",
+                    "noise",
+                    "ran",
+                    "away"
+                ],
+                "correct": 0,
+                "explanation": "'Hearing' is a non-finite present participle phrase indicating concurrent action."
+            },
+            {
+                "q": "5. 'Having finished the work, he went to bed.' What type of verbal is 'Having finished'?",
+                "options": [
+                    "Perfect Participle (Having + V3)",
+                    "Gerund",
+                    "Infinitive",
+                    "Linking verb"
+                ],
+                "correct": 0,
+                "explanation": "'Having + past participle' denotes a completed action prior to another."
+            }
+        ]
+    },
+    {
+        "id": "eg-6",
+        "title": "Chapter 6: Adverbs & Adverbial Particles (Position & Formation of Adverbs)",
+        "type": "Grammar",
+        "summary": "Adverbs of Manner, Place, Time, Frequency, Degree, Reason; formation from adjectives; and proper syntactic positioning of adverbs (MPT rule: Manner-Place-Time).",
+        "lectureNotes": [
+            {
+                "title": "1. Classes of Adverbs",
+                "detail": "Manner (how: quickly), Place (where: here), Time (when: now), Frequency (how often: always, never), Degree (how much: very, extremely)."
+            },
+            {
+                "title": "2. Royal Order of Adverbs (MPT)",
+                "detail": "Manner -> Place -> Time. Example: 'She danced gracefully (M) on the stage (P) yesterday (T).'"
+            },
+            {
+                "title": "3. Frequency Adverb Placement",
+                "detail": "Between subject and main verb ('He always comes late'), but after Auxiliary/Be verb ('He is always late')."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Apply the MPT rule to arrange: 'sang / she / beautifully / last night / at the concert':",
+                "options": [
+                    "She sang beautifully (M) at the concert (P) last night (T).",
+                    "She sang last night beautifully at the concert.",
+                    "She sang at the concert beautifully last night.",
+                    "Last night beautifully she sang."
+                ],
+                "correct": 0,
+                "explanation": "Standard English syntax follows Manner -> Place -> Time (MPT)."
+            },
+            {
+                "q": "2. In 'He is too weak to walk', what type of adverb is 'too'?",
+                "options": [
+                    "Adverb of Degree",
+                    "Adverb of Manner",
+                    "Adverb of Time",
+                    "Adverb of Place"
+                ],
+                "correct": 0,
+                "explanation": "'Too' modifies the adjective 'weak' by specifying intensity/degree."
+            },
+            {
+                "q": "3. Where should adverbs of frequency (always, often, seldom) be placed relative to 'Be' verbs (am/is/are/was)?",
+                "options": [
+                    "Immediately after the Be-verb (e.g., 'He is always punctual')",
+                    "Before the Be-verb",
+                    "At the very end of sentence",
+                    "At the start only"
+                ],
+                "correct": 0,
+                "explanation": "Adverbs of frequency follow 'Be' verbs and precede principal action verbs."
+            },
+            {
+                "q": "4. Which of the following words ending in '-ly' is an Adjective, not an adverb?",
+                "options": [
+                    "Friendly / Lovely",
+                    "Quickly",
+                    "Carefully",
+                    "Slowly"
+                ],
+                "correct": 0,
+                "explanation": "Noun + ly = Adjective (friend + ly = friendly); Adjective + ly = Adverb (quick + ly = quickly)."
+            },
+            {
+                "q": "5. In 'He worked hard', what part of speech is 'hard'?",
+                "options": [
+                    "Adverb of Manner (modifying 'worked')",
+                    "Adjective",
+                    "Noun",
+                    "Verb"
+                ],
+                "correct": 0,
+                "explanation": "'Hard' describes how he worked, acting as an adverb of manner."
+            }
+        ]
+    },
+    {
+        "id": "eg-7",
+        "title": "Chapter 7: Prepositions & Appropriate Prepositions (Fixed Idiomatic Usage)",
+        "type": "Grammar",
+        "summary": "Prepositions of time (in, on, at), place, movement (into, onto, through); and high-yield board Appropriate Prepositions (abide by, abstain from, aim at, depend on).",
+        "lectureNotes": [
+            {
+                "title": "1. Time & Date Rules",
+                "detail": "'At' for exact time (at 5 PM, at night), 'On' for days/dates (on Monday, on 26 March), 'In' for months/years/seasons (in May, in 1971)."
+            },
+            {
+                "title": "2. Movement vs Static Position",
+                "detail": "'In the room' (static) vs 'Into the room' (motion inward)."
+            },
+            {
+                "title": "3. Top Board Appropriate Prepositions",
+                "detail": "Abide by (rules), Abstain from (bad habits), Accused of (theft), Addicted to (gambling), Congratulate on (success)."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Choose the correct preposition: 'He was accused _____ theft.'",
+                "options": [
+                    "of (accused of)",
+                    "for",
+                    "with",
+                    "by"
+                ],
+                "correct": 0,
+                "explanation": "The appropriate preposition with 'accused' is strictly 'of'."
+            },
+            {
+                "q": "2. 'The train arrived _____ 6:30 PM _____ Sunday.' (Select pair):",
+                "options": [
+                    "at, on (at exact time, on day)",
+                    "in, on",
+                    "on, at",
+                    "at, in"
+                ],
+                "correct": 0,
+                "explanation": "'At' is used for specific clock time, and 'on' for specific days."
+            },
+            {
+                "q": "3. 'One must abide _____ the laws of the land.'",
+                "options": [
+                    "by (abide by = obey)",
+                    "with",
+                    "to",
+                    "in"
+                ],
+                "correct": 0,
+                "explanation": "'Abide by' is a fixed idiom meaning to follow or obey rules."
+            },
+            {
+                "q": "4. 'He jumped _____ the river to save the drowning child.'",
+                "options": [
+                    "into (motion toward interior)",
+                    "in",
+                    "to",
+                    "onto"
+                ],
+                "correct": 0,
+                "explanation": "'Into' denotes dynamic movement from outside to inside."
+            },
+            {
+                "q": "5. 'I congratulated him _____ his brilliant success.'",
+                "options": [
+                    "on (congratulate on)",
+                    "for",
+                    "with",
+                    "about"
+                ],
+                "correct": 0,
+                "explanation": "The verb 'congratulate' takes the preposition 'on'."
+            }
+        ]
+    },
+    {
+        "id": "eg-8",
+        "title": "Chapter 8: Conjunctions & Sentence Connectors / Linking Words",
+        "type": "Grammar",
+        "summary": "Coordinating (FANBOYS: for, and, nor, but, or, yet, so), Subordinating (although, because, since, unless), Correlative (either...or, neither...nor, not only...but also), and paragraph linking connectors.",
+        "lectureNotes": [
+            {
+                "title": "1. Correlative Conjunctions",
+                "detail": "'Not only A but also B' requires parallel grammatical structure. 'Neither...nor' and 'Either...or' match the verb to the nearest subject."
+            },
+            {
+                "title": "2. Concession & Contrast Connectors",
+                "detail": "'However, Nevertheless, On the contrary, In spite of, Although, Though'."
+            },
+            {
+                "title": "3. Cause, Result & Sequence",
+                "detail": "'Therefore, Consequently, As a result, Furthermore, Moreover, Firstly, Finally'."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Choose the correct connector: 'He worked hard; _____, he failed in the exam.'",
+                "options": [
+                    "however (showing contrast)",
+                    "therefore",
+                    "moreover",
+                    "because"
+                ],
+                "correct": 0,
+                "explanation": "'However' introduces a contrasting or unexpected outcome."
+            },
+            {
+                "q": "2. 'Neither John nor his friends _____ present at the party.'",
+                "options": [
+                    "were (verb agrees with nearest subject 'friends')",
+                    "was",
+                    "is",
+                    "has been"
+                ],
+                "correct": 0,
+                "explanation": "With 'neither...nor', the verb agrees in number with the nearest subject."
+            },
+            {
+                "q": "3. 'He is not only intelligent _____ very hardworking.'",
+                "options": [
+                    "but also",
+                    "and also",
+                    "as well",
+                    "too"
+                ],
+                "correct": 0,
+                "explanation": "'Not only' is paired correlatively with 'but also'."
+            },
+            {
+                "q": "4. Which conjunction introduces a condition meaning 'if not'?",
+                "options": [
+                    "Unless",
+                    "Although",
+                    "Because",
+                    "Since"
+                ],
+                "correct": 0,
+                "explanation": "'Unless' means 'if...not' (e.g., Unless you study, you will fail)."
+            },
+            {
+                "q": "5. What connector best indicates logical consequence or conclusion?",
+                "options": [
+                    "Consequently / Therefore",
+                    "Meanwhile",
+                    "Whereas",
+                    "Although"
+                ],
+                "correct": 0,
+                "explanation": "'Consequently' and 'Therefore' signal a direct causal result."
+            }
+        ]
+    },
+    {
+        "id": "eg-9",
+        "title": "Chapter 9: Articles (A, An, The & Special Omission / Zero Article Rules)",
+        "type": "Grammar",
+        "summary": "Indefinite articles (A/An vowel sound rules), Definite article (The: uniqueness, rivers, mountain ranges, superlatives), and Zero article omission rules.",
+        "lectureNotes": [
+            {
+                "title": "1. Sound Rules (Not Letters)",
+                "detail": "'A university, a European, a one-taka note' (consonant 'yu/wa' sound); 'An honest man, an hour, an heir' (silent 'h')."
+            },
+            {
+                "title": "2. Use of 'The'",
+                "detail": "Sacred books, newspapers, rivers, seas, mountain ranges, unique objects (the sun, the earth), and superlatives."
+            },
+            {
+                "title": "3. Zero Article (Omission)",
+                "detail": "Before meals (dinner), abstract nouns in general, proper names, sports (cricket), and languages (English vs The English people)."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Insert the correct article: 'He is _____ honest and industrious officer.'",
+                "options": [
+                    "an (silent 'h' gives vowel sound)",
+                    "a",
+                    "the",
+                    "no article"
+                ],
+                "correct": 0,
+                "explanation": "'Honest' begins with a vowel sound /ɒ/, requiring the article 'an'."
+            },
+            {
+                "q": "2. 'He studies in _____ European university.' (Select correct article):",
+                "options": [
+                    "a (consonant 'yu' sound)",
+                    "an",
+                    "the",
+                    "no article"
+                ],
+                "correct": 0,
+                "explanation": "Words starting with 'E/U' sounding like /juː/ take 'a' (a university, a European)."
+            },
+            {
+                "q": "3. '_____ Himalayas are situated to the north of India.'",
+                "options": [
+                    "The (mountain range)",
+                    "A",
+                    "An",
+                    "No article"
+                ],
+                "correct": 0,
+                "explanation": "Mountain ranges (plural chains) take 'The' (The Himalayas, The Alps)."
+            },
+            {
+                "q": "4. When is 'The' omitted before languages?",
+                "options": [
+                    "When referring to the language itself (e.g., 'He speaks English')",
+                    "When referring to the nation",
+                    "Always",
+                    "Never"
+                ],
+                "correct": 0,
+                "explanation": "No article before languages; but 'The English' refers to the English people."
+            },
+            {
+                "q": "5. 'He gave me _____ one-taka note.'",
+                "options": [
+                    "a (sound of 'wa')",
+                    "an",
+                    "the",
+                    "no article"
+                ],
+                "correct": 0,
+                "explanation": "'One' begins with the semi-vowel /w/ sound, taking 'a'."
+            }
+        ]
+    },
+    {
+        "id": "eg-10",
+        "title": "Chapter 10: Tenses & Sequence of Tenses (12 Structures & Contextual Applications)",
+        "type": "Grammar",
+        "summary": "12 structural tenses (Present, Past, Future: Simple, Continuous, Perfect, Perfect Continuous); Signal words; and Sequence of Tenses in complex sentences.",
+        "lectureNotes": [
+            {
+                "title": "1. Present Perfect vs Simple Past",
+                "detail": "Present Perfect: recent action with present effect ('just, already, yet'). Simple Past: completed past time ('yesterday, ago, in 1971')."
+            },
+            {
+                "title": "2. Past Perfect (Two Past Actions)",
+                "detail": "Earlier action = Past Perfect (had + V3); Later action = Simple Past (V2). Rule: 'had + V3 before V2' and 'V2 after had + V3'."
+            },
+            {
+                "title": "3. Sequence of Tenses",
+                "detail": "If Principal clause is Past tense, Subordinate clause must be Past tense (except for Universal Truths)."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. 'The patient had died before the doctor _____.' (Choose correct form):",
+                "options": [
+                    "came (Simple Past after 'before')",
+                    "had come",
+                    "comes",
+                    "was coming"
+                ],
+                "correct": 0,
+                "explanation": "Rule: Past Perfect (had died) + before + Simple Past (came)."
+            },
+            {
+                "q": "2. 'The teacher said that the earth _____ around the sun.'",
+                "options": [
+                    "moves (Universal truth remains in Simple Present)",
+                    "moved",
+                    "had moved",
+                    "is moving"
+                ],
+                "correct": 0,
+                "explanation": "Universal truths retain the Simple Present tense even if the reporting verb is in the past."
+            },
+            {
+                "q": "3. 'It _____ raining since morning.' (Select correct tense structure):",
+                "options": [
+                    "has been (Present Perfect Continuous for duration)",
+                    "is",
+                    "was",
+                    "had"
+                ],
+                "correct": 0,
+                "explanation": "Actions beginning in the past and continuing with 'since/for' take Present Perfect Continuous."
+            },
+            {
+                "q": "4. 'I _____ him five years ago.' (Select correct verb form):",
+                "options": [
+                    "met (Simple Past with past indicator 'ago')",
+                    "have met",
+                    "had met",
+                    "meet"
+                ],
+                "correct": 0,
+                "explanation": "Past time markers like 'ago, yesterday, last year' require the Simple Past (V2)."
+            },
+            {
+                "q": "5. 'By next December, we _____ this project.'",
+                "options": [
+                    "will have completed (Future Perfect tense)",
+                    "completed",
+                    "complete",
+                    "are completing"
+                ],
+                "correct": 0,
+                "explanation": "'By + future time' requires the Future Perfect tense (shall/will have + V3)."
+            }
+        ]
+    },
+    {
+        "id": "eg-11",
+        "title": "Chapter 11: Right Forms of Verbs (Subject-Verb Agreement, Conditionals & Rules)",
+        "type": "Grammar",
+        "summary": "Mastering 25 high-yield NCTB rules for verb inflection: As if/as though, Lest...should, No sooner had...than, It is time/high time, and With a view to + V+ing.",
+        "lectureNotes": [
+            {
+                "title": "1. 'It is high time / It is time'",
+                "detail": "Followed by subject + V2 (Past Simple). Example: 'It is high time we changed our bad habits.'"
+            },
+            {
+                "title": "2. 'With a view to / Look forward to / Get used to'",
+                "detail": "Strictly followed by V + ing. Example: 'He went there with a view to buying a book.'"
+            },
+            {
+                "title": "3. 'Lest' & 'No Sooner Had'",
+                "detail": "'Lest + subject + should/might + V1'. 'No sooner had + subject + V3... than + subject + V2'."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. 'It is high time we _____ our corrupt practices.' (Select correct verb form):",
+                "options": [
+                    "stopped (Subject + V2 after 'It is high time')",
+                    "stop",
+                    "have stopped",
+                    "had stopped"
+                ],
+                "correct": 0,
+                "explanation": "'It is high time' with a subject takes the past subjunctive form (V2)."
+            },
+            {
+                "q": "2. 'He came to my office with a view to _____ me.'",
+                "options": [
+                    "meeting (with a view to + V-ing)",
+                    "meet",
+                    "met",
+                    "have met"
+                ],
+                "correct": 0,
+                "explanation": "Phrasal prepositions like 'with a view to, look forward to' take 'verb + ing'."
+            },
+            {
+                "q": "3. 'Walk fast lest you _____ miss the train.'",
+                "options": [
+                    "should (lest + subject + should + V1)",
+                    "will",
+                    "can",
+                    "must"
+                ],
+                "correct": 0,
+                "explanation": "'Lest' expresses fear of something negative and takes 'should' or 'might'."
+            },
+            {
+                "q": "4. 'No sooner had the bell rung than the students _____ the classroom.'",
+                "options": [
+                    "left (Simple Past V2 after 'than')",
+                    "had left",
+                    "leave",
+                    "leaving"
+                ],
+                "correct": 0,
+                "explanation": "Structure: No sooner had + V3... than + Simple Past (V2)."
+            },
+            {
+                "q": "5. 'He talks as if he _____ everything.' (Select subjunctive verb):",
+                "options": [
+                    "knew (unreal present takes past tense / were)",
+                    "knows",
+                    "has known",
+                    "will know"
+                ],
+                "correct": 0,
+                "explanation": "'As if / As though' expressing an unreal presumption takes the past tense (knew / were)."
+            }
+        ]
+    },
+    {
+        "id": "eg-12",
+        "title": "Chapter 12: Voice Transformation (Active, Passive & Quasi-Passive Forms)",
+        "type": "Grammar",
+        "summary": "Converting Assertive, Interrogative, and Imperative sentences from Active to Passive voice; Passive with modal auxiliaries, double objects, and reflexive/quasi-passive verbs.",
+        "lectureNotes": [
+            {
+                "title": "1. General Passive Formula",
+                "detail": "Object -> Subject + Auxiliary 'Be' verb + Past Participle (V3) + by/at/to/with + Subject -> Object."
+            },
+            {
+                "title": "2. Imperative Passives",
+                "detail": "'Do it' -> 'Let it be done.' 'Do not tell a lie' -> 'Let not a lie be told.'"
+            },
+            {
+                "title": "3. Special Prepositions with V3",
+                "detail": "'Known to', 'Satisfied with', 'Surprised at', 'Shocked at', 'Pleased with'."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Change into Passive: 'Who taught you English?'",
+                "options": [
+                    "By whom were you taught English?",
+                    "By who was English taught?",
+                    "Who was taught by you English?",
+                    "Whom taught you English?"
+                ],
+                "correct": 0,
+                "explanation": "'Who' changes to 'By whom' followed by auxiliary verb and past participle."
+            },
+            {
+                "q": "2. Transform into Passive: 'I know him well.'",
+                "options": [
+                    "He is known to me well. ('known' takes 'to')",
+                    "He is known by me.",
+                    "He was known to me.",
+                    "He is known with me."
+                ],
+                "correct": 0,
+                "explanation": "The past participle 'known' takes the preposition 'to', not 'by'."
+            },
+            {
+                "q": "3. Convert into Passive: 'Shut the door.'",
+                "options": [
+                    "Let the door be shut.",
+                    "The door should shut.",
+                    "Let door be shut.",
+                    "You are shut."
+                ],
+                "correct": 0,
+                "explanation": "Imperative command structure: 'Let + object + be + V3'."
+            },
+            {
+                "q": "4. 'Honey tastes sweet.' (Quasi-passive voice in Passive):",
+                "options": [
+                    "Honey is sweet when it is tasted.",
+                    "Honey is tasted sweet.",
+                    "Honey was sweet.",
+                    "Sweet is tasted by honey."
+                ],
+                "correct": 0,
+                "explanation": "Quasi-passive verbs transform to: 'Subject + Be + Adjective + when + Pronoun + Be + V3'."
+            },
+            {
+                "q": "5. 'Smoke filled the room.' (Select correct Passive):",
+                "options": [
+                    "The room was filled with smoke. ('filled' takes 'with')",
+                    "The room was filled by smoke.",
+                    "The room was filled in smoke.",
+                    "The room filled smoke."
+                ],
+                "correct": 0,
+                "explanation": "'Filled' appropriately takes the preposition 'with'."
+            }
+        ]
+    },
+    {
+        "id": "eg-13",
+        "title": "Chapter 13: Narration & Reported Speech (Direct to Indirect Speech & Passage Narration)",
+        "type": "Grammar",
+        "summary": "Rules for converting statements, questions, commands, wishes, and exclamations into indirect speech; tense shifting; change of adverbs; and solving full Passage Narrations.",
+        "lectureNotes": [
+            {
+                "title": "1. Tense Shifting Rules",
+                "detail": "Present Simple -> Past Simple; Present Continuous -> Past Continuous; Present Perfect -> Past Perfect; Past Simple -> Past Perfect."
+            },
+            {
+                "title": "2. Time & Place Adverb Shifts",
+                "detail": "'Now -> then', 'Today -> that day', 'Tomorrow -> the next day', 'Yesterday -> the previous day', 'Here -> there'."
+            },
+            {
+                "title": "3. Interrogative Reporting",
+                "detail": "Say/tell changes to 'asked'; if Yes/No question use 'if/whether', if WH-word keep the WH-word; sentence becomes assertive."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Change into Indirect: He said to me, 'Are you reading a book now?'",
+                "options": [
+                    "He asked me if I was reading a book then.",
+                    "He told me if I am reading a book now.",
+                    "He asked me that I was reading a book then.",
+                    "He asked me were you reading a book then."
+                ],
+                "correct": 0,
+                "explanation": "'Said to' becomes 'asked', Yes/No takes 'if', Present Continuous becomes Past Continuous, 'now' becomes 'then'."
+            },
+            {
+                "q": "2. Convert into Indirect: The teacher said, 'Man is mortal.'",
+                "options": [
+                    "The teacher said that man is mortal. (Universal truth remains unchanged)",
+                    "The teacher said that man was mortal.",
+                    "The teacher told man is mortal.",
+                    "The teacher asked if man is mortal."
+                ],
+                "correct": 0,
+                "explanation": "Universal truths do not undergo tense shifting in indirect speech."
+            },
+            {
+                "q": "3. Change into Indirect: Father said to me, 'Do not waste your time.'",
+                "options": [
+                    "Father advised me not to waste my time.",
+                    "Father told me to not waste my time.",
+                    "Father said not to waste time.",
+                    "Father forbade me not to waste time."
+                ],
+                "correct": 0,
+                "explanation": "Imperative advice uses 'advised + object + not to + V1'."
+            },
+            {
+                "q": "4. In Indirect Speech, 'Tomorrow' changes into which adverbial phrase?",
+                "options": [
+                    "The next day / The following day",
+                    "That day",
+                    "Yesterday",
+                    "Then"
+                ],
+                "correct": 0,
+                "explanation": "'Tomorrow' shifts to 'the next day' or 'the following day'."
+            },
+            {
+                "q": "5. Change into Indirect: The boy said, 'Hurrah! We have won the match.'",
+                "options": [
+                    "The boy exclaimed with joy that they had won the match.",
+                    "The boy cried that we won the match.",
+                    "The boy said with sorrow that they won.",
+                    "The boy asked if they won."
+                ],
+                "correct": 0,
+                "explanation": "Exclamations with 'Hurrah' become 'exclaimed with joy that...'."
+            }
+        ]
+    },
+    {
+        "id": "eg-14",
+        "title": "Chapter 14: Transformation of Sentences (Simple, Complex & Compound)",
+        "type": "Grammar",
+        "summary": "Structural transformations: Simple (one finite verb, phrase), Complex (one independent + subordinate clause with though, since, if), and Compound (FANBOYS conjunctions).",
+        "lectureNotes": [
+            {
+                "title": "1. Simple -> Complex -> Compound",
+                "detail": "Simple: 'In spite of his poverty, he is honest.' Complex: 'Though he is poor, he is honest.' Compound: 'He is poor, but he is honest.'"
+            },
+            {
+                "title": "2. Too...to -> So...that",
+                "detail": "'He is too weak to walk' -> 'He is so weak that he cannot walk' -> 'He is very weak and he cannot walk.'"
+            },
+            {
+                "title": "3. By + V-ing vs Without + V-ing",
+                "detail": "'By working hard, you can succeed' (If you work hard...) vs 'Without working hard, you cannot succeed' (Unless you work hard...)."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Transform into Compound: 'Though he was poor, he was honest.'",
+                "options": [
+                    "He was poor, but he was honest.",
+                    "In spite of poverty he was honest.",
+                    "He was so poor that he was honest.",
+                    "He was poor and honest."
+                ],
+                "correct": 0,
+                "explanation": "'Though' in complex sentences converts to 'but' in compound sentences."
+            },
+            {
+                "q": "2. Convert into Complex: 'He is too weak to walk.'",
+                "options": [
+                    "He is so weak that he cannot walk.",
+                    "He is weak and cannot walk.",
+                    "Being weak he cannot walk.",
+                    "He was weak to walk."
+                ],
+                "correct": 0,
+                "explanation": "'Too + adj + to + V1' becomes 'So + adj + that + subject + cannot + V1'."
+            },
+            {
+                "q": "3. Transform into Simple: 'When the thief saw the police, he ran away.'",
+                "options": [
+                    "Seeing the police, the thief ran away.",
+                    "The thief saw police and ran away.",
+                    "As thief saw police he ran.",
+                    "Because of seeing police he ran."
+                ],
+                "correct": 0,
+                "explanation": "'When + subject + V2' converts into a present participle phrase 'Seeing the police...'."
+            },
+            {
+                "q": "4. What characterizes a Simple Sentence structurally?",
+                "options": [
+                    "It contains exactly one Subject and one Finite Verb",
+                    "It has two independent clauses with 'and'",
+                    "It has 'though' or 'although'",
+                    "It has no verbs"
+                ],
+                "correct": 0,
+                "explanation": "A simple sentence possesses one independent clause with a single finite verb."
+            },
+            {
+                "q": "5. Convert into Affirmative: 'Man is not immortal.'",
+                "options": [
+                    "Man is mortal.",
+                    "Man lives forever.",
+                    "Every man is not immortal.",
+                    "Man cannot die."
+                ],
+                "correct": 0,
+                "explanation": "Affirmative transformation changes negative words to antonyms without altering meaning."
+            }
+        ]
+    },
+    {
+        "id": "eg-15",
+        "title": "Chapter 15: Tag Questions & Question Patterns",
+        "type": "Grammar",
+        "summary": "Rules for adding question tags to statements: Positive statement takes negative tag, negative statement takes positive tag; Imperative tags (Shall we? Will you?); and Indefinite subjects.",
+        "lectureNotes": [
+            {
+                "title": "1. Basic Golden Rule",
+                "detail": "Positive statement = Negative Tag (didn't he? isn't she?). Negative statement = Positive Tag (did he? is she?)."
+            },
+            {
+                "title": "2. Imperative & Proposal Tags",
+                "detail": "'Let's / Let us' -> 'shall we?'; Imperative command/request -> 'will you? / won't you?'."
+            },
+            {
+                "title": "3. Negative Word Indicators",
+                "detail": "'Hardly, scarcely, seldom, barely, few, little, never' make statements negative, requiring a positive tag!"
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Add tag question: 'Let us go out for a walk, _____?'",
+                "options": [
+                    "shall we?",
+                    "will you?",
+                    "can we?",
+                    "don't we?"
+                ],
+                "correct": 0,
+                "explanation": "Proposals starting with 'Let's / Let us' strictly take the tag 'shall we?'."
+            },
+            {
+                "q": "2. 'Barking dogs seldom bite, _____?'",
+                "options": [
+                    "do they? ('seldom' is negative, requires positive tag)",
+                    "don't they?",
+                    "aren't they?",
+                    "do dogs?"
+                ],
+                "correct": 0,
+                "explanation": "'Seldom' makes the statement negative; plural 'dogs' takes the pronoun 'they' and auxiliary 'do'."
+            },
+            {
+                "q": "3. 'Everybody likes flowers, _____?'",
+                "options": [
+                    "don't they? ('Everybody' takes plural pronoun 'they')",
+                    "doesn't he?",
+                    "isn't it?",
+                    "do they?"
+                ],
+                "correct": 0,
+                "explanation": "'Everybody / Everyone' takes the plural pronoun 'they', requiring the plural auxiliary 'don't they?'."
+            },
+            {
+                "q": "4. 'I am a student of class ten, _____?'",
+                "options": [
+                    "aren't I? / ain't I?",
+                    "am not I?",
+                    "isn't I?",
+                    "don't I?"
+                ],
+                "correct": 0,
+                "explanation": "The negative tag for 'I am' is standardly 'aren't I?'."
+            },
+            {
+                "q": "5. 'Shut the window, _____?'",
+                "options": [
+                    "will you? / won't you?",
+                    "shall we?",
+                    "do you?",
+                    "don't you?"
+                ],
+                "correct": 0,
+                "explanation": "Imperative sentences addressing 'you' take 'will you?' or 'won't you?'."
+            }
+        ]
+    },
+    {
+        "id": "eg-16",
+        "title": "Chapter 16: Prefixes, Suffixes & Word Formation (Affixation Rules)",
+        "type": "Grammar",
+        "summary": "Derivational and inflectional morphemes; negative prefixes (un-, in-, dis-, mis-); noun suffixes (-tion, -ment, -ness); adjective suffixes (-ful, -less, -able); and adverb suffixes (-ly).",
+        "lectureNotes": [
+            {
+                "title": "1. Prefix vs Suffix",
+                "detail": "Prefix is added to the beginning (un-happy), changing meaning. Suffix is added to the end (happi-ness), changing grammatical part of speech."
+            },
+            {
+                "title": "2. Noun Formation",
+                "detail": "Educate -> Education, Develop -> Development, Kind -> Kindness, Honest -> Honesty."
+            },
+            {
+                "title": "3. Adjective Formation",
+                "detail": "Care -> Careful / Careless, Value -> Valuable, Danger -> Dangerous, Child -> Childish."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. What is the noun form of the verb 'Develop' by adding a suffix?",
+                "options": [
+                    "Development (-ment noun suffix)",
+                    "Developable",
+                    "Developing",
+                    "Developer only"
+                ],
+                "correct": 0,
+                "explanation": "Adding the suffix '-ment' converts the action verb into an abstract noun."
+            },
+            {
+                "q": "2. Form an antonym of 'Pure' using an appropriate negative prefix:",
+                "options": [
+                    "Impure (prefix 'im-')",
+                    "Unpure",
+                    "Dispure",
+                    "Mispure"
+                ],
+                "correct": 0,
+                "explanation": "Words beginning with 'p/m' standardly take the negative prefix 'im-'."
+            },
+            {
+                "q": "3. What suffix turns the noun 'Beauty' into an adjective?",
+                "options": [
+                    "-ful (Beautiful)",
+                    "-ment",
+                    "-ness",
+                    "-ly"
+                ],
+                "correct": 0,
+                "explanation": "'Beauty + ful = Beautiful' forms a qualitative adjective."
+            },
+            {
+                "q": "4. In the word 'Misunderstand', what is the prefix and its meaning?",
+                "options": [
+                    "'Mis-' meaning wrong or incorrectly",
+                    "'Under-'",
+                    "'-stand'",
+                    "'-ing'"
+                ],
+                "correct": 0,
+                "explanation": "The prefix 'mis-' denotes incorrectly or wrongly."
+            },
+            {
+                "q": "5. Which suffix creates an adverb of manner from an adjective?",
+                "options": [
+                    "-ly (e.g., quick -> quickly)",
+                    "-able",
+                    "-tion",
+                    "-ize"
+                ],
+                "correct": 0,
+                "explanation": "Adding '-ly' to an adjective generates an adverb of manner."
+            }
+        ]
+    },
+    {
+        "id": "eg-17",
+        "title": "Chapter 17: Punctuation Marks & Capitalization Rules",
+        "type": "Grammar",
+        "summary": "Mastery of punctuation in passages: Period (Full Stop), Comma, Semicolon, Colon, Apostrophe (contractions & possessives), Quotation Marks, and Capitalization standards.",
+        "lectureNotes": [
+            {
+                "title": "1. Comma Rules",
+                "detail": "Separating list items, setting off introductory clauses, tag questions, direct address ('John, come here'), and non-restrictive clauses."
+            },
+            {
+                "title": "2. Apostrophe (Possession vs Contraction)",
+                "detail": "Possessive: 'student's book' (singular), 'students' books' (plural). Contraction: 'It's = It is' vs 'Its = possessive'."
+            },
+            {
+                "title": "3. Capitalization Rules",
+                "detail": "First letter of sentence, proper nouns, I (pronoun), days/months, titles, and first word of direct speech quotes."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Which sentence is correctly punctuated?",
+                "options": [
+                    "He said, \"I am going to Dhaka tomorrow.\"",
+                    "He said \"I am going to Dhaka tomorrow.\"",
+                    "He said, I am going to Dhaka tomorrow.",
+                    "He said, \"i am going to dhaka tomorrow\""
+                ],
+                "correct": 0,
+                "explanation": "Direct speech requires a comma before quotation marks and a capital letter inside."
+            },
+            {
+                "q": "2. Choose the correct possessive form for the plural noun 'Boys':",
+                "options": [
+                    "Boys' school (apostrophe after 's' for plural)",
+                    "Boy's school",
+                    "Boys's school",
+                    "Boys school"
+                ],
+                "correct": 0,
+                "explanation": "Regular plural nouns ending in '-s' take only an apostrophe at the end."
+            },
+            {
+                "q": "3. What is the difference between 'It's' and 'Its'?",
+                "options": [
+                    "'It's' is a contraction of 'It is/has'; 'Its' is a possessive pronoun",
+                    "'Its' is a verb",
+                    "'It's' is plural",
+                    "They are identical"
+                ],
+                "correct": 0,
+                "explanation": "'It's' = It is / It has; 'Its' = possessive belonging to an object/animal."
+            },
+            {
+                "q": "4. Which punctuation mark joins two closely related independent clauses without a conjunction?",
+                "options": [
+                    "Semicolon (;)",
+                    "Comma (,)",
+                    "Hyphen (-)",
+                    "Exclamation mark (!)"
+                ],
+                "correct": 0,
+                "explanation": "A semicolon links independent clauses that are grammatically complete and closely connected."
+            },
+            {
+                "q": "5. Which word must always be capitalized regardless of position in a sentence?",
+                "options": [
+                    "The singular pronoun 'I' and Proper Nouns",
+                    "Verbs",
+                    "Articles",
+                    "Adverbs"
+                ],
+                "correct": 0,
+                "explanation": "The personal pronoun 'I' and proper names are always capitalized."
+            }
+        ]
+    },
+    {
+        "id": "eg-18",
+        "title": "Chapter 18: Modifiers (Pre-modifiers, Post-modifiers & Dangling Modifiers)",
+        "type": "Grammar",
+        "summary": "Words and phrases that modify nouns, verbs, or clauses: Adjectives as pre-modifiers, Participle phrases, Appositives, Relative clauses, and fixing Dangling Modifiers.",
+        "lectureNotes": [
+            {
+                "title": "1. Pre-modifiers of Nouns",
+                "detail": "Adjectives ('a brilliant student'), Noun-adjuncts ('a school bus'), Participles ('a running train'), Possessives ('my book')."
+            },
+            {
+                "title": "2. Post-modifiers of Nouns",
+                "detail": "Appositive ('Kazi Nazrul, our national poet'), Prepositional phrase ('the man with the umbrella'), Relative clause ('the girl who won')."
+            },
+            {
+                "title": "3. Dangling Modifier Error",
+                "detail": "Wrong: 'Walking in the park, a snake bit him.' Correct: 'While he was walking in the park, a snake bit him.'"
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. In 'Kazi Nazrul Islam, our national poet, wrote rebel poems', what modifier is 'our national poet'?",
+                "options": [
+                    "Appositive (noun phrase renaming the preceding noun)",
+                    "Pre-modifier",
+                    "Infinitive phrase",
+                    "Adverb"
+                ],
+                "correct": 0,
+                "explanation": "An appositive is a noun or noun phrase placed beside another noun to rename or explain it."
+            },
+            {
+                "q": "2. Identify the pre-modifier in 'We need clean drinking water':",
+                "options": [
+                    "clean drinking (adjective and participle modifying 'water')",
+                    "water",
+                    "need",
+                    "we"
+                ],
+                "correct": 0,
+                "explanation": "'Clean' and 'drinking' precede and describe the head noun 'water'."
+            },
+            {
+                "q": "3. Fix the dangling modifier: 'Walking on the road, a car hit him.'",
+                "options": [
+                    "While he was walking on the road, a car hit him.",
+                    "Walking on the road a car was hitting him.",
+                    "A car hit him walking.",
+                    "Road walking hit him."
+                ],
+                "correct": 0,
+                "explanation": "The car wasn't walking; the subject doing the walking must be clearly stated."
+            },
+            {
+                "q": "4. In 'The girl standing near the gate is my sister', what type of post-modifier is 'standing near the gate'?",
+                "options": [
+                    "Present Participle Phrase",
+                    "Infinitive phrase",
+                    "Noun adjunct",
+                    "Appositive"
+                ],
+                "correct": 0,
+                "explanation": "A participle phrase modifying 'The girl' from behind acts as a post-modifier."
+            },
+            {
+                "q": "5. What is a 'Noun Adjunct' functioning as a pre-modifier?",
+                "options": [
+                    "A noun that functions like an adjective modifying another noun (e.g., 'college student')",
+                    "A verb",
+                    "A pronoun",
+                    "An adverb"
+                ],
+                "correct": 0,
+                "explanation": "When a noun modifies another noun (e.g., train station, water bottle), it is a noun adjunct."
+            }
+        ]
+    },
+    {
+        "id": "eg-19",
+        "title": "Chapter 19: Conditionals (Zero, 1st, 2nd, 3rd Conditionals & Had/Unless)",
+        "type": "Grammar",
+        "summary": "Mastery of conditional clauses: Zero (scientific truth), 1st (real possibility: If + Present, will + V1), 2nd (unreal present: If + Past, would + V1), 3rd (unreal past: If + Past Perfect, would have + V3), and Inversion with Had.",
+        "lectureNotes": [
+            {
+                "title": "1. First Conditional (Real)",
+                "detail": "If + Present Simple -> Future Simple (will/can/may + V1). 'If it rains, we will stay at home.'"
+            },
+            {
+                "title": "2. Second Conditional (Hypothetical)",
+                "detail": "If + Past Simple -> would/could/might + V1. 'If I had a million dollars, I would build a hospital.'"
+            },
+            {
+                "title": "3. Third Conditional (Past Regret)",
+                "detail": "If + Past Perfect -> would have + V3. Inversion: 'Had I known the truth, I would have warned you.'"
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Complete the 3rd conditional: 'If you had informed me earlier, I _____ you.'",
+                "options": [
+                    "would have helped (would have + V3)",
+                    "will help",
+                    "would help",
+                    "helped"
+                ],
+                "correct": 0,
+                "explanation": "Third conditional structure: If + Past Perfect -> would have + V3."
+            },
+            {
+                "q": "2. 'If I were a bird, I _____ in the sky.' (Select correct verb form):",
+                "options": [
+                    "would fly (2nd conditional: would + V1)",
+                    "will fly",
+                    "would have flown",
+                    "fly"
+                ],
+                "correct": 0,
+                "explanation": "Second conditional uses 'would + base verb' for imaginary hypothetical conditions."
+            },
+            {
+                "q": "3. Complete the inverted conditional: 'Had I possessed wings, I _____ across the oceans.'",
+                "options": [
+                    "would have flown (Had + subject + V3 -> would have + V3)",
+                    "will fly",
+                    "would fly",
+                    "flew"
+                ],
+                "correct": 0,
+                "explanation": "'Had I possessed' is the inverted form of 'If I had possessed' (3rd conditional)."
+            },
+            {
+                "q": "4. Complete the Zero Conditional: 'If you heat ice, it _____.'",
+                "options": [
+                    "melts (Scientific fact takes Present Simple)",
+                    "will melt",
+                    "melted",
+                    "would melt"
+                ],
+                "correct": 0,
+                "explanation": "Zero conditional represents natural/scientific facts using Present Simple in both clauses."
+            },
+            {
+                "q": "5. 'Unless you work hard, you _____ succeed.' (Select correct clause):",
+                "options": [
+                    "cannot / will not (Unless = If not)",
+                    "will",
+                    "would",
+                    "could"
+                ],
+                "correct": 0,
+                "explanation": "'Unless' is negative and predicts failure unless the condition is met."
+            }
+        ]
+    },
+    {
+        "id": "eg-20",
+        "title": "Chapter 20: Completing Sentences & Clauses (So that, In order that, Lest, Too...to, Since, As if)",
+        "type": "Grammar",
+        "summary": "Systematic rules for completing incomplete sentence stems on board exams using appropriate phrases, subordinate clauses, and modal auxiliaries.",
+        "lectureNotes": [
+            {
+                "title": "1. 'So that / In order that' (Purpose)",
+                "detail": "Present tense -> can/may + V1. Past tense -> could/might + V1. 'He studies hard so that he can secure GPA 5.'"
+            },
+            {
+                "title": "2. 'Since' Time Formula",
+                "detail": "Present + since + Past Simple ('It is ten years since I met him'). Past Simple + since + Past Perfect ('It was long since we had seen her')."
+            },
+            {
+                "title": "3. 'Scarcely had...when / Hardly had...when'",
+                "detail": "'Scarcely had we reached the station when the train left.'"
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. Complete the sentence: 'He ran fast so that he _____ catch the morning train.'",
+                "options": [
+                    "could (Past tense in main clause requires 'could')",
+                    "can",
+                    "will",
+                    "would have"
+                ],
+                "correct": 0,
+                "explanation": "Past tense 'ran' with 'so that' takes 'subject + could/might + V1'."
+            },
+            {
+                "q": "2. 'It is five years since we _____ last.'",
+                "options": [
+                    "met (Present Simple + since + Simple Past)",
+                    "have met",
+                    "had met",
+                    "meet"
+                ],
+                "correct": 0,
+                "explanation": "Formula: Present tense + since + Past Simple (met)."
+            },
+            {
+                "q": "3. 'It was many years since they _____ each other.'",
+                "options": [
+                    "had seen (Past Simple + since + Past Perfect)",
+                    "saw",
+                    "have seen",
+                    "see"
+                ],
+                "correct": 0,
+                "explanation": "Formula: Past Simple + since + Past Perfect (had seen)."
+            },
+            {
+                "q": "4. 'Scarcely had the teacher entered the classroom _____ the students stood up.'",
+                "options": [
+                    "when (Scarcely had... when)",
+                    "than",
+                    "then",
+                    "after"
+                ],
+                "correct": 0,
+                "explanation": "'Scarcely had' and 'Hardly had' are paired with 'when/before'."
+            },
+            {
+                "q": "5. 'The load is too heavy for the old man _____.'",
+                "options": [
+                    "to carry (too...to structure)",
+                    "that he cannot carry",
+                    "carrying",
+                    "for carrying"
+                ],
+                "correct": 0,
+                "explanation": "'Too + adjective + for + object + to + V1' completes the sentence."
+            }
+        ]
+    },
+    {
+        "id": "eg-21",
+        "title": "Chapter 21: Formal & Informal Composition Writing (CV with Cover Letter, Formal Letters, E-mails & Paragraphs)",
+        "type": "Writing & Composition",
+        "summary": "Mastering the official NCTB secondary composition formats: Curriculum Vitae (CV) with Cover Letter, Formal Application Letters, Official E-mails, Dialogue, and Board Paragraph writing.",
+        "lectureNotes": [
+            {
+                "title": "1. CV with Cover Letter Layout",
+                "detail": "Date, Employer Address, Subject, Salutation, Body, Sign-off, and Structured CV (Personal info, Academic qualifications table, Experience, References)."
+            },
+            {
+                "title": "2. Formal Application Structure",
+                "detail": "To the Headmaster/Principal, Subject, Respected Sir, Concise Problem/Request, Humble Prayer, and Signature of Student Body."
+            },
+            {
+                "title": "3. Effective Paragraph Writing",
+                "detail": "Topic sentence (introducing core idea), Supporting sentences (evidence, details, statistics), and Concluding sentence."
+            }
+        ],
+        "selfTest": [
+            {
+                "q": "1. What are the two mandatory components of an employment application in NCTB exams?",
+                "options": [
+                    "A formal Cover Letter and a structured Curriculum Vitae (CV)",
+                    "Only a telephone number",
+                    "A short poem",
+                    "A handwritten signature only"
+                ],
+                "correct": 0,
+                "explanation": "Job applications require a formal cover letter accompanied by an organized CV."
+            },
+            {
+                "q": "2. In a formal application to a school Headmaster, what is the standard salutation?",
+                "options": [
+                    "Sir / Respected Sir",
+                    "Dear friend",
+                    "Hey there",
+                    "Hello buddy"
+                ],
+                "correct": 0,
+                "explanation": "Formal school applications strictly use respectful formal salutations."
+            },
+            {
+                "q": "3. What essential table must be included in a standard Curriculum Vitae (CV)?",
+                "options": [
+                    "Educational Qualifications table (Exam, Board, Year, GPA)",
+                    "Shopping list table",
+                    "Sports scores",
+                    "Movie list"
+                ],
+                "correct": 0,
+                "explanation": "A chronological table of academic degrees, passing years, boards and grades is vital."
+            },
+            {
+                "q": "4. What constitutes the 'Topic Sentence' of an analytical paragraph?",
+                "options": [
+                    "The opening sentence that introduces the central theme and main idea",
+                    "The last sentence",
+                    "A random footnote",
+                    "The title only"
+                ],
+                "correct": 0,
+                "explanation": "The topic sentence establishes the controlling focus of the entire paragraph."
+            },
+            {
+                "q": "5. In professional e-mail writing, what does 'CC' stand for?",
+                "options": [
+                    "Carbon Copy (sending copy for information)",
+                    "Cancel Contract",
+                    "Computer Code",
+                    "Check Correct"
+                ],
+                "correct": 0,
+                "explanation": "Carbon Copy (CC) sends an exact copy of the message to secondary recipients."
+            }
+        ]
+    }
+],
 
   'general-math': [
     { id: 'gm-1', title: 'অধ্যায় ১: বাস্তব সংখ্যা (Real Numbers)', type: 'পাটিগণিত', summary: 'মূলদ, অমূলদ সংখ্যা, আবৃত্ত দশমিক, ভগ্নাংশ ও প্রমাণসমূহ।' },
