@@ -4586,15 +4586,15 @@ ${lectureText}
     showToast('🎉 আপনার নিজস্ব পড়ার নোট সফলভাবে সংরক্ষিত হয়েছে (+১৫ পয়েন্ট)!', 'success');
   };
 
-  // 4. Real Printable PDF Cheat Sheet Generator & Downloader
-  const handleExportPDF = (note) => {
+  // Helper to generate clean Study Sheet HTML
+  const generateStudySheetHtml = (note) => {
     const isEnglish = note.subjectId === 'english-today' || note.subjectId === 'english-grammar';
     const cleanTitle = note.title.replace(/📖|📄|📝/g, '').trim();
     const subjectName = note.subjectBn || note.subject;
     const className = currentClassObj?.nameBn || '৯ম-১০ম শ্রেণি ও এসএসসি ২০২৬';
     const savedStudentNote = localStorage.getItem(`student_note_${note.id}`) || '';
 
-    const htmlContent = `<!DOCTYPE html>
+    return `<!DOCTYPE html>
 <html lang="${isEnglish ? 'en' : 'bn'}">
 <head>
   <meta charset="UTF-8">
@@ -4604,10 +4604,33 @@ ${lectureText}
     body {
       font-family: 'Hind Siliguri', 'Segoe UI', Tahoma, sans-serif;
       margin: 0;
-      padding: 30px;
+      padding: 24px 32px;
       color: #0f172a;
       background: #ffffff;
       line-height: 1.6;
+    }
+    .top-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+    .btn-primary {
+      background: #dc2626;
+      color: #ffffff;
+      border-color: #b91c1c;
     }
     .header {
       display: flex;
@@ -4624,102 +4647,97 @@ ${lectureText}
     }
     .logo-badge {
       background: linear-gradient(135deg, #dc2626, #f59e0b);
-      color: #fff;
-      font-size: 20px;
+      color: #ffffff;
       font-weight: 900;
-      padding: 8px 14px;
+      padding: 10px 14px;
       border-radius: 12px;
+      font-size: 18px;
       letter-spacing: 0.5px;
     }
     .brand-title {
       font-size: 20px;
       font-weight: 800;
-      color: #0f172a;
       margin: 0;
+      color: #0f172a;
     }
     .brand-sub {
-      font-size: 11px;
+      font-size: 12px;
       color: #64748b;
       font-weight: 600;
     }
     .meta-box {
       text-align: right;
-      font-size: 11px;
+      font-size: 12px;
       color: #475569;
     }
     .badge {
       display: inline-block;
-      background: #fef3c7;
-      color: #92400e;
+      background: #fee2e2;
+      color: #991b1b;
       font-weight: 800;
-      font-size: 11px;
-      padding: 4px 12px;
+      padding: 4px 10px;
       border-radius: 20px;
-      border: 1px solid #fde68a;
+      font-size: 11px;
       margin-bottom: 4px;
     }
-    .sheet-card {
-      border: 1.5px solid #e2e8f0;
-      border-radius: 18px;
-      padding: 24px;
-      background: #f8fafc;
-      margin-bottom: 20px;
-    }
-    .title {
+    .main-title {
       font-size: 22px;
       font-weight: 800;
-      color: #991b1b;
-      margin-top: 0;
-      margin-bottom: 12px;
+      color: #1e293b;
+      margin: 0 0 16px 0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e2e8f0;
     }
-    .section-label {
-      font-size: 13px;
+    .section {
+      margin-bottom: 24px;
+    }
+    .section-title {
+      font-size: 15px;
       font-weight: 800;
       color: #b45309;
+      margin-bottom: 8px;
       text-transform: uppercase;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      letter-spacing: 0.5px;
     }
-    .summary-text {
-      font-size: 14px;
-      line-height: 1.7;
-      color: #334155;
-      margin-bottom: 18px;
-      background: #ffffff;
-      padding: 14px 18px;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
-    }
-    .formula-box {
-      background: #fffbeb;
+    .summary-card {
+      background: #fef3c7;
       border-left: 4px solid #f59e0b;
       padding: 14px 18px;
-      border-radius: 8px;
-      margin-bottom: 18px;
-      font-family: monospace;
-      font-size: 13px;
-      font-weight: 700;
+      border-radius: 0 12px 12px 0;
+      font-size: 13.5px;
       color: #78350f;
     }
-    .points-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    .notes-list {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
       gap: 12px;
-      margin-top: 16px;
     }
-    .point-card {
-      background: #ffffff;
+    .note-item {
+      background: #f8fafc;
       border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 12px 14px;
-      font-size: 12px;
+      border-radius: 12px;
+      padding: 12px 16px;
     }
-    .point-title {
+    .note-heading {
       font-weight: 800;
       color: #0f172a;
+      font-size: 13px;
       margin-bottom: 4px;
+    }
+    .note-body {
+      font-size: 12.5px;
+      color: #334155;
+      margin: 0;
+    }
+    .student-note-card {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      padding: 14px 18px;
+      border-radius: 0 12px 12px 0;
+      font-size: 13px;
+      color: #1e3a8a;
+      white-space: pre-line;
     }
     .footer {
       margin-top: 30px;
@@ -4732,11 +4750,16 @@ ${lectureText}
     }
     @media print {
       body { padding: 10px; }
-      .no-print { display: none; }
+      .no-print { display: none !important; }
     }
   </style>
 </head>
 <body>
+  <div class="top-actions no-print">
+    <button class="btn btn-primary" onclick="window.print()">🖨️ প্রিন্ট করুন / Save as PDF</button>
+    <button class="btn" onclick="window.close()">❌ বন্ধ করুন</button>
+  </div>
+
   <div class="header">
     <div class="brand">
       <div class="logo-badge">EduGenius AI</div>
@@ -4752,64 +4775,67 @@ ${lectureText}
     </div>
   </div>
 
-  <div class="sheet-card">
-    <h2 class="title">${cleanTitle}</h2>
-    
-    <div class="section-label">📌 অধ্যায়ের মূল সারসংক্ষেপ ও প্রেক্ষাপট</div>
-    <div class="summary-text">${note.summary}</div>
+  <h2 class="main-title">${cleanTitle}</h2>
 
-    ${note.formula ? `
-      <div class="section-label">⚡ গুরুত্বপূর্ণ সূত্র / বিভাগ / মূল নিয়ম</div>
-      <div class="formula-box">${note.formula}</div>
-    ` : ''}
-
-    ${savedStudentNote ? `
-      <div class="section-label" style="color:#047857; margin-top:20px;">✍️ শিক্ষার্থীর নিজস্ব স্টাডি নোট (Personal Notes)</div>
-      <div class="summary-text" style="border-left: 4px solid #10b981; background: #f0fdf4; white-space: pre-line; color: #065f46; font-weight: 600;">${savedStudentNote}</div>
-    ` : ''}
-
-    <div class="section-label">🎯 বোর্ড পরীক্ষার জন্য গুরুত্বপূর্ণ হাই-ইল্ড পয়েন্ট</div>
-    <div class="points-grid">
-      <div class="point-card">
-        <div class="point-title">১. জ্ঞান ও অনুধাবনমূলক ফোকাস</div>
-        <div>অধ্যায়ের মূল সংজ্ঞা, টার্মিনোলজি ও লেখকের/বিজ্ঞানীর মূল উদ্দেশ্য মুখস্থ রাখুন।</div>
-      </div>
-      <div class="point-card">
-        <div class="point-title">২. প্রয়োগ ও উচ্চতর দক্ষতা</div>
-        <div>বাস্তব জীবনের উদাহরণ ও গাণিতিক সূত্রের প্রয়োগের ধাপগুলো অনুশীলন করুন।</div>
-      </div>
-      <div class="point-card">
-        <div class="point-title">৩. বহুনির্বাচনী (MCQ) স্পেশাল টিপস</div>
-        <div>গুরুত্বপূর্ণ সাল, সংখ্যা, একক এবং ব্যতিক্রমী নিয়মগুলো বারবার রিভিশন দিন।</div>
-      </div>
-      <div class="point-card">
-        <div class="point-title">৪. রিভিশন চেকলিস্ট</div>
-        <div>বিগত ৫ বছরের বোর্ড প্রশ্ন এবং মডেল টেস্ট সমাধান সম্পন্ন করুন।</div>
-      </div>
+  <div class="section">
+    <div class="section-title">📌 অধ্যায়ের মূল সারসংক্ষেপ ও প্রেক্ষাপট:</div>
+    <div class="summary-card">
+      ${note.summary || 'কোনো সারসংক্ষেপ পাওয়া যায়নি।'}
     </div>
   </div>
 
-  <div class="footer">
-    <div>🚀 জেনারেট করেছে: <strong>EduGenius AI Knowledge Vault</strong></div>
-    <div>🔒 ভেরিফাইড NCTB কারিকুলাম | edugenius.ai</div>
-  </div>
+  ${note.lectureNotes && note.lectureNotes.length > 0 ? `
+  <div class="section">
+    <div class="section-title">📖 বিস্তারিত লেকচার নোটস ও মূল পাঠ:</div>
+    <div class="notes-list">
+      ${note.lectureNotes.map(n => `
+        <div class="note-item">
+          <div class="note-heading">${n.title}</div>
+          <p class="note-body">${n.detail}</p>
+        </div>
+      `).join('')}
+    </div>
+  </div>` : ''}
 
-  <script>
-    window.onload = function() {
-      setTimeout(function() {
-        window.print();
-      }, 500);
-    };
-  </script>
+  ${savedStudentNote ? `
+  <div class="section">
+    <div class="section-title">✍️ শিক্ষার্থীর নিজস্ব পড়ার খাতা ও রিভিশন নোটস:</div>
+    <div class="student-note-card">
+      ${savedStudentNote}
+    </div>
+  </div>` : ''}
+
+  <div class="footer">
+    <div>🚀 প্রস্তুত করেছে: <strong>EduGenius AI Knowledge Vault</strong></div>
+    <div>🔒 ভেরিফাইড NCTB কারিকুলাম ২০২৬ | edugenius.ai</div>
+  </div>
 </body>
 </html>`;
+  };
+
+  // 1. DEDICATED PRINT / SAVE AS PDF HANDLER (No background file download)
+  const handlePrintPDF = (note) => {
+    const cleanTitle = note.title.replace(/📖|📄|📝/g, '').trim();
+    const htmlContent = generateStudySheetHtml(note);
 
     const printWindow = window.open('', '_blank');
     if (printWindow) {
       printWindow.document.open();
       printWindow.document.write(htmlContent);
       printWindow.document.close();
+      showToast(`🖨️ "${cleanTitle}" এর প্রিন্ট ভিউ খোলা হয়েছে!`, 'success');
+      if (earnPoints) {
+        earnPoints(10, `"${cleanTitle}" এর প্রিন্ট ভিউ প্রস্তুত!`);
+      }
+    } else {
+      alert('পপ-আপ উইন্ডো ব্লক করা হয়েছে। দয়া করে ব্রাউজারে পপ-আপ এলাউ করুন।');
     }
+  };
+
+  // 2. DEDICATED OFFLINE FILE DOWNLOAD HANDLER (No print dialog popup)
+  const handleDownloadCheatSheet = (note) => {
+    const cleanTitle = note.title.replace(/📖|📄|📝/g, '').trim();
+    const htmlContent = generateStudySheetHtml(note);
 
     const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
     const url = URL.createObjectURL(blob);
@@ -4822,10 +4848,16 @@ ${lectureText}
     URL.revokeObjectURL(url);
 
     if (earnPoints) {
-      earnPoints(20, `"${cleanTitle}" এর PDF চিট-শিট তৈরি হয়েছে!`);
+      earnPoints(20, `"${cleanTitle}" এর চিট-শিট ডাউনলোড সম্পন্ন!`);
     }
-    showToast(`🎉 "${cleanTitle}" এর জন্য PDF চিট-শিট ও প্রিন্ট ভিউ তৈরি হয়েছে!`, 'success');
+    showToast(`📥 "${cleanTitle}" চিট-শিট ফাইল সফলভাবে ডাউনলোড হয়েছে!`, 'success');
   };
+
+  // Keep handleExportPDF as an alias to handlePrintPDF for backwards compatibility
+  const handleExportPDF = (note) => {
+    handlePrintPDF(note);
+  };
+
 
   const formatSeconds = (sec) => {
     const m = Math.floor(sec / 60);
@@ -6110,11 +6142,20 @@ ${lectureText}
             {/* Modal Bottom Action Bar */}
             <div className="flex items-center justify-between border-t pt-3 gap-2 flex-wrap sm:flex-nowrap">
               <button
-                onClick={() => handleExportPDF(studyPadNote)}
-                className="px-3.5 py-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 font-black text-xs flex items-center gap-1.5 border border-red-200 shadow-sm tap-active"
+                onClick={() => handlePrintPDF(studyPadNote)}
+                className="px-3 py-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 font-black text-xs flex items-center gap-1 border border-red-200 shadow-sm tap-active"
+                title="প্রিন্ট প্রিভিউ ও Save as PDF"
               >
-                <Printer className="w-4 h-4" />
-                <span>আমার নোটসহ PDF প্রিন্ট</span>
+                <Printer className="w-3.5 h-3.5" />
+                <span>🖨️ প্রিন্ট / PDF</span>
+              </button>
+              <button
+                onClick={() => handleDownloadCheatSheet(studyPadNote)}
+                className="px-3 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 font-black text-xs flex items-center gap-1 border border-amber-200 shadow-sm tap-active"
+                title="অফলাইন ফাইল ডাউনলোড"
+              >
+                <Download className="w-3.5 h-3.5 text-amber-700" />
+                <span>📥 ডাউনলোড</span>
               </button>
 
               <div className="flex items-center gap-2">
