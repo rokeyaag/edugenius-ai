@@ -13,7 +13,8 @@ import {
   EyeOff,
   PenTool,
   Award,
-  Printer
+  Printer,
+  GraduationCap
 } from 'lucide-react';
 
 // Comprehensive NCTB Board Standard Creative Question (CQ / সৃজনশীল) Database in Bangla
@@ -372,7 +373,16 @@ const NCTB_CREATIVE_QUESTIONS_BN = {
 };
 
 export default function CreativeQuestionsView() {
-  const { currentClassObj, language, earnPoints, showToast, t } = useApp();
+  const { 
+    currentClassObj, 
+    selectedClass, 
+    setSelectedClass, 
+    classes, 
+    language, 
+    earnPoints, 
+    showToast, 
+    t 
+  } = useApp();
   const subjectsList = currentClassObj?.subjects || [];
 
   const groupedSubjects = subjectsList.reduce((acc, sub) => {
@@ -623,15 +633,50 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
         </div>
       </div>
 
-      {/* 1. Subject & Chapter Selector Card */}
+      {/* 1. Class, Subject & Chapter Selector Card */}
       <div className="p-3.5 rounded-3xl bg-white border-2 border-red-100 space-y-3 shadow-sm">
         
+        {/* Class Selector */}
+        <div className="space-y-1 pb-2 border-b border-slate-100">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-black text-slate-900 flex items-center gap-1.5">
+              <GraduationCap className="w-4 h-4 text-red-600" />
+              <span>১. শ্রেণি নির্বাচন করুন (Class):</span>
+            </label>
+          </div>
+
+          <div className="relative">
+            <select
+              value={selectedClass}
+              onChange={(e) => {
+                setSelectedClass(e.target.value);
+                const matchedClass = (classes || []).find(c => c.id === e.target.value);
+                const firstSubId = matchedClass?.subjects?.[0]?.id || 'bangla-sahitya';
+                setSelectedSubjectId(firstSubId);
+                setSelectedCqIdx(0);
+                setRevealedAnswers({});
+                setAiFeedback(null);
+                setStudentPracticeInput('');
+                showToast(`🎓 ${matchedClass?.nameBn || e.target.value} সিলেক্ট করা হয়েছে`, 'info');
+              }}
+              className="w-full appearance-none bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded-2xl pl-3.5 pr-9 py-2 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
+            >
+              {(classes || []).map((cls) => (
+                <option key={cls.id} value={cls.id}>
+                  🎓 {cls.nameBn} — ({cls.subjects?.length || 0}টি বিষয়)
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          </div>
+        </div>
+
         {/* Subject Selector */}
         <div className="space-y-1">
           <div className="flex items-center justify-between">
             <label className="text-xs font-black text-slate-900 flex items-center gap-1.5">
               <BookOpen className="w-4 h-4 text-red-600" />
-              <span>১. বিষয় নির্বাচন করুন (Subject):</span>
+              <span>২. বিষয় নির্বাচন করুন (Subject):</span>
             </label>
             <span className="text-[10px] bg-red-100 text-red-800 font-black px-2 py-0.5 rounded-full border border-red-200">
               {subjectsList.length}টি বিষয়
@@ -669,7 +714,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
           <div className="flex items-center justify-between">
             <label className="text-xs font-black text-slate-900 flex items-center gap-1.5">
               <Layers className="w-4 h-4 text-amber-600" />
-              <span>২. সৃজনশীল প্রশ্ন সেট সিলেক্ট করুন:</span>
+              <span>৩. সৃজনশীল প্রশ্ন সেট সিলেক্ট করুন:</span>
             </label>
             <span className="text-[10px] bg-amber-100 text-amber-900 font-black px-2 py-0.5 rounded-full border border-amber-300">
               {subjectCqList.length}টি সৃজনশীল
