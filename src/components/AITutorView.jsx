@@ -433,20 +433,30 @@ const NCTB_AUTHOR_KNOWLEDGE_MAP = {
 
       const qLower = query.toLowerCase().trim();
 
-      // 1. QUERY INTENT: BIRTH / DEATH / AUTHOR / PROPHET FACTS (জন্ম, মৃত্যু, সাল, জন্মস্থান, ইত্যাদি)
+      // 1. QUERY INTENT: AUTHOR / WHO WROTE / BIRTH / DEATH (কার লেখা, লেখক কে, জন্ম, মৃত্যু, সাল)
       const isBirthOrAuthorQuery = 
         qLower.includes('jonmo') || 
         qLower.includes('জন্ম') || 
         qLower.includes('সাল') || 
         qLower.includes('shaley') || 
         qLower.includes('shale') || 
+        qLower.includes('sal') || 
         qLower.includes('মৃত্যু') || 
         qLower.includes('death') || 
         qLower.includes('birth') || 
         qLower.includes('লেখক') || 
+        qLower.includes('lekhok') || 
+        qLower.includes('lekha') || 
+        qLower.includes('লেখা') || 
         qLower.includes('কবি') || 
+        qLower.includes('kobi') || 
+        qLower.includes('kar') || 
+        qLower.includes('কার') || 
+        qLower.includes('রচয়িতা') || 
+        qLower.includes('rochoyita') || 
         qLower.includes('পরিচয়') || 
         qLower.includes('author') || 
+        qLower.includes('writer') || 
         qLower.includes('kobe') || 
         qLower.includes('কবে') || 
         qLower.includes('কোথায়') || 
