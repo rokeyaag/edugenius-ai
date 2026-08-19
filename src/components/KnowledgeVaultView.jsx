@@ -4902,24 +4902,30 @@ ${lectureText}
           <p className="text-[11px] text-slate-500 font-medium">সম্পূর্ণ পাঠ্যবইয়ের সকল অধ্যায়ের তালিকা (শ্রেণি ➔ বিষয় ➔ অধ্যায়)</p>
         </div>
 
-
+        <div className="flex items-center gap-1.5">
+          <button
+            onClick={loadOfficialNctbContent}
+            className="flex items-center gap-1 py-1 px-2.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-black text-[10px] border border-amber-300 shadow-sm tap-active"
+            title="Load all official textbook content"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+            <span>বই লোড</span>
+          </button>
+        </div>
       </div>
 
       {/* ============================================================== */}
-      {/* PROFESSIONAL 3-TIER HIERARCHICAL NAVIGATION CARD (৩-স্তরের কাঠামো) */}
+      {/* PROFESSIONAL HIERARCHICAL NAVIGATION CARD */}
       {/* ============================================================== */}
       <div className="rounded-3xl bg-white border-2 border-red-100 p-4 space-y-3.5 shadow-sm">
         
-        {/* ================= 1ST LINE: CLASS SELECTOR (১ম লাইন - শ্রেণি নির্বাচন) ================= */}
+        {/* ================= 1ST LINE: CLASS SELECTOR (শ্রেণি নির্বাচন) ================= */}
         <div className="space-y-1.5 pb-2.5 border-b border-slate-100">
           <div className="flex items-center justify-between">
             <label className="text-xs font-black text-slate-900 flex items-center gap-1.5">
               <GraduationCap className="w-4 h-4 text-red-600" />
               <span>শ্রেণি নির্বাচন করুন (Class):</span>
             </label>
-            <span className="text-[10px] bg-red-100 text-red-800 font-black px-2 py-0.5 rounded-full border border-red-200">
-              NCTB কারিকুলাম ২০২৬
-            </span>
           </div>
 
           <div className="relative">
@@ -4944,7 +4950,7 @@ ${lectureText}
           </div>
         </div>
 
-        {/* ================= 2ND LINE: SUBJECT SELECTOR (২য় লাইন - বিষয় নির্বাচন) ================= */}
+        {/* ================= 2ND LINE: SUBJECT SELECTOR (বিষয় নির্বাচন) ================= */}
         <div className="space-y-1.5 pb-2.5 border-b border-slate-100">
           <div className="flex items-center justify-between">
             <label className="text-xs font-black text-slate-900 flex items-center gap-1.5">
@@ -4953,10 +4959,10 @@ ${lectureText}
             </label>
             <button
               onClick={() => setIsAddSubjectModalOpen(true)}
-              className="text-[11px] font-bold text-red-700 bg-red-50 hover:bg-red-100 px-2.5 py-1 rounded-xl border border-red-200 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 flex items-center gap-1 shadow-xs cursor-pointer"
+              className="text-[10px] font-bold text-red-700 bg-red-50 hover:bg-red-100 px-2 py-0.5 rounded-lg border border-red-200 tap-active flex items-center gap-0.5"
               title="Add Custom Subject"
             >
-              <Plus className="w-3.5 h-3.5" />
+              <Plus className="w-3 h-3" />
               <span>বিষয় যোগ</span>
             </button>
           </div>
@@ -4986,16 +4992,14 @@ ${lectureText}
             </select>
             <ChevronDown className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
-
-
         </div>
 
-        {/* ================= 3RD LINE: CHAPTER SELECTOR (৩য় লাইন - শুধুমাত্র নির্বাচিত বিষয়ের সমস্ত অধ্যায়) ================= */}
+        {/* ================= 3RD LINE: CHAPTER SELECTOR (অধ্যায় নির্বাচন) ================= */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <label className="text-xs font-black text-amber-950 flex items-center gap-1.5">
               <Layers className="w-4 h-4 text-amber-700" />
-              <span>অধ্যায় নির্বাচন ও অনুসন্ধান:</span>
+              <span>[{activeSelectedSub?.nameBn || 'নির্বাচিত বিষয়'}]-এর সম্পূর্ণ অধ্যায় তালিকা:</span>
             </label>
           </div>
 
@@ -5038,8 +5042,6 @@ ${lectureText}
               </button>
             )}
           </div>
-
-
 
         </div>
 
@@ -5164,28 +5166,83 @@ ${lectureText}
                 isThisActive ? 'border-amber-400 ring-2 ring-amber-200 shadow-md' : 'border-slate-200 hover:border-slate-300'
               }`}
             >
+              {/* Note Top Bar */}
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[10px] font-black text-red-700 bg-red-50 px-2.5 py-0.5 rounded-full border border-red-100">
+                    {note.subjectBn || note.subject}
+                  </span>
+                  <span className="text-[10px] text-slate-500 flex items-center gap-1">
+                    <Clock className="w-3 h-3 text-amber-500" />
+                    {note.date}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <button
+                    onClick={() => openStudyPad(note, 'lecture')}
+                    className="h-8 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black text-[11px] inline-flex items-center gap-1.5 shadow-sm hover:shadow transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 whitespace-nowrap cursor-pointer"
+                    title="সম্পূর্ণ অধ্যায় ও লেকচার নোটস দেখুন"
+                  >
+                    <BookOpen className="w-3.5 h-3.5 text-slate-950 shrink-0" />
+                    <span>নোট পেজ</span>
+                  </button>
+
+                  <button
+                    onClick={() => handlePrintPDF(note)}
+                    className="h-8 px-2.5 rounded-xl bg-white hover:bg-red-50 text-slate-700 hover:text-red-700 border border-slate-200 hover:border-red-300 font-bold text-[11px] inline-flex items-center gap-1 shadow-sm hover:shadow transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 whitespace-nowrap cursor-pointer"
+                    title="প্রিন্ট প্রিভিউ ও Save as PDF"
+                  >
+                    <Printer className="w-3.5 h-3.5 text-red-600 shrink-0" />
+                    <span>প্রিন্ট</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleDownloadCheatSheet(note)}
+                    className="h-8 px-2.5 rounded-xl bg-white hover:bg-amber-50 text-slate-700 hover:text-amber-800 border border-slate-200 hover:border-amber-300 font-bold text-[11px] inline-flex items-center gap-1 shadow-sm hover:shadow transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 whitespace-nowrap cursor-pointer"
+                    title="ফাইল ডাউনলোড (Download File)"
+                  >
+                    <Download className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                    <span>ডাউনলোড</span>
+                  </button>
+                </div>
+              </div>
+
               {/* Title and Thumbnail (Clickable to open Note Page) */}
               <div 
                 onClick={() => openStudyPad(note, 'lecture')}
-                className="flex items-start gap-3.5 cursor-pointer group p-1 -m-1 rounded-2xl hover:bg-amber-50/50 transition-colors"
+                className="flex items-start gap-3 cursor-pointer group p-1 -m-1 rounded-2xl hover:bg-amber-50/50 transition-colors"
                 title="সম্পূর্ণ স্টাডি নোট পেজ খুলতে এখানে ক্লিক করুন"
               >
                 {note.scannedImage && (
                   <img
                     src={note.scannedImage}
                     alt={note.title}
-                    className="w-14 h-14 rounded-2xl object-cover border border-slate-200 shrink-0 group-hover:border-amber-400 transition-colors shadow-xs"
+                    className="w-14 h-14 rounded-2xl object-cover border border-slate-200 shrink-0 group-hover:border-amber-400 transition-colors"
                   />
                 )}
                 <div className="space-y-1">
-                  <h3 className="text-sm font-black text-slate-900 leading-snug group-hover:text-amber-800 transition-colors">
-                    {note.title}
+                  <h3 className="text-sm font-black text-slate-900 leading-tight group-hover:text-amber-800 transition-colors flex items-center gap-1">
+                    <span>{note.title}</span>
+                    <span className="text-[10px] font-bold text-amber-700 bg-amber-100/70 px-1.5 py-0.5 rounded-md shrink-0">
+                      নোট দেখুন ➔
+                    </span>
                   </h3>
                   <p className="text-xs text-slate-600 leading-relaxed font-medium">
                     {note.summary}
                   </p>
                 </div>
               </div>
+
+              {/* Formula Highlight */}
+              {note.formula && (
+                <div className="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200 flex items-center justify-between">
+                  <span className="text-[10px] font-bold text-amber-900">{t('formulaLabel')}</span>
+                  <code className="text-xs font-mono font-black text-amber-950">
+                    {note.formula}
+                  </code>
+                </div>
+              )}
 
               {/* Audio Podcast Player Bar */}
               <div className={`p-3 rounded-2xl border transition-all flex items-center justify-between gap-3 ${
