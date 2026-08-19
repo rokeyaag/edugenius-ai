@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { NCTB_PRESET_SCANS } from '../utils/nctbData';
 import { 
@@ -106,6 +106,22 @@ export default function AITutorView() {
   const [chatMessages, setChatMessages] = useState([]);
   const [inputQuestion, setInputQuestion] = useState('');
   const [isThinking, setIsThinking] = useState(false);
+  const chatEndRef = useRef(null);
+  const chatContainerRef = useRef(null);
+
+  // Auto-scroll to bottom whenever new messages arrive or thinking starts
+  const scrollToBottom = () => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatMessages, isThinking]);
 
   // Group subjects by category (Core, Science, Commerce, Arts, etc.)
   const groupedSubjects = subjectsList.reduce((acc, sub) => {
@@ -662,7 +678,10 @@ const NCTB_AUTHOR_KNOWLEDGE_MAP = {
         <div className="space-y-3 animate-in fade-in">
           
           {/* Chat Messages Thread Container */}
-          <div className="space-y-3 min-h-[200px] max-h-[380px] overflow-y-auto pr-1">
+          <div 
+            ref={chatContainerRef} 
+            className="space-y-3 min-h-[200px] max-h-[380px] overflow-y-auto pr-1 scroll-smooth"
+          >
             {chatMessages.length === 0 ? (
               <div className="flex flex-col items-center justify-center text-center py-10 text-slate-400 space-y-2">
                 <div className="w-12 h-12 rounded-3xl bg-red-50 border border-red-100 flex items-center justify-center text-2xl">
@@ -724,6 +743,9 @@ const NCTB_AUTHOR_KNOWLEDGE_MAP = {
                 <span>AI উত্তর তৈরি করছে...</span>
               </div>
             )}
+
+            {/* Invisible Anchor for Smooth Auto-Scroll */}
+            <div ref={chatEndRef} />
           </div>
 
           {/* Chat Input Bar */}
