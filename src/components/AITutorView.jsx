@@ -423,6 +423,11 @@ const CHAPTER_STORY_QA_DATABASE = [
   // ১. প্রত্যুপকার
   {
     chapterMatch: 'প্রত্যুপকার',
+    triggers: ['পিতা', 'পিতার', 'বাবা', 'বাবার', 'ঠাকুরদাস', 'মাতা', 'ভগবতী'],
+    answer: '🎯 **ঈশ্বরচন্দ্র বিদ্যাসাগরের পিতা-মাতা ও পরিচয়:**\n• পিতা: **ঠাকুরদাস বন্দ্যোপাধ্যায়**\n• মাতা: **ভগবতী দেবী**\n• জন্মস্থান: বীরসিংহ গ্রাম, মেদিনীপুর জেলা।'
+  },
+  {
+    chapterMatch: 'প্রত্যুপকার',
     triggers: ['চমকে', 'বন্দী', 'বন্দি', 'দেখে', 'আলী ইবনে আব্বাস', 'আলী'],
     answer: '🎯 **সঠিক উত্তর: কারণ বন্দী ব্যক্তিটি ছিলেন তাঁর পূর্বের জীবনরক্ষাকারী আশ্রয়দাতা।**\n\n📌 ব্যাখ্যা: দামেস্কে চরম বিপদের দিনে এই ব্যক্তিই (দামেস্কের ক্ষমতাচ্যুত শাসনকর্তা) আলী ইবনে আব্বাসকে গোপনে নিজ গৃহে আশ্রয় দিয়ে নিশ্চিত মৃত্যুর হাত থেকে প্রাণ রক্ষা করেছিলেন।'
   },
@@ -629,10 +634,11 @@ const CHAPTER_STORY_QA_DATABASE = [
         } else {
           // Fallback to strict selfTest match or concise note
           let specificSt = null;
+          const stopWords = ['কার', 'কে', 'কী', 'কি', 'কোন', 'কত', 'সালে', 'নাম', 'বলতে', 'হলো', 'পিতা', 'পিতার', 'মাতা', 'মাতার', 'বাবা', 'মা', 'ঈশ্বরচন্দ্র', 'বিদ্যাসাগর', 'রবীন্দ্রনাথ', 'নজরুল', 'শরৎচন্দ্র', 'বঙ্কিমচন্দ্র', 'মুহম্মদ', 'প্রত্যুপকার', 'শুভা', 'নিমগাছ'];
           if (chSelfTest && chSelfTest.length > 0) {
             specificSt = chSelfTest.find(st => {
               const qClean = st.q.replace(/[০-৯১-৫\.\‘\’\'\?]/g, '').toLowerCase();
-              const words = qLower.split(/[\s,?.!]+/).filter(w => w.length >= 3 && !['কার', 'কে', 'কী', 'কোন', 'কত'].includes(w));
+              const words = qLower.split(/[\s,?.!]+/).filter(w => w.length >= 3 && !stopWords.includes(w));
               const matches = words.filter(w => qClean.includes(w));
               return matches.length >= 2;
             });
