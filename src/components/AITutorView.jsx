@@ -433,91 +433,54 @@ const NCTB_AUTHOR_KNOWLEDGE_MAP = {
 
       const qLower = query.toLowerCase().trim();
 
-      // 1. QUERY INTENT: AUTHOR / WHO WROTE / BIRTH / DEATH (কার লেখা, লেখক কে, জন্ম, মৃত্যু, সাল)
-      const isBirthOrAuthorQuery = 
-        qLower.includes('jonmo') || 
-        qLower.includes('জন্ম') || 
-        qLower.includes('সাল') || 
-        qLower.includes('shaley') || 
-        qLower.includes('shale') || 
-        qLower.includes('sal') || 
-        qLower.includes('মৃত্যু') || 
-        qLower.includes('death') || 
-        qLower.includes('birth') || 
-        qLower.includes('লেখক') || 
-        qLower.includes('lekhok') || 
-        qLower.includes('lekha') || 
-        qLower.includes('লেখা') || 
-        qLower.includes('কবি') || 
-        qLower.includes('kobi') || 
-        qLower.includes('kar') || 
-        qLower.includes('কার') || 
-        qLower.includes('রচয়িতা') || 
-        qLower.includes('rochoyita') || 
-        qLower.includes('পরিচয়') || 
-        qLower.includes('author') || 
-        qLower.includes('writer') || 
-        qLower.includes('kobe') || 
-        qLower.includes('কবে') || 
-        qLower.includes('কোথায়') || 
-        qLower.includes('kothey');
+      // Check if query matches any specific selfTest Q&A from textbook database
+      let matchedSelfTest = null;
+      if (chSelfTest && chSelfTest.length > 0) {
+        matchedSelfTest = chSelfTest.find(st => {
+          const qText = st.q.toLowerCase();
+          // Match keywords between user query and textbook question
+          const keywords = qLower.split(/[\s,?.!]+/).filter(w => w.length > 2);
+          const matchCount = keywords.filter(k => qText.includes(k)).length;
+          return matchCount >= 2 || (keywords.length === 1 && qText.includes(keywords[0]));
+        });
+      }
 
-      // 2. QUERY INTENT: SUMMARY / THEME / OVERVIEW (সারসংক্ষেপ, মূলভাব, পটভূমি, কি বলা হয়েছে)
-      const isSummaryQuery = 
-        qLower.includes('summary') || 
-        qLower.includes('সারসংক্ষেপ') || 
-        qLower.includes('মূলভাব') || 
-        qLower.includes('মূল ভাব') || 
-        qLower.includes('বক্তব্য') || 
-        qLower.includes('পটভূমি') || 
-        qLower.includes('বিষয়বস্তু') || 
-        qLower.includes('ki bola') || 
-        qLower.includes('explain') || 
-        qLower.includes('ব্যাখ্যা');
+      // Check specific character & keyword queries
+      const isWhoWroteQuery = qLower.includes('kar lekha') || qLower.includes('কার লেখা') || qLower.includes('lekhok ke') || qLower.includes('লেখক কে') || qLower.includes('রচয়িতা কে');
+      const isMeaningQuery = qLower.includes('ortho') || qLower.includes('অর্থ') || qLower.includes('meaning');
+      const isBirthQuery = qLower.includes('jonmo') || qLower.includes('জন্ম') || qLower.includes('সাল') || qLower.includes('shaley') || qLower.includes('birth') || qLower.includes('মৃত্যু') || qLower.includes('death');
+      const isSummaryQuery = qLower.includes('summary') || qLower.includes('সারসংক্ষেপ') || qLower.includes('মূলভাব') || qLower.includes('মূল ভাব') || qLower.includes('বক্তব্য');
+      const isQuestionQuery = qLower.includes('cq') || qLower.includes('mcq') || qLower.includes('প্রশ্ন') || qLower.includes('question');
 
-      // 3. QUERY INTENT: BOARD QUESTIONS / CQ / MCQ (প্রশ্ন, সৃজনশীল, অনুধাবন, জ্ঞানমূলক)
-      const isQuestionQuery = 
-        qLower.includes('cq') || 
-        qLower.includes('mcq') || 
-        qLower.includes('প্রশ্ন') || 
-        qLower.includes('question') || 
-        qLower.includes('সৃজনশীল') || 
-        qLower.includes('অনুধাবন') || 
-        qLower.includes('জ্ঞানমূলক');
-
-      // 4. QUERY INTENT: FORMULA / EQUATION (সূত্র, নিয়ম)
-      const isFormulaQuery = 
-        qLower.includes('formula') || 
-        qLower.includes('সূত্র') || 
-        qLower.includes('equation') || 
-        qLower.includes('নিয়ম') || 
-        qLower.includes('rule');
-
-      if (isBirthOrAuthorQuery && authorInfo) {
+      if (matchedSelfTest) {
+        // Direct, instant 1-line answer from matched textbook question
+        const correctAns = matchedSelfTest.options[matchedSelfTest.correct];
+        reply = `🎯 **সঠিক উত্তর: ${correctAns}**\n\n📌 ব্যাখ্যা: ${matchedSelfTest.explanation}`;
+      } else if (isWhoWroteQuery && authorInfo) {
+        reply = `🎯 **সঠিক উত্তর: ${authorInfo.author}**\n\n📖 অধ্যায়: “${chTitle}”`;
+      } else if (isMeaningQuery) {
+        const meaningNote = chSelfTest.find(st => st.q.includes('অর্থ')) || chLectureNotes[0];
+        const meaningAns = meaningNote ? (meaningNote.options ? meaningNote.options[meaningNote.correct] : meaningNote.detail) : chSummary;
+        reply = `🎯 **অর্থ ও তাৎপর্য:**\n${meaningAns}`;
+      } else if (isBirthQuery && authorInfo) {
         if (authorInfo.prophetBirth) {
-          reply = `📖 “${chTitle}” অধ্যায়ের তথ্য:\n\n১. হযরত মুহম্মদ (সা.)-এর জন্ম:\n• জন্মসাল: ৫৭০ খ্রিস্টাব্দ (১২ই রবিউল আউয়াল)।\n• জন্মস্থান: আরবের পবিত্র মক্কা নগরীর কুরাইশ বংশ।\n• পিতা-মাতা: পিতা আবদুল্লাহ ও মাতা মা আমিনা।\n• ওফাত: ৬৩২ খ্রিস্টাব্দ (১২ই রবিউল আউয়াল, মদিনা শরিফে)।\n\n২. লেখক ${authorInfo.author}-এর জন্ম ও পরিচয়:\n• জন্মসাল: ${authorInfo.authorBirth}\n• মৃত্যু: ${authorInfo.authorDeath}\n• বৈশিষ্ট্য: তিনি ছিলেন সহজ-সরল, প্রাঞ্জল ও যুক্তিনির্ভর গদ্যের বিশিষ্ট সাহিত্যিক।`;
+          reply = `🎯 **জন্ম ও তথ্য:**\n• মহানবী (সা.): **৫৭০ খ্রিস্টাব্দ** (মক্কা নগরীর কুরাইশ বংশ)। ওফাত: ৬৩২ খ্রিস্টাব্দ।\n• লেখক ${authorInfo.author}: **${authorInfo.authorBirth}** (মৃত্যু: ${authorInfo.authorDeath})।`;
         } else {
-          reply = `📖 “${chTitle}” এর রচয়িতা সম্পর্কিত তথ্য:\n\n• লেখক/কবি: ${authorInfo.author}\n• জন্ম: ${authorInfo.authorBirth}\n• মৃত্যু: ${authorInfo.authorDeath}\n• মূল প্রতিপাদ্য: ${authorInfo.keyThemes}`;
+          reply = `🎯 **${authorInfo.author}**\n• জন্ম: **${authorInfo.authorBirth}**\n• মৃত্যু: **${authorInfo.authorDeath}**`;
         }
       } else if (isSummaryQuery) {
-        const notesList = chLectureNotes.map(n => `• ${n.title}: ${n.detail}`).join('\n');
-        reply = `📚 “${chTitle}” এর মূল সারসংক্ষেপ ও লেকচার নোটস:\n\n📌 মূলভাব:\n${chSummary}\n\n📝 গুরুত্বপূর্ণ লেকচার পয়েন্টস:\n${notesList || 'পাঠ্যবইয়ের মূল বক্তব্যের আলোকে পূর্ণ প্রস্তুতি নিন।'}\n\n💡 বোর্ড পরীক্ষার পরামর্শ: অনুধাবন ও প্রয়োগমূলক প্রশ্নের উত্তর লেখার সময় মূল ভাববস্তু ও নির্ভুল বাক্য ব্যবহার করুন।`;
+        reply = `📚 **“${chTitle}” সারসংক্ষেপ:**\n${chSummary}\n\n💡 মূল শিক্ষা: ${chLectureNotes[0]?.detail || 'পাঠ্যবইয়ের মূল ভাববস্তু নিয়মিত চর্চা করো।'}`;
       } else if (isQuestionQuery) {
         if (chSelfTest.length > 0) {
-          const qList = chSelfTest.slice(0, 3).map((st, i) => `${i + 1}. ${st.q}\n✓ সঠিক উত্তর: ${st.options[st.correct]}\n(ব্যাখ্যা: ${st.explanation})`).join('\n\n');
-          reply = `🎯 “${chTitle}” অধ্যায়ের গুরুত্বপূর্ণ বোর্ড স্ট্যান্ডার্ড প্রশ্নোত্তর:\n\n${qList}`;
+          const qList = chSelfTest.slice(0, 2).map((st, i) => `${i + 1}. ${st.q}\n✓ **${st.options[st.correct]}** (${st.explanation})`).join('\n\n');
+          reply = `🎯 **গুরুত্বপূর্ণ বোর্ড প্রশ্নোত্তর:**\n\n${qList}`;
         } else {
-          reply = `🎯 “${chTitle}” এর ৩টি গুরুত্বপূর্ণ বোর্ড প্রশ্ন:\n\n১. জ্ঞানমূলক (১ নম্বর): অধ্যায়ের মূল সংজ্ঞা ও লেখকের পরিচয় থেকে প্রশ্ন আসে।\n২. অনুধাবনমূলক (২ নম্বর): “${chSummary ? chSummary.slice(0, 70) + '...' : 'মূল বক্তব্যের তাৎপর্য'}”—ব্যাখ্যা করো।\n৩. প্রয়োগ ও উচ্চতর দক্ষতা: উদ্দীপকের সাথে তুলনামূলক বিশ্লেষণ।`;
+          reply = `🎯 **বোর্ড প্রশ্নোত্তর:**\n১. জ্ঞানমূলক: অধ্যায়ের মূল সংজ্ঞা ও লেখকের নাম মুখস্থ করো।\n২. অনুধাবন: মূল ভাববস্তুর আলোকে সংক্ষেপে ২ প্যারায় উত্তর লেখো।`;
         }
-      } else if (isFormulaQuery) {
-        const formulaNote = chLectureNotes.find(n => n.title.includes('সূত্র') || n.title.includes('নিয়ম')) || chLectureNotes[0];
-        reply = `📐 “${chTitle}” এর মূল সূত্র ও নিয়মাবলি:\n\n• সূত্র/নিয়ম: ${formulaNote?.detail || 'বোর্ড স্ট্যান্ডার্ড গাণিতিক সূত্র ও নিয়মাবলী সঠিকভাবে অনুশীলন করুন।'}\n• সারসংক্ষেপ: ${chSummary}`;
       } else {
-        // General intelligent chapter knowledge response
-        const relevantNote = chLectureNotes[0]?.detail || chSummary;
-        const authorLine = authorInfo ? `(রচয়িতা: ${authorInfo.author})` : '';
-
-        reply = `📖 “${chTitle}” ${authorLine} সম্পর্কিত উত্তর:\n\n${relevantNote}\n\n📌 সারকথা: ${chSummary || 'পাঠ্যবইয়ের মূল ধারণাটি আয়ত্তে রাখলে বোর্ড পরীক্ষায় সর্বোচ্চ নম্বর পাওয়া সম্ভব।'}`;
+        // Short concise 1-2 line direct answer
+        const shortNote = chLectureNotes[1]?.detail || chLectureNotes[0]?.detail || chSummary;
+        reply = `🎯 **উত্তর:**\n${shortNote}\n\n📖 অধ্যায়: “${chTitle}”`;
       }
 
       setChatMessages(prev => [
