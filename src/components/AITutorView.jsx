@@ -223,6 +223,185 @@ export default function AITutorView() {
     setActiveTab('vault');
   };
 
+// Comprehensive NCTB Author & Core Concept Knowledge Base
+const NCTB_AUTHOR_KNOWLEDGE_MAP = {
+  'মানুষ মুহম্মদ': {
+    author: 'মোহাম্মদ ওয়াজেদ আলী',
+    authorBirth: '১৮৯৬ সালের ৪ঠা সেপ্টেম্বর, বাঁশদহ গ্রাম, সাতক্ষীরা জেলা।',
+    authorDeath: '১৯৫৪ সালের ৮ই নভেম্বর (বাঁশদহেই মৃত্যুবরণ করেন)।',
+    prophetBirth: 'হজরত মুহম্মদ (সা.) ৫৭০ খ্রিস্টাব্দের ১২ই রবিউল আউয়াল আরবের পবিত্র মক্কা নগরীর বিখ্যাত কুরাইশ বংশে জন্মগ্রহণ করেন।',
+    prophetDeath: '৬৩২ খ্রিস্টাব্দের ১২ই রবিউল আউয়াল (৬৩ বছর বয়সে) পবিত্র মদিনা শরিফে ওফাত লাভ করেন।',
+    parents: 'পিতা: আবদুল্লাহ, মাতা: মা আমিনা, দুধমাতা: হালিমা।',
+    keyThemes: 'মহানবীর অনন্য মানবিক গুণাবলি, অতুলনীয় ক্ষমাশীলতা, অসাম্প্রদায়িকতা ও সত্যনিষ্ঠা। অলৌকিকতার চেয়ে একজন আদর্শ মানুষ হিসেবে তাঁর জীবনাচরণই মানবজাতির শ্রেষ্ঠ দিকদর্শন।',
+    events: 'তায়েফে রক্তাক্ত হয়েও কাফিরদের জন্য ক্ষমা ও হেদায়েতের দোয়া, মক্কা বিজয়ের পর চরম শত্রুদের সাধারণ ক্ষমা, অন্তিম শয্যায় ঋণমুক্তির পরম ঘোষণা।'
+  },
+  'প্রত্যুপকার': {
+    author: 'ঈশ্বরচন্দ্র বিদ্যাসাগর',
+    authorBirth: '১৮২০ সালের ২৬শে সেপ্টেম্বর, বীরসিংহ গ্রাম, মেদিনীপুর জেলা।',
+    authorDeath: '১৮৯১ সালের ২৯শে জুলাই, কলকাতা।',
+    keyThemes: 'উপকারের বিনিময়ে কৃতজ্ঞতাস্বরূপ আত্মত্যাগ ও মানবতার পরাকাষ্ঠা। দামেস্কের শাসনকর্তা আলী ইবনে আব্বাস ও খলিফা মামুনের মহানুভবতা।'
+  },
+  'শকুন্তলা': {
+    author: 'ঈশ্বরচন্দ্র বিদ্যাসাগর (মহাকবি কালিদাসের ‘অভিজ্ঞান শকুন্তলম’ অবলম্বনে)',
+    authorBirth: '১৮২০ সালের ২৬শে সেপ্টেম্বর, বীরসিংহ, মেদিনীপুর।',
+    authorDeath: '১৮৯১ সালের ২৯শে জুলাই।',
+    keyThemes: 'মহর্ষি কণ্বের তপোবনে পালিতা কন্যা শকুন্তলা ও রাজা দুষ্মন্তের প্রণয় এবং পতিগৃহে যাত্রার হৃদয়বিদারক মানবিক আবেগ।'
+  },
+  'বাঙ্গালার ইতিহাস': {
+    author: 'বঙ্কিমচন্দ্র চট্টোপাধ্যায় (সাহিত্য সম্রাট)',
+    authorBirth: '১৮৩৮ সালের ২৬শে জুন, কাঁঠালপাড়া গ্রাম, নৈহাটি, ২৪ পরগনা।',
+    authorDeath: '১৮৯৪ সালের ৮ই এপ্রিল।',
+    keyThemes: 'বাঙালি জাতির জাতীয় প্রামাণ্য ইতিহাস অনুসন্ধানের আহ্বান, হৃত গৌরব পুনরুদ্ধার ও আত্মমর্যাদা প্রতিষ্ঠার বার্তা।'
+  },
+  'বিড়াল': {
+    author: 'বঙ্কিমচন্দ্র চট্টোপাধ্যায় (কমলাকান্তের দপ্তর থেকে সংকলিত)',
+    authorBirth: '১৮৩৮ সালের ২৬শে জুন, কাঁঠালপাড়া, নৈহাটি।',
+    authorDeath: '১৮৯৪ সালের ৮ই এপ্রিল।',
+    keyThemes: 'কমলাকান্ত ও মার্জারের রূপক সংলাপের মাধ্যমে সমাজতান্ত্রিক সাম্যবাদ, ধনীদের অতিরিক্ত সঞ্চয়ের তীব্র প্রতিবাদ ও দরিদ্রের অধিকার প্রতিষ্ঠা।'
+  },
+  'অপূর্ব আত্মত্যাগ': {
+    author: 'কালীপ্রসন্ন ঘোষ',
+    authorBirth: '১৮৪৩ সালের ২৩শে জুলাই, বিক্রমপুর।',
+    authorDeath: '১৯১০ সালে।',
+    keyThemes: 'স্বদেশপ্রেম ও মানবতার জন্য হাসিমুখে আত্মোৎসর্গ। মানুষ বাঁচে তার কর্মে, বয়সে নয়।'
+  },
+  'শুভা': {
+    author: 'রবীন্দ্রনাথ ঠাকুর (বিশ্বকবি)',
+    authorBirth: '১৮৬১ সালের ৭ই মে (২৫ বৈশাখ ১২৬৮ বঙ্গাব্দ), জোড়াসাঁকো ঠাকুরবাড়ি, কলকাতা।',
+    authorDeath: '১৯৪১ সালের ৭ই আগস্ট (২২ শ্রাবণ ১৩৪৮ বঙ্গাব্দ)।',
+    keyThemes: 'বাকপ্রতিবন্ধী কিশোরী সুভাষিণীর (শুভা) বোবা অন্তর্বেদনা, চণ্ডীপুর গ্রামের নদী ও প্রকৃতির সাথে নিবিড় মৈত্রী এবং সর্বশী ও পাঙ্গুলি গাভীর সাথে নিখাদ বন্ধুত্ব।'
+  },
+  'বই পড়া': {
+    author: 'প্রমথ চৌধুরী (ছদ্মনাম: বীরবল)',
+    authorBirth: '১৮৬৮ সালের ৭ই আগস্ট, যশোর (পৈতৃক নিবাস: হরিপুর, পাবনা)।',
+    authorDeath: '১৯৪৬ সালের ২রা সেপ্টেম্বর।',
+    keyThemes: 'লাইব্রেরির আবশ্যকতা (হাসপাতালের চেয়েও বেশি), স্বশিক্ষিত হওয়ার আনন্দ ও সার্টিফিকেটসর্বস্ব মুখস্থ বিদ্যার ত্রুটি।'
+  },
+  'অভাগীর স্বর্গ': {
+    author: 'শরৎচন্দ্র চট্টোপাধ্যায় (অপরাজেয় কথাশিল্পী)',
+    authorBirth: '১৮৭৬ সালের ১৫ই সেপ্টেম্বর, দেবানন্দপুর গ্রাম, হুগলি জেলা।',
+    authorDeath: '১৯৩৮ সালের ১৬ই জানুয়ারি, কলকাতা।',
+    keyThemes: 'সামন্তবাদী সমাজে নিম্নবর্ণের দরিদ্র নারী অভাগী ও তার পুত্র কাঙালীর ওপর নির্মম শোষণ ও মৃত্যুর পরও সৎকার নিয়ে জাত-পাতের বৈষম্য।'
+  },
+  'পল্লীসাহিত্য': {
+    author: 'ড. মুহম্মদ শহীদুল্লাহ (ভাষাতাত্ত্বিক ও পণ্ডিত)',
+    authorBirth: '১৮৮৫ সালের ১০ই জুলাই, পেয়ারা গ্রাম, ২৪ পরগনা।',
+    authorDeath: '১৯৬৯ সালের ১৩ই জুলাই, ঢাকা।',
+    keyThemes: 'পল্লীবাংলার বিলুপ্তপ্রায় রূপকথা, ডাক ও খনার বচন, লোকসংগীত ও প্রবাদের অমূল্য সম্পদ সংরক্ষণের তাগিদ।'
+  },
+  'আম আঁটির ভেঁপু': {
+    author: 'বিভূতিভূষণ বন্দ্যোপাধ্যায় (পথের পাঁচালী থেকে সংকলিত)',
+    authorBirth: '১৮৯৪ সালের ১২ই সেপ্টেম্বর, মুরাতিপুর গ্রাম, ২৪ পরগনা।',
+    authorDeath: '১৯৫০ সালের ১লা সেপ্টেম্বর, ঘাটশিলা।',
+    keyThemes: 'গ্রামীণ বাংলার শৈশব, ভাইবোন অপু ও দুর্গার ফল কুড়ানোর আনন্দ, প্রকৃতির সাথে নিবিড় সান্নিধ্য ও চিরায়ত পারিবারিক স্নেহ।'
+  },
+  'নিমগাছ': {
+    author: 'বনফুল (বলাইচাঁদ মুখোপাধ্যায়)',
+    authorBirth: '১৮৯৯ সালের ১৯শে জুলাই, মনিহারী গ্রাম, পূর্ণিয়া জেলা, বিহার।',
+    authorDeath: '১৯৭৯ সালের ৯ই ফেব্রুয়ারি, কলকাতা।',
+    keyThemes: 'নিমগাছের নীরব ভেষজ সেবার আড়ালে বাঙালি পরিবারের নিঃস্বার্থ আত্মত্যাগী গৃহকর্মনিপুণা লক্ষ্মীবউয়ের অবমূল্যায়নের অনন্য রূপক।'
+  },
+  'শিক্ষা ও মনুষ্যত্ব': {
+    author: 'মোতাহের হোসেন চৌধুরী (সংস্কৃতি কথা থেকে সংকলিত)',
+    authorBirth: '১৯০৩ সালে কাঞ্চনপুর গ্রাম, নোয়াখালী জেলা।',
+    authorDeath: '১৯৫৬ সালের ১৮ই সেপ্টেম্বর, চট্টগ্রাম।',
+    keyThemes: 'জীবসত্তা (নিচতলা) থেকে মানবসত্তা বা মনুষ্যত্বে (দোতলা) ওঠার মই হলো শিক্ষা। আত্মার মুক্তিসাধন ও মূল্যবোধ অর্জনই শিক্ষার শ্রেষ্ঠ কাজ।'
+  },
+  'প্রবাস বন্ধু': {
+    author: 'সৈয়দ মুজতবা আলী (দেশে বিদেশে থেকে সংকলিত)',
+    authorBirth: '১৯০৪ সালের ১৩ই সেপ্টেম্বর, করিমগঞ্জ, শ্রীহট্ট (আসাম)।',
+    authorDeath: '১৯৭৪ সালের ১১ই ফেব্রুয়ারি, ঢাকা।',
+    keyThemes: 'কাবুলের খাজা মোল্লা গ্রামের অভিজ্ঞতা, সরল ও বিশালদেহী আফগান ভৃত্য আবদুর রহমানের অপূর্ব আন্তরিক আতিথেয়তা ও খাবার পরিবেশন।'
+  },
+  'দেনাপাওনা': {
+    author: 'রবীন্দ্রনাথ ঠাকুর',
+    authorBirth: '১৮৬১ সালের ৭ই মে, জোড়াসাঁকো, কলকাতা।',
+    authorDeath: '১৯৪১ সালের ৭ই আগস্ট।',
+    keyThemes: 'তৎকালীন সমাজের পণপ্রথার নির্মম বলি নিরুপমা ও পিতা রামসুন্দর মিত্রের অসহায়ত্ব।'
+  },
+  'কপোতাক্ষ নদ': {
+    author: 'মাইকেল মধুসূদন দত্ত (বাংলা সনেটের জনক)',
+    authorBirth: '১৮২৪ সালের ২৫শে জানুয়ারি, সাগরদাঁড়ি গ্রাম, কেশবপুর, যশোর জেলা।',
+    authorDeath: '১৮৭৩ সালের ২৯শে জুন, কলকাতা।',
+    keyThemes: 'প্রবাসজীবনে ফ্রান্সের ভার্সাই নগরীতে বসে স্বদেশের শৈশবের কপোতাক্ষ নদের দুগ্ধস্রোতরূপী জলের স্মৃতি ও অতল দেশপ্রেমের সনেট বন্দনা।'
+  },
+  'বঙ্গবাণী': {
+    author: 'আবদুল হাকিম (মধ্যযুগের কবি)',
+    authorBirth: 'আনুমানিক ১৬২০ খ্রিস্টাব্দে, সুধারামপুর গ্রাম, সন্দ্বীপ।',
+    authorDeath: 'আনুমানিক ১৬৯০ খ্রিস্টাব্দে।',
+    keyThemes: 'মাতৃভাষা বাংলার প্রতি নিখাদ শ্রদ্ধা ও মাতৃভাষার প্রতি অবজ্ঞা প্রদর্শনকারীদের প্রতি তীব্র ক্ষোভ ও স্বদেশপ্রেম।'
+  },
+  'জীবন-সঙ্গীত': {
+    author: 'হেমচন্দ্র বন্দ্যোপাধ্যায়',
+    authorBirth: '১৮৩৮ সালের ১৭ই এপ্রিল, রাজবল্লভহাট, হুগলি।',
+    authorDeath: '১৯০৩ সালের ২৪শে মে।',
+    keyThemes: 'মানবজীবন কেবল মায়ামরীচিকা নয়; কর্মের মাধ্যমে জগতে স্থায়ী কীর্তি ও বিজয় অর্জন করাই জীবনের সার্থকতা।'
+  },
+  'জুতো আবিষ্কার': {
+    author: 'রবীন্দ্রনাথ ঠাকুর',
+    authorBirth: '১৮৬১ সালের ৭ই মে, কলকাতা।',
+    authorDeath: '১৯৪১ সালের ৭ই আগস্ট।',
+    keyThemes: 'রাজা হবুচন্দ্রের ধুলা নিবারণে মন্ত্রী গোবুরার হাস্যকর ব্যর্থতা এবং বয়োবৃদ্ধ চর্মকারের বুদ্ধিতে রাজার পা চামড়া দিয়ে ঢেকে জুতো আবিষ্কারের ইতিহাস।'
+  },
+  'মানুষ': {
+    author: 'কাজী নজরুল ইসলাম (জাতীয় কবি ও সাম্যবাদী)',
+    authorBirth: '১৮৯৯ সালের ২৪শে মে (১১ জ্যৈষ্ঠ ১৩০৬), চুরুলিয়া গ্রাম, আসানসোল, বর্ধমান।',
+    authorDeath: '১৯৭৬ সালের ২৯শে আগস্ট (১২ ভাদ্র ১৩৮৩), ঢাকা।',
+    keyThemes: '“মানুষের চেয়ে বড় কিছু নাই, নহে কিছু মহীয়ান।” ক্ষুধার্ত অভুক্তকে ফিরিয়ে দেওয়া ভণ্ড পূজারি ও মোল্লাদের বিরুদ্ধে আর্ত মানবতার জয়গান।'
+  },
+  'সেইদিন এই মাঠ': {
+    author: 'জীবনানন্দ দাশ (রূপসী বাংলার কবি)',
+    authorBirth: '১৮৯৯ সালের ১৭ই ফেব্রুয়ারি, বরিশাল।',
+    authorDeath: '১৯৫৪ সালের ২২শে অক্টোবর, কলকাতা।',
+    keyThemes: 'মানুষ মরণশীল হলেও পৃথিবীর চিরন্তন রূপ-রস-গন্ধ, শিশিরের শব্দ ও চালতাফুলের গন্ধ অমর ও অবিনশ্বর।'
+  },
+  'পল্লীজননী': {
+    author: 'জসীমউদ্দীন (পল্লীকবি)',
+    authorBirth: '১৯০৩ সালের ১লা জানুয়ারি, তাম্বুলখানা গ্রাম, ফরিদপুর জেলা।',
+    authorDeath: '১৯৭৬ সালের ১৪ই মার্চ, ঢাকা।',
+    keyThemes: 'অসুস্থ সন্তানের শিয়রে বসে নিভু নিভু প্রদীপের আলোয় নির্ঘুম পল্লীজননীর অতল বাৎসল্য, দারিদ্র্য ও নিঃসীম হাহাকার।'
+  },
+  'রানার': {
+    author: 'সুকান্ত ভট্টাচার্য (কিশোর কবি)',
+    authorBirth: '১৯২৬ সালের ১৫ই আগস্ট, মহিম হালদার স্ট্রিট, কালীঘাট, কলকাতা।',
+    authorDeath: '১৯৪৭ সালের ১৩ই মে, কলকাতা।',
+    keyThemes: 'রাতের আঁধারে পিঠে খবরের বোঝা নিয়ে একা ছুটে চলা ক্লান্ত কিন্তু দায়িত্বনিষ্ঠ রানারের শ্রমজীবী জীবনের ট্র্যাজেডি ও মানবিক মর্যাদা।'
+  },
+  'তোমাকে পাওয়ার জন্যে, হে স্বাধীনতা': {
+    author: 'শামসুর রাহমান (নাগরিক কবি)',
+    authorBirth: '১৯২৯ সালের ২৩শে অক্টোবর, ঢাকা।',
+    authorDeath: '২০০৬ সালের ১৭ই আগস্ট, ঢাকা।',
+    keyThemes: '১৯৭১ সালের মুক্তিযুদ্ধে লাখো শহীদের রক্ত, সাকিনা বিবির কপাল ভাঙা ও হরিদাসীর সিঁথির সিঁদুর মোছার চরম ত্যাগে অর্জিত আমাদের স্বাধীনতা।'
+  },
+  'স্বাধীনতা, এ শব্দটি কীভাবে আমাদের হলো': {
+    author: 'নির্মলেন্দু গুণ',
+    authorBirth: '১৯৪৫ সালের ২১শে জুন, কাশবন গ্রাম, বারহাট্টা, নেত্রকোনা।',
+    keyThemes: '১৯৭১ সালের ৭ই মার্চে রেসকোর্স ময়দানে বঙ্গবন্ধু শেখ মুজিবুর রহমানের কালজয়ী ভাষণ ও ঐতিহাসিক স্বাধীনতার ডাক।'
+  },
+  'সাহসী জননী বাংলা': {
+    author: 'কামাল চৌধুরী',
+    authorBirth: '১৯৫৭ সালের ২৮শে জানুয়ারি, বিজয়পুর, কুমিল্লা।',
+    keyThemes: 'বাঙালির প্রতিরোধ সংগ্রাম, অসুর বধ ও আত্মমর্যাদায় বলীয়ান সাহসী মাতৃভূমি বাংলার বিজয়গাথা।'
+  },
+  'আমার পরিচয়': {
+    author: 'সৈয়দ শামসুল হক (সব্যসাচী লেখক)',
+    authorBirth: '১৯৩৫ সালের ২৭শে ডিসেম্বর, কুড়িগ্রাম।',
+    authorDeath: '২০১৬ সালের ২৭শে সেপ্টেম্বর, ঢাকা।',
+    keyThemes: 'চর্যাপদ থেকে একাত্তরের মুক্তিযুদ্ধ পর্যন্ত বাঙালির সুদীর্ঘ শৌর্য, সংস্কৃতি, বিদ্রোহ ও অসাম্প্রদায়িক ঐতিহ্যের আত্মপরিচয়।'
+  },
+  'কাকতাড়ুয়া': {
+    author: 'সেলিনা হোসেন (উপন্যাস)',
+    authorBirth: '১৯৪৭ সালের ১৪ই জুন, রাজশাহী।',
+    keyThemes: '১৯৭১ সালের মুক্তিযুদ্ধে কিশোর বুধার অসীম সাহসিকতা, মুক্তিযোদ্ধাদের সহায়তা ও পাকিস্তানি ক্যাম্প মাইন দিয়ে উড়িয়ে দেওয়ার রোমাঞ্চকর বীরত্ব।'
+  },
+  'বহিপীর': {
+    author: 'সৈয়দ ওয়ালীউল্লাহ (নাটক)',
+    authorBirth: '১৯২২ সালের ১৫ই আগস্ট, ষোলশহর, চট্টগ্রাম।',
+    authorDeath: '১৯৭১ সালের ১০ই অক্টোবর, প্যারিস, ফ্রান্স।',
+    keyThemes: 'ধর্মব্যবসা ও বহুবিবাহের বিরুদ্ধে আত্মমর্যাদাবোধসম্পন্ন কিশোরী তাহেরার বলিষ্ঠ প্রতিবাদ ও কুসংস্কারমুক্ত চেতনার উন্মেষ।'
+  }
+};
+
   const handleSendMessage = (textToSend) => {
     const query = textToSend || inputQuestion;
     if (!query.trim()) return;
@@ -240,24 +419,95 @@ export default function AITutorView() {
 
     setTimeout(() => {
       let reply = '';
-      const currentCh = selectedChapterTitle !== 'all' ? selectedChapterTitle : activeSubName;
+      
+      // Find selected chapter object from full knowledge base
+      const selectedChObj = availableChapters.find(c => c.title === selectedChapterTitle) || availableChapters[0];
+      const chTitle = selectedChObj?.title || activeSubName;
+      const chSummary = selectedChObj?.summary || '';
+      const chLectureNotes = selectedChObj?.lectureNotes || [];
+      const chSelfTest = selectedChObj?.selfTest || [];
 
-      if (language === 'bn') {
-        if (tutorPersona === 'socratic') {
-          reply = `💡 চমৎকার প্রশ্ন! সরাসরি উত্তর নেওয়ার আগে নিজে একটু চিন্তা করো:\n\n“${currentCh}” এর প্রেক্ষাপটে "${query}" সম্পর্কিত মূল কারণ বা সূত্রটি কী হতে পারে? তুমি কী মনে করো?`;
-        } else if (tutorPersona === 'exam') {
-          reply = `🎯 বোর্ড পরীক্ষার দৃষ্টিকোণ থেকে "${query}" অত্যন্ত গুরুত্বপূর্ণ একটি বিষয়!\n\nপরীক্ষার খাতায় পূর্ণ নম্বর পেতে নিচের ৩টি পয়েন্ট প্যারা আকারে লিখবে:\n১. জ্ঞানমূলক অংশ: মূল সংজ্ঞা ও নির্ভুল কি-ওয়ার্ড উল্লেখ করো।\n২. অনুধাবন অংশ: কার্যকারণ সম্পর্ক স্পষ্টভাবে বুঝিয়ে লেখো।\n৩. প্রয়োগমূলক অংশ: পাঠ্যবইয়ের সূত্রের সাথে তুলনা করো।`;
+      // Find author key match
+      const matchedKey = Object.keys(NCTB_AUTHOR_KNOWLEDGE_MAP).find(k => chTitle.includes(k));
+      const authorInfo = matchedKey ? NCTB_AUTHOR_KNOWLEDGE_MAP[matchedKey] : null;
+
+      const qLower = query.toLowerCase().trim();
+
+      // 1. QUERY INTENT: BIRTH / DEATH / AUTHOR / PROPHET FACTS (জন্ম, মৃত্যু, সাল, জন্মস্থান, ইত্যাদি)
+      const isBirthOrAuthorQuery = 
+        qLower.includes('jonmo') || 
+        qLower.includes('জন্ম') || 
+        qLower.includes('সাল') || 
+        qLower.includes('shaley') || 
+        qLower.includes('shale') || 
+        qLower.includes('মৃত্যু') || 
+        qLower.includes('death') || 
+        qLower.includes('birth') || 
+        qLower.includes('লেখক') || 
+        qLower.includes('কবি') || 
+        qLower.includes('পরিচয়') || 
+        qLower.includes('author') || 
+        qLower.includes('kobe') || 
+        qLower.includes('কবে') || 
+        qLower.includes('কোথায়') || 
+        qLower.includes('kothey');
+
+      // 2. QUERY INTENT: SUMMARY / THEME / OVERVIEW (সারসংক্ষেপ, মূলভাব, পটভূমি, কি বলা হয়েছে)
+      const isSummaryQuery = 
+        qLower.includes('summary') || 
+        qLower.includes('সারসংক্ষেপ') || 
+        qLower.includes('মূলভাব') || 
+        qLower.includes('মূল ভাব') || 
+        qLower.includes('বক্তব্য') || 
+        qLower.includes('পটভূমি') || 
+        qLower.includes('বিষয়বস্তু') || 
+        qLower.includes('ki bola') || 
+        qLower.includes('explain') || 
+        qLower.includes('ব্যাখ্যা');
+
+      // 3. QUERY INTENT: BOARD QUESTIONS / CQ / MCQ (প্রশ্ন, সৃজনশীল, অনুধাবন, জ্ঞানমূলক)
+      const isQuestionQuery = 
+        qLower.includes('cq') || 
+        qLower.includes('mcq') || 
+        qLower.includes('প্রশ্ন') || 
+        qLower.includes('question') || 
+        qLower.includes('সৃজনশীল') || 
+        qLower.includes('অনুধাবন') || 
+        qLower.includes('জ্ঞানমূলক');
+
+      // 4. QUERY INTENT: FORMULA / EQUATION (সূত্র, নিয়ম)
+      const isFormulaQuery = 
+        qLower.includes('formula') || 
+        qLower.includes('সূত্র') || 
+        qLower.includes('equation') || 
+        qLower.includes('নিয়ম') || 
+        qLower.includes('rule');
+
+      if (isBirthOrAuthorQuery && authorInfo) {
+        if (authorInfo.prophetBirth) {
+          reply = `📖 “${chTitle}” অধ্যায়ের তথ্য:\n\n১. হযরত মুহম্মদ (সা.)-এর জন্ম:\n• জন্মসাল: ৫৭০ খ্রিস্টাব্দ (১২ই রবিউল আউয়াল)।\n• জন্মস্থান: আরবের পবিত্র মক্কা নগরীর কুরাইশ বংশ।\n• পিতা-মাতা: পিতা আবদুল্লাহ ও মাতা মা আমিনা।\n• ওফাত: ৬৩২ খ্রিস্টাব্দ (১২ই রবিউল আউয়াল, মদিনা শরিফে)।\n\n২. লেখক ${authorInfo.author}-এর জন্ম ও পরিচয়:\n• জন্মসাল: ${authorInfo.authorBirth}\n• মৃত্যু: ${authorInfo.authorDeath}\n• বৈশিষ্ট্য: তিনি ছিলেন সহজ-সরল, প্রাঞ্জল ও যুক্তিনির্ভর গদ্যের বিশিষ্ট সাহিত্যিক।`;
         } else {
-          reply = `⚡ সহজ ও দ্রুত সমাধান:\n\n"${query}" বিষয়টি মূলত “${currentCh}” এর অন্তর্ভুক্ত।\n\n📌 সারকথা: পাঠ্যবই অনুযায়ী নিয়মাবলি সঠিকভাবে অনুশীলন করলে এবং মূল সূত্রটি মনে রাখলে এই সংক্রান্ত যেকোনো প্রশ্নে ১০ এ ১০ পাওয়া সম্ভব!`;
+          reply = `📖 “${chTitle}” এর রচয়িতা সম্পর্কিত তথ্য:\n\n• লেখক/কবি: ${authorInfo.author}\n• জন্ম: ${authorInfo.authorBirth}\n• মৃত্যু: ${authorInfo.authorDeath}\n• মূল প্রতিপাদ্য: ${authorInfo.keyThemes}`;
         }
+      } else if (isSummaryQuery) {
+        const notesList = chLectureNotes.map(n => `• ${n.title}: ${n.detail}`).join('\n');
+        reply = `📚 “${chTitle}” এর মূল সারসংক্ষেপ ও লেকচার নোটস:\n\n📌 মূলভাব:\n${chSummary}\n\n📝 গুরুত্বপূর্ণ লেকচার পয়েন্টস:\n${notesList || 'পাঠ্যবইয়ের মূল বক্তব্যের আলোকে পূর্ণ প্রস্তুতি নিন।'}\n\n💡 বোর্ড পরীক্ষার পরামর্শ: অনুধাবন ও প্রয়োগমূলক প্রশ্নের উত্তর লেখার সময় মূল ভাববস্তু ও নির্ভুল বাক্য ব্যবহার করুন।`;
+      } else if (isQuestionQuery) {
+        if (chSelfTest.length > 0) {
+          const qList = chSelfTest.slice(0, 3).map((st, i) => `${i + 1}. ${st.q}\n✓ সঠিক উত্তর: ${st.options[st.correct]}\n(ব্যাখ্যা: ${st.explanation})`).join('\n\n');
+          reply = `🎯 “${chTitle}” অধ্যায়ের গুরুত্বপূর্ণ বোর্ড স্ট্যান্ডার্ড প্রশ্নোত্তর:\n\n${qList}`;
+        } else {
+          reply = `🎯 “${chTitle}” এর ৩টি গুরুত্বপূর্ণ বোর্ড প্রশ্ন:\n\n১. জ্ঞানমূলক (১ নম্বর): অধ্যায়ের মূল সংজ্ঞা ও লেখকের পরিচয় থেকে প্রশ্ন আসে।\n২. অনুধাবনমূলক (২ নম্বর): “${chSummary ? chSummary.slice(0, 70) + '...' : 'মূল বক্তব্যের তাৎপর্য'}”—ব্যাখ্যা করো।\n৩. প্রয়োগ ও উচ্চতর দক্ষতা: উদ্দীপকের সাথে তুলনামূলক বিশ্লেষণ।`;
+        }
+      } else if (isFormulaQuery) {
+        const formulaNote = chLectureNotes.find(n => n.title.includes('সূত্র') || n.title.includes('নিয়ম')) || chLectureNotes[0];
+        reply = `📐 “${chTitle}” এর মূল সূত্র ও নিয়মাবলি:\n\n• সূত্র/নিয়ম: ${formulaNote?.detail || 'বোর্ড স্ট্যান্ডার্ড গাণিতিক সূত্র ও নিয়মাবলী সঠিকভাবে অনুশীলন করুন।'}\n• সারসংক্ষেপ: ${chSummary}`;
       } else {
-        if (tutorPersona === 'socratic') {
-          reply = `💡 Great question! Before giving the direct answer, think: In the context of "${currentCh}", what fundamental rule or formula governs "${query}"?`;
-        } else if (tutorPersona === 'exam') {
-          reply = `🎯 From a Board Exam perspective, "${query}" carries high weightage!\n\nStructure your answer in 3 structured points to get maximum marks!`;
-        } else {
-          reply = `⚡ Quick & Clear Explanation:\n\nRegarding "${query}" in "${currentCh}": Review the core principle and key definitions for solid exam performance.`;
-        }
+        // General intelligent chapter knowledge response
+        const relevantNote = chLectureNotes[0]?.detail || chSummary;
+        const authorLine = authorInfo ? `(রচয়িতা: ${authorInfo.author})` : '';
+
+        reply = `📖 “${chTitle}” ${authorLine} সম্পর্কিত উত্তর:\n\n${relevantNote}\n\n📌 সারকথা: ${chSummary || 'পাঠ্যবইয়ের মূল ধারণাটি আয়ত্তে রাখলে বোর্ড পরীক্ষায় সর্বোচ্চ নম্বর পাওয়া সম্ভব।'}`;
       }
 
       setChatMessages(prev => [
@@ -266,15 +516,12 @@ export default function AITutorView() {
           id: Date.now() + 1,
           sender: 'ai',
           text: reply,
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          hints: language === 'bn' 
-            ? ['💡 আরো বিস্তারিত ও সহজভাবে বোঝাও', '🎯 এখান থেকে ৩টি বোর্ড MCQ দাও', '✍️ সৃজনশীল প্রশ্নব্যাংকে নিয়ে চলো']
-            : ['💡 Explain with more examples', '🎯 Generate 3 practice MCQs', '✍️ Open Creative Q&A']
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
       ]);
       setIsThinking(false);
-      earnPoints(2, language === 'bn' ? 'AI টিউটর প্রশ্ন সম্পন্ন (+২ পয়েন্ট)' : 'AI Question Asked (+2 Points)');
-    }, 900);
+      earnPoints(2, language === 'bn' ? 'AI টিউটর উত্তর সম্পন্ন (+২ পয়েন্ট)' : 'AI Question Answered (+2 Points)');
+    }, 600);
   };
 
   const handleCopyMessage = (msgId, text) => {
@@ -450,21 +697,6 @@ export default function AITutorView() {
                           {copiedMsgId === msg.id ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
                           <span>{copiedMsgId === msg.id ? 'কপি হয়েছে' : 'কপি'}</span>
                         </button>
-                      </div>
-                    )}
-
-                    {/* Suggestion Followup Hints */}
-                    {msg.hints && (
-                      <div className="pt-2 flex flex-wrap gap-1.5 border-t border-slate-100">
-                        {msg.hints.map((hint, idx) => (
-                          <button
-                            key={idx}
-                            onClick={() => handleSendMessage(hint)}
-                            className="text-[10px] bg-slate-50 hover:bg-red-50 text-red-800 hover:text-red-900 px-2.5 py-1 rounded-xl border border-slate-200 hover:border-red-200 transition-all text-left font-bold shadow-sm"
-                          >
-                            💬 {hint}
-                          </button>
-                        ))}
                       </div>
                     )}
                   </div>
