@@ -49,8 +49,8 @@ export default function AddSubjectModal() {
           </h3>
           <p className="text-xs text-slate-500 text-center">
             {language === 'bn' 
-              ? `"${currentClassObj.nameBn.split(' (')[0]}" এর জন্য নতুন বিষয় তৈরি করুন` 
-              : `Create new subject for ${currentClassObj.nameEn}`}
+              ? `"${(currentClassObj?.nameBn || '৯ম-১০ম শ্রেণি').split(' (')[0]}" এর জন্য নতুন বিষয় তৈরি করুন` 
+              : `Create new subject for ${currentClassObj?.nameEn || 'Class 9-10'}`}
           </p>
         </div>
 

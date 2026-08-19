@@ -27,6 +27,11 @@ export class ErrorBoundary extends React.Component {
             <p className="text-xs text-slate-300 leading-relaxed font-medium">
               পেজ লোড হতে সাময়িক সমস্যা হয়েছে। নিচের বাটনে ক্লিক করে অ্যাপটি রিফ্রেশ করুন।
             </p>
+            {this.state.error && (
+              <div className="p-3 rounded-xl bg-slate-950/80 border border-red-500/30 text-left overflow-x-auto text-[11px] font-mono text-red-400 max-h-36">
+                <strong>Error:</strong> {this.state.error.toString()}
+              </div>
+            )}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2 pt-2">
               <button
                 onClick={() => {
@@ -43,9 +48,10 @@ export class ErrorBoundary extends React.Component {
                 onClick={() => {
                   try {
                     localStorage.clear();
+                    sessionStorage.clear();
                   } catch (e) {}
                   this.setState({ hasError: false, error: null });
-                  window.location.reload();
+                  window.location.href = '/';
                 }}
                 className="w-full sm:w-auto px-4 py-2.5 rounded-2xl bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                 title="রিসেট ক্যাশ ও নতুন করে লোড করুন"

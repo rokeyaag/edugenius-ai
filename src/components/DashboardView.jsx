@@ -49,7 +49,7 @@ export default function DashboardView() {
               className="flex items-center gap-1 text-[11px] font-bold text-red-600 hover:text-red-700 mt-0.5"
             >
               <GraduationCap className="w-3.5 h-3.5" />
-              <span>{language === 'bn' ? currentClassObj.nameBn : currentClassObj.nameEn}</span>
+              <span>{language === 'bn' ? (currentClassObj?.nameBn || '৯ম-১০ম শ্রেণি') : (currentClassObj?.nameEn || 'Class 9-10')}</span>
               <ChevronDown className="w-3 h-3 text-slate-400" />
             </button>
           </div>
@@ -156,12 +156,14 @@ export default function DashboardView() {
               <span>{language === 'bn' ? sub.nameBn.split(' ')[0] : sub.nameEn}</span>
             </button>
           ))}
-          <button
-            onClick={() => setActiveTab('vault')}
-            className="py-1.5 px-3 rounded-xl bg-red-600 text-white text-xs font-bold whitespace-nowrap shadow-sm shrink-0"
-          >
-            +{subjects.length - 8} {language === 'bn' ? 'আরও বিষয়' : 'more'}
-          </button>
+          {subjects.length > 8 && (
+            <button
+              onClick={() => setActiveTab('vault')}
+              className="py-1.5 px-3 rounded-xl bg-red-600 text-white text-xs font-bold whitespace-nowrap shadow-sm shrink-0"
+            >
+              +{subjects.length - 8} {language === 'bn' ? 'আরও বিষয়' : 'more'}
+            </button>
+          )}
         </div>
       </div>
 

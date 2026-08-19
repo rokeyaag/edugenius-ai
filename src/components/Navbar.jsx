@@ -40,7 +40,7 @@ export default function Navbar() {
             className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-extrabold text-[11px] transition-all tap-active border border-slate-200"
           >
             <GraduationCap className="w-3.5 h-3.5 text-red-600" />
-            <span>{language === 'bn' ? currentClassObj.nameBn.split(' (')[0] : currentClassObj.nameEn}</span>
+            <span>{language === 'bn' ? (currentClassObj?.nameBn || '৯ম-১০ম শ্রেণি').split(' (')[0] : (currentClassObj?.nameEn || 'Class 9-10')}</span>
             <ChevronDown className="w-3 h-3 text-slate-500" />
           </button>
 

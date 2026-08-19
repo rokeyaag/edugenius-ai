@@ -8,12 +8,15 @@ export default function ClassSelectorModal() {
     setIsClassModalOpen, 
     selectedClass, 
     setSelectedClass, 
+    classes,
     allClassList,
     addNewClass,
     language,
     showToast,
     t
   } = useApp();
+
+  const classList = classes || allClassList || [];
 
   const [isAddingNew, setIsAddingNew] = useState(false);
   const [newClassName, setNewClassName] = useState('');
@@ -124,7 +127,7 @@ export default function ClassSelectorModal() {
 
         {/* Classes List */}
         <div className="space-y-2 max-h-[260px] overflow-y-auto pr-1">
-          {allClassList.map((cls) => {
+          {classList.map((cls) => {
             const isSelected = selectedClass === cls.id;
             return (
               <button

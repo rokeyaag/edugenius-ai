@@ -184,7 +184,9 @@ export function AppProvider({ children }) {
     localStorage.setItem('edugenius_vault_v2026_full', JSON.stringify(vaultNotes));
   }, [vaultNotes]);
 
-  const currentClassObj = classes.find(c => c.id === selectedClass) || classes[0] || NCTB_CLASSES[3];
+  const currentClassObj = (classes && Array.isArray(classes) && classes.length > 0)
+    ? (classes.find(c => c && c.id === selectedClass) || classes[0] || NCTB_CLASSES[3] || { id: 'class-9', nameBn: '৯ম-১০ম শ্রেণি (SSC)', nameEn: 'Class 9-10 (SSC)', subjects: [] })
+    : (NCTB_CLASSES[3] || { id: 'class-9', nameBn: '৯ম-১০ম শ্রেণি (SSC)', nameEn: 'Class 9-10 (SSC)', subjects: [] });
 
   const t = (key) => {
     const langDict = translations[language] || translations.bn;

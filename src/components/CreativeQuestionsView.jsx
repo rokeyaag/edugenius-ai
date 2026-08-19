@@ -12,7 +12,8 @@ import {
   Eye, 
   EyeOff,
   PenTool,
-  Award
+  Award,
+  Printer
 } from 'lucide-react';
 
 // Comprehensive NCTB Board Standard Creative Question (CQ / সৃজনশীল) Database in Bangla

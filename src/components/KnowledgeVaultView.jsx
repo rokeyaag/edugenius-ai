@@ -5137,7 +5137,7 @@ ${lectureText}
       {/* Active Hierarchy Breadcrumb Status Bar */}
       <div className="flex items-center justify-between px-1 text-xs text-slate-600">
         <span className="font-bold flex items-center gap-1.5 text-slate-900 truncate max-w-[240px]">
-          <span>🎓 {currentClassObj.nameBn.split(' (')[0]}</span>
+          <span>🎓 {(currentClassObj?.nameBn || '৯ম-১০ম শ্রেণি').split(' (')[0]}</span>
           <span>➔ {activeSelectedSub ? (activeSelectedSub.icon || '📖') : '📚'}</span>
           <span className="truncate">
             {activeSelectedSub ? (language === 'bn' ? activeSelectedSub.nameBn : activeSelectedSub.nameEn) : t('allSubjects')}
