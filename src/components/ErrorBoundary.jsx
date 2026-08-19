@@ -27,16 +27,32 @@ export class ErrorBoundary extends React.Component {
             <p className="text-xs text-slate-300 leading-relaxed font-medium">
               পেজ লোড হতে সাময়িক সমস্যা হয়েছে। নিচের বাটনে ক্লিক করে অ্যাপটি রিফ্রেশ করুন।
             </p>
-            <button
-              onClick={() => {
-                this.setState({ hasError: false, error: null });
-                window.location.reload();
-              }}
-              className="px-6 py-2.5 rounded-2xl bg-gradient-to-r from-red-600 to-amber-500 text-white font-black text-xs flex items-center justify-center gap-2 mx-auto shadow-lg hover:brightness-110 active:scale-95 transition-all"
-            >
-              <RotateCcw className="w-4 h-4" />
-              <span>🔄 পেজ রিফ্রেশ করুন</span>
-            </button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 pt-2">
+              <button
+                onClick={() => {
+                  this.setState({ hasError: false, error: null });
+                  window.location.reload();
+                }}
+                className="w-full sm:w-auto px-6 py-2.5 rounded-2xl bg-gradient-to-r from-red-600 to-amber-500 text-white font-black text-xs flex items-center justify-center gap-2 shadow-lg hover:brightness-110 active:scale-95 transition-all cursor-pointer"
+              >
+                <RotateCcw className="w-4 h-4" />
+                <span>🔄 পেজ রিফ্রেশ করুন</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  try {
+                    localStorage.clear();
+                  } catch (e) {}
+                  this.setState({ hasError: false, error: null });
+                  window.location.reload();
+                }}
+                className="w-full sm:w-auto px-4 py-2.5 rounded-2xl bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                title="রিসেট ক্যাশ ও নতুন করে লোড করুন"
+              >
+                <span>ক্যাশ রিসেট ও রিলোড</span>
+              </button>
+            </div>
           </div>
         </div>
       );
