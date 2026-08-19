@@ -399,54 +399,116 @@ export default function AITutorView() {
       </div>
 
       {/* ============================================================== */}
-      {/* 2. PRIMARY AI LEARNING MODE TABS (বই স্ক্যানার | AI টিউটর চ্যাট | পডকাস্ট) */}
+      {/* 2. ACTIVE VIEW MODE CONTENT (CHAT / SCANNER / PODCAST) */}
       {/* ============================================================== */}
-      <div className="grid grid-cols-3 gap-2">
-        
-        {/* Tab 1: Scanner */}
-        <button
-          onClick={() => setActiveMode('scanner')}
-          className={`p-2.5 rounded-2xl flex flex-col items-center justify-center gap-1 shadow-sm transition-all tap-active ${
-            activeMode === 'scanner' 
-              ? 'bg-red-600 text-white ring-2 ring-red-400 shadow-md font-black' 
-              : 'bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold'
-          }`}
-        >
-          <Camera className={`w-4 h-4 ${activeMode === 'scanner' ? 'text-amber-200' : 'text-red-600'}`} />
-          <span className="text-[10px] whitespace-nowrap">বই ও PDF স্ক্যানার</span>
-        </button>
 
-        {/* Tab 2: AI Tutor Chat */}
-        <button
-          onClick={() => setActiveMode('chat')}
-          className={`p-2.5 rounded-2xl flex flex-col items-center justify-center gap-1 shadow-sm transition-all tap-active ${
-            activeMode === 'chat' 
-              ? 'bg-slate-900 text-white ring-2 ring-amber-400 shadow-md font-black' 
-              : 'bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold'
-          }`}
-        >
-          <Bot className={`w-4 h-4 ${activeMode === 'chat' ? 'text-amber-400' : 'text-slate-800'}`} />
-          <span className="text-[10px] whitespace-nowrap">সোক্রাটিক AI চ্যাট</span>
-        </button>
+      {/* ================= MODE 2: INTERACTIVE SOCRATIC AI TUTOR CHAT ================= */}
+      {activeMode === 'chat' && (
+        <div className="space-y-3 animate-in fade-in">
+          
+          {/* Chat Messages Thread Container */}
+          <div className="space-y-3 min-h-[200px] max-h-[380px] overflow-y-auto pr-1">
+            {chatMessages.length === 0 ? (
+              <div className="flex flex-col items-center justify-center text-center py-10 text-slate-400 space-y-2">
+                <div className="w-12 h-12 rounded-3xl bg-red-50 border border-red-100 flex items-center justify-center text-2xl">
+                  🤖
+                </div>
+                <p className="text-xs font-bold text-slate-600">
+                  {selectedChapterTitle !== 'all' ? `“${selectedChapterTitle.split('—')[0]}”` : activeSubName} সম্পর্কিত যেকোনো প্রশ্ন নিচে লিখুন
+                </p>
+              </div>
+            ) : (
+              chatMessages.map((msg) => (
+                <div
+                  key={msg.id}
+                  className={`flex gap-2.5 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  {msg.sender === 'ai' && (
+                    <div className="w-8 h-8 rounded-2xl bg-gradient-to-tr from-red-600 to-amber-500 text-white flex items-center justify-center shrink-0 shadow-sm mt-0.5">
+                      <Bot className="w-4 h-4" />
+                    </div>
+                  )}
 
-        {/* Tab 3: Audio Podcast */}
-        <button
-          onClick={() => setActiveMode('podcast')}
-          className={`p-2.5 rounded-2xl flex flex-col items-center justify-center gap-1 shadow-sm transition-all tap-active ${
-            activeMode === 'podcast' 
-              ? 'bg-amber-400 text-slate-950 ring-2 ring-amber-500 shadow-md font-black' 
-              : 'bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold'
-          }`}
-        >
-          <Headphones className={`w-4 h-4 ${activeMode === 'podcast' ? 'text-red-900' : 'text-amber-600'}`} />
-          <span className="text-[10px] whitespace-nowrap">৩-মিনিট পডকাস্ট</span>
-        </button>
+                  <div
+                    className={`p-4 rounded-3xl max-w-[88%] text-xs leading-relaxed space-y-2.5 shadow-sm relative ${
+                      msg.sender === 'user'
+                        ? 'bg-red-600 text-white rounded-tr-none font-medium'
+                        : 'bg-white text-slate-900 border border-slate-200 rounded-tl-none'
+                    }`}
+                  >
+                    <p className="whitespace-pre-line font-medium">{msg.text}</p>
 
-      </div>
+                    {/* Copy Message Button for AI Answers */}
+                    {msg.sender === 'ai' && (
+                      <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-[10px] text-slate-400">
+                        <span>{msg.time}</span>
+                        <button
+                          onClick={() => handleCopyMessage(msg.id, msg.text)}
+                          className="flex items-center gap-1 text-slate-500 hover:text-slate-900 font-bold p-1 rounded-lg hover:bg-slate-100 transition-all"
+                          title="Copy text"
+                        >
+                          {copiedMsgId === msg.id ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
+                          <span>{copiedMsgId === msg.id ? 'কপি হয়েছে' : 'কপি'}</span>
+                        </button>
+                      </div>
+                    )}
 
-      {/* ============================================================== */}
-      {/* MODE 1: BOOK & PDF SMART SCANNER (LIVE AI OCR & SUMMARIZER) */}
-      {/* ============================================================== */}
+                    {/* Suggestion Followup Hints */}
+                    {msg.hints && (
+                      <div className="pt-2 flex flex-wrap gap-1.5 border-t border-slate-100">
+                        {msg.hints.map((hint, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => handleSendMessage(hint)}
+                            className="text-[10px] bg-slate-50 hover:bg-red-50 text-red-800 hover:text-red-900 px-2.5 py-1 rounded-xl border border-slate-200 hover:border-red-200 transition-all text-left font-bold shadow-sm"
+                          >
+                            💬 {hint}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {msg.sender === 'user' && (
+                    <div className="w-8 h-8 rounded-2xl bg-slate-900 text-white flex items-center justify-center shrink-0 shadow-sm mt-0.5">
+                      <User className="w-4 h-4 text-amber-300" />
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
+
+            {isThinking && (
+              <div className="flex items-center gap-2 text-xs text-amber-800 italic py-1 font-bold animate-pulse px-2">
+                <RefreshCw className="w-3.5 h-3.5 animate-spin text-amber-500" />
+                <span>AI উত্তর তৈরি করছে...</span>
+              </div>
+            )}
+          </div>
+
+          {/* Chat Input Bar */}
+          <div className="bg-white/95 backdrop-blur-md p-2 rounded-3xl border-2 border-red-100 shadow-sm flex items-center gap-2">
+            <input
+              type="text"
+              value={inputQuestion}
+              onChange={(e) => setInputQuestion(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+              placeholder={`"${selectedChapterTitle !== 'all' ? selectedChapterTitle.split('—')[0] : activeSubName}" সম্পর্কে প্রশ্ন লিখুন...`}
+              className="flex-1 bg-transparent px-3 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none font-medium"
+            />
+            <button
+              onClick={() => handleSendMessage()}
+              disabled={!inputQuestion.trim()}
+              className="w-10 h-10 rounded-2xl bg-gradient-to-r from-red-600 to-amber-500 hover:opacity-95 disabled:opacity-40 flex items-center justify-center text-white transition-all tap-active shrink-0 shadow-md"
+            >
+              <Send className="w-4 h-4 text-white" />
+            </button>
+          </div>
+
+        </div>
+      )}
+
+      {/* ================= MODE 1: BOOK & PDF SMART SCANNER (LIVE AI OCR & SUMMARIZER) ================= */}
       {activeMode === 'scanner' && (
         <div className="space-y-4 animate-in fade-in">
           
@@ -640,144 +702,6 @@ export default function AITutorView() {
       )}
 
       {/* ============================================================== */}
-      {/* MODE 2: INTERACTIVE SOCRATIC AI TUTOR CHAT */}
-      {/* ============================================================== */}
-      {activeMode === 'chat' && (
-        <div className="space-y-3.5 animate-in fade-in">
-          
-          {/* Persona Selector Bar */}
-          <div className="flex items-center justify-between bg-white p-2 rounded-2xl border border-slate-200 shadow-sm text-xs">
-            <span className="font-black text-slate-700 flex items-center gap-1 text-[11px]">
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-              <span>টিউটর ধরণ:</span>
-            </span>
-            <div className="flex items-center gap-1.5">
-              {[
-                { id: 'socratic', label: '💡 সোক্রাটিক গাইড', desc: 'ধাপে ধাপে বোঝাবে' },
-                { id: 'exam', label: '🎯 বোর্ড এক্সাম', desc: 'নম্বর পাওয়ার কৌশল' },
-                { id: 'quick', label: '⚡ দ্রুত সমাধান', desc: 'সংক্ষিপ্ত উত্তর' }
-              ].map(p => (
-                <button
-                  key={p.id}
-                  onClick={() => {
-                    setTutorPersona(p.id);
-                    showToast(`🤖 টিউটর মোড: ${p.label}`, 'info');
-                  }}
-                  className={`text-[11px] px-2.5 py-1 rounded-xl font-black transition-all ${
-                    tutorPersona === p.id
-                      ? 'bg-gradient-to-r from-red-600 to-amber-500 text-white shadow-sm'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200'
-                  }`}
-                >
-                  {p.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Chat Messages Thread Container */}
-          <div className="space-y-3 min-h-[220px] max-h-[460px] overflow-y-auto pr-1">
-            {chatMessages.length === 0 ? (
-              <div className="flex flex-col items-center justify-center text-center py-12 text-slate-400 space-y-2">
-                <div className="w-12 h-12 rounded-3xl bg-red-50 border border-red-100 flex items-center justify-center text-2xl">
-                  🤖
-                </div>
-                <p className="text-xs font-bold text-slate-600">
-                  {selectedChapterTitle !== 'all' ? `“${selectedChapterTitle.split('—')[0]}”` : activeSubName} সম্পর্কিত যেকোনো প্রশ্ন নিচে লিখুন
-                </p>
-              </div>
-            ) : (
-              chatMessages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`flex gap-2.5 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  {msg.sender === 'ai' && (
-                    <div className="w-8 h-8 rounded-2xl bg-gradient-to-tr from-red-600 to-amber-500 text-white flex items-center justify-center shrink-0 shadow-sm mt-0.5">
-                      <Bot className="w-4 h-4" />
-                    </div>
-                  )}
-
-                  <div
-                    className={`p-4 rounded-3xl max-w-[88%] text-xs leading-relaxed space-y-2.5 shadow-sm relative ${
-                      msg.sender === 'user'
-                        ? 'bg-red-600 text-white rounded-tr-none font-medium'
-                        : 'bg-white text-slate-900 border border-slate-200 rounded-tl-none'
-                    }`}
-                  >
-                    <p className="whitespace-pre-line font-medium">{msg.text}</p>
-
-                    {/* Copy Message Button for AI Answers */}
-                    {msg.sender === 'ai' && (
-                      <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-[10px] text-slate-400">
-                        <span>{msg.time}</span>
-                        <button
-                          onClick={() => handleCopyMessage(msg.id, msg.text)}
-                          className="flex items-center gap-1 text-slate-500 hover:text-slate-900 font-bold p-1 rounded-lg hover:bg-slate-100 transition-all"
-                          title="Copy text"
-                        >
-                          {copiedMsgId === msg.id ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
-                          <span>{copiedMsgId === msg.id ? 'কপি হয়েছে' : 'কপি'}</span>
-                        </button>
-                      </div>
-                    )}
-
-                    {/* Suggestion Followup Hints */}
-                    {msg.hints && (
-                      <div className="pt-2 flex flex-wrap gap-1.5 border-t border-slate-100">
-                        {msg.hints.map((hint, idx) => (
-                          <button
-                            key={idx}
-                            onClick={() => handleSendMessage(hint)}
-                            className="text-[10px] bg-slate-50 hover:bg-red-50 text-red-800 hover:text-red-900 px-2.5 py-1 rounded-xl border border-slate-200 hover:border-red-200 transition-all text-left font-bold shadow-sm"
-                          >
-                            💬 {hint}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {msg.sender === 'user' && (
-                    <div className="w-8 h-8 rounded-2xl bg-slate-900 text-white flex items-center justify-center shrink-0 shadow-sm mt-0.5">
-                      <User className="w-4 h-4 text-amber-300" />
-                    </div>
-                  )}
-                </div>
-              ))
-            )}
-
-            {isThinking && (
-              <div className="flex items-center gap-2 text-xs text-amber-800 italic py-1 font-bold animate-pulse px-2">
-                <RefreshCw className="w-3.5 h-3.5 animate-spin text-amber-500" />
-                <span>AI উত্তর তৈরি করছে...</span>
-              </div>
-            )}
-          </div>
-
-          {/* Floating Bottom Sticky Chat Input Bar */}
-          <div className="sticky bottom-16 bg-white/95 backdrop-blur-md p-2 rounded-3xl border-2 border-red-100 shadow-xl flex items-center gap-2">
-            <input
-              type="text"
-              value={inputQuestion}
-              onChange={(e) => setInputQuestion(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-              placeholder={`"${selectedChapterTitle !== 'all' ? selectedChapterTitle.split('—')[0] : activeSubName}" সম্পর্কে প্রশ্ন লিখুন...`}
-              className="flex-1 bg-transparent px-3 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none font-medium"
-            />
-            <button
-              onClick={() => handleSendMessage()}
-              disabled={!inputQuestion.trim()}
-              className="w-10 h-10 rounded-2xl bg-gradient-to-r from-red-600 to-amber-500 hover:opacity-95 disabled:opacity-40 flex items-center justify-center text-white transition-all tap-active shrink-0 shadow-md"
-            >
-              <Send className="w-4 h-4 text-white" />
-            </button>
-          </div>
-
-        </div>
-      )}
-
-      {/* ============================================================== */}
       {/* MODE 3: 3-MINUTE AI AUDIO PODCAST PLAYER */}
       {/* ============================================================== */}
       {activeMode === 'podcast' && (
@@ -871,6 +795,89 @@ export default function AITutorView() {
 
         </div>
       )}
+
+      {/* ============================================================== */}
+      {/* 3. PRIMARY AI LEARNING MODE TABS & PERSONA RIBBON (AT BOTTOM) */}
+      {/* ============================================================== */}
+      <div className="space-y-2.5 pt-2 border-t border-slate-100">
+        
+        {/* 3 Mode Tabs */}
+        <div className="grid grid-cols-3 gap-2">
+          
+          {/* Tab 1: Scanner */}
+          <button
+            onClick={() => setActiveMode('scanner')}
+            className={`p-2.5 rounded-2xl flex flex-col items-center justify-center gap-1 shadow-sm transition-all tap-active ${
+              activeMode === 'scanner' 
+                ? 'bg-red-600 text-white ring-2 ring-red-400 shadow-md font-black' 
+                : 'bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold'
+            }`}
+          >
+            <Camera className={`w-4 h-4 ${activeMode === 'scanner' ? 'text-amber-200' : 'text-red-600'}`} />
+            <span className="text-[10px] whitespace-nowrap">বই ও PDF স্ক্যানার</span>
+          </button>
+
+          {/* Tab 2: AI Tutor Chat */}
+          <button
+            onClick={() => setActiveMode('chat')}
+            className={`p-2.5 rounded-2xl flex flex-col items-center justify-center gap-1 shadow-sm transition-all tap-active ${
+              activeMode === 'chat' 
+                ? 'bg-slate-900 text-white ring-2 ring-amber-400 shadow-md font-black' 
+                : 'bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold'
+            }`}
+          >
+            <Bot className={`w-4 h-4 ${activeMode === 'chat' ? 'text-amber-400' : 'text-slate-800'}`} />
+            <span className="text-[10px] whitespace-nowrap">সোক্রাটিক AI চ্যাট</span>
+          </button>
+
+          {/* Tab 3: Audio Podcast */}
+          <button
+            onClick={() => setActiveMode('podcast')}
+            className={`p-2.5 rounded-2xl flex flex-col items-center justify-center gap-1 shadow-sm transition-all tap-active ${
+              activeMode === 'podcast' 
+                ? 'bg-amber-400 text-slate-950 ring-2 ring-amber-500 shadow-md font-black' 
+                : 'bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold'
+            }`}
+          >
+            <Headphones className={`w-4 h-4 ${activeMode === 'podcast' ? 'text-red-900' : 'text-amber-600'}`} />
+            <span className="text-[10px] whitespace-nowrap">৩-মিনিট পডকাস্ট</span>
+          </button>
+
+        </div>
+
+        {/* Persona Selector Ribbon (when in chat mode) */}
+        {activeMode === 'chat' && (
+          <div className="flex items-center justify-between bg-white p-2 rounded-2xl border border-slate-200 shadow-sm text-xs animate-in fade-in">
+            <span className="font-black text-slate-700 flex items-center gap-1 text-[11px]">
+              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+              <span>টিউটর ধরণ:</span>
+            </span>
+            <div className="flex items-center gap-1.5">
+              {[
+                { id: 'socratic', label: '💡 সোক্রাটিক গাইড', desc: 'ধাপে ধাপে বোঝাবে' },
+                { id: 'exam', label: '🎯 বোর্ড এক্সাম', desc: 'নম্বর পাওয়ার কৌশল' },
+                { id: 'quick', label: '⚡ দ্রুত সমাধান', desc: 'সংক্ষিপ্ত উত্তর' }
+              ].map(p => (
+                <button
+                  key={p.id}
+                  onClick={() => {
+                    setTutorPersona(p.id);
+                    showToast(`🤖 টিউটর মোড: ${p.label}`, 'info');
+                  }}
+                  className={`text-[11px] px-2.5 py-1 rounded-xl font-black transition-all ${
+                    tutorPersona === p.id
+                      ? 'bg-gradient-to-r from-red-600 to-amber-500 text-white shadow-sm'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200'
+                  }`}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+      </div>
 
     </div>
   );
