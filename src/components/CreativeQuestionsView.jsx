@@ -16,6 +16,7 @@ import {
   Printer,
   GraduationCap
 } from 'lucide-react';
+import { NCTB_FULL_BOOK_CHAPTERS_MAP } from './KnowledgeVaultView';
 
 // Comprehensive NCTB Board Standard Creative Question (CQ / সৃজনশীল) Database in Bangla
 const NCTB_CREATIVE_QUESTIONS_BN = {
@@ -400,8 +401,77 @@ export default function CreativeQuestionsView() {
   const [isEvaluating, setIsEvaluating] = useState(false);
 
   const getSubjectCqs = (subId) => {
-    if (NCTB_CREATIVE_QUESTIONS_BN[subId] && NCTB_CREATIVE_QUESTIONS_BN[subId].length > 0) {
-      return NCTB_CREATIVE_QUESTIONS_BN[subId];
+    const fullChapters = NCTB_FULL_BOOK_CHAPTERS_MAP[subId];
+    const curatedList = NCTB_CREATIVE_QUESTIONS_BN[subId] || [];
+
+    if (fullChapters && fullChapters.length > 0) {
+      return fullChapters.map((ch, idx) => {
+        const cleanTitle = ch.title ? ch.title.replace(/^\d+\.\s*/, '').replace(/‘|’|'|"/g, '').trim() : `অধ্যায় ${idx + 1}`;
+        const parts = cleanTitle.split('—');
+        const mainName = parts[0]?.trim() || cleanTitle;
+        const author = parts[1]?.trim() || '';
+
+        // Check if we have a curated CQ matching this chapter
+        const matchedCurated = curatedList.find(c => {
+          const cName = (c.chapterNameBn || '').toLowerCase();
+          return cName.includes(mainName.toLowerCase()) || (c.id && ch.id && c.id.includes(ch.id));
+        });
+
+        if (matchedCurated) {
+          return {
+            ...matchedCurated,
+            id: ch.id || matchedCurated.id,
+            chapterNameBn: ch.title
+          };
+        }
+
+        // Generate full board CQ dynamically from chapter notes & summary
+        const chSummary = ch.summary || 'এই পাঠের মূল বক্তব্য ও অন্তর্নিহিত তাৎপর্য গভীর অনুধাবনের মাধ্যমে আত্মস্থ করতে হবে।';
+        const notes = ch.lectureNotes || [];
+        const isPoem = ch.type === 'পদ্য' || ch.type?.includes('কবিতা');
+        const formWord = isPoem ? 'কবিতা' : (ch.type || 'পাঠ');
+
+        return {
+          id: `cq-${ch.id || idx}`,
+          chapterNameBn: ch.title,
+          stimulus: `উদ্দীপক:
+দশম শ্রেণির শিক্ষার্থী রায়হান পাঠ্যবই পড়ার সময় জানতে পারে যে, ${chSummary} সে তার প্রাত্যহিক জীবনে এই নীতি ও মূল্যবোধের গভীর তাৎপর্য উপলব্ধি করে এবং বাস্তব কর্মে তা প্রয়োগের দৃঢ় সংকল্প নেয়।`,
+          questions: [
+            {
+              tag: 'ক',
+              type: 'জ্ঞানমূলক',
+              marks: 1,
+              question: `${author ? `${author}-এর ` : ''}‘${mainName}’ ${formWord}টির মূল উৎস বা পটভূমি কী?`,
+              answer: notes[0]?.detail || `‘${mainName}’ ${formWord}টি লেখক ${author ? author + ' ' : ''}কর্তৃক রচিত এবং বোর্ড শিক্ষাক্রমের আলোকে অত্যন্ত গুরুত্বপূর্ণ একটি অধ্যায়।`
+            },
+            {
+              tag: 'খ',
+              type: 'অনুধাবনমূলক',
+              marks: 2,
+              question: `“${notes[1]?.title ? notes[1].title.replace(/^\d+\.\s*/, '') : `${mainName} পাঠের মূলভাব`}”— কথাটি বুঝিয়ে লেখো।`,
+              answer: notes[1]?.detail || `${chSummary} এই উক্তিটির মধ্য দিয়ে পাঠের মূল শিক্ষা ও অন্তর্নিহিত মানবতাবোধ অত্যন্ত সুন্দরভাবে ফুটে উঠেছে।`
+            },
+            {
+              tag: 'গ',
+              type: 'প্রয়োগমূলক',
+              marks: 3,
+              question: `উদ্দীপকের মূল ভাবনা ‘${mainName}’ ${formWord}টির কোন বিশেষ দিককে নির্দেশ করে? ব্যাখ্যা করো।`,
+              answer: `উদ্দীপকের বক্তব্য ‘${mainName}’ ${formWord}টির মূল প্রতিপাদ্যের সাথে সম্পূর্ণ সামঞ্জস্যপূর্ণ।\n\nউভয় ক্ষেত্রেই দেখা যায়— ${chSummary}\n\nপাঠ্যবইয়ে ${notes[2]?.detail || 'যে নৈতিক ও মানবিক সত্য'} বর্ণিত হয়েছে, উদ্দীপকেও সেই শিক্ষার বাস্তব প্রতিফলন লক্ষ্য করা যায়।`
+            },
+            {
+              tag: 'ঘ',
+              type: 'উচ্চতর দক্ষতামূলক',
+              marks: 4,
+              question: `“উদ্দীপকটি ‘${mainName}’ ${formWord}টির সামগ্রিক চেতনা ও মূল শিক্ষাকে সার্থকভাবে ধারণ করে”— উক্তিটি বিশ্লেষণ করো।`,
+              answer: `মন্তব্যটি সর্বাংশে সত্য ও যৌক্তিক।\n\n‘${mainName}’ ${formWord}টিতে ${author ? author + ' ' : ''}মানবজীবনের এক শাশ্বত ও গভীর সত্যকে উপস্থাপন করেছেন। ${chSummary}\n\nউদ্দীপকেও এই অভিন্ন চেতনার সুন্দর বহিঃপ্রকাশ ঘটেছে। অতএব, নিঃসন্দেহে বলা যায় উদ্দীপকটি পাঠের মূল দর্শন ও নৈতিক শিক্ষাকে সার্থকভাবে প্রতিফলিত করেছে।`
+            }
+          ]
+        };
+      });
+    }
+
+    if (curatedList.length > 0) {
+      return curatedList;
     }
 
     const subObj = subjectsList.find(s => s.id === subId) || subjectsList[0];
