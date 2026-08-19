@@ -14,7 +14,12 @@ import {
   PenTool,
   Award,
   Printer,
-  GraduationCap
+  GraduationCap,
+  Plus,
+  Search,
+  X,
+  FileUp,
+  Camera
 } from 'lucide-react';
 import { NCTB_FULL_BOOK_CHAPTERS_MAP } from './KnowledgeVaultView';
 
@@ -382,6 +387,8 @@ export default function CreativeQuestionsView() {
     language, 
     earnPoints, 
     showToast, 
+    setIsAddSubjectModalOpen,
+    setActiveTab,
     t 
   } = useApp();
   const subjectsList = currentClassObj?.subjects || [];
@@ -395,6 +402,7 @@ export default function CreativeQuestionsView() {
 
   const [selectedSubjectId, setSelectedSubjectId] = useState('bangla-sahitya');
   const [selectedCqIdx, setSelectedCqIdx] = useState(0);
+  const [chapterSearchQuery, setChapterSearchQuery] = useState('');
   const [revealedAnswers, setRevealedAnswers] = useState({});
   const [studentPracticeInput, setStudentPracticeInput] = useState('');
   const [aiFeedback, setAiFeedback] = useState(null);
@@ -689,6 +697,13 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
   };
 
 
+  const filteredCqList = subjectCqList
+    .map((cq, idx) => ({ ...cq, originalIdx: idx }))
+    .filter(cq => {
+      if (!chapterSearchQuery.trim()) return true;
+      return (cq.chapterNameBn || '').toLowerCase().includes(chapterSearchQuery.toLowerCase());
+    });
+
   return (
     <div className="space-y-3.5 pb-24 pt-2">
       
@@ -706,12 +721,12 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
       {/* 1. Class, Subject & Chapter Selector Card */}
       <div className="p-3.5 rounded-3xl bg-white border-2 border-red-100 space-y-3 shadow-sm">
         
-        {/* Class Selector */}
-        <div className="space-y-1 pb-2 border-b border-slate-100">
+        {/* ================= 1ST LINE: CLASS SELECTOR (শ্রেণি নির্বাচন) ================= */}
+        <div className="space-y-1.5 pb-2.5 border-b border-slate-100">
           <div className="flex items-center justify-between">
             <label className="text-xs font-black text-slate-900 flex items-center gap-1.5">
               <GraduationCap className="w-4 h-4 text-red-600" />
-              <span>১. শ্রেণি নির্বাচন করুন (Class):</span>
+              <span>শ্রেণি নির্বাচন করুন (Class):</span>
             </label>
           </div>
 
@@ -724,12 +739,13 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
                 const firstSubId = matchedClass?.subjects?.[0]?.id || 'bangla-sahitya';
                 setSelectedSubjectId(firstSubId);
                 setSelectedCqIdx(0);
+                setChapterSearchQuery('');
                 setRevealedAnswers({});
                 setAiFeedback(null);
                 setStudentPracticeInput('');
                 showToast(`🎓 ${matchedClass?.nameBn || e.target.value} সিলেক্ট করা হয়েছে`, 'info');
               }}
-              className="w-full appearance-none bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded-2xl pl-3.5 pr-9 py-2 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
+              className="w-full appearance-none bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
             >
               {(classes || []).map((cls) => (
                 <option key={cls.id} value={cls.id}>
@@ -741,16 +757,21 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
           </div>
         </div>
 
-        {/* Subject Selector */}
-        <div className="space-y-1">
+        {/* ================= 2ND LINE: SUBJECT SELECTOR (বিষয় নির্বাচন) ================= */}
+        <div className="space-y-1.5 pb-2.5 border-b border-slate-100">
           <div className="flex items-center justify-between">
             <label className="text-xs font-black text-slate-900 flex items-center gap-1.5">
               <BookOpen className="w-4 h-4 text-red-600" />
-              <span>২. বিষয় নির্বাচন করুন (Subject):</span>
+              <span>বিষয় নির্বাচন করুন (Subject):</span>
             </label>
-            <span className="text-[10px] bg-red-100 text-red-800 font-black px-2 py-0.5 rounded-full border border-red-200">
-              {subjectsList.length}টি বিষয়
-            </span>
+            <button
+              onClick={() => setIsAddSubjectModalOpen(true)}
+              className="text-[10px] font-bold text-red-700 bg-red-50 hover:bg-red-100 px-2 py-0.5 rounded-lg border border-red-200 tap-active flex items-center gap-0.5"
+              title="Add Custom Subject"
+            >
+              <Plus className="w-3 h-3" />
+              <span>বিষয় যোগ</span>
+            </button>
           </div>
 
           <div className="relative">
@@ -759,19 +780,23 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
               onChange={(e) => {
                 setSelectedSubjectId(e.target.value);
                 setSelectedCqIdx(0);
+                setChapterSearchQuery('');
                 setRevealedAnswers({});
                 setAiFeedback(null);
                 setStudentPracticeInput('');
               }}
-              className="w-full appearance-none bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded-2xl pl-3.5 pr-9 py-2 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
+              className="w-full appearance-none bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
             >
               {Object.entries(groupedSubjects).map(([groupName, groupSubs]) => (
-                <optgroup key={groupName} label={`--- ${groupName} ---`}>
-                  {groupSubs.map((sub) => (
-                    <option key={sub.id} value={sub.id}>
-                      {sub.icon || '📖'} {language === 'bn' ? sub.nameBn : sub.nameEn}
-                    </option>
-                  ))}
+                <optgroup key={groupName} label={`--- ${groupName} (${groupSubs.length}টি বিষয়) ---`}>
+                  {groupSubs.map((sub) => {
+                    const chCount = NCTB_FULL_BOOK_CHAPTERS_MAP[sub.id]?.length || (sub.id === 'bangla-sahitya' ? 50 : 3);
+                    return (
+                      <option key={sub.id} value={sub.id}>
+                        {sub.icon || '📖'} {language === 'bn' ? sub.nameBn : sub.nameEn} ({chCount}টি অধ্যায়)
+                      </option>
+                    );
+                  })}
                 </optgroup>
               ))}
             </select>
@@ -779,18 +804,16 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
           </div>
         </div>
 
-        {/* Chapter / Creative Question Selector */}
-        <div className="space-y-1 pt-1 border-t border-slate-100">
+        {/* ================= 3RD LINE: CHAPTER / CQ SELECTOR (অধ্যায় তালিকা) ================= */}
+        <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-black text-slate-900 flex items-center gap-1.5">
-              <Layers className="w-4 h-4 text-amber-600" />
-              <span>৩. সৃজনশীল প্রশ্ন সেট সিলেক্ট করুন:</span>
+            <label className="text-xs font-black text-amber-950 flex items-center gap-1.5">
+              <Layers className="w-4 h-4 text-amber-700" />
+              <span>[{subjectsList.find(s => s.id === selectedSubjectId)?.nameBn || 'নির্বাচিত বিষয়'}]-এর সম্পূর্ণ অধ্যায় তালিকা:</span>
             </label>
-            <span className="text-[10px] bg-amber-100 text-amber-900 font-black px-2 py-0.5 rounded-full border border-amber-300">
-              {subjectCqList.length}টি সৃজনশীল
-            </span>
           </div>
 
+          {/* Chapter Selector Dropdown */}
           <div className="relative">
             <select
               value={selectedCqIdx}
@@ -800,18 +823,70 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
                 setAiFeedback(null);
                 setStudentPracticeInput('');
               }}
-              className="w-full appearance-none bg-amber-50/70 hover:bg-amber-100/70 border border-amber-300 rounded-2xl pl-3.5 pr-9 py-2 text-xs text-amber-950 font-black focus:outline-none focus:border-amber-500 shadow-sm transition-all cursor-pointer"
+              className="w-full appearance-none bg-amber-50/70 hover:bg-amber-100/70 border border-amber-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-amber-950 font-black focus:outline-none focus:border-amber-500 shadow-sm transition-all cursor-pointer"
             >
-              {subjectCqList.map((cq, idx) => (
-                <option key={cq.id} value={idx}>
+              {filteredCqList.map((cq, idx) => (
+                <option key={cq.id || idx} value={cq.originalIdx !== undefined ? cq.originalIdx : idx}>
                   ✍️ {cq.chapterNameBn} (১০ নম্বর)
                 </option>
               ))}
             </select>
             <ChevronDown className="w-4 h-4 text-amber-700 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
+
+          {/* Instant Search Input */}
+          <div className="relative">
+            <Search className="w-3.5 h-3.5 text-amber-600 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={chapterSearchQuery}
+              onChange={(e) => setChapterSearchQuery(e.target.value)}
+              placeholder={`[${subjectsList.find(s => s.id === selectedSubjectId)?.nameBn || 'অধ্যায়'}] এর নাম লিখে খুঁজুন...`}
+              className="w-full bg-white border border-amber-200 rounded-2xl pl-9 pr-8 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-amber-500 transition-all font-medium shadow-inner"
+            />
+            {chapterSearchQuery && (
+              <button
+                onClick={() => setChapterSearchQuery('')}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-0.5"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
         </div>
 
+      </div>
+
+      {/* ============================================================== */}
+      {/* COMPREHENSIVE ACTION TOOLBAR (PDF আপলোড, বই স্ক্যানার, সৃজনশীল ড্রিল) */}
+      {/* ============================================================== */}
+      <div className="grid grid-cols-3 gap-2">
+        <button
+          onClick={() => setActiveTab('vault')}
+          className="p-2.5 rounded-2xl bg-amber-400 hover:bg-amber-500 text-slate-950 flex flex-col items-center justify-center gap-1 shadow-sm transition-all tap-active"
+        >
+          <FileUp className="w-4 h-4 text-red-900" />
+          <span className="text-[10px] font-black">PDF আপলোড</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('tutor')}
+          className="p-2.5 rounded-2xl bg-red-600 hover:bg-red-700 text-white flex flex-col items-center justify-center gap-1 shadow-sm transition-all tap-active"
+        >
+          <Camera className="w-4 h-4 text-amber-200" />
+          <span className="text-[10px] font-black">বই স্ক্যানার</span>
+        </button>
+
+        <button
+          onClick={() => {
+            revealAllAnswers();
+            window.scrollTo({ top: 380, behavior: 'smooth' });
+          }}
+          className="p-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white flex flex-col items-center justify-center gap-1 shadow-sm transition-all tap-active"
+        >
+          <Sparkles className="w-4 h-4 text-amber-400" />
+          <span className="text-[10px] font-black">মডেল উত্তর</span>
+        </button>
       </div>
 
       {/* 2. STIMULUS (উদ্দীপক) CARD */}
