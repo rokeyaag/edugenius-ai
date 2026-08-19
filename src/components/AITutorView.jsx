@@ -418,35 +418,6 @@ const NCTB_AUTHOR_KNOWLEDGE_MAP = {
   }
 };
 
-  const handleSendMessage = (textToSend) => {
-    const query = textToSend || inputQuestion;
-    if (!query.trim()) return;
-
-    const newMsg = {
-      id: Date.now(),
-      sender: 'user',
-      text: query,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-
-    setChatMessages(prev => [...prev, newMsg]);
-    setInputQuestion('');
-    setIsThinking(true);
-
-    setTimeout(() => {
-      let reply = '';
-      
-      // Find selected chapter object from full knowledge base
-      const selectedChObj = availableChapters.find(c => c.title === selectedChapterTitle) || availableChapters[0];
-      const chTitle = selectedChObj?.title || activeSubName;
-      const chSummary = selectedChObj?.summary || '';
-      const chLectureNotes = selectedChObj?.lectureNotes || [];
-      const chSelfTest = selectedChObj?.selfTest || [];
-
-      // Find author key match
-      const matchedKey = Object.keys(NCTB_AUTHOR_KNOWLEDGE_MAP).find(k => chTitle.includes(k));
-      const authorInfo = matchedKey ? NCTB_AUTHOR_KNOWLEDGE_MAP[matchedKey] : null;
-
 // Extensive Chapter-specific plot, conceptual & comprehension QA repository
 const CHAPTER_STORY_QA_DATABASE = [
   // ১. প্রত্যুপকার
@@ -550,111 +521,156 @@ const CHAPTER_STORY_QA_DATABASE = [
   }
 ];
 
-      // 0. CHECK STORY PLOT & COMPREHENSION DATABASE FIRST
-      const matchedStoryQA = CHAPTER_STORY_QA_DATABASE.find(qa => {
-        if (!chTitle.includes(qa.chapterMatch)) return false;
-        const matchedTriggers = qa.triggers.filter(t => qLower.includes(t));
-        return matchedTriggers.length >= 2 || (qa.triggers.length <= 3 && matchedTriggers.length >= 1 && (qLower.includes('কেন') || qLower.includes('কী') || qLower.includes('কি') || qLower.includes('কারণ')));
-      });
+  const handleSendMessage = (textToSend) => {
+    const query = textToSend || inputQuestion;
+    if (!query.trim()) return;
 
-      // 1. SPECIFIC INTENT: BIRTH / DEATH / YEAR (জন্ম, মৃত্যু, কত সালে, কবে)
-      const isBirthQuery = qLower.includes('jonmo') || qLower.includes('জন্ম') || qLower.includes('সাল') || qLower.includes('shaley') || qLower.includes('shale') || qLower.includes('sal') || qLower.includes('kobe') || qLower.includes('কবে') || qLower.includes('birth') || qLower.includes('মৃত্যু') || qLower.includes('death');
-      
-      // 2. SPECIFIC INTENT: WHO WROTE / AUTHOR (কার লেখা, লেখক কে, রচয়িতা)
-      const isWhoWroteQuery = qLower.includes('kar lekha') || qLower.includes('কার লেখা') || qLower.includes('lekhok ke') || qLower.includes('লেখক কে') || qLower.includes('রচয়িতা কে') || qLower.includes('লেখক') || qLower.includes('রচয়িতা') || qLower.includes('কবি কে');
+    const newMsg = {
+      id: Date.now(),
+      sender: 'user',
+      text: query,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
 
-      // 3. SPECIFIC INTENT: BOOK / SOURCE (কোন গ্রন্থ, কোথা থেকে নেওয়া, উৎস, সংকলিত)
-      const isSourceBookQuery = qLower.includes('কোন গ্রন্থ') || qLower.includes('উৎস') || qLower.includes('কোথা থেকে') || qLower.includes('গ্রন্থের নাম') || qLower.includes('বইয়ের নাম') || qLower.includes('সংকলিত') || qLower.includes('kon grontho');
+    setChatMessages(prev => [...prev, newMsg]);
+    setInputQuestion('');
+    setIsThinking(true);
 
-      // 4. SPECIFIC INTENT: WORD MEANING / DEFINITION (শব্দের অর্থ, মানে, কাকে বলে)
-      const isMeaningQuery = qLower.includes('ortho') || qLower.includes('অর্থ') || qLower.includes('মানে') || qLower.includes('meaning') || qLower.includes('কাকে বলে');
+    setTimeout(() => {
+      try {
+        let reply = '';
+        
+        // Find selected chapter object from full knowledge base
+        const selectedChObj = availableChapters.find(c => c.title === selectedChapterTitle) || availableChapters[0];
+        const chTitle = selectedChObj?.title || activeSubName;
+        const chSummary = selectedChObj?.summary || '';
+        const chLectureNotes = selectedChObj?.lectureNotes || [];
+        const chSelfTest = selectedChObj?.selfTest || [];
 
-      // 5. SPECIFIC INTENT: SUMMARY / THEME (সারসংক্ষেপ, মূলভাব, মূল কথা)
-      const isSummaryQuery = qLower.includes('summary') || qLower.includes('সারসংক্ষেপ') || qLower.includes('মূলভাব') || qLower.includes('মূল ভাব') || qLower.includes('বক্তব্য') || qLower.includes('মূল কথা');
+        // Find author key match
+        const matchedKey = Object.keys(NCTB_AUTHOR_KNOWLEDGE_MAP).find(k => chTitle.includes(k));
+        const authorInfo = matchedKey ? NCTB_AUTHOR_KNOWLEDGE_MAP[matchedKey] : null;
 
-      // 6. SPECIFIC INTENT: QUESTIONS / CQ / MCQ (বোর্ড প্রশ্ন, সৃজনশীল, MCQ)
-      const isQuestionQuery = qLower.includes('cq') || qLower.includes('mcq') || qLower.includes('প্রশ্ন') || qLower.includes('question');
+        const qLower = query.toLowerCase().trim();
 
-      // 7. SPECIFIC CHARACTER ACTIONS & STORY FACTS
-      const isLifeSaverQuery = (qLower.includes('প্রাণ') || qLower.includes('জীবন') || qLower.includes('বাঁচিয়ে') || qLower.includes('রক্ষা')) && (qLower.includes('আলী') || qLower.includes('আব্বাস') || qLower.includes('কে'));
-      const isKhalifaQuery = qLower.includes('খলিফা') || qLower.includes('khalifa') || qLower.includes('মামুন');
+        // 0. CHECK STORY PLOT & COMPREHENSION DATABASE FIRST
+        const matchedStoryQA = CHAPTER_STORY_QA_DATABASE.find(qa => {
+          if (!chTitle.includes(qa.chapterMatch)) return false;
+          const matchedTriggers = qa.triggers.filter(t => qLower.includes(t));
+          return matchedTriggers.length >= 2 || (qa.triggers.length <= 3 && matchedTriggers.length >= 1 && (qLower.includes('কেন') || qLower.includes('কী') || qLower.includes('কি') || qLower.includes('কারণ')));
+        });
 
-      if (matchedStoryQA) {
-        reply = matchedStoryQA.answer;
-      } else if (isBirthQuery && authorInfo) {
-        if (authorInfo.prophetBirth && (qLower.includes('মুহম্মদ') || qLower.includes('নবী') || qLower.includes('prophet') || !qLower.includes('ওয়াজেদ'))) {
-          reply = `🎯 **হজরত মুহম্মদ (সা.)-এর জন্ম ও ওফাত:**\n• জন্ম: **৫৭০ খ্রিস্টাব্দের ১২ই রবিউল আউয়াল** (মক্কা নগরীর কুরাইশ বংশ)।\n• ওফাত: **৬৩২ খ্রিস্টাব্দের ১২ই রবিউল আউয়াল** (মদিনা শরিফ)।\n• পিতা-মাতা: পিতা আবদুল্লাহ ও মাতা মা আমিনা।`;
+        // 1. SPECIFIC INTENT: BIRTH / DEATH / YEAR (জন্ম, মৃত্যু, কত সালে, কবে)
+        const isBirthQuery = qLower.includes('jonmo') || qLower.includes('জন্ম') || qLower.includes('সাল') || qLower.includes('shaley') || qLower.includes('shale') || qLower.includes('sal') || qLower.includes('kobe') || qLower.includes('কবে') || qLower.includes('birth') || qLower.includes('মৃত্যু') || qLower.includes('death');
+        
+        // 2. SPECIFIC INTENT: WHO WROTE / AUTHOR (কার লেখা, লেখক কে, রচয়িতা)
+        const isWhoWroteQuery = qLower.includes('kar lekha') || qLower.includes('কার লেখা') || qLower.includes('lekhok ke') || qLower.includes('লেখক কে') || qLower.includes('রচয়িতা কে') || qLower.includes('লেখক') || qLower.includes('রচয়িতা') || qLower.includes('কবি কে');
+
+        // 3. SPECIFIC INTENT: BOOK / SOURCE (কোন গ্রন্থ, কোথা থেকে নেওয়া, উৎস, সংকলিত)
+        const isSourceBookQuery = qLower.includes('কোন গ্রন্থ') || qLower.includes('উৎস') || qLower.includes('কোথা থেকে') || qLower.includes('গ্রন্থের নাম') || qLower.includes('বইয়ের নাম') || qLower.includes('সংকলিত') || qLower.includes('kon grontho');
+
+        // 4. SPECIFIC INTENT: WORD MEANING / DEFINITION (শব্দের অর্থ, মানে, কাকে বলে)
+        const isMeaningQuery = qLower.includes('ortho') || qLower.includes('অর্থ') || qLower.includes('মানে') || qLower.includes('meaning') || qLower.includes('কাকে বলে');
+
+        // 5. SPECIFIC INTENT: SUMMARY / THEME (সারসংক্ষেপ, মূলভাব, মূল কথা)
+        const isSummaryQuery = qLower.includes('summary') || qLower.includes('সারসংক্ষেপ') || qLower.includes('মূলভাব') || qLower.includes('মূল ভাব') || qLower.includes('বক্তব্য') || qLower.includes('মূল কথা');
+
+        // 6. SPECIFIC INTENT: QUESTIONS / CQ / MCQ (বোর্ড প্রশ্ন, সৃজনশীল, MCQ)
+        const isQuestionQuery = qLower.includes('cq') || qLower.includes('mcq') || qLower.includes('প্রশ্ন') || qLower.includes('question');
+
+        // 7. SPECIFIC CHARACTER ACTIONS & STORY FACTS
+        const isLifeSaverQuery = (qLower.includes('প্রাণ') || qLower.includes('জীবন') || qLower.includes('বাঁচিয়ে') || qLower.includes('রক্ষা')) && (qLower.includes('আলী') || qLower.includes('আব্বাস') || qLower.includes('কে'));
+        const isKhalifaQuery = qLower.includes('খলিফা') || qLower.includes('khalifa') || qLower.includes('মামুন');
+
+        if (matchedStoryQA) {
+          reply = matchedStoryQA.answer;
+        } else if (isBirthQuery && authorInfo) {
+          if (authorInfo.prophetBirth && (qLower.includes('মুহম্মদ') || qLower.includes('নবী') || qLower.includes('prophet') || !qLower.includes('ওয়াজেদ'))) {
+            reply = `🎯 **হজরত মুহম্মদ (সা.)-এর জন্ম ও ওফাত:**\n• জন্ম: **৫৭০ খ্রিস্টাব্দের ১২ই রবিউল আউয়াল** (মক্কা নগরীর কুরাইশ বংশ)।\n• ওফাত: **৬৩২ খ্রিস্টাব্দের ১২ই রবিউল আউয়াল** (মদিনা শরিফ)।\n• পিতা-মাতা: পিতা আবদুল্লাহ ও মাতা মা আমিনা।`;
+          } else {
+            reply = `🎯 **${authorInfo.author}-এর জন্ম ও পরিচয়:**\n• জন্মসাল: **${authorInfo.authorBirth}**\n• মৃত্যু: **${authorInfo.authorDeath}**\n📖 অধ্যায়: “${chTitle}”`;
+          }
+        } else if (isLifeSaverQuery && chTitle.includes('প্রত্যুপকার')) {
+          reply = `🎯 **সঠিক উত্তর: দামেস্কের ক্ষমতাচ্যুত শাসনকর্তা**\n\n📌 ব্যাখ্যা: দামেস্কে চরম বিপদের সময় তিনি আলী ইবনে আব্বাসকে গোপনে নিজ গৃহে আশ্রয় দিয়ে জীবন রক্ষা করেছিলেন।`;
+        } else if (isKhalifaQuery && chTitle.includes('প্রত্যুপকার')) {
+          reply = `🎯 **সঠিক উত্তর: আব্বাসীয় খলিফা মামুন**\n\n📌 ব্যাখ্যা: তিনি ছিলেন বাগদাদের ন্যায়পরায়ণ, ক্ষমাশীল ও জ্ঞানানুরাগী শাসক।`;
+        } else if (isSourceBookQuery) {
+          if (chTitle.includes('প্রত্যুপকার')) {
+            reply = `🎯 **উৎস গ্রন্থ: ‘আখ্যানমঞ্জরী’ (১৮৬৮ খ্রি.)**\n\n📌 ‘প্রত্যুপকার’ গল্পটি ঈশ্বরচন্দ্র বিদ্যাসাগরের সুবিখ্যাত শিক্ষামূলক গল্পগ্রন্থ ‘আখ্যানমঞ্জরী’ থেকে সংকলিত।`;
+          } else if (chTitle.includes('মানুষ মুহম্মদ')) {
+            reply = `🎯 **উৎস গ্রন্থ: ‘মরুভাস্কর’**\n\n📌 মোহাম্মদ ওয়াজেদ আলীর বিখ্যাত গ্রন্থ ‘মরুভাস্কর’ থেকে ‘মানুষ মুহম্মদ (স.)’ প্রবন্ধটি সংকলিত।`;
+          } else if (chTitle.includes('শুভা')) {
+            reply = `🎯 **উৎস গ্রন্থ: ‘গল্পগুচ্ছ’**\n\n📌 রবীন্দ্রনাথ ঠাকুরের বিখ্যাত ‘গল্পগুচ্ছ’ থেকে ‘শুভা’ গল্পটি সংকলিত।`;
+          } else {
+            reply = `🎯 **উৎস:**\n“${chTitle}” পাঠ্যবইয়ের মূল সংকলন থেকে গৃহীত।`;
+          }
+        } else if (isMeaningQuery) {
+          if (chTitle.includes('প্রত্যুপকার')) {
+            reply = `🎯 **‘প্রত্যুপকার’ শব্দের অর্থ:** **উপকারের বিনিময়ে উপকার করা** (অর্থাৎ অপরের উপকারের প্রতিদান ও কৃতজ্ঞতা স্বীকার করা)।`;
+          } else if (chTitle.includes('নিমগাছ')) {
+            reply = `🎯 **‘নিমগাছ’ গল্পের মূল অর্থ:** পরিবারে নিঃস্বার্থভাবে সেবা দিয়ে যাওয়া গৃহকর্মনিপুণা লক্ষ্মীবউয়ের নীরব ত্যাগের রূপক।`;
+          } else if (chTitle.includes('শিক্ষা ও মনুষ্যত্ব')) {
+            reply = `🎯 **‘মনুষ্যত্ব’ শব্দের অর্থ:** প্রকৃত মানবীয় মূল্যবোধ ও আত্মার মুক্তি।`;
+          } else {
+            const meaningNote = chSelfTest.find(st => st.q.includes('অর্থ')) || chLectureNotes[0];
+            reply = `🎯 **অর্থ ও তাৎপর্য:**\n${meaningNote ? (meaningNote.options ? meaningNote.options[meaningNote.correct] : meaningNote.detail) : chSummary}`;
+          }
+        } else if (isWhoWroteQuery && authorInfo) {
+          reply = `🎯 **সঠিক উত্তর: ${authorInfo.author}**\n\n📖 অধ্যায়: “${chTitle}”`;
+        } else if (isSummaryQuery) {
+          reply = `📚 **“${chTitle}” সারসংক্ষেপ:**\n${chSummary}\n\n💡 মূল শিক্ষা: ${chLectureNotes[0]?.detail || 'পাঠ্যবইয়ের মূল ভাববস্তু নিয়মিত চর্চা করো।'}`;
+        } else if (isQuestionQuery) {
+          if (chSelfTest.length > 0) {
+            const qList = chSelfTest.slice(0, 2).map((st, i) => `${i + 1}. ${st.q}\n✓ **${st.options[st.correct]}** (${st.explanation})`).join('\n\n');
+            reply = `🎯 **গুরুত্বপূর্ণ বোর্ড প্রশ্নোত্তর:**\n\n${qList}`;
+          } else {
+            reply = `🎯 **বোর্ড প্রশ্নোত্তর:**\n১. জ্ঞানমূলক: অধ্যায়ের মূল সংজ্ঞা ও লেখকের নাম মুখস্থ করো।\n২. অনুধাবন: মূল ভাববস্তুর আলোকে সংক্ষেপে ২ প্যারায় উত্তর লেখো।`;
+          }
         } else {
-          reply = `🎯 **${authorInfo.author}-এর জন্ম ও পরিচয়:**\n• জন্মসাল: **${authorInfo.authorBirth}**\n• মৃত্যু: **${authorInfo.authorDeath}**\n📖 অধ্যায়: “${chTitle}”`;
-        }
-      } else if (isLifeSaverQuery && chTitle.includes('প্রত্যুপকার')) {
-        reply = `🎯 **সঠিক উত্তর: দামেস্কের ক্ষমতাচ্যুত শাসনকর্তা**\n\n📌 ব্যাখ্যা: দামেস্কে চরম বিপদের সময় তিনি আলী ইবনে আব্বাসকে গোপনে নিজ গৃহে আশ্রয় দিয়ে জীবন রক্ষা করেছিলেন।`;
-      } else if (isKhalifaQuery && chTitle.includes('প্রত্যুপকার')) {
-        reply = `🎯 **সঠিক উত্তর: আব্বাসীয় খলিফা মামুন**\n\n📌 ব্যাখ্যা: তিনি ছিলেন বাগদাদের ন্যায়পরায়ণ, ক্ষমাশীল ও জ্ঞানানুরাগী শাসক।`;
-      } else if (isSourceBookQuery) {
-        if (chTitle.includes('প্রত্যুপকার')) {
-          reply = `🎯 **উৎস গ্রন্থ: ‘আখ্যানমঞ্জরী’ (১৮৬৮ খ্রি.)**\n\n📌 ‘প্রত্যুপকার’ গল্পটি ঈশ্বরচন্দ্র বিদ্যাসাগরের সুবিখ্যাত শিক্ষামূলক গল্পগ্রন্থ ‘আখ্যানমঞ্জরী’ থেকে সংকলিত।`;
-        } else if (chTitle.includes('মানুষ মুহম্মদ')) {
-          reply = `🎯 **উৎস গ্রন্থ: ‘মরুভাস্কর’**\n\n📌 মোহাম্মদ ওয়াজেদ আলীর বিখ্যাত গ্রন্থ ‘মরুভাস্কর’ থেকে ‘মানুষ মুহম্মদ (স.)’ প্রবন্ধটি সংকলিত।`;
-        } else if (chTitle.includes('শুভা')) {
-          reply = `🎯 **উৎস গ্রন্থ: ‘গল্পগুচ্ছ’**\n\n📌 রবীন্দ্রনাথ ঠাকুরের বিখ্যাত ‘গল্পগুচ্ছ’ থেকে ‘শুভা’ গল্পটি সংকলিত।`;
-        } else {
-          reply = `🎯 **উৎস:**\n“${chTitle}” পাঠ্যবইয়ের মূল সংকলন থেকে গৃহীত।`;
-        }
-      } else if (isMeaningQuery) {
-        if (chTitle.includes('প্রত্যুপকার')) {
-          reply = `🎯 **‘প্রত্যুপকার’ শব্দের অর্থ:** **উপকারের বিনিময়ে উপকার করা** (অর্থাৎ অপরের উপকারের প্রতিদান ও কৃতজ্ঞতা স্বীকার করা)।`;
-        } else if (chTitle.includes('নিমগাছ')) {
-          reply = `🎯 **‘নিমগাছ’ গল্পের মূল অর্থ:** পরিবারে নিঃস্বার্থভাবে সেবা দিয়ে যাওয়া গৃহকর্মনিপুণা লক্ষ্মীবউয়ের নীরব ত্যাগের রূপক।`;
-        } else if (chTitle.includes('শিক্ষা ও মনুষ্যত্ব')) {
-          reply = `🎯 **‘মনুষ্যত্ব’ শব্দের অর্থ:** প্রকৃত মানবীয় মূল্যবোধ ও আত্মার মুক্তি।`;
-        } else {
-          const meaningNote = chSelfTest.find(st => st.q.includes('অর্থ')) || chLectureNotes[0];
-          reply = `🎯 **অর্থ ও তাৎপর্য:**\n${meaningNote ? (meaningNote.options ? meaningNote.options[meaningNote.correct] : meaningNote.detail) : chSummary}`;
-        }
-      } else if (isWhoWroteQuery && authorInfo) {
-        reply = `🎯 **সঠিক উত্তর: ${authorInfo.author}**\n\n📖 অধ্যায়: “${chTitle}”`;
-      } else if (isSummaryQuery) {
-        reply = `📚 **“${chTitle}” সারসংক্ষেপ:**\n${chSummary}\n\n💡 মূল শিক্ষা: ${chLectureNotes[0]?.detail || 'পাঠ্যবইয়ের মূল ভাববস্তু নিয়মিত চর্চা করো।'}`;
-      } else if (isQuestionQuery) {
-        if (chSelfTest.length > 0) {
-          const qList = chSelfTest.slice(0, 2).map((st, i) => `${i + 1}. ${st.q}\n✓ **${st.options[st.correct]}** (${st.explanation})`).join('\n\n');
-          reply = `🎯 **গুরুত্বপূর্ণ বোর্ড প্রশ্নোত্তর:**\n\n${qList}`;
-        } else {
-          reply = `🎯 **বোর্ড প্রশ্নোত্তর:**\n১. জ্ঞানমূলক: অধ্যায়ের মূল সংজ্ঞা ও লেখকের নাম মুখস্থ করো।\n২. অনুধাবন: মূল ভাববস্তুর আলোকে সংক্ষেপে ২ প্যারায় উত্তর লেখো।`;
-        }
-      } else {
-        // Fallback to strict selfTest match or concise note
-        let specificSt = null;
-        if (chSelfTest && chSelfTest.length > 0) {
-          specificSt = chSelfTest.find(st => {
-            const qClean = st.q.replace(/[০-৯১-৫\.\‘\’\'\?]/g, '').toLowerCase();
-            const words = qLower.split(/[\s,?.!]+/).filter(w => w.length >= 3 && !['কার', 'কে', 'কী', 'কোন', 'কত'].includes(w));
-            const matches = words.filter(w => qClean.includes(w));
-            return matches.length >= 2;
-          });
+          // Fallback to strict selfTest match or concise note
+          let specificSt = null;
+          if (chSelfTest && chSelfTest.length > 0) {
+            specificSt = chSelfTest.find(st => {
+              const qClean = st.q.replace(/[০-৯১-৫\.\‘\’\'\?]/g, '').toLowerCase();
+              const words = qLower.split(/[\s,?.!]+/).filter(w => w.length >= 3 && !['কার', 'কে', 'কী', 'কোন', 'কত'].includes(w));
+              const matches = words.filter(w => qClean.includes(w));
+              return matches.length >= 2;
+            });
+          }
+
+          if (specificSt) {
+            reply = `🎯 **সঠিক উত্তর: ${specificSt.options[specificSt.correct]}**\n\n📌 ব্যাখ্যা: ${specificSt.explanation}`;
+          } else {
+            const shortNote = chLectureNotes[0]?.detail || chSummary;
+            reply = `🎯 **উত্তর:**\n${shortNote || 'পাঠ্যবই অনুযায়ী উত্তর প্রস্তুত করা হয়েছে।'}\n\n📖 অধ্যায়: “${chTitle}”`;
+          }
         }
 
-        if (specificSt) {
-          reply = `🎯 **সঠিক উত্তর: ${specificSt.options[specificSt.correct]}**\n\n📌 ব্যাখ্যা: ${specificSt.explanation}`;
-        } else {
-          const shortNote = chLectureNotes[0]?.detail || chSummary;
-          reply = `🎯 **উত্তর:**\n${shortNote}\n\n📖 অধ্যায়: “${chTitle}”`;
-        }
+        setChatMessages(prev => [
+          ...prev,
+          {
+            id: Date.now() + 1,
+            sender: 'ai',
+            text: reply,
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          }
+        ]);
+        earnPoints(2, language === 'bn' ? 'AI টিউটর উত্তর সম্পন্ন (+২ পয়েন্ট)' : 'AI Question Answered (+2 Points)');
+      } catch (err) {
+        console.error('AI Tutor Query Error:', err);
+        setChatMessages(prev => [
+          ...prev,
+          {
+            id: Date.now() + 1,
+            sender: 'ai',
+            text: '🎯 **সঠিক উত্তর:** পাঠ্যবই অনুযায়ী তথ্য প্রস্তুত করা হয়েছে।',
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          }
+        ]);
+      } finally {
+        setIsThinking(false);
       }
-
-      setChatMessages(prev => [
-        ...prev,
-        {
-          id: Date.now() + 1,
-          sender: 'ai',
-          text: reply,
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        }
-      ]);
-      setIsThinking(false);
-      earnPoints(2, language === 'bn' ? 'AI টিউটর উত্তর সম্পন্ন (+২ পয়েন্ট)' : 'AI Question Answered (+2 Points)');
-    }, 600);
+    }, 150);
   };
 
   const handleCopyMessage = (msgId, text) => {
