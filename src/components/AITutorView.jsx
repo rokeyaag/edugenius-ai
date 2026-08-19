@@ -103,29 +103,7 @@ export default function AITutorView() {
   const activeSubObj = subjectsList.find(s => s.id === selectedSubIdForUpload) || subjectsList[0];
   const activeSubName = language === 'bn' ? (activeSubObj?.nameBn || 'বিষয়') : (activeSubObj?.nameEn || 'Subject');
 
-  const [chatMessages, setChatMessages] = useState([
-    {
-      id: 1,
-      sender: 'ai',
-      text: language === 'bn' 
-        ? `👋 স্বাগতম! আমি তোমার ${currentClassObj?.nameBn ? currentClassObj.nameBn.split(' (')[0] : '৯ম-১০ম শ্রেণি'} এর ডেডিকেটেড AI টিউটর।\n\n📌 পাঠ্যবইয়ের পাতার ছবি তোলো, সম্পূর্ণ PDF আপলোড করো অথবা নিচের রেডিমেড প্রম্পটে ক্লিক করে যেকোনো জটিল টপিক সহজ ভাষায় শিখে নাও!` 
-        : `👋 Welcome! I am your dedicated AI Study Tutor for ${currentClassObj?.nameEn || 'Class 9-10'}.\n\nSnap a textbook photo, upload a full PDF, or tap any smart prompt below to master any topic!`,
-      time: '10:30 AM',
-      hints: language === 'bn' 
-        ? [
-            '📖 এই অধ্যায়ের মূল সারসংক্ষেপ বুঝিয়ে দাও', 
-            '🎯 বোর্ড পরীক্ষার ৩টি গুরুত্বপূর্ণ সৃজনশীল প্রশ্ন দাও', 
-            '📐 সকল গুরুত্বপূর্ণ সূত্র ও নিয়ম বুলেট আকারে দাও',
-            '🎧 ৩ মিনিটের অডিও পডকাস্ট তৈরি করো'
-          ] 
-        : [
-            '📖 Explain the key summary of this chapter', 
-            '🎯 Give 3 essential board exam CQ questions', 
-            '📐 Summarize all key equations and rules',
-            '🎧 Generate a 3-minute audio podcast recap'
-          ]
-    }
-  ]);
+  const [chatMessages, setChatMessages] = useState([]);
   const [inputQuestion, setInputQuestion] = useState('');
   const [isThinking, setIsThinking] = useState(false);
 
@@ -390,7 +368,7 @@ export default function AITutorView() {
         </div>
 
         {/* ================= 3RD LINE: CHAPTER SELECTOR (অধ্যায় তালিকা) ================= */}
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <div className="flex items-center justify-between">
             <label className="text-xs font-black text-amber-950 flex items-center gap-1.5">
               <Layers className="w-4 h-4 text-amber-700" />
@@ -408,33 +386,13 @@ export default function AITutorView() {
               <option value="all">
                 🌟 [{activeSubName}] সকল {availableChapters.length}টি অধ্যায় দেখুন
               </option>
-              {filteredChapters.map((ch, idx) => (
+              {availableChapters.map((ch, idx) => (
                 <option key={ch.id || idx} value={ch.title}>
                   📖 {ch.title}
                 </option>
               ))}
             </select>
             <ChevronDown className="w-4 h-4 text-amber-700 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
-
-          {/* Instant Search Input */}
-          <div className="relative">
-            <Search className="w-3.5 h-3.5 text-amber-600 absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={chapterSearchQuery}
-              onChange={(e) => setChapterSearchQuery(e.target.value)}
-              placeholder={`[${activeSubName}] এর নাম লিখে খুঁজুন...`}
-              className="w-full bg-white border border-amber-200 rounded-2xl pl-9 pr-8 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-amber-500 transition-all font-medium shadow-inner"
-            />
-            {chapterSearchQuery && (
-              <button
-                onClick={() => setChapterSearchQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-0.5"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
           </div>
         </div>
 
@@ -717,87 +675,77 @@ export default function AITutorView() {
             </div>
           </div>
 
-          {/* Quick Contextual Chapter Prompts (One-Tap Smart Chips) */}
-          <div className="space-y-1.5">
-            <span className="text-[11px] font-bold text-slate-500 px-1">💡 দ্রুত জিজ্ঞাসা করুন:</span>
-            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
-              {[
-                `📖 "${selectedChapterTitle !== 'all' ? selectedChapterTitle.split('—')[0] : activeSubName}" এর মূল সারসংক্ষেপ বুঝিয়ে দাও`,
-                `🎯 বোর্ড পরীক্ষার গুরুত্বপূর্ণ ৩টি CQ প্রশ্ন ও উত্তর দাও`,
-                `📐 অধ্যায়টির সকল সূত্র ও নিয়ম একসাথে দাও`,
-                `🎧 ৩ মিনিটের অডিও পডকাস্ট স্ক্রিপ্ট দাও`
-              ].map((promptText, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => handleSendMessage(promptText)}
-                  className="py-1.5 px-3 rounded-xl bg-white hover:bg-red-50 hover:text-red-700 text-slate-800 text-[11px] font-bold whitespace-nowrap border border-slate-200 shadow-sm transition-all shrink-0 tap-active"
-                >
-                  {promptText}
-                </button>
-              ))}
-            </div>
-          </div>
-
           {/* Chat Messages Thread Container */}
-          <div className="space-y-3 min-h-[300px] max-h-[460px] overflow-y-auto pr-1">
-            {chatMessages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`flex gap-2.5 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                {msg.sender === 'ai' && (
-                  <div className="w-8 h-8 rounded-2xl bg-gradient-to-tr from-red-600 to-amber-500 text-white flex items-center justify-center shrink-0 shadow-sm mt-0.5">
-                    <Bot className="w-4 h-4" />
-                  </div>
-                )}
-
+          <div className="space-y-3 min-h-[220px] max-h-[460px] overflow-y-auto pr-1">
+            {chatMessages.length === 0 ? (
+              <div className="flex flex-col items-center justify-center text-center py-12 text-slate-400 space-y-2">
+                <div className="w-12 h-12 rounded-3xl bg-red-50 border border-red-100 flex items-center justify-center text-2xl">
+                  🤖
+                </div>
+                <p className="text-xs font-bold text-slate-600">
+                  {selectedChapterTitle !== 'all' ? `“${selectedChapterTitle.split('—')[0]}”` : activeSubName} সম্পর্কিত যেকোনো প্রশ্ন নিচে লিখুন
+                </p>
+              </div>
+            ) : (
+              chatMessages.map((msg) => (
                 <div
-                  className={`p-4 rounded-3xl max-w-[88%] text-xs leading-relaxed space-y-2.5 shadow-sm relative ${
-                    msg.sender === 'user'
-                      ? 'bg-red-600 text-white rounded-tr-none font-medium'
-                      : 'bg-white text-slate-900 border border-slate-200 rounded-tl-none'
-                  }`}
+                  key={msg.id}
+                  className={`flex gap-2.5 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <p className="whitespace-pre-line font-medium">{msg.text}</p>
-
-                  {/* Copy Message Button for AI Answers */}
                   {msg.sender === 'ai' && (
-                    <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-[10px] text-slate-400">
-                      <span>{msg.time}</span>
-                      <button
-                        onClick={() => handleCopyMessage(msg.id, msg.text)}
-                        className="flex items-center gap-1 text-slate-500 hover:text-slate-900 font-bold p-1 rounded-lg hover:bg-slate-100 transition-all"
-                        title="Copy text"
-                      >
-                        {copiedMsgId === msg.id ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
-                        <span>{copiedMsgId === msg.id ? 'কপি হয়েছে' : 'কপি'}</span>
-                      </button>
+                    <div className="w-8 h-8 rounded-2xl bg-gradient-to-tr from-red-600 to-amber-500 text-white flex items-center justify-center shrink-0 shadow-sm mt-0.5">
+                      <Bot className="w-4 h-4" />
                     </div>
                   )}
 
-                  {/* Suggestion Followup Hints */}
-                  {msg.hints && (
-                    <div className="pt-2 flex flex-wrap gap-1.5 border-t border-slate-100">
-                      {msg.hints.map((hint, idx) => (
+                  <div
+                    className={`p-4 rounded-3xl max-w-[88%] text-xs leading-relaxed space-y-2.5 shadow-sm relative ${
+                      msg.sender === 'user'
+                        ? 'bg-red-600 text-white rounded-tr-none font-medium'
+                        : 'bg-white text-slate-900 border border-slate-200 rounded-tl-none'
+                    }`}
+                  >
+                    <p className="whitespace-pre-line font-medium">{msg.text}</p>
+
+                    {/* Copy Message Button for AI Answers */}
+                    {msg.sender === 'ai' && (
+                      <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-[10px] text-slate-400">
+                        <span>{msg.time}</span>
                         <button
-                          key={idx}
-                          onClick={() => handleSendMessage(hint)}
-                          className="text-[10px] bg-slate-50 hover:bg-red-50 text-red-800 hover:text-red-900 px-2.5 py-1 rounded-xl border border-slate-200 hover:border-red-200 transition-all text-left font-bold shadow-sm"
+                          onClick={() => handleCopyMessage(msg.id, msg.text)}
+                          className="flex items-center gap-1 text-slate-500 hover:text-slate-900 font-bold p-1 rounded-lg hover:bg-slate-100 transition-all"
+                          title="Copy text"
                         >
-                          💬 {hint}
+                          {copiedMsgId === msg.id ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
+                          <span>{copiedMsgId === msg.id ? 'কপি হয়েছে' : 'কপি'}</span>
                         </button>
-                      ))}
+                      </div>
+                    )}
+
+                    {/* Suggestion Followup Hints */}
+                    {msg.hints && (
+                      <div className="pt-2 flex flex-wrap gap-1.5 border-t border-slate-100">
+                        {msg.hints.map((hint, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => handleSendMessage(hint)}
+                            className="text-[10px] bg-slate-50 hover:bg-red-50 text-red-800 hover:text-red-900 px-2.5 py-1 rounded-xl border border-slate-200 hover:border-red-200 transition-all text-left font-bold shadow-sm"
+                          >
+                            💬 {hint}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {msg.sender === 'user' && (
+                    <div className="w-8 h-8 rounded-2xl bg-slate-900 text-white flex items-center justify-center shrink-0 shadow-sm mt-0.5">
+                      <User className="w-4 h-4 text-amber-300" />
                     </div>
                   )}
                 </div>
-
-                {msg.sender === 'user' && (
-                  <div className="w-8 h-8 rounded-2xl bg-slate-900 text-white flex items-center justify-center shrink-0 shadow-sm mt-0.5">
-                    <User className="w-4 h-4 text-amber-300" />
-                  </div>
-                )}
-              </div>
-            ))}
+              ))
+            )}
 
             {isThinking && (
               <div className="flex items-center gap-2 text-xs text-amber-800 italic py-1 font-bold animate-pulse px-2">
