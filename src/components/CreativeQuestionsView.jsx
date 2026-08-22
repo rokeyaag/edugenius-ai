@@ -722,10 +722,10 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
       <div className="p-3.5 rounded-3xl bg-[#fffdf0] border-2 border-amber-200/90 space-y-3 shadow-sm">
         
         {/* ================= 1ST LINE: CLASS SELECTOR (শ্রেণি নির্বাচন) ================= */}
-        <div className="space-y-1.5 pb-2.5 border-b border-amber-200/60">
+        <div className="space-y-1 pb-2 border-b border-amber-200/60">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-black text-amber-950 flex items-center gap-1.5">
-              <GraduationCap className="w-4 h-4 text-red-600" />
+            <label className="text-[11px] font-black text-amber-950 flex items-center gap-1">
+              <GraduationCap className="w-3.5 h-3.5 text-red-600" />
               <span>শ্রেণি নির্বাচন করুন (Class):</span>
             </label>
           </div>
@@ -745,7 +745,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
                 setStudentPracticeInput('');
                 showToast(`🎓 ${matchedClass?.nameBn || e.target.value} সিলেক্ট করা হয়েছে`, 'info');
               }}
-              className="w-full appearance-none bg-white hover:bg-amber-50/50 border border-amber-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
+              className="w-full appearance-none bg-white hover:bg-amber-50/50 border border-amber-300 rounded-xl pl-3 pr-7 py-1.5 text-[11px] text-slate-800 font-bold focus:outline-none focus:border-red-500 shadow-xs transition-all cursor-pointer"
             >
               {(classes || []).map((cls) => (
                 <option key={cls.id} value={cls.id}>
@@ -753,23 +753,23 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
                 </option>
               ))}
             </select>
-            <ChevronDown className="w-4 h-4 text-amber-700 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <ChevronDown className="w-3.5 h-3.5 text-amber-700 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
         </div>
 
         {/* ================= 2ND LINE: SUBJECT SELECTOR (বিষয় নির্বাচন) ================= */}
-        <div className="space-y-1.5 pb-2.5 border-b border-amber-200/60">
+        <div className="space-y-1 pb-2 border-b border-amber-200/60">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-black text-amber-950 flex items-center gap-1.5">
-              <BookOpen className="w-4 h-4 text-red-600" />
+            <label className="text-[11px] font-black text-amber-950 flex items-center gap-1">
+              <BookOpen className="w-3.5 h-3.5 text-red-600" />
               <span>বিষয় নির্বাচন করুন (Subject):</span>
             </label>
             <button
               onClick={() => setIsAddSubjectModalOpen(true)}
-              className="text-[10px] font-bold text-red-700 bg-red-50 hover:bg-red-100 px-2 py-0.5 rounded-lg border border-red-200 tap-active flex items-center gap-0.5"
+              className="text-[9px] font-bold text-red-700 bg-red-50 hover:bg-red-100 px-1.5 py-0.5 rounded-lg border border-red-200 tap-active flex items-center gap-0.5"
               title="Add Custom Subject"
             >
-              <Plus className="w-3 h-3" />
+              <Plus className="w-2.5 h-2.5" />
               <span>বিষয় যোগ</span>
             </button>
           </div>
@@ -785,7 +785,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
                 setAiFeedback(null);
                 setStudentPracticeInput('');
               }}
-              className="w-full appearance-none bg-white hover:bg-amber-50/50 border border-amber-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
+              className="w-full appearance-none bg-white hover:bg-amber-50/50 border border-amber-300 rounded-xl pl-3 pr-7 py-1.5 text-[11px] text-slate-800 font-bold focus:outline-none focus:border-red-500 shadow-xs transition-all cursor-pointer"
             >
               {Object.entries(groupedSubjects).map(([groupName, groupSubs]) => (
                 <optgroup key={groupName} label={`--- ${groupName} (${groupSubs.length}টি বিষয়) ---`}>
@@ -800,16 +800,16 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
                 </optgroup>
               ))}
             </select>
-            <ChevronDown className="w-4 h-4 text-amber-700 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <ChevronDown className="w-3.5 h-3.5 text-amber-700 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
         </div>
 
         {/* ================= 3RD LINE: CHAPTER / CQ SELECTOR (অধ্যায় তালিকা) ================= */}
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-black text-amber-950 flex items-center gap-1.5">
-              <Layers className="w-4 h-4 text-amber-700" />
-              <span>[{subjectsList.find(s => s.id === selectedSubjectId)?.nameBn || 'নির্বাচিত বিষয়'}]-এর সম্পূর্ণ অধ্যায় তালিকা:</span>
+            <label className="text-[11px] font-black text-amber-950 flex items-center gap-1">
+              <Layers className="w-3.5 h-3.5 text-amber-700" />
+              <span>[{subjectsList.find(s => s.id === selectedSubjectId)?.nameBn || 'নির্বাচিত বিষয়'}] সৃজনশীল তালিকা:</span>
             </label>
           </div>
 
@@ -823,7 +823,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
                 setAiFeedback(null);
                 setStudentPracticeInput('');
               }}
-              className="w-full appearance-none bg-amber-100/70 hover:bg-amber-200/70 border border-amber-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-amber-950 font-black focus:outline-none focus:border-amber-500 shadow-sm transition-all cursor-pointer"
+              className="w-full appearance-none bg-amber-100/70 hover:bg-amber-200/70 border border-amber-300 rounded-xl pl-3 pr-7 py-1.5 text-[11px] text-amber-950 font-black focus:outline-none focus:border-amber-500 shadow-xs transition-all cursor-pointer"
             >
               {filteredCqList.map((cq, idx) => (
                 <option key={cq.id || idx} value={cq.originalIdx !== undefined ? cq.originalIdx : idx}>
@@ -831,25 +831,25 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
                 </option>
               ))}
             </select>
-            <ChevronDown className="w-4 h-4 text-amber-700 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <ChevronDown className="w-3.5 h-3.5 text-amber-700 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
 
           {/* Instant Search Input */}
           <div className="relative">
-            <Search className="w-3.5 h-3.5 text-amber-600 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-3 h-3 text-amber-600 absolute left-2.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={chapterSearchQuery}
               onChange={(e) => setChapterSearchQuery(e.target.value)}
-              placeholder={`[${subjectsList.find(s => s.id === selectedSubjectId)?.nameBn || 'অধ্যায়'}] এর নাম লিখে খুঁজুন...`}
-              className="w-full bg-white border border-amber-200 rounded-2xl pl-9 pr-8 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-amber-500 transition-all font-medium shadow-inner"
+              placeholder={`[${subjectsList.find(s => s.id === selectedSubjectId)?.nameBn || 'অধ্যায়'}] খুঁজুন...`}
+              className="w-full bg-white border border-amber-200 rounded-xl pl-8 pr-7 py-1.5 text-[11px] text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-amber-500 transition-all font-medium shadow-inner"
             />
             {chapterSearchQuery && (
               <button
                 onClick={() => setChapterSearchQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-0.5"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-0.5"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="w-3 h-3" />
               </button>
             )}
           </div>

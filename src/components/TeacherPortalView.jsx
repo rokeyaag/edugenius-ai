@@ -962,25 +962,25 @@ export default function TeacherPortalView() {
         <div className="space-y-4">
 
           {/* STEP 1: CLASS & SUBJECT DROPDOWN SELECTORS */}
-          <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-3.5">
+          <div className="bg-[#fffdf0] p-3.5 rounded-3xl border border-amber-200/90 shadow-sm space-y-2.5">
             <div className="flex items-center justify-between">
-              <span className="font-black text-slate-800 text-xs flex items-center gap-1.5">
-                <span className="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-[10px] font-black">১</span>
+              <span className="font-black text-amber-950 text-xs flex items-center gap-1.5">
+                <span className="w-4 h-4 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-[9px] font-black">১</span>
                 <span>শ্রেণি ও বিষয় ড্রপডাউন নির্বাচন:</span>
               </span>
-              <span className="text-[10px] font-black text-red-600 bg-red-50 border border-red-200 px-2.5 py-0.5 rounded-full">
+              <span className="text-[9px] font-black text-red-600 bg-red-50 border border-red-200 px-2 py-0.5 rounded-full">
                 NCTB কারিকুলাম
               </span>
             </div>
 
             {/* 1. Class Dropdown List */}
             <div className="space-y-1">
-              <label className="text-[11px] font-black text-slate-600 flex items-center justify-between">
+              <label className="text-[11px] font-black text-amber-950 flex items-center justify-between">
                 <span className="flex items-center gap-1">
                   <GraduationCap className="w-3.5 h-3.5 text-red-600" />
                   <span>শ্রেণি নির্বাচন করুন:</span>
                 </span>
-                <span className="text-[10px] text-slate-400 font-bold">Class Select</span>
+                <span className="text-[9px] text-slate-400 font-bold">Class Select</span>
               </label>
               <div className="relative">
                 <select
@@ -992,7 +992,7 @@ export default function TeacherPortalView() {
                     setSelectedSubjectId(newClassObj?.subjects[0]?.id || 'bangla-sahitya');
                     showToast(`${newClassObj?.nameBn} সিলেক্ট করা হয়েছে`, 'info');
                   }}
-                  className="w-full appearance-none bg-slate-50 hover:bg-slate-100/80 border border-slate-300 rounded-2xl p-3 pr-10 text-xs font-black text-slate-800 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 cursor-pointer shadow-xs transition-all"
+                  className="w-full appearance-none bg-white hover:bg-amber-50/50 border border-amber-300 rounded-xl pl-3 pr-7 py-1.5 text-[11px] text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 cursor-pointer shadow-xs transition-all"
                 >
                   {NCTB_CLASSES.map(cls => (
                     <option key={cls.id} value={cls.id} className="py-1 text-slate-800 font-bold">
@@ -1000,20 +1000,20 @@ export default function TeacherPortalView() {
                     </option>
                   ))}
                 </select>
-                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
-                  <ChevronDown className="w-4 h-4 text-red-600" />
+                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+                  <ChevronDown className="w-3.5 h-3.5 text-red-600" />
                 </div>
               </div>
             </div>
 
             {/* 2. Subject Dropdown List */}
             <div className="space-y-1">
-              <label className="text-[11px] font-black text-slate-600 flex items-center justify-between">
+              <label className="text-[11px] font-black text-amber-950 flex items-center justify-between">
                 <span className="flex items-center gap-1">
                   <BookOpen className="w-3.5 h-3.5 text-amber-600" />
                   <span>বিষয় নির্বাচন করুন:</span>
                 </span>
-                <span className="text-[10px] text-slate-400 font-bold">Subject Select</span>
+                <span className="text-[9px] text-slate-400 font-bold">Subject Select</span>
               </label>
               <div className="relative">
                 <select
@@ -1024,7 +1024,7 @@ export default function TeacherPortalView() {
                     const subObj = availableSubjects.find(s => s.id === newSubId);
                     showToast(`বিষয়: ${subObj?.nameBn || newSubId}`, 'info');
                   }}
-                  className="w-full appearance-none bg-slate-50 hover:bg-slate-100/80 border border-slate-300 rounded-2xl p-3 pr-10 text-xs font-black text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 cursor-pointer shadow-xs transition-all"
+                  className="w-full appearance-none bg-white hover:bg-amber-50/50 border border-amber-300 rounded-xl pl-3 pr-7 py-1.5 text-[11px] text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 cursor-pointer shadow-xs transition-all"
                 >
                   {availableSubjects.map(sub => (
                     <option key={sub.id} value={sub.id} className="py-1 text-slate-800 font-bold">
@@ -1032,8 +1032,8 @@ export default function TeacherPortalView() {
                     </option>
                   ))}
                 </select>
-                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
-                  <ChevronDown className="w-4 h-4 text-amber-600" />
+                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+                  <ChevronDown className="w-3.5 h-3.5 text-amber-600" />
                 </div>
               </div>
             </div>
