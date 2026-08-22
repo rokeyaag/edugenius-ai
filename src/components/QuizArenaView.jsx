@@ -1284,41 +1284,41 @@ export default function QuizArenaView() {
 
       {/* ================= QUIZ INTERFACE (EXAM & COMPETITION MODE) ================= */}
       {!isQuizSubmitted ? (
-        <div className="rounded-3xl p-5 bg-white border border-slate-200 space-y-4 shadow-sm">
+        <div className="rounded-3xl p-4 sm:p-5 bg-white border border-slate-200 space-y-3.5 shadow-sm">
           
           {/* Chapter Name Banner on Top */}
-          <div className="p-2.5 rounded-2xl bg-slate-900 text-white flex items-center justify-between gap-2 shadow-sm">
-            <div className="flex items-center gap-2 truncate">
-              <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
-              <span className="text-xs font-black truncate">{currentChapter.chapterNameBn}</span>
+          <div className="p-2 sm:p-2.5 rounded-2xl bg-slate-900 text-white flex items-center justify-between gap-2 shadow-xs">
+            <div className="flex items-center gap-1.5 truncate">
+              <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <span className="text-[11px] sm:text-xs font-bold text-slate-100 truncate">{currentChapter.chapterNameBn}</span>
             </div>
-            <span className="text-[10px] bg-amber-400 text-slate-950 px-2.5 py-0.5 rounded-md font-black shrink-0">
+            <span className="text-[9.5px] bg-amber-400 text-slate-950 px-2 py-0.5 rounded-md font-black shrink-0">
               ধাপ {selectedChapterIdx + 1}
             </span>
           </div>
 
           {/* Progress Bar & Counter */}
-          <div className="flex items-center justify-between text-xs text-slate-500 border-b border-slate-100 pb-2">
-            <span className="font-black text-slate-800 bg-slate-100 px-2.5 py-1 rounded-lg">
+          <div className="flex items-center justify-between text-[11px] text-slate-500 border-b border-slate-100 pb-1.5">
+            <span className="font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md">
               প্রশ্ন {currentIndex + 1} / {currentChapter.questions.length} ({currentChapter.questions.length}টি প্রশ্ন)
             </span>
-            <span className="font-black text-red-600 flex items-center gap-1">
+            <span className="font-bold text-red-600 flex items-center gap-1 text-[11px]">
               <span>পুরস্কার:</span>
-              <span className="bg-red-50 text-red-700 px-2 py-0.5 rounded-full border border-red-200 font-black">
+              <span className="bg-red-50 text-red-700 px-2 py-0.5 rounded-full border border-red-200 font-black text-[10.5px]">
                 +{currentChapter.pointsReward} পয়েন্ট
               </span>
             </span>
           </div>
 
           {/* Question Text */}
-          <div className="py-1">
-            <h3 className="text-sm sm:text-base font-black text-slate-900 leading-snug">
+          <div className="py-0.5">
+            <h3 className="text-xs sm:text-[13.5px] font-bold text-slate-900 leading-relaxed tracking-normal">
               {currentQ.question}
             </h3>
           </div>
 
           {/* Clean 4 Options List */}
-          <div className="space-y-2.5">
+          <div className="space-y-2">
             {currentQ.options.map((opt, idx) => {
               const isSelected = currentSelectedOption === idx;
               
@@ -1326,28 +1326,28 @@ export default function QuizArenaView() {
                 <button
                   key={idx}
                   onClick={() => handleSelectOption(idx)}
-                  className={`w-full p-3.5 rounded-2xl border text-left text-xs sm:text-sm font-semibold transition-all tap-active flex items-center justify-between gap-3 ${
+                  className={`w-full p-2.5 sm:p-3 rounded-xl border text-left text-xs sm:text-[12.5px] font-medium transition-all tap-active flex items-center justify-between gap-2.5 cursor-pointer ${
                     isSelected
-                      ? 'bg-red-50 border-2 border-red-600 text-slate-900 font-black shadow-sm ring-2 ring-red-400/20'
-                      : 'bg-white border-slate-200 text-slate-800 hover:border-slate-300 hover:bg-slate-50'
+                      ? 'bg-red-50/90 border-2 border-red-600 text-slate-900 font-bold shadow-xs ring-1 ring-red-400/20'
+                      : 'bg-white border-slate-200/90 text-slate-700 hover:border-slate-300 hover:bg-slate-50/80'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs font-black shrink-0 transition-all ${
+                  <div className="flex items-center gap-2.5">
+                    <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0 transition-all ${
                       isSelected
-                        ? 'bg-red-600 text-white shadow-sm'
-                        : 'bg-slate-100 border border-slate-200 text-slate-700'
+                        ? 'bg-red-600 text-white shadow-xs'
+                        : 'bg-slate-100 border border-slate-200 text-slate-600'
                     }`}>
                       {String.fromCharCode(65 + idx)}
                     </span>
-                    <span className="leading-snug">{opt}</span>
+                    <span className="leading-snug text-slate-800">{opt}</span>
                   </div>
 
                   {/* Radio Button Checked State */}
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
                     isSelected ? 'border-red-600 bg-red-600 text-white' : 'border-slate-300 bg-white'
                   }`}>
-                    {isSelected && <div className="w-2 h-2 rounded-full bg-white"></div>}
+                    {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white"></div>}
                   </div>
                 </button>
               );
@@ -1355,11 +1355,11 @@ export default function QuizArenaView() {
           </div>
 
           {/* Bottom Action Navigation Buttons */}
-          <div className="pt-2 flex items-center gap-2">
+          <div className="pt-1.5 flex items-center gap-2">
             {currentIndex > 0 && (
               <button
                 onClick={handlePrevQuestion}
-                className="py-3 px-4 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition-all tap-active"
+                className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition-all tap-active cursor-pointer"
               >
                 পূর্ববর্তী
               </button>
@@ -1369,27 +1369,27 @@ export default function QuizArenaView() {
               <button
                 onClick={handleNextQuestion}
                 disabled={!isOptionChosenForCurrentQ}
-                className={`flex-1 py-3 px-4 rounded-2xl font-black text-xs sm:text-sm shadow-md transition-all tap-active flex items-center justify-center gap-2 ${
+                className={`flex-1 py-2.5 px-3.5 rounded-xl font-bold text-xs shadow-sm transition-all tap-active flex items-center justify-center gap-1.5 cursor-pointer ${
                   isOptionChosenForCurrentQ
-                    ? 'bg-gradient-to-r from-red-600 to-amber-500 hover:opacity-95 text-white'
+                    ? 'bg-gradient-to-r from-red-600 to-amber-500 hover:opacity-95 text-white shadow-md shadow-red-500/20'
                     : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                 }`}
               >
                 <span>পরবর্তী প্রশ্ন ({currentIndex + 2}/{currentChapter.questions.length}) ➔</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             ) : (
               <button
                 onClick={handleSubmitQuiz}
                 disabled={!isOptionChosenForCurrentQ}
-                className={`flex-1 py-3 px-4 rounded-2xl font-black text-xs sm:text-sm shadow-md transition-all tap-active flex items-center justify-center gap-2 ${
+                className={`flex-1 py-2.5 px-3.5 rounded-xl font-bold text-xs shadow-sm transition-all tap-active flex items-center justify-center gap-1.5 cursor-pointer ${
                   isOptionChosenForCurrentQ
-                    ? 'bg-gradient-to-r from-red-600 to-amber-500 hover:opacity-95 text-white'
+                    ? 'bg-gradient-to-r from-red-600 to-amber-500 hover:opacity-95 text-white shadow-md shadow-red-500/20'
                     : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                 }`}
               >
-                <Send className="w-4 h-4" />
-                <span>{currentChapter.questions.length}টি প্রশ্নের কুইজ সাবমিট করুন ও রেজাল্ট দেখুন 🎯</span>
+                <Send className="w-3.5 h-3.5" />
+                <span>{currentChapter.questions.length}টি প্রশ্নের কুইজ সাবমিট ও ফলাফল 🎯</span>
               </button>
             )}
           </div>
