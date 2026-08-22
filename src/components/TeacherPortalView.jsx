@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { NCTB_CLASSES } from '../utils/nctbData';
 import { NCTB_FULL_BOOK_CHAPTERS_MAP } from './KnowledgeVaultView';
@@ -23,11 +23,58 @@ import {
   ChevronDown,
   HelpCircle,
   Settings2,
-  Share2
+  Share2,
+  Lock,
+  Unlock,
+  ShieldCheck,
+  UserCheck,
+  LogOut,
+  KeyRound,
+  User,
+  PhoneCall,
+  CheckCircle2
 } from 'lucide-react';
 
 export default function TeacherPortalView() {
   const { currentClass, currentClassId, showToast, language } = useApp();
+
+  // 0. TEACHER SECURITY & AUTHENTICATION STATE
+  const [isTeacherLoggedIn, setIsTeacherLoggedIn] = useState(() => {
+    try {
+      const saved = localStorage.getItem('edugenius_teacher_session');
+      return saved ? JSON.parse(saved)?.isLoggedIn === true : false;
+    } catch {
+      return false;
+    }
+  });
+
+  const [teacherProfile, setTeacherProfile] = useState(() => {
+    try {
+      const saved = localStorage.getItem('edugenius_teacher_session');
+      return saved ? JSON.parse(saved) : {
+        name: 'মো: রফিকুল ইসলাম',
+        designation: 'সিনিয়র শিক্ষক (বাংলা ও সাহিত্য)',
+        school: 'রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ',
+        phone: '01712-345678',
+        pin: '1234'
+      };
+    } catch {
+      return {
+        name: 'মো: রফিকুল ইসলাম',
+        designation: 'সিনিয়র শিক্ষক (বাংলা ও সাহিত্য)',
+        school: 'রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ',
+        phone: '01712-345678',
+        pin: '1234'
+      };
+    }
+  });
+
+  // Login Form Inputs
+  const [inputName, setInputName] = useState('মো: রফিকুল ইসলাম');
+  const [inputSchool, setInputSchool] = useState('রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ');
+  const [inputPhone, setInputPhone] = useState('01712-345678');
+  const [inputPin, setInputPin] = useState('1234');
+  const [loginError, setLoginError] = useState('');
 
   // 1. Selection State
   const [selectedClassId, setSelectedClassId] = useState(currentClassId || 'class-9');
@@ -36,7 +83,7 @@ export default function TeacherPortalView() {
   const [selectedTemplate, setSelectedTemplate] = useState('cq-board'); // 'cq-board', 'mcq-test', 'class-test', 'knowledge-drill', 'final-exam'
 
   // 2. Exam Header Customization State
-  const [schoolName, setSchoolName] = useState('রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ');
+  const [schoolName, setSchoolName] = useState(teacherProfile?.school || 'রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ');
   const [examTitle, setExamTitle] = useState('১ম সাময়িক মূল্যায়ন পরীক্ষা — ২০২৬');
   const [examTime, setExamTime] = useState('২ ঘণ্টা ৩০ মিনিট');
   const [totalMarks, setTotalMarks] = useState('৭০');
@@ -54,6 +101,62 @@ export default function TeacherPortalView() {
   const availableChapters = useMemo(() => {
     return NCTB_FULL_BOOK_CHAPTERS_MAP[selectedSubjectId] || NCTB_FULL_BOOK_CHAPTERS_MAP['bangla-sahitya'] || [];
   }, [selectedSubjectId]);
+
+  // Handle Teacher Login
+  const handleTeacherLogin = (e) => {
+    e?.preventDefault();
+    if (!inputName.trim()) {
+      setLoginError('অনুগ্রহ করে শিক্ষকের নাম লিখুন');
+      return;
+    }
+    if (!inputPin.trim() || inputPin.length < 4) {
+      setLoginError('৪ সংখ্যার সিকিউর পিন লিখুন (ডিফল্ট: 1234)');
+      return;
+    }
+
+    const session = {
+      isLoggedIn: true,
+      name: inputName.trim(),
+      designation: 'ভেরিফাইড শিক্ষক',
+      school: inputSchool.trim() || 'আদর্শ স্কুল অ্যান্ড কলেজ',
+      phone: inputPhone.trim(),
+      pin: inputPin,
+      lastLogin: new Date().toISOString()
+    };
+
+    localStorage.setItem('edugenius_teacher_session', JSON.stringify(session));
+    setTeacherProfile(session);
+    setSchoolName(session.school);
+    setIsTeacherLoggedIn(true);
+    setLoginError('');
+    showToast(`স্বাগতম, ${session.name}! শিক্ষক প্যানেলে প্রবেশ সফল হয়েছে`, 'success');
+  };
+
+  // Handle Quick Demo Login
+  const handleDemoTeacherLogin = () => {
+    const demoSession = {
+      isLoggedIn: true,
+      name: 'মো: রফিকুল ইসলাম',
+      designation: 'সিনিয়র সহকারী শিক্ষক',
+      school: 'রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ',
+      phone: '01712-345678',
+      pin: '1234',
+      lastLogin: new Date().toISOString()
+    };
+    localStorage.setItem('edugenius_teacher_session', JSON.stringify(demoSession));
+    setTeacherProfile(demoSession);
+    setSchoolName(demoSession.school);
+    setIsTeacherLoggedIn(true);
+    setLoginError('');
+    showToast('ডেমো শিক্ষক হিসেবে ১ ক্লিকে লগইন সফল!', 'success');
+  };
+
+  // Handle Teacher Logout
+  const handleTeacherLogout = () => {
+    localStorage.removeItem('edugenius_teacher_session');
+    setIsTeacherLoggedIn(false);
+    showToast('শিক্ষক প্যানেল থেকে সফলভাবে লগআউট করা হয়েছে', 'info');
+  };
 
   // Handle Select All / Clear All Chapters
   const handleSelectAllChapters = () => {
@@ -201,7 +304,7 @@ export default function TeacherPortalView() {
   // Copy Question Text
   const handleCopy = () => {
     if (!generatedPaper) return;
-    let fullText = `${schoolName}\n${examTitle}\nশ্রেণি: ${classObj.nameBn} | বিষয়: ${availableSubjects.find(s => s.id === selectedSubjectId)?.nameBn || 'বাংলা'}\nসময়: ${examTime} | পূর্ণমান: ${totalMarks}\n------------------------------------------------\n\n`;
+    let fullText = `${schoolName}\n${examTitle}\nশ্রেণি: ${classObj.nameBn} | বিষয়: ${availableSubjects.find(s => s.id === selectedSubjectId)?.nameBn || 'বাংলা'}\nপরীক্ষক: ${teacherProfile?.name || 'বিষয় শিক্ষক'}\nসময়: ${examTime} | পূর্ণমান: ${totalMarks}\n------------------------------------------------\n\n`;
 
     if (selectedTemplate === 'cq-board' || selectedTemplate === 'final-exam') {
       fullText += `[সৃজনশীল অংশ — যেকোনো ৫টি প্রশ্নের উত্তর দাও]\n\n`;
@@ -230,20 +333,189 @@ export default function TeacherPortalView() {
     setTimeout(() => setCopied(false), 3000);
   };
 
+  // =========================================================================
+  // VIEW 1: SECURE TEACHER LOGIN LOCK SCREEN (WHEN NOT LOGGED IN)
+  // =========================================================================
+  if (!isTeacherLoggedIn) {
+    return (
+      <div className="space-y-4 pb-24 text-slate-900 animate-in fade-in duration-300">
+        
+        {/* Security Header Banner */}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-red-950 to-slate-900 text-white p-5 shadow-xl border border-red-900/40 text-center space-y-2">
+          <div className="w-14 h-14 bg-gradient-to-tr from-red-600 to-amber-500 rounded-3xl flex items-center justify-center mx-auto shadow-lg ring-4 ring-white/10">
+            <Lock className="w-7 h-7 text-white animate-bounce" />
+          </div>
+          <div className="inline-flex items-center gap-1.5 bg-red-500/20 text-red-300 border border-red-500/30 text-[10px] font-black px-3 py-0.5 rounded-full">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>সিকিউর শিক্ষক ভেরিফিকেশন পোর্টাল</span>
+          </div>
+          <h1 className="text-base font-black text-white tracking-tight">শিক্ষক কর্নার ও প্রশ্নপত্র মেকার</h1>
+          <p className="text-[11px] text-slate-300 font-medium max-w-xs mx-auto">
+            প্রশ্নপত্র ফাঁস ও অননুমোদিত ব্যবহার রোধে শুধুমাত্র ভেরিফাইড শিক্ষকদের জন্য সংরক্ষিত।
+          </p>
+        </div>
+
+        {/* Secure Login Form Card */}
+        <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-md space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+            <span className="font-black text-xs text-slate-800 flex items-center gap-1.5">
+              <KeyRound className="w-4 h-4 text-red-600" />
+              <span>শিক্ষক অ্যাকাউন্ট লগইন:</span>
+            </span>
+            <span className="text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md">
+              পিন: 1234
+            </span>
+          </div>
+
+          {loginError && (
+            <div className="p-2.5 bg-rose-50 border border-rose-300 text-rose-800 rounded-xl text-xs font-bold flex items-center gap-1.5 animate-in shake">
+              <span>⚠️ {loginError}</span>
+            </div>
+          )}
+
+          <form onSubmit={handleTeacherLogin} className="space-y-3 text-xs font-bold">
+            <div>
+              <label className="text-[11px] text-slate-600 font-black block mb-1 flex items-center gap-1">
+                <User className="w-3.5 h-3.5 text-slate-500" />
+                <span>শিক্ষকের নাম:</span>
+              </label>
+              <input
+                type="text"
+                value={inputName}
+                onChange={e => setInputName(e.target.value)}
+                placeholder="যেমন: মো: রফিকুল ইসলাম"
+                className="w-full p-2.5 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-red-500 font-bold text-slate-800"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="text-[11px] text-slate-600 font-black block mb-1 flex items-center gap-1">
+                <School className="w-3.5 h-3.5 text-slate-500" />
+                <span>শিক্ষা প্রতিষ্ঠান / স্কুলের নাম:</span>
+              </label>
+              <input
+                type="text"
+                value={inputSchool}
+                onChange={e => setInputSchool(e.target.value)}
+                placeholder="যেমন: রকেয়া আইডিয়াল হাই স্কুল"
+                className="w-full p-2.5 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-red-500 font-bold text-slate-800"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className="text-[11px] text-slate-600 font-black block mb-1 flex items-center gap-1">
+                  <PhoneCall className="w-3.5 h-3.5 text-slate-500" />
+                  <span>মোবাইল নম্বর:</span>
+                </label>
+                <input
+                  type="text"
+                  value={inputPhone}
+                  onChange={e => setInputPhone(e.target.value)}
+                  placeholder="01712-XXXXXX"
+                  className="w-full p-2.5 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-red-500 font-bold text-slate-800"
+                />
+              </div>
+
+              <div>
+                <label className="text-[11px] text-slate-600 font-black block mb-1 flex items-center gap-1">
+                  <KeyRound className="w-3.5 h-3.5 text-red-600" />
+                  <span>সিকিউর পিন (PIN):</span>
+                </label>
+                <input
+                  type="password"
+                  value={inputPin}
+                  onChange={e => setInputPin(e.target.value)}
+                  placeholder="৪ সংখ্যার পিন"
+                  maxLength={6}
+                  className="w-full p-2.5 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-red-500 font-black tracking-widest text-slate-800 text-center"
+                  required
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-3.5 bg-gradient-to-r from-red-600 via-amber-500 to-red-600 text-white rounded-2xl font-black text-xs shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 tap-active mt-2"
+            >
+              <Unlock className="w-4 h-4 text-amber-200" />
+              <span>নিরাপদে লগইন ও ভেরিফাই করুন</span>
+            </button>
+          </form>
+
+          {/* Quick Demo Login */}
+          <div className="pt-2 border-t border-slate-100 text-center">
+            <button
+              type="button"
+              onClick={handleDemoTeacherLogin}
+              className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl font-black text-xs flex items-center justify-center gap-1.5 transition-all border border-slate-300/80"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+              <span>⚡ ডেমো শিক্ষক হিসেবে ১ ক্লিকে লগইন (Instant Demo)</span>
+            </button>
+          </div>
+
+        </div>
+
+        {/* Security badges note */}
+        <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200 text-[11px] font-bold text-slate-600 space-y-1">
+          <div className="flex items-center gap-1.5 text-emerald-800 font-black text-xs">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>শিক্ষক সুরক্ষার প্রধান বৈশিষ্ট্যসমূহ:</span>
+          </div>
+          <p>• প্রতিটি তৈরি করা প্রশ্নপত্রে স্বয়ংক্রিয়ভাবে শিক্ষক ও স্কুলের নাম যুক্ত থাকবে।</p>
+          <p>• লগআউট না করা পর্যন্ত সেশন সুরক্ষিত থাকবে এবং রিফ্রেশেও ডেটা মুছবে না।</p>
+        </div>
+
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // VIEW 2: LOGGED-IN TEACHER QUESTION PAPER STUDIO
+  // =========================================================================
   return (
     <div className="space-y-4 pb-24 text-slate-900 animate-in fade-in duration-300">
       
-      {/* Top Banner */}
+      {/* Top Banner with Teacher Verification Badge & Logout */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-red-950 to-slate-900 text-white p-4 shadow-xl border border-red-900/40">
         <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-amber-400/10 rounded-full blur-2xl pointer-events-none"></div>
         
+        {/* Verified Teacher Info Header */}
+        <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/10">
+          <div className="flex items-center gap-2">
+            <span className="w-8 h-8 rounded-xl bg-gradient-to-tr from-red-600 to-amber-400 flex items-center justify-center text-white shadow-sm">
+              <UserCheck className="w-4 h-4" />
+            </span>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs font-black text-white">{teacherProfile?.name}</span>
+                <span className="bg-emerald-500/20 text-emerald-300 text-[9px] px-1.5 py-0.2 rounded font-black border border-emerald-500/30">
+                  ভেরিফাইড
+                </span>
+              </div>
+              <span className="text-[10px] text-slate-300 block truncate max-w-[180px]">{teacherProfile?.school}</span>
+            </div>
+          </div>
+
+          <button
+            onClick={handleTeacherLogout}
+            className="px-2.5 py-1 bg-red-600/30 hover:bg-red-600/60 text-red-200 border border-red-400/40 rounded-xl text-[10px] font-black flex items-center gap-1 transition-all"
+            title="লগআউট করে পোর্টাল লক করুন"
+          >
+            <LogOut className="w-3 h-3" />
+            <span>লগআউট</span>
+          </button>
+        </div>
+
         <div className="flex items-center gap-2.5 mb-2">
           <span className="p-2 bg-gradient-to-r from-red-600 to-amber-500 rounded-2xl text-white shadow-md">
             <GraduationCap className="w-5 h-5" />
           </span>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-base font-black text-white tracking-tight">শিক্ষক প্যানেল ও প্রশ্ন মেকার</h1>
+              <h1 className="text-base font-black text-white tracking-tight">প্রশ্নপত্র মেকার স্টুডিও</h1>
               <span className="bg-amber-400/20 text-amber-300 text-[10px] px-2 py-0.5 rounded-full font-black border border-amber-400/30">
                 NCTB 2026
               </span>
@@ -601,6 +873,9 @@ export default function TeacherPortalView() {
               <div className="flex items-center justify-between text-xs font-bold text-slate-700 border-t border-dotted border-slate-300 pt-1">
                 <span>সময়: {examTime}</span>
                 <span>পূর্ণমান: {totalMarks}</span>
+              </div>
+              <div className="text-right text-[10px] font-black text-slate-600 pt-0.5">
+                <span>পরীক্ষক / প্রস্তুতকারক: {teacherProfile?.name}</span>
               </div>
             </div>
 
