@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import UploadPdfModal from './UploadPdfModal';
+import SleekCustomDropdown from './SleekCustomDropdown';
 import { findCuratedQuizForChapter } from '../utils/chapterQuizzes';
 import { NCTB_GENERAL_MATH_CHAPTERS, NCTB_HIGHER_MATH_CHAPTERS } from '../utils/nctbMathData';
 import { 
@@ -3944,6 +3945,7 @@ export const CHAPTER_DATA_PRESETS = NCTB_FULL_BOOK_CHAPTERS_MAP;
 
 export default function KnowledgeVaultView() {
   const { 
+    vaultNotes,
     saveToVault,
     loadOfficialNctbContent,
     showToast, 
@@ -3960,7 +3962,7 @@ export default function KnowledgeVaultView() {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGroup, setSelectedGroup] = useState('সকল বিষয়');
-  const [selectedSubjectId, setSelectedSubjectId] = useState('english-today'); // Default to English For Today
+  const [selectedSubjectId, setSelectedSubjectId] = useState('general-math'); // Default to General Math
   const [selectedChapterTitle, setSelectedChapterTitle] = useState('all');
   const [chapterSearchQuery, setChapterSearchQuery] = useState('');
   
@@ -3972,7 +3974,7 @@ export default function KnowledgeVaultView() {
   const [isScriptModalOpen, setIsScriptModalOpen] = useState(false);
   const timerRef = useRef(null);
   const [systemVoices, setSystemVoices] = useState([]);
-  const [podcastLanguage, setPodcastLanguage] = useState('en'); // 'en' | 'bn' (Default English voice as requested)
+  const [podcastLanguage, setPodcastLanguage] = useState('bn');
 
   // Student Interactive Study Pad & Personal Notebook State
   const [isStudyPadOpen, setIsStudyPadOpen] = useState(false);
@@ -4013,32 +4015,45 @@ export default function KnowledgeVaultView() {
     ];
   }, [selectedSubjectId, activeSelectedSub, language]);
 
-  // Filtered Notes list strictly for the selected subject
+  // Filtered Notes list strictly for the selected subject (Merges user uploads + official textbook chapters)
   const finalFilteredNotes = useMemo(() => {
+    // 1. User uploaded notes & custom scans for this subject
+    const userUploadedList = (vaultNotes || [])
+      .filter(vn => {
+        if (selectedSubjectId === 'all-subjects') return true;
+        return vn.subjectId === selectedSubjectId || 
+               vn.subject === activeSelectedSub?.nameEn ||
+               vn.subjectBn === activeSelectedSub?.nameBn;
+      })
+      .map(vn => ({
+        ...vn,
+        isUserUpload: true,
+        date: vn.date || 'আমার আপলোডকৃত নোট/PDF'
+      }));
+
     // If a specific chapter is selected, show that chapter's official study note
     if (selectedChapterTitle !== 'all') {
       const selectedChObj = availableChapters.find(ch => ch.title === selectedChapterTitle) || availableChapters[0];
-      return [
-        {
-          id: `official-${selectedChObj.id}`,
-          title: `📖 ${selectedChObj.title}`,
-          subject: activeSelectedSub?.nameEn || 'Subject',
-          subjectBn: activeSelectedSub?.nameBn || 'বিষয়',
-          subjectId: selectedSubjectId,
-          summary: selectedChObj.summary,
-          formula: `বিভাগ: ${selectedChObj.type} | NCTB বোর্ড কারিকুলাম ২০২৬`,
-          lectureNotes: selectedChObj.lectureNotes,
-          selfTest: selectedChObj.selfTest,
-          scannedImage: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80',
-          date: 'অফিসিয়াল বোর্ড নোট',
-          podcastDuration: '3:00 min',
-          tags: ['Class 9-10', activeSelectedSub?.nameEn || 'Study', selectedChObj.type]
-        }
-      ];
+      const officialNote = {
+        id: `official-${selectedChObj.id}`,
+        title: `📖 ${selectedChObj.title}`,
+        subject: activeSelectedSub?.nameEn || 'Subject',
+        subjectBn: activeSelectedSub?.nameBn || 'বিষয়',
+        subjectId: selectedSubjectId,
+        summary: selectedChObj.summary,
+        formula: `বিভাগ: ${selectedChObj.type} | NCTB বোর্ড কারিকুলাম ২০২৬`,
+        lectureNotes: selectedChObj.lectureNotes,
+        selfTest: selectedChObj.selfTest,
+        scannedImage: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80',
+        date: 'অফিসিয়াল বোর্ড নোট',
+        podcastDuration: '3:00 min',
+        tags: ['Class 9-10', activeSelectedSub?.nameEn || 'Study', selectedChObj.type]
+      };
+      return [...userUploadedList.filter(u => u.title.includes(selectedChObj.title)), officialNote];
     }
 
-    // If 'all' chapters of this subject are selected, display all chapters of THIS subject
-    let list = availableChapters.map((ch, idx) => ({
+    // Official chapters of THIS subject
+    let officialList = availableChapters.map((ch, idx) => ({
       id: `official-${ch.id || idx}`,
       title: `📖 ${ch.title}`,
       subject: activeSelectedSub?.nameEn || 'Subject',
@@ -4054,18 +4069,21 @@ export default function KnowledgeVaultView() {
       tags: ['Class 9-10', activeSelectedSub?.nameEn || 'Study', ch.type]
     }));
 
+    // Prepend user uploads to the top
+    let combined = [...userUploadedList, ...officialList];
+
     if (chapterSearchQuery.trim()) {
       const q = chapterSearchQuery.toLowerCase();
-      list = list.filter(item => item.title.toLowerCase().includes(q) || item.summary.toLowerCase().includes(q));
+      combined = combined.filter(item => (item.title || '').toLowerCase().includes(q) || (item.summary || '').toLowerCase().includes(q));
     }
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
-      list = list.filter(item => item.title.toLowerCase().includes(q) || item.summary.toLowerCase().includes(q));
+      combined = combined.filter(item => (item.title || '').toLowerCase().includes(q) || (item.summary || '').toLowerCase().includes(q));
     }
 
-    return list;
-  }, [availableChapters, selectedChapterTitle, activeSelectedSub, selectedSubjectId, chapterSearchQuery, searchQuery]);
+    return combined;
+  }, [vaultNotes, availableChapters, selectedChapterTitle, activeSelectedSub, selectedSubjectId, chapterSearchQuery, searchQuery]);
 
   // Voice Loading and Cleanup on unmount
   useEffect(() => {
@@ -4917,43 +4935,33 @@ ${lectureText}
       <div className="rounded-3xl bg-white border-2 border-red-100 p-4 space-y-3.5 shadow-sm">
         
         {/* ================= 1ST LINE: CLASS SELECTOR (শ্রেণি নির্বাচন) ================= */}
-        <div className="space-y-1.5 pb-2.5 border-b border-slate-100">
-          <div className="flex items-center justify-between">
-            <label className="text-xs font-black text-slate-900 flex items-center gap-1.5">
-              <GraduationCap className="w-4 h-4 text-red-600" />
-              <span>শ্রেণি নির্বাচন করুন (Class):</span>
-            </label>
-          </div>
-
-          <div className="relative">
-            <select
-              value={selectedClass}
-              onChange={(e) => {
-                setSelectedClass(e.target.value);
-                setSelectedSubjectId('english-today');
-                setSelectedChapterTitle('all');
-                const matchedClass = classes.find(c => c.id === e.target.value);
-                showToast(`🎓 ${matchedClass?.nameBn || e.target.value} সিলেক্ট করা হয়েছে`, 'info');
-              }}
-              className="w-full appearance-none bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
-            >
-              {classes.map((cls) => (
-                <option key={cls.id} value={cls.id}>
-                  🎓 {cls.nameBn} — ({cls.subjects?.length || 0}টি বিষয়)
-                </option>
-              ))}
-            </select>
-            <ChevronDown className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
+        <div className="space-y-1.5 pb-2 border-b border-slate-100">
+          <SleekCustomDropdown
+            label="শ্রেণি নির্বাচন করুন (Class):"
+            icon="🎓"
+            value={selectedClass}
+            onChange={(val) => {
+              setSelectedClass(val);
+              setSelectedSubjectId('general-math');
+              setSelectedChapterTitle('all');
+              const matchedClass = classes.find(c => c.id === val);
+              showToast(`🎓 ${matchedClass?.nameBn || val} সিলেক্ট করা হয়েছে`, 'info');
+            }}
+            options={classes.map(cls => ({
+              value: cls.id,
+              label: `🎓 ${cls.nameBn}`,
+              badge: `${cls.subjects?.length || 0}টি বিষয়`
+            }))}
+          />
         </div>
 
         {/* ================= 2ND LINE: SUBJECT SELECTOR (বিষয় নির্বাচন) ================= */}
-        <div className="space-y-1.5 pb-2.5 border-b border-slate-100">
+        <div className="space-y-1.5 pb-2 border-b border-slate-100">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-black text-slate-900 flex items-center gap-1.5">
+            <span className="text-xs font-black text-slate-900 flex items-center gap-1.5">
               <BookOpen className="w-4 h-4 text-red-600" />
               <span>বিষয় নির্বাচন করুন (Subject):</span>
-            </label>
+            </span>
             <button
               onClick={() => setIsAddSubjectModalOpen(true)}
               className="text-[10px] font-bold text-red-700 bg-red-50 hover:bg-red-100 px-2 py-0.5 rounded-lg border border-red-200 tap-active flex items-center gap-0.5"
@@ -4964,61 +4972,41 @@ ${lectureText}
             </button>
           </div>
 
-          <div className="relative">
-            <select
-              value={selectedSubjectId}
-              onChange={(e) => {
-                setSelectedSubjectId(e.target.value);
-                setSelectedChapterTitle('all');
-                setChapterSearchQuery('');
-              }}
-              className="w-full appearance-none bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
-            >
-              {Object.entries(groupedSubjects).map(([groupName, groupSubs]) => (
-                <optgroup key={groupName} label={`--- ${groupName} (${groupSubs.length}টি বিষয়) ---`}>
-                  {groupSubs.map((sub) => {
-                    const chCount = NCTB_FULL_BOOK_CHAPTERS_MAP[sub.id]?.length || 3;
-                    return (
-                      <option key={sub.id} value={sub.id}>
-                        {sub.icon || '📖'} {language === 'bn' ? sub.nameBn : sub.nameEn} ({chCount}টি অধ্যায়)
-                      </option>
-                    );
-                  })}
-                </optgroup>
-              ))}
-            </select>
-            <ChevronDown className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
+          <SleekCustomDropdown
+            value={selectedSubjectId}
+            onChange={(val) => {
+              setSelectedSubjectId(val);
+              setSelectedChapterTitle('all');
+              setChapterSearchQuery('');
+            }}
+            options={subjectsList.map(sub => {
+              const chCount = NCTB_FULL_BOOK_CHAPTERS_MAP[sub.id]?.length || 3;
+              return {
+                value: sub.id,
+                label: `${sub.icon || '📖'} ${language === 'bn' ? sub.nameBn : sub.nameEn}`,
+                group: sub.group || 'সাধারণ',
+                badge: `${chCount}টি অধ্যায়`
+              };
+            })}
+          />
         </div>
 
         {/* ================= 3RD LINE: CHAPTER SELECTOR (অধ্যায় নির্বাচন) ================= */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <label className="text-xs font-black text-amber-950 flex items-center gap-1.5">
-              <Layers className="w-4 h-4 text-amber-700" />
-              <span>[{activeSelectedSub?.nameBn || 'নির্বাচিত বিষয়'}]-এর সম্পূর্ণ অধ্যায় তালিকা:</span>
-            </label>
-          </div>
-
-          {/* Chapter Selector Dropdown - Strictly for this subject only */}
-          <div className="relative">
-            <select
-              value={selectedChapterTitle}
-              onChange={(e) => setSelectedChapterTitle(e.target.value)}
-              className="w-full appearance-none bg-amber-50/70 hover:bg-amber-100/70 border border-amber-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-amber-950 font-black focus:outline-none focus:border-amber-500 shadow-sm transition-all cursor-pointer"
-            >
-              <option value="all">
-                🌟 [{activeSelectedSub?.nameBn || 'এই বিষয়ের'}] সকল {availableChapters.length}টি অধ্যায় দেখুন
-              </option>
-
-              {availableChapters.map((ch, idx) => (
-                <option key={idx} value={ch.title}>
-                  📖 {ch.title}
-                </option>
-              ))}
-            </select>
-            <ChevronDown className="w-4 h-4 text-amber-700 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
+          <SleekCustomDropdown
+            label={`[${activeSelectedSub?.nameBn || 'নির্বাচিত বিষয়'}]-এর সম্পূর্ণ অধ্যায় তালিকা:`}
+            icon="📚"
+            value={selectedChapterTitle}
+            onChange={(val) => setSelectedChapterTitle(val)}
+            options={[
+              { value: 'all', label: `🌟 [${activeSelectedSub?.nameBn || 'এই বিষয়ের'}] সকল ${availableChapters.length}টি অধ্যায় দেখুন`, badge: 'সকল' },
+              ...availableChapters.map(ch => ({
+                value: ch.title,
+                label: `📖 ${ch.title}`,
+                badge: ch.type
+              }))
+            ]}
+          />
 
           {/* Dedicated Chapter Instant Search Input */}
           <div className="relative">
