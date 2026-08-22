@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import UploadPdfModal from './UploadPdfModal';
+import PdfBookViewerModal from './PdfBookViewerModal';
 import SleekCustomDropdown from './SleekCustomDropdown';
 import { findCuratedQuizForChapter } from '../utils/chapterQuizzes';
 import { NCTB_GENERAL_MATH_CHAPTERS, NCTB_HIGHER_MATH_CHAPTERS } from '../utils/nctbMathData';
@@ -3991,6 +3992,7 @@ export default function KnowledgeVaultView() {
   const [isQuizSubmitted, setIsQuizSubmitted] = useState(false);
 
   const [isPdfUploadModalOpen, setIsPdfUploadModalOpen] = useState(false);
+  const [isFullBookPdfModalOpen, setIsFullBookPdfModalOpen] = useState(false);
   const [isAddNoteOpen, setIsAddNoteOpen] = useState(false);
   const [newNoteTitle, setNewNoteTitle] = useState('');
   const [newNoteSummary, setNewNoteSummary] = useState('');
@@ -5036,6 +5038,40 @@ ${lectureText}
 
         </div>
 
+      </div>
+
+      {/* ============================================================== */}
+      {/* FULL BOOK PDF & COMPLETE STUDY GUIDE BANNER */}
+      {/* ============================================================== */}
+      <div className="p-3.5 rounded-3xl bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-md">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-xl shrink-0">
+            📚
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-black uppercase bg-white/20 px-2 py-0.5 rounded-full">
+                NCTB Full E-Book
+              </span>
+              <span className="text-[10px] font-bold text-amber-200">
+                {availableChapters.length}টি সম্পূর্ণ অধ্যায়
+              </span>
+            </div>
+            <h3 className="text-xs sm:text-sm font-black mt-0.5">
+              [{activeSelectedSub?.nameBn || 'নির্বাচিত বিষয়'}] সম্পূর্ণ মূল পাঠ্যবই PDF ও গাইড
+            </h3>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <button
+            onClick={() => setIsFullBookPdfModalOpen(true)}
+            className="w-full sm:w-auto px-4 py-2 rounded-xl bg-white text-red-700 hover:bg-amber-100 font-black text-xs shadow-md transition-all flex items-center justify-center gap-1.5 shrink-0 tap-active"
+          >
+            <BookOpen className="w-4 h-4 text-red-600" />
+            <span>সম্পূর্ণ বইয়ের PDF খুলুন</span>
+          </button>
+        </div>
       </div>
 
       {/* ============================================================== */}
@@ -6134,6 +6170,14 @@ ${lectureText}
         isOpen={isPdfUploadModalOpen} 
         onClose={() => setIsPdfUploadModalOpen(false)} 
         defaultSubjectId={selectedSubjectId}
+      />
+
+      {/* Full Book PDF Viewer Modal */}
+      <PdfBookViewerModal
+        subjectId={selectedSubjectId}
+        subjectName={activeSelectedSub?.nameBn}
+        isOpen={isFullBookPdfModalOpen}
+        onClose={() => setIsFullBookPdfModalOpen(false)}
       />
 
     </div>
