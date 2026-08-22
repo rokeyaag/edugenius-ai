@@ -65,7 +65,7 @@ export default function DashboardView() {
       {/* 1. Header Profile & Class Bar */}
       <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-2.5">
-          <img src="/icon-192.png?v=2" alt="EduGenius AI" className="w-10 h-10 rounded-2xl shadow-md border border-amber-300 object-cover" />
+          <img src="/icon-192.png?v=3" alt="EduGenius AI" className="w-10 h-10 rounded-2xl shadow-md border border-amber-300 object-cover" />
           <div>
             <h2 className="text-sm font-black text-slate-900 leading-tight">
               {language === 'bn' ? 'স্বাগতম, শিক্ষার্থী!' : 'Welcome, Scholar!'}
