@@ -312,5 +312,16 @@ export const NCTB_OFFICIAL_FULL_PDF_BOOKS = {
     pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Home_Science_9_10.pdf',
     backupUrl: 'https://archive.org/details/nctb-class-9-10-home-science-bangla-version',
     summary: 'গৃহ ব্যবস্থাপনা, শিশু বিকাশ ও বয়ঃসন্ধি, খাদ্য ও পুষ্টিবিজ্ঞান (৬ উপাদান ও ক্যালরি), এবং বস্ত্র ও বয়নশিল্প—সম্পূর্ণ ১৮টি অধ্যায়।'
+  },
+  'arabic': {
+    id: 'pdf-arabic',
+    subjectId: 'arabic',
+    nameBn: 'আরবি (Arabic / اللغة العربية)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (ঐচ্ছিক / দাখিল)',
+    totalPages: 212,
+    fileSize: '13.5 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Arabic_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-arabic-bangla-version',
+    summary: 'আল-কুরআন ও আল-হাদিস, আরবি কথোপকথন, ইসলামী ইতিহাস, ইলমুন নাহু ও ইলমুস সরফ এবং অনুবাদ ও রচনা—সম্পূর্ণ পাঠ্যবই।'
   }
 };

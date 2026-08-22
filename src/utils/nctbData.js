@@ -470,6 +470,22 @@ export const NCTB_OFFICIAL_BOOK_NOTES = [
     podcastDuration: '3:20 min',
     tags: ['Class 9-10', 'Optional', 'Home Science', 'Nutrition', 'Management'],
     hasAudio: true,
+  },
+  // 24. আরবি (Arabic / اللغة العربية)
+  {
+    id: 'note-ar-1',
+    title: 'আরবি: অধ্যায় ১, ৫ ও ৭ - আল-কুরআন, কালিমার প্রকারভেদ ও সরফ রূপান্তর',
+    subject: 'Arabic Studies',
+    subjectBn: 'আরবি',
+    subjectId: 'arabic',
+    classId: 'class-9',
+    summary: 'সূরা আল-ফাতিহা ও সূরা হুজুরাতের ভ্রাতৃত্ববোধ ("إنما المؤمنون إخوة")। কালিমার ৩ প্রকার (ইসিম, ফেল, হরফ) এবং ফে’লে মাদীর ১৪টি সিগাহ রূপান্তর।',
+    formula: 'কালিমা = ইসিম + ফেল + হরফ | "حُبُّ الْوَطَنِ مِنَ الْإِيمَانِ"',
+    scannedImage: 'https://images.unsplash.com/photo-1585036156171-384164a8c675?w=600&auto=format&fit=crop&q=80',
+    date: '28 Jul, 11:30 AM',
+    podcastDuration: '3:10 min',
+    tags: ['Class 9-10', 'Optional', 'Arabic', 'Quran', 'Grammar'],
+    hasAudio: true,
   }
 ];
 
