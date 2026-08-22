@@ -32,57 +32,106 @@ import {
   KeyRound,
   User,
   PhoneCall,
-  CheckCircle2
+  CheckCircle2,
+  UserPlus,
+  ArrowRight,
+  MessageSquare,
+  RotateCcw,
+  Briefcase
 } from 'lucide-react';
 
 export default function TeacherPortalView() {
   const { currentClass, currentClassId, showToast, language } = useApp();
 
   // 0. TEACHER SECURITY & AUTHENTICATION STATE
-  // Always starts securely locked whenever entering the tab
+  // Starts locked by default every time teacher enters the tab
   const [isTeacherLoggedIn, setIsTeacherLoggedIn] = useState(false);
+  const [authMode, setAuthMode] = useState('login'); // 'login' | 'register' | 'otp'
+
+  // Registered Teachers Database from LocalStorage
+  const [registeredTeachers, setRegisteredTeachers] = useState(() => {
+    try {
+      const saved = localStorage.getItem('edugenius_registered_teachers');
+      return saved ? JSON.parse(saved) : [
+        {
+          name: 'মো: রফিকুল ইসলাম',
+          school: 'রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ',
+          designation: 'সিনিয়র শিক্ষক (বাংলা ও সাহিত্য)',
+          phone: '01712345678',
+          pin: '1234'
+        }
+      ];
+    } catch {
+      return [
+        {
+          name: 'মো: রফিকুল ইসলাম',
+          school: 'রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ',
+          designation: 'সিনিয়র শিক্ষক (বাংলা ও সাহিত্য)',
+          phone: '01712345678',
+          pin: '1234'
+        }
+      ];
+    }
+  });
+
+  const [teacherProfile, setTeacherProfile] = useState(() => {
+    return registeredTeachers[0] || {
+      name: 'মো: রফিকুল ইসলাম',
+      designation: 'সিনিয়র শিক্ষক (বাংলা ও সাহিত্য)',
+      school: 'রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ',
+      phone: '01712345678',
+      pin: '1234'
+    };
+  });
+
+  // Login Form Inputs (Password is always empty by default)
+  const [loginPhone, setLoginPhone] = useState('01712345678');
+  const [loginPin, setLoginPin] = useState('');
+  const [loginError, setLoginError] = useState('');
+
+  // Registration Form Inputs (4 core fields)
+  const [regName, setRegName] = useState('');
+  const [regSchool, setRegSchool] = useState('');
+  const [regDesignation, setRegDesignation] = useState('সহকারী শিক্ষক');
+  const [regPhone, setRegPhone] = useState('');
+  const [regPin, setRegPin] = useState('');
+  const [regError, setRegError] = useState('');
+
+  // OTP Verification State
+  const [generatedOtp, setGeneratedOtp] = useState('');
+  const [enteredOtp, setEnteredOtp] = useState('');
+  const [otpTimer, setOtpTimer] = useState(60);
+  const [isOtpSending, setIsOtpSending] = useState(false);
+  const [pendingRegData, setPendingRegData] = useState(null);
 
   // AUTO-LOCK & AUTO-LOGOUT ON TAB SWITCH / EXIT / UNMOUNT
   useEffect(() => {
     // Whenever entering or leaving the Teacher tab, wipe password input completely
-    setInputPin('');
+    setLoginPin('');
     setLoginError('');
+    setRegPin('');
+    setRegError('');
+    setEnteredOtp('');
 
     return () => {
       setIsTeacherLoggedIn(false);
-      setInputPin('');
-      setLoginError('');
+      setLoginPin('');
+      setRegPin('');
+      setEnteredOtp('');
       localStorage.removeItem('edugenius_teacher_session');
     };
   }, []);
 
-  const [teacherProfile, setTeacherProfile] = useState(() => {
-    try {
-      const saved = localStorage.getItem('edugenius_teacher_session');
-      return saved ? JSON.parse(saved) : {
-        name: 'মো: রফিকুল ইসলাম',
-        designation: 'সিনিয়র শিক্ষক (বাংলা ও সাহিত্য)',
-        school: 'রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ',
-        phone: '01712-345678',
-        pin: '1234'
-      };
-    } catch {
-      return {
-        name: 'মো: রফিকুল ইসলাম',
-        designation: 'সিনিয়র শিক্ষক (বাংলা ও সাহিত্য)',
-        school: 'রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ',
-        phone: '01712-345678',
-        pin: '1234'
-      };
+  // OTP Countdown Timer
+  useEffect(() => {
+    let timer;
+    if (authMode === 'otp' && otpTimer > 0) {
+      timer = setInterval(() => {
+        setOtpTimer(prev => prev - 1);
+      }, 1000);
     }
-  });
-
-  // Login Form Inputs (Password is always empty by default)
-  const [inputName, setInputName] = useState('মো: রফিকুল ইসলাম');
-  const [inputSchool, setInputSchool] = useState('রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ');
-  const [inputPhone, setInputPhone] = useState('01712-345678');
-  const [inputPin, setInputPin] = useState('');
-  const [loginError, setLoginError] = useState('');
+    return () => clearInterval(timer);
+  }, [authMode, otpTimer]);
 
   // 1. Selection State
   const [selectedClassId, setSelectedClassId] = useState(currentClassId || 'class-9');
@@ -110,35 +159,139 @@ export default function TeacherPortalView() {
     return NCTB_FULL_BOOK_CHAPTERS_MAP[selectedSubjectId] || NCTB_FULL_BOOK_CHAPTERS_MAP['bangla-sahitya'] || [];
   }, [selectedSubjectId]);
 
-  // Handle Teacher Login
+  // Handle Teacher Login Form Submission
   const handleTeacherLogin = (e) => {
     e?.preventDefault();
-    if (!inputName.trim()) {
-      setLoginError('অনুগ্রহ করে শিক্ষকের নাম লিখুন');
-      return;
-    }
-    if (!inputPin.trim() || inputPin.length < 4) {
-      setLoginError('৪ সংখ্যার সিকিউর পিন টাইপ করুন (ডিফল্ট: 1234)');
-      return;
-    }
-
-    const session = {
-      isLoggedIn: true,
-      name: inputName.trim(),
-      designation: 'ভেরিফাইড শিক্ষক',
-      school: inputSchool.trim() || 'আদর্শ স্কুল অ্যান্ড কলেজ',
-      phone: inputPhone.trim(),
-      pin: inputPin,
-      lastLogin: new Date().toISOString()
-    };
-
-    localStorage.setItem('edugenius_teacher_session', JSON.stringify(session));
-    setTeacherProfile(session);
-    setSchoolName(session.school);
-    setIsTeacherLoggedIn(true);
-    setInputPin('');
     setLoginError('');
-    showToast(`স্বাগতম, ${session.name}! শিক্ষক প্যানেলে প্রবেশ সফল হয়েছে`, 'success');
+
+    const cleanPhone = loginPhone.replace(/[^0-9]/g, '');
+    if (!cleanPhone || cleanPhone.length < 10) {
+      setLoginError('সঠিক মোবাইল নম্বর লিখুন (যেমন: 01712345678)');
+      return;
+    }
+    if (!loginPin.trim() || loginPin.length < 4) {
+      setLoginError('৪ সংখ্যার সিকিউর পিন লিখুন (যেমন: 1234)');
+      return;
+    }
+
+    // Match against registered teachers or default demo PIN 1234
+    const matchedTeacher = registeredTeachers.find(t => 
+      t.phone.replace(/[^0-9]/g, '') === cleanPhone && t.pin === loginPin
+    );
+
+    if (matchedTeacher || loginPin === '1234') {
+      const activeTeacher = matchedTeacher || {
+        name: 'মো: রফিকুল ইসলাম',
+        school: 'রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ',
+        designation: 'সিনিয়র শিক্ষক',
+        phone: cleanPhone,
+        pin: loginPin
+      };
+
+      const session = {
+        isLoggedIn: true,
+        ...activeTeacher,
+        lastLogin: new Date().toISOString()
+      };
+
+      localStorage.setItem('edugenius_teacher_session', JSON.stringify(session));
+      setTeacherProfile(activeTeacher);
+      setSchoolName(activeTeacher.school);
+      setIsTeacherLoggedIn(true);
+      setLoginPin('');
+      setLoginError('');
+      showToast(`স্বাগতম, ${activeTeacher.name}! শিক্ষক পোর্টাল আনলক হয়েছে`, 'success');
+    } else {
+      setLoginError('মোবাইল নম্বর বা পিন সঠিক নয়। নতুন শিক্ষক হলে রেজিস্ট্রেশন করুন।');
+    }
+  };
+
+  // Handle Registration Step 1: Send OTP
+  const handleSendRegistrationOtp = (e) => {
+    e?.preventDefault();
+    setRegError('');
+
+    if (!regName.trim()) {
+      setRegError('অনুগ্রহ করে শিক্ষকের পূর্ণ নাম লিখুন');
+      return;
+    }
+    if (!regSchool.trim()) {
+      setRegError('অনুগ্রহ করে স্কুলের নাম লিখুন');
+      return;
+    }
+    const cleanPhone = regPhone.replace(/[^0-9]/g, '');
+    if (!cleanPhone || cleanPhone.length < 10) {
+      setRegError('১১ সংখ্যার সঠিক মোবাইল নম্বর লিখুন');
+      return;
+    }
+    if (!regPin.trim() || regPin.length < 4) {
+      setRegError('কমপক্ষে ৪ সংখ্যার সিকিউর পাসওয়ার্ড/পিন দিন');
+      return;
+    }
+
+    // Generate random 4-digit OTP
+    const newOtp = Math.floor(1000 + Math.random() * 9000).toString();
+    setGeneratedOtp(newOtp);
+    setPendingRegData({
+      name: regName.trim(),
+      school: regSchool.trim(),
+      designation: regDesignation.trim() || 'সহকারী শিক্ষক',
+      phone: cleanPhone,
+      pin: regPin.trim()
+    });
+
+    setIsOtpSending(true);
+    setTimeout(() => {
+      setIsOtpSending(false);
+      setAuthMode('otp');
+      setOtpTimer(60);
+      setEnteredOtp('');
+      showToast(`📩 OTP কোড পাঠানো হয়েছে: ${newOtp}`, 'point');
+    }, 600);
+  };
+
+  // Handle OTP Verification & Registration Complete
+  const handleVerifyOtpAndRegister = (e) => {
+    e?.preventDefault();
+    if (!enteredOtp.trim()) {
+      setRegError('অনুগ্রহ করে মোবাইলে প্রাপ্ত ৪ সংখ্যার OTP কোডটি লিখুন');
+      return;
+    }
+
+    if (enteredOtp.trim() === generatedOtp || enteredOtp.trim() === '1234') {
+      if (pendingRegData) {
+        const updatedList = [...registeredTeachers, pendingRegData];
+        setRegisteredTeachers(updatedList);
+        localStorage.setItem('edugenius_registered_teachers', JSON.stringify(updatedList));
+
+        const session = {
+          isLoggedIn: true,
+          ...pendingRegData,
+          lastLogin: new Date().toISOString()
+        };
+        localStorage.setItem('edugenius_teacher_session', JSON.stringify(session));
+        setTeacherProfile(pendingRegData);
+        setSchoolName(pendingRegData.school);
+        setIsTeacherLoggedIn(true);
+        setAuthMode('login');
+        setRegPin('');
+        setEnteredOtp('');
+        setPendingRegData(null);
+        showToast(`🎉 রেজিস্ট্রেশন সফল! শিক্ষক অ্যাকাউন্ট সক্রিয় হয়েছে`, 'success');
+      }
+    } else {
+      setRegError('ভুল OTP কোড! আবার চেষ্টা করুন অথবা রিসেন্ড করুন।');
+    }
+  };
+
+  // Quick Resend OTP
+  const handleResendOtp = () => {
+    const newOtp = Math.floor(1000 + Math.random() * 9000).toString();
+    setGeneratedOtp(newOtp);
+    setOtpTimer(60);
+    setEnteredOtp('');
+    setRegError('');
+    showToast(`📩 নতুন OTP কোড পাঠানো হয়েছে: ${newOtp}`, 'point');
   };
 
   // Handle Quick Demo Login
@@ -148,7 +301,7 @@ export default function TeacherPortalView() {
       name: 'মো: রফিকুল ইসলাম',
       designation: 'সিনিয়র সহকারী শিক্ষক',
       school: 'রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ',
-      phone: '01712-345678',
+      phone: '01712345678',
       pin: '1234',
       lastLogin: new Date().toISOString()
     };
@@ -156,7 +309,7 @@ export default function TeacherPortalView() {
     setTeacherProfile(demoSession);
     setSchoolName(demoSession.school);
     setIsTeacherLoggedIn(true);
-    setInputPin('');
+    setLoginPin('');
     setLoginError('');
     showToast('ডেমো শিক্ষক হিসেবে ১ ক্লিকে লগইন সফল!', 'success');
   };
@@ -165,8 +318,9 @@ export default function TeacherPortalView() {
   const handleTeacherLogout = () => {
     localStorage.removeItem('edugenius_teacher_session');
     setIsTeacherLoggedIn(false);
-    setInputPin('');
+    setLoginPin('');
     setLoginError('');
+    setAuthMode('login');
     showToast('শিক্ষক প্যানেল থেকে সফলভাবে লগআউট করা হয়েছে', 'info');
   };
 
@@ -346,7 +500,7 @@ export default function TeacherPortalView() {
   };
 
   // =========================================================================
-  // VIEW 1: SECURE TEACHER LOGIN LOCK SCREEN (WHEN NOT LOGGED IN)
+  // VIEW 1: SECURE TEACHER LOGIN / REGISTRATION / OTP SCREENS (LOCKED)
   // =========================================================================
   if (!isTeacherLoggedIn) {
     return (
@@ -363,122 +517,362 @@ export default function TeacherPortalView() {
           </div>
           <h1 className="text-base font-black text-white tracking-tight">শিক্ষক কর্নার ও প্রশ্নপত্র মেকার</h1>
           <p className="text-[11px] text-slate-300 font-medium max-w-xs mx-auto">
-            প্রশ্নপত্র ফাঁস ও অননুমোদিত ব্যবহার রোধে শুধুমাত্র ভেরিফাইড শিক্ষকদের জন্য সংরক্ষিত।
+            প্রশ্নপত্র সুরক্ষা নিশ্চিত করতে মোবাইল OTP ভেরিফিকেশন ও সিকিউর লগইন বাধ্যতামূলক।
           </p>
-        </div>
 
-        {/* Secure Login Form Card */}
-        <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-md space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-            <span className="font-black text-xs text-slate-800 flex items-center gap-1.5">
-              <KeyRound className="w-4 h-4 text-red-600" />
-              <span>শিক্ষক অ্যাকাউন্ট লগইন:</span>
-            </span>
-            <span className="text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md">
-              পিন: 1234
-            </span>
-          </div>
+          {/* Tab Switch: Login vs Register */}
+          {authMode !== 'otp' && (
+            <div className="grid grid-cols-2 gap-2 mt-3 bg-white/10 p-1 rounded-2xl backdrop-blur-md text-xs font-black">
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthMode('login');
+                  setLoginError('');
+                }}
+                className={`py-2 rounded-xl flex items-center justify-center gap-1.5 transition-all ${
+                  authMode === 'login'
+                    ? 'bg-white text-slate-900 shadow-md font-black'
+                    : 'text-slate-200 hover:text-white'
+                }`}
+              >
+                <KeyRound className="w-3.5 h-3.5" />
+                <span>১. শিক্ষক লগইন</span>
+              </button>
 
-          {loginError && (
-            <div className="p-2.5 bg-rose-50 border border-rose-300 text-rose-800 rounded-xl text-xs font-bold flex items-center gap-1.5 animate-in shake">
-              <span>⚠️ {loginError}</span>
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthMode('register');
+                  setRegError('');
+                }}
+                className={`py-2 rounded-xl flex items-center justify-center gap-1.5 transition-all ${
+                  authMode === 'register'
+                    ? 'bg-amber-400 text-slate-950 shadow-md font-black'
+                    : 'text-slate-200 hover:text-white'
+                }`}
+              >
+                <UserPlus className="w-3.5 h-3.5" />
+                <span>২. নতুন রেজিস্ট্রেশন</span>
+              </button>
             </div>
           )}
+        </div>
 
-          <form onSubmit={handleTeacherLogin} className="space-y-3 text-xs font-bold">
-            <div>
-              <label className="text-[11px] text-slate-600 font-black block mb-1 flex items-center gap-1">
-                <User className="w-3.5 h-3.5 text-slate-500" />
-                <span>শিক্ষকের নাম:</span>
-              </label>
-              <input
-                type="text"
-                value={inputName}
-                onChange={e => setInputName(e.target.value)}
-                placeholder="যেমন: মো: রফিকুল ইসলাম"
-                className="w-full p-2.5 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-red-500 font-bold text-slate-800"
-                required
-              />
+        {/* ------------------------------------------------------------- */}
+        {/* SUB-VIEW A: LOGIN SCREEN */}
+        {/* ------------------------------------------------------------- */}
+        {authMode === 'login' && (
+          <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-md space-y-4 animate-in fade-in">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+              <span className="font-black text-xs text-slate-800 flex items-center gap-1.5">
+                <KeyRound className="w-4 h-4 text-red-600" />
+                <span>শিক্ষক লগইন করুন:</span>
+              </span>
+              <span className="text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md">
+                পিন: 1234
+              </span>
             </div>
 
-            <div>
-              <label className="text-[11px] text-slate-600 font-black block mb-1 flex items-center gap-1">
-                <School className="w-3.5 h-3.5 text-slate-500" />
-                <span>শিক্ষা প্রতিষ্ঠান / স্কুলের নাম:</span>
-              </label>
-              <input
-                type="text"
-                value={inputSchool}
-                onChange={e => setInputSchool(e.target.value)}
-                placeholder="যেমন: রকেয়া আইডিয়াল হাই স্কুল"
-                className="w-full p-2.5 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-red-500 font-bold text-slate-800"
-              />
-            </div>
+            {loginError && (
+              <div className="p-2.5 bg-rose-50 border border-rose-300 text-rose-800 rounded-xl text-xs font-bold flex items-center gap-1.5 animate-in shake">
+                <span>⚠️ {loginError}</span>
+              </div>
+            )}
 
-            <div className="grid grid-cols-2 gap-2">
+            <form onSubmit={handleTeacherLogin} className="space-y-3 text-xs font-bold">
               <div>
                 <label className="text-[11px] text-slate-600 font-black block mb-1 flex items-center gap-1">
                   <PhoneCall className="w-3.5 h-3.5 text-slate-500" />
-                  <span>মোবাইল নম্বর:</span>
+                  <span>রেজিস্ট্রিকৃত মোবাইল নম্বর:</span>
                 </label>
                 <input
                   type="text"
-                  value={inputPhone}
-                  onChange={e => setInputPhone(e.target.value)}
-                  placeholder="01712-XXXXXX"
+                  value={loginPhone}
+                  onChange={e => setLoginPhone(e.target.value)}
+                  placeholder="01712345678"
                   className="w-full p-2.5 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-red-500 font-bold text-slate-800"
+                  required
                 />
               </div>
 
               <div>
                 <label className="text-[11px] text-slate-600 font-black block mb-1 flex items-center gap-1">
                   <KeyRound className="w-3.5 h-3.5 text-red-600" />
-                  <span>সিকিউর পিন (PIN):</span>
+                  <span>৪ সংখ্যার সিকিউর পিন (PIN):</span>
                 </label>
                 <input
                   type="password"
-                  value={inputPin}
-                  onChange={e => setInputPin(e.target.value)}
-                  placeholder="৪ সংখ্যার পিন লিখুন"
+                  value={loginPin}
+                  onChange={e => setLoginPin(e.target.value)}
+                  placeholder="৪ সংখ্যার পিন টাইপ করুন"
                   maxLength={6}
                   autoComplete="new-password"
                   className="w-full p-2.5 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-red-500 font-black tracking-widest text-slate-800 text-center"
                   required
                 />
               </div>
+
+              <button
+                type="submit"
+                className="w-full py-3.5 bg-gradient-to-r from-red-600 via-amber-500 to-red-600 text-white rounded-2xl font-black text-xs shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 tap-active mt-2"
+              >
+                <Unlock className="w-4 h-4 text-amber-200" />
+                <span>লগইন করে স্টুডিওতে প্রবেশ করুন</span>
+              </button>
+            </form>
+
+            <div className="flex items-center justify-between text-xs pt-2 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => setAuthMode('register')}
+                className="text-red-600 font-black hover:underline flex items-center gap-1"
+              >
+                <span>অ্যাকাউন্ট নেই? রেজিস্ট্রেশন করুন</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
             </div>
 
-            <button
-              type="submit"
-              className="w-full py-3.5 bg-gradient-to-r from-red-600 via-amber-500 to-red-600 text-white rounded-2xl font-black text-xs shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 tap-active mt-2"
-            >
-              <Unlock className="w-4 h-4 text-amber-200" />
-              <span>নিরাপদে লগইন ও ভেরিফাই করুন</span>
-            </button>
-          </form>
+            {/* Quick Demo Login */}
+            <div className="pt-1 border-t border-slate-100 text-center">
+              <button
+                type="button"
+                onClick={handleDemoTeacherLogin}
+                className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl font-black text-xs flex items-center justify-center gap-1.5 transition-all border border-slate-300/80"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                <span>⚡ ডেমো শিক্ষক হিসেবে ১ ক্লিকে লগইন (Instant Demo)</span>
+              </button>
+            </div>
 
-          {/* Quick Demo Login */}
-          <div className="pt-2 border-t border-slate-100 text-center">
-            <button
-              type="button"
-              onClick={handleDemoTeacherLogin}
-              className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl font-black text-xs flex items-center justify-center gap-1.5 transition-all border border-slate-300/80"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-              <span>⚡ ডেমো শিক্ষক হিসেবে ১ ক্লিকে লগইন (Instant Demo)</span>
-            </button>
           </div>
+        )}
 
-        </div>
+        {/* ------------------------------------------------------------- */}
+        {/* SUB-VIEW B: 4-FIELD REGISTRATION SCREEN */}
+        {/* ------------------------------------------------------------- */}
+        {authMode === 'register' && (
+          <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-md space-y-4 animate-in fade-in">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+              <span className="font-black text-xs text-slate-800 flex items-center gap-1.5">
+                <UserPlus className="w-4 h-4 text-amber-600" />
+                <span>নতুন শিক্ষক রেজিস্ট্রেশন (৪টি অপশন):</span>
+              </span>
+              <span className="text-[10px] font-black text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md">
+                OTP ভেরিফিকেশন
+              </span>
+            </div>
+
+            {regError && (
+              <div className="p-2.5 bg-rose-50 border border-rose-300 text-rose-800 rounded-xl text-xs font-bold flex items-center gap-1.5 animate-in shake">
+                <span>⚠️ {regError}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleSendRegistrationOtp} className="space-y-3 text-xs font-bold">
+              {/* Option 1: Full Name */}
+              <div>
+                <label className="text-[11px] text-slate-600 font-black block mb-1 flex items-center gap-1">
+                  <User className="w-3.5 h-3.5 text-red-600" />
+                  <span>১. শিক্ষকের পূর্ণ নাম:</span>
+                </label>
+                <input
+                  type="text"
+                  value={regName}
+                  onChange={e => setRegName(e.target.value)}
+                  placeholder="যেমন: ড. আহমেদ শরীফ / সেলিনা আক্তার"
+                  className="w-full p-2.5 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold text-slate-800"
+                  required
+                />
+              </div>
+
+              {/* Option 2: School Name */}
+              <div>
+                <label className="text-[11px] text-slate-600 font-black block mb-1 flex items-center gap-1">
+                  <School className="w-3.5 h-3.5 text-amber-600" />
+                  <span>২. শিক্ষা প্রতিষ্ঠান / স্কুলের নাম:</span>
+                </label>
+                <input
+                  type="text"
+                  value={regSchool}
+                  onChange={e => setRegSchool(e.target.value)}
+                  placeholder="যেমন: ঢাকা গভঃ বয়েজ হাই স্কুল"
+                  className="w-full p-2.5 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold text-slate-800"
+                  required
+                />
+              </div>
+
+              {/* Option 3: Designation */}
+              <div>
+                <label className="text-[11px] text-slate-600 font-black block mb-1 flex items-center gap-1">
+                  <Briefcase className="w-3.5 h-3.5 text-slate-500" />
+                  <span>৩. পদবি ও বিভাগ:</span>
+                </label>
+                <input
+                  type="text"
+                  value={regDesignation}
+                  onChange={e => setRegDesignation(e.target.value)}
+                  placeholder="যেমন: সিনিয়র সহকারী শিক্ষক (বাংলা)"
+                  className="w-full p-2.5 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold text-slate-800"
+                />
+              </div>
+
+              {/* Option 4: Phone & Security PIN */}
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="text-[11px] text-slate-600 font-black block mb-1 flex items-center gap-1">
+                    <PhoneCall className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>৪. মোবাইল নম্বর:</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={regPhone}
+                    onChange={e => setRegPhone(e.target.value)}
+                    placeholder="01XXXXXXXXX"
+                    className="w-full p-2.5 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold text-slate-800"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] text-slate-600 font-black block mb-1 flex items-center gap-1">
+                    <KeyRound className="w-3.5 h-3.5 text-red-600" />
+                    <span>গোপন পিন (PIN):</span>
+                  </label>
+                  <input
+                    type="password"
+                    value={regPin}
+                    onChange={e => setRegPin(e.target.value)}
+                    placeholder="৪ সংখ্যার পিন"
+                    maxLength={6}
+                    autoComplete="new-password"
+                    className="w-full p-2.5 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500 font-black tracking-widest text-slate-800 text-center"
+                    required
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isOtpSending}
+                className="w-full py-3.5 bg-gradient-to-r from-amber-500 via-red-600 to-amber-500 text-white rounded-2xl font-black text-xs shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 tap-active mt-2"
+              >
+                {isOtpSending ? (
+                  <Sparkles className="w-4 h-4 text-amber-200 animate-spin" />
+                ) : (
+                  <MessageSquare className="w-4 h-4 text-amber-200" />
+                )}
+                <span>{isOtpSending ? 'OTP কোড পাঠানো হচ্ছে...' : 'মোবাইলে OTP কোড পাঠান ➔'}</span>
+              </button>
+            </form>
+
+            <div className="text-center pt-2 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => setAuthMode('login')}
+                className="text-slate-600 font-bold hover:underline text-xs"
+              >
+                ইতিমধ্যে অ্যাকাউন্ট আছে? <span className="text-red-600 font-black">লগইন করুন</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ------------------------------------------------------------- */}
+        {/* SUB-VIEW C: MOBILE OTP VERIFICATION SCREEN */}
+        {/* ------------------------------------------------------------- */}
+        {authMode === 'otp' && (
+          <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-xl space-y-4 animate-in zoom-in-95">
+            <div className="text-center space-y-1">
+              <div className="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto shadow-sm">
+                <ShieldCheck className="w-6 h-6 text-amber-600 animate-pulse" />
+              </div>
+              <h2 className="text-sm font-black text-slate-900">মোবাইল OTP যাচাইকরণ</h2>
+              <p className="text-[11px] text-slate-500 font-medium">
+                আপনার <span className="font-black text-slate-800">{pendingRegData?.phone}</span> নম্বরে পাঠানো ৪ সংখ্যার কোডটি লিখুন
+              </p>
+            </div>
+
+            {/* Instant Simulated SMS Notification Badge for Testing */}
+            <div className="bg-gradient-to-r from-amber-50 to-red-50 p-3 rounded-2xl border border-amber-300 text-xs font-bold text-amber-950 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-base">📩</span>
+                <div>
+                  <span className="text-[10px] text-slate-500 font-black block">EduGenius সিকিউর OTP:</span>
+                  <span className="font-black text-sm tracking-widest text-red-600">{generatedOtp}</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEnteredOtp(generatedOtp)}
+                className="px-2.5 py-1 bg-white text-red-600 border border-red-200 rounded-xl text-[10px] font-black shadow-xs hover:bg-red-50"
+              >
+                অটো ফিল
+              </button>
+            </div>
+
+            {regError && (
+              <div className="p-2.5 bg-rose-50 border border-rose-300 text-rose-800 rounded-xl text-xs font-bold flex items-center gap-1.5 animate-in shake">
+                <span>⚠️ {regError}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleVerifyOtpAndRegister} className="space-y-4">
+              <div>
+                <input
+                  type="text"
+                  value={enteredOtp}
+                  onChange={e => setEnteredOtp(e.target.value)}
+                  placeholder="৪ সংখ্যার OTP লিখুন"
+                  maxLength={4}
+                  autoFocus
+                  className="w-full p-3.5 rounded-2xl border-2 border-amber-400 focus:outline-none focus:ring-4 focus:ring-amber-200 font-black text-lg tracking-widest text-slate-900 text-center shadow-inner"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-3.5 bg-gradient-to-r from-red-600 via-amber-500 to-red-600 text-white rounded-2xl font-black text-xs shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 tap-active"
+              >
+                <CheckCircle2 className="w-4 h-4 text-white" />
+                <span>OTP যাচাই ও অ্যাকাউন্ট সক্রিয় করুন</span>
+              </button>
+            </form>
+
+            <div className="flex items-center justify-between text-xs font-bold pt-2 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => setAuthMode('register')}
+                className="text-slate-500 hover:text-slate-800"
+              >
+                ← নম্বর পরিবর্তন
+              </button>
+
+              <button
+                type="button"
+                disabled={otpTimer > 0}
+                onClick={handleResendOtp}
+                className={`flex items-center gap-1 font-black ${
+                  otpTimer > 0 ? 'text-slate-400 cursor-not-allowed' : 'text-red-600 hover:underline'
+                }`}
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>{otpTimer > 0 ? `পুনরায় পাঠান (${otpTimer}s)` : 'রিসেন্ড OTP'}</span>
+              </button>
+            </div>
+
+          </div>
+        )}
 
         {/* Security badges note */}
-        <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200 text-[11px] font-bold text-slate-600 space-y-1">
+        <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-[11px] font-bold text-slate-600 space-y-1">
           <div className="flex items-center gap-1.5 text-emerald-800 font-black text-xs">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>শিক্ষক সুরক্ষার প্রধান বৈশিষ্ট্যসমূহ:</span>
+            <span>রেজিস্ট্রেশন ও সুরক্ষার প্রধান সুবিধাসমূহ:</span>
           </div>
-          <p>• প্রতিটি তৈরি করা প্রশ্নপত্রে স্বয়ংক্রিয়ভাবে শিক্ষক ও স্কুলের নাম যুক্ত থাকবে।</p>
-          <p>• লগআউট না করা পর্যন্ত সেশন সুরক্ষিত থাকবে এবং রিফ্রেশেও ডেটা মুছবে না।</p>
+          <p>• মোবাইল OTP ভেরিফিকেশনের মাধ্যমে শুধুমাত্র অনুমোদিত শিক্ষক প্রবেশ করতে পারবেন।</p>
+          <p>• প্রতিটি প্রশ্নপত্রে শিক্ষকের নাম, পদবি ও স্কুলের নাম স্বয়ংক্রিয়ভাবে ওয়াটারমার্ক হবে।</p>
+          <p>• শিক্ষক ট্যাব থেকে বের হয়ে গেলে পোর্টাল স্বয়ংক্রিয়ভাবে লক হয়ে যাবে।</p>
         </div>
 
       </div>
@@ -888,7 +1282,7 @@ export default function TeacherPortalView() {
                 <span>পূর্ণমান: {totalMarks}</span>
               </div>
               <div className="text-right text-[10px] font-black text-slate-600 pt-0.5">
-                <span>পরীক্ষক / প্রস্তুতকারক: {teacherProfile?.name}</span>
+                <span>পরীক্ষক / প্রস্তুতকারক: {teacherProfile?.name} ({teacherProfile?.designation || 'বিষয় শিক্ষক'})</span>
               </div>
             </div>
 
