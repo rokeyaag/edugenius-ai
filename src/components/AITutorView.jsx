@@ -428,6 +428,11 @@ const CHAPTER_STORY_QA_DATABASE = [
   },
   {
     chapterMatch: 'প্রত্যুপকার',
+    triggers: ['কেমন', 'শাসক', 'চরিত্র', 'গুণাবলি', 'ব্যক্তিত্ব', 'কেমন ছিলেন'],
+    answer: '🎯 **সঠিক উত্তর: তিনি ছিলেন অত্যন্ত ন্যায়পরায়ণ, ক্ষমাশীল, দয়ালু ও পরম জ্ঞানানুরাগী শাসক।**\n\n📌 ব্যাখ্যা: আব্বাসীয় বংশের সপ্তম খলিফা মামুন প্রজাদরদি, শিল্প-সাহিত্যের পৃষ্ঠপোষক এবং সততা ও মহানুভবতার পরম গুণগ্রাহী ছিলেন।'
+  },
+  {
+    chapterMatch: 'প্রত্যুপকার',
     triggers: ['চমকে', 'বন্দী', 'বন্দি', 'দেখে', 'আলী ইবনে আব্বাস', 'আলী'],
     answer: '🎯 **সঠিক উত্তর: কারণ বন্দী ব্যক্তিটি ছিলেন তাঁর পূর্বের জীবনরক্ষাকারী আশ্রয়দাতা।**\n\n📌 ব্যাখ্যা: দামেস্কে চরম বিপদের দিনে এই ব্যক্তিই (দামেস্কের ক্ষমতাচ্যুত শাসনকর্তা) আলী ইবনে আব্বাসকে গোপনে নিজ গৃহে আশ্রয় দিয়ে নিশ্চিত মৃত্যুর হাত থেকে প্রাণ রক্ষা করেছিলেন।'
   },
@@ -443,7 +448,7 @@ const CHAPTER_STORY_QA_DATABASE = [
   },
   {
     chapterMatch: 'প্রত্যুপকার',
-    triggers: ['ক্ষমা', 'মুক্তি', 'খলিফা', 'মামুন', 'পুরস্কৃত', 'উদারতা'],
+    triggers: ['ক্ষমা', 'মুক্তি', 'পুরস্কৃত', 'ছেড়ে', 'উদারতা'],
     answer: '🎯 **সঠিক উত্তর: কৃতজ্ঞতাবোধ ও মহানুভবতায় মুগ্ধ হয়ে।**\n\n📌 ব্যাখ্যা: আলী ইবনে আব্বাসের জীবনের ঝুঁকি নিয়ে পূর্বের উপকারের ঋণ স্বীকার এবং শাসনকর্তার সততায় মুগ্ধ হয়ে খলিফা মামুন তাঁকে ক্ষমা ও মুক্তি দেন।'
   },
   {
@@ -455,11 +460,6 @@ const CHAPTER_STORY_QA_DATABASE = [
     chapterMatch: 'প্রত্যুপকার',
     triggers: ['শিক্ষা', 'মূলভাব', 'মূল শিক্ষা', 'তাৎপর্য', 'প্রতিপাদ্য'],
     answer: '🎯 **‘প্রত্যুপকার’ গল্পের মূল শিক্ষা:**\nউপকার স্বীকার করা, কৃতজ্ঞ থাকা এবং চরম বিপদেও নিজের জীবনের ঝুঁকি নিয়ে উপকারের প্রতিদান (প্রত্যুপকার) দেওয়াই মানুষের পরম ধর্ম।'
-  },
-  {
-    chapterMatch: 'প্রত্যুপকার',
-    triggers: ['খলিফা মামুন', 'কেমন শাসক', 'গুণাবলি', 'চরিত্র'],
-    answer: '🎯 **খলিফা মামুনের চরিত্র:**\nতিনি আব্বাসীয় বংশের সপ্তম ন্যায়পরায়ণ, ক্ষমাশীল, দয়ালু ও পরম জ্ঞানানুরাগী শাসক ছিলেন।'
   },
   {
     chapterMatch: 'প্রত্যুপকার',
@@ -583,11 +583,21 @@ const CHAPTER_STORY_QA_DATABASE = [
 
         const qLower = query.toLowerCase().trim();
 
-        // 0. CHECK STORY PLOT & COMPREHENSION DATABASE FIRST
-        const matchedStoryQA = CHAPTER_STORY_QA_DATABASE.find(qa => {
-          if (!chTitle.includes(qa.chapterMatch)) return false;
-          const matchedTriggers = qa.triggers.filter(t => qLower.includes(t));
-          return matchedTriggers.length >= 2 || (qa.triggers.length <= 3 && matchedTriggers.length >= 1 && (qLower.includes('কেন') || qLower.includes('কী') || qLower.includes('কি') || qLower.includes('কারণ')));
+        // 0. CHECK STORY PLOT & COMPREHENSION DATABASE FIRST (Score-based best match)
+        let matchedStoryQA = null;
+        let highestScore = 0;
+
+        CHAPTER_STORY_QA_DATABASE.filter(qa => chTitle.includes(qa.chapterMatch)).forEach(qa => {
+          let score = 0;
+          qa.triggers.forEach(tr => {
+            if (qLower.includes(tr.toLowerCase())) {
+              score += tr.length >= 4 ? 3 : 1.5;
+            }
+          });
+          if (score > highestScore && score >= 3) {
+            highestScore = score;
+            matchedStoryQA = qa;
+          }
         });
 
         // 1. SPECIFIC INTENT: BIRTH / DEATH / YEAR (জন্ম, মৃত্যু, কত সালে, কবে)
