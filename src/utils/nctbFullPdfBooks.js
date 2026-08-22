@@ -158,5 +158,38 @@ export const NCTB_OFFICIAL_FULL_PDF_BOOKS = {
     pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Arts_and_Crafts_9_10.pdf',
     backupUrl: 'https://archive.org/details/nctb-class-9-10-arts-and-crafts-bangla-version',
     summary: 'শিল্পকলা পরিচিতি, লোকশিল্প ও কারুশিল্প, জয়নুল আবেদিন ও প্রখ্যাত শিল্পীগণ, বিশ্বশিল্পের ইতিহাস, ভাস্কর্য ও চিত্র প্রদর্শনী—সম্পূর্ণ ৭টি অধ্যায়।'
+  },
+  'accounting': {
+    id: 'pdf-accounting',
+    subjectId: 'accounting',
+    nameBn: 'হিসাববিজ্ঞান (Accounting)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (ব্যবসায় শিক্ষা)',
+    totalPages: 248,
+    fileSize: '14.2 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Accounting_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-accounting-bangla-version',
+    summary: 'হিসাববিজ্ঞান পরিচিতি, লেনদেন, দুতরফা দাখিলা, জাবেদা, খতিয়ান, নগদান বই, রেওয়ামিল, আর্থিক বিবরণী ও পারিবারিক হিসাব—সম্পূর্ণ ১২টি অধ্যায়।'
+  },
+  'finance-banking': {
+    id: 'pdf-finance-banking',
+    subjectId: 'finance-banking',
+    nameBn: 'ফিন্যান্স ও ব্যাংকিং (Finance & Banking)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (ব্যবসায় শিক্ষা)',
+    totalPages: 208,
+    fileSize: '12.8 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Finance_Banking_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-finance-and-banking-bangla-version',
+    summary: 'অর্থের সময়মূল্য, ঝুঁকি ও অনিশ্চয়তা, মূলধনি আয়-ব্যয় প্রাক্কলন, বাণিজ্যিক ব্যাংক ও কেন্দ্রীয় ব্যাংক—সম্পূর্ণ ১১টি অধ্যায়।'
+  },
+  'business-ent': {
+    id: 'pdf-business-ent',
+    subjectId: 'business-ent',
+    nameBn: 'ব্যবসায় উদ্যোগ (Business Entrepreneurship)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (ব্যবসায় শিক্ষা)',
+    totalPages: 216,
+    fileSize: '13.0 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Business_Entrepreneurship_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-business-entrepreneurship-bangla-version',
+    summary: 'ব্যবসায় পরিচিতি, আত্মকর্মসংস্থান, ব্যবসায় পরিকল্পনা, বিপণন ও ব্যবসায়িক নৈতিকতা—সম্পূর্ণ ১২টি অধ্যায়।'
   }
 };

@@ -15,6 +15,7 @@ import {
 } from '../utils/nctbScienceData';
 import { NCTB_PHYSICAL_EDU_CHAPTERS } from '../utils/nctbPhysicalEduData';
 import { NCTB_ARTS_CRAFTS_CHAPTERS } from '../utils/nctbArtsCraftsData';
+import { NCTB_ACCOUNTING_CHAPTERS } from '../utils/nctbAccountingData';
 import { 
   BookMarked, 
   Search, 
@@ -70,6 +71,7 @@ export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
   'physics': NCTB_PHYSICS_CHAPTERS,
   'chemistry': NCTB_CHEMISTRY_CHAPTERS,
   'biology': NCTB_BIOLOGY_CHAPTERS,
+  'accounting': NCTB_ACCOUNTING_CHAPTERS,
   'ict': NCTB_ICT_CHAPTERS,
   'ict-6': NCTB_ICT_CHAPTERS.slice(0, 3),
   'ict-7': NCTB_ICT_CHAPTERS.slice(0, 4),
