@@ -406,6 +406,22 @@ export const NCTB_OFFICIAL_BOOK_NOTES = [
     podcastDuration: '3:15 min',
     tags: ['Class 9-10', 'Religion', 'Hinduism', 'Gita', 'Vivekananda'],
     hasAudio: true,
+  },
+  // 20. বৌদ্ধধর্ম ও নৈতিক শিক্ষা (Buddhist Religion)
+  {
+    id: 'note-bud-1',
+    title: 'বৌদ্ধধর্ম ও নৈতিক শিক্ষা: অধ্যায় ২ ও ১১ - চতুরার্য সত্য ও বিশ্বশান্তিতে মৈত্রীভাবনা',
+    subject: 'Buddhist Religion Studies',
+    subjectBn: 'বৌদ্ধধর্ম ও নৈতিক শিক্ষা',
+    subjectId: 'buddhist-studies',
+    classId: 'class-9',
+    summary: 'চতুরার্য সত্য ও অষ্টাঙ্গিক মার্গ (শীল, সমাধি, প্রজ্ঞা)। "সব্বে সত্তা সুখিতা হোন্তু"—জগতের সকল জীবের মঙ্গল কামনায় মৈত্রীভাবনা এবং অহিংসার মধ্য দিয়ে বিশ্বশান্তি প্রতিষ্ঠা।',
+    formula: 'চতুরার্য সত্য ➔ অষ্টাঙ্গিক মার্গ ➔ নির্বাণ | "সব্বে সত্তা সুখিতা হোন্তু"',
+    scannedImage: 'https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?w=600&auto=format&fit=crop&q=80',
+    date: '01 Aug, 10:45 AM',
+    podcastDuration: '3:05 min',
+    tags: ['Class 9-10', 'Religion', 'Buddhism', 'Tripitaka', 'Metta'],
+    hasAudio: true,
   }
 ];
 

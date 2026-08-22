@@ -279,5 +279,27 @@ export const NCTB_OFFICIAL_FULL_PDF_BOOKS = {
     pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Agriculture_Studies_9_10.pdf',
     backupUrl: 'https://archive.org/details/nctb-class-9-10-agriculture-studies-bangla-version',
     summary: 'কৃষি প্রযুক্তি, কৃষি উপকরণ, কৃষি ও জলবায়ু, কৃষিজ উৎপাদন ও বনজ সম্পদ—সম্পূর্ণ পাঠ্যবই।'
+  },
+  'buddhist-studies': {
+    id: 'pdf-buddhist-studies',
+    subjectId: 'buddhist-studies',
+    nameBn: 'বৌদ্ধধর্ম ও নৈতিক শিক্ষা (Buddhist Religion)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (ধর্ম শিক্ষা)',
+    totalPages: 196,
+    fileSize: '11.5 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Buddhist_Religion_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-buddhist-religion-bangla-version',
+    summary: 'গৌতম বুদ্ধের জীবন ও দর্শন, চতুরার্য সত্য ও অষ্টাঙ্গিক মার্গ, ত্রিপিটক ও ধম্মপদ, পঞ্চশীল, শুভ বৈশাখী পূর্ণিমা ও কঠিন চীবর দান, শালবন ও পাহাড়পুর বিহার, এবং অতীশ দীপঙ্কর—সম্পূর্ণ ১১টি অধ্যায়।'
+  },
+  'christian-studies': {
+    id: 'pdf-christian-studies',
+    subjectId: 'christian-studies',
+    nameBn: 'খ্রিস্টধর্ম ও নৈতিক শিক্ষা (Christian Religion)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (ধর্ম শিক্ষা)',
+    totalPages: 188,
+    fileSize: '11.0 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Christian_Religion_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-christian-religion-bangla-version',
+    summary: 'ঈশ্বর, সৃষ্টি ও মুক্তিদাতা যিশুখ্রিস্ট, পবিত্র বাইবেল, দশ আজ্ঞা, সাক্রামেন্ত ও প্রার্থনা, এবং মানবপ্রেম—সম্পূর্ণ পাঠ্যবই।'
   }
 };
