@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { NCTB_CLASSES } from '../utils/nctbData';
 import { NCTB_FULL_BOOK_CHAPTERS_MAP } from './KnowledgeVaultView';
+import SleekCustomDropdown from './SleekCustomDropdown';
 import { 
   GraduationCap, 
   BookOpen, 
@@ -982,28 +983,21 @@ export default function TeacherPortalView() {
                 </span>
                 <span className="text-[9px] text-slate-400 font-bold">Class Select</span>
               </label>
-              <div className="relative">
-                <select
-                  value={selectedClassId}
-                  onChange={(e) => {
-                    const newClassId = e.target.value;
-                    setSelectedClassId(newClassId);
-                    const newClassObj = NCTB_CLASSES.find(c => c.id === newClassId);
-                    setSelectedSubjectId(newClassObj?.subjects[0]?.id || 'bangla-sahitya');
-                    showToast(`${newClassObj?.nameBn} সিলেক্ট করা হয়েছে`, 'info');
-                  }}
-                  className="w-full appearance-none bg-white hover:bg-amber-50/50 border border-amber-300 rounded-xl pl-3 pr-7 py-1.5 text-[11px] text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 cursor-pointer shadow-xs transition-all"
-                >
-                  {NCTB_CLASSES.map(cls => (
-                    <option key={cls.id} value={cls.id} className="py-1 text-slate-800 font-bold">
-                      🎓 {cls.nameBn} — {cls.levelBn}
-                    </option>
-                  ))}
-                </select>
-                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
-                  <ChevronDown className="w-3.5 h-3.5 text-red-600" />
-                </div>
-              </div>
+
+              <SleekCustomDropdown
+                options={NCTB_CLASSES.map(cls => ({
+                  value: cls.id,
+                  label: `${cls.nameBn}`,
+                  badge: `${cls.levelBn}`
+                }))}
+                value={selectedClassId}
+                onChange={(val) => {
+                  setSelectedClassId(val);
+                  const newClassObj = NCTB_CLASSES.find(c => c.id === val);
+                  setSelectedSubjectId(newClassObj?.subjects[0]?.id || 'bangla-sahitya');
+                  showToast(`${newClassObj?.nameBn} সিলেক্ট করা হয়েছে`, 'info');
+                }}
+              />
             </div>
 
             {/* 2. Subject Dropdown List */}
@@ -1015,27 +1009,22 @@ export default function TeacherPortalView() {
                 </span>
                 <span className="text-[9px] text-slate-400 font-bold">Subject Select</span>
               </label>
-              <div className="relative">
-                <select
-                  value={selectedSubjectId}
-                  onChange={(e) => {
-                    const newSubId = e.target.value;
-                    setSelectedSubjectId(newSubId);
-                    const subObj = availableSubjects.find(s => s.id === newSubId);
-                    showToast(`বিষয়: ${subObj?.nameBn || newSubId}`, 'info');
-                  }}
-                  className="w-full appearance-none bg-white hover:bg-amber-50/50 border border-amber-300 rounded-xl pl-3 pr-7 py-1.5 text-[11px] text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 cursor-pointer shadow-xs transition-all"
-                >
-                  {availableSubjects.map(sub => (
-                    <option key={sub.id} value={sub.id} className="py-1 text-slate-800 font-bold">
-                      {sub.icon} {sub.nameBn} ({sub.group || 'আবশ্যিক'})
-                    </option>
-                  ))}
-                </select>
-                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
-                  <ChevronDown className="w-3.5 h-3.5 text-amber-600" />
-                </div>
-              </div>
+
+              <SleekCustomDropdown
+                options={availableSubjects.map(sub => ({
+                  value: sub.id,
+                  label: `${sub.nameBn}`,
+                  icon: sub.icon || '📖',
+                  group: sub.group || 'আবশ্যিক',
+                  badge: sub.group || 'আবশ্যিক'
+                }))}
+                value={selectedSubjectId}
+                onChange={(val) => {
+                  setSelectedSubjectId(val);
+                  const subObj = availableSubjects.find(s => s.id === val);
+                  showToast(`বিষয়: ${subObj?.nameBn || val}`, 'info');
+                }}
+              />
             </div>
 
           </div>

@@ -22,6 +22,7 @@ import {
   Camera
 } from 'lucide-react';
 import { NCTB_FULL_BOOK_CHAPTERS_MAP } from './KnowledgeVaultView';
+import SleekCustomDropdown from './SleekCustomDropdown';
 
 // Comprehensive NCTB Board Standard Creative Question (CQ / সৃজনশীল) Database in Bangla
 const NCTB_CREATIVE_QUESTIONS_BN = {
@@ -723,38 +724,31 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
         
         {/* ================= 1ST LINE: CLASS SELECTOR (শ্রেণি নির্বাচন) ================= */}
         <div className="space-y-1 pb-2 border-b border-amber-200/60">
-          <div className="flex items-center justify-between">
-            <label className="text-[11px] font-black text-amber-950 flex items-center gap-1">
-              <GraduationCap className="w-3.5 h-3.5 text-red-600" />
-              <span>শ্রেণি নির্বাচন করুন (Class):</span>
-            </label>
-          </div>
+          <label className="text-[11px] font-black text-amber-950 flex items-center gap-1">
+            <GraduationCap className="w-3.5 h-3.5 text-red-600" />
+            <span>শ্রেণি নির্বাচন করুন (Class):</span>
+          </label>
 
-          <div className="relative">
-            <select
-              value={selectedClass}
-              onChange={(e) => {
-                setSelectedClass(e.target.value);
-                const matchedClass = (classes || []).find(c => c.id === e.target.value);
-                const firstSubId = matchedClass?.subjects?.[0]?.id || 'bangla-sahitya';
-                setSelectedSubjectId(firstSubId);
-                setSelectedCqIdx(0);
-                setChapterSearchQuery('');
-                setRevealedAnswers({});
-                setAiFeedback(null);
-                setStudentPracticeInput('');
-                showToast(`🎓 ${matchedClass?.nameBn || e.target.value} সিলেক্ট করা হয়েছে`, 'info');
-              }}
-              className="w-full appearance-none bg-white hover:bg-amber-50/50 border border-amber-300 rounded-xl pl-3 pr-7 py-1.5 text-[11px] text-slate-800 font-bold focus:outline-none focus:border-red-500 shadow-xs transition-all cursor-pointer"
-            >
-              {(classes || []).map((cls) => (
-                <option key={cls.id} value={cls.id}>
-                  🎓 {cls.nameBn} — ({cls.subjects?.length || 0}টি বিষয়)
-                </option>
-              ))}
-            </select>
-            <ChevronDown className="w-3.5 h-3.5 text-amber-700 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
+          <SleekCustomDropdown
+            options={(classes || []).map((cls) => ({
+              value: cls.id,
+              label: `${cls.nameBn}`,
+              badge: `${cls.subjects?.length || 0}টি বিষয়`
+            }))}
+            value={selectedClass}
+            onChange={(val) => {
+              setSelectedClass(val);
+              const matchedClass = (classes || []).find(c => c.id === val);
+              const firstSubId = matchedClass?.subjects?.[0]?.id || 'bangla-sahitya';
+              setSelectedSubjectId(firstSubId);
+              setSelectedCqIdx(0);
+              setChapterSearchQuery('');
+              setRevealedAnswers({});
+              setAiFeedback(null);
+              setStudentPracticeInput('');
+              showToast(`🎓 ${matchedClass?.nameBn || val} সিলেক্ট করা হয়েছে`, 'info');
+            }}
+          />
         </div>
 
         {/* ================= 2ND LINE: SUBJECT SELECTOR (বিষয় নির্বাচন) ================= */}
@@ -774,75 +768,60 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
             </button>
           </div>
 
-          <div className="relative">
-            <select
-              value={selectedSubjectId}
-              onChange={(e) => {
-                setSelectedSubjectId(e.target.value);
-                setSelectedCqIdx(0);
-                setChapterSearchQuery('');
-                setRevealedAnswers({});
-                setAiFeedback(null);
-                setStudentPracticeInput('');
-              }}
-              className="w-full appearance-none bg-white hover:bg-amber-50/50 border border-amber-300 rounded-xl pl-3 pr-7 py-1.5 text-[11px] text-slate-800 font-bold focus:outline-none focus:border-red-500 shadow-xs transition-all cursor-pointer"
-            >
-              {Object.entries(groupedSubjects).map(([groupName, groupSubs]) => (
-                <optgroup key={groupName} label={`--- ${groupName} (${groupSubs.length}টি বিষয়) ---`}>
-                  {groupSubs.map((sub) => {
-                    const chCount = NCTB_FULL_BOOK_CHAPTERS_MAP[sub.id]?.length || (sub.id === 'bangla-sahitya' ? 50 : 3);
-                    return (
-                      <option key={sub.id} value={sub.id}>
-                        {sub.icon || '📖'} {language === 'bn' ? sub.nameBn : sub.nameEn} ({chCount}টি অধ্যায়)
-                      </option>
-                    );
-                  })}
-                </optgroup>
-              ))}
-            </select>
-            <ChevronDown className="w-3.5 h-3.5 text-amber-700 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
+          <SleekCustomDropdown
+            options={subjectsList.map((sub) => {
+              const chCount = NCTB_FULL_BOOK_CHAPTERS_MAP[sub.id]?.length || (sub.id === 'bangla-sahitya' ? 50 : 3);
+              return {
+                value: sub.id,
+                label: language === 'bn' ? sub.nameBn : sub.nameEn,
+                icon: sub.icon || '📖',
+                group: sub.group || 'আবশ্যিক',
+                badge: `${chCount}টি অধ্যায়`
+              };
+            })}
+            value={selectedSubjectId}
+            onChange={(val) => {
+              setSelectedSubjectId(val);
+              setSelectedCqIdx(0);
+              setChapterSearchQuery('');
+              setRevealedAnswers({});
+              setAiFeedback(null);
+              setStudentPracticeInput('');
+            }}
+          />
         </div>
 
         {/* ================= 3RD LINE: CHAPTER / CQ SELECTOR (অধ্যায় তালিকা) ================= */}
         <div className="space-y-1.5">
-          <div className="flex items-center justify-between">
-            <label className="text-[11px] font-black text-amber-950 flex items-center gap-1">
-              <Layers className="w-3.5 h-3.5 text-amber-700" />
-              <span>[{subjectsList.find(s => s.id === selectedSubjectId)?.nameBn || 'নির্বাচিত বিষয়'}] সৃজনশীল তালিকা:</span>
-            </label>
-          </div>
+          <label className="text-[11px] font-black text-amber-950 flex items-center gap-1">
+            <Layers className="w-3.5 h-3.5 text-amber-700" />
+            <span>[{subjectsList.find(s => s.id === selectedSubjectId)?.nameBn || 'নির্বাচিত বিষয়'}] সৃজনশীল তালিকা:</span>
+          </label>
 
-          {/* Chapter Selector Dropdown */}
-          <div className="relative">
-            <select
-              value={selectedCqIdx}
-              onChange={(e) => {
-                setSelectedCqIdx(parseInt(e.target.value, 10));
-                setRevealedAnswers({});
-                setAiFeedback(null);
-                setStudentPracticeInput('');
-              }}
-              className="w-full appearance-none bg-amber-100/70 hover:bg-amber-200/70 border border-amber-300 rounded-xl pl-3 pr-7 py-1.5 text-[11px] text-amber-950 font-black focus:outline-none focus:border-amber-500 shadow-xs transition-all cursor-pointer"
-            >
-              {filteredCqList.map((cq, idx) => (
-                <option key={cq.id || idx} value={cq.originalIdx !== undefined ? cq.originalIdx : idx}>
-                  ✍️ {cq.chapterNameBn} (১০ নম্বর)
-                </option>
-              ))}
-            </select>
-            <ChevronDown className="w-3.5 h-3.5 text-amber-700 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
+          <SleekCustomDropdown
+            options={filteredCqList.map((cq, idx) => ({
+              value: cq.originalIdx !== undefined ? cq.originalIdx : idx,
+              label: `${cq.chapterNameBn}`,
+              badge: '১০ নম্বর'
+            }))}
+            value={selectedCqIdx}
+            onChange={(val) => {
+              setSelectedCqIdx(parseInt(val, 10));
+              setRevealedAnswers({});
+              setAiFeedback(null);
+              setStudentPracticeInput('');
+            }}
+          />
 
           {/* Instant Search Input */}
-          <div className="relative">
+          <div className="relative pt-1">
             <Search className="w-3 h-3 text-amber-600 absolute left-2.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={chapterSearchQuery}
               onChange={(e) => setChapterSearchQuery(e.target.value)}
-              placeholder={`[${subjectsList.find(s => s.id === selectedSubjectId)?.nameBn || 'অধ্যায়'}] খুঁজুন...`}
-              className="w-full bg-white border border-amber-200 rounded-xl pl-8 pr-7 py-1.5 text-[11px] text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-amber-500 transition-all font-medium shadow-inner"
+              placeholder={`[${subjectsList.find(s => s.id === selectedSubjectId)?.nameBn || 'অধ্যায়'}] ফিল্টার করুন...`}
+              className="w-full bg-white border border-amber-200 rounded-xl pl-8 pr-7 py-1.5 text-[10.5px] text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-amber-500 transition-all font-medium shadow-inner"
             />
             {chapterSearchQuery && (
               <button
