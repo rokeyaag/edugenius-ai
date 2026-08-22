@@ -162,6 +162,7 @@ export function AppProvider({ children }) {
   const [isPomodoroOpen, setIsPomodoroOpen] = useState(false);
   const [isClassModalOpen, setIsClassModalOpen] = useState(false);
   const [isAddSubjectModalOpen, setIsAddSubjectModalOpen] = useState(false);
+  const [isInstallModalOpen, setIsInstallModalOpen] = useState(false);
 
   // Sync to localStorage
   useEffect(() => {
@@ -334,6 +335,8 @@ export function AppProvider({ children }) {
         setIsClassModalOpen,
         isAddSubjectModalOpen,
         setIsAddSubjectModalOpen,
+        isInstallModalOpen,
+        setIsInstallModalOpen,
         points,
         streak,
         subscriptionTier,

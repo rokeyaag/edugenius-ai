@@ -12,10 +12,11 @@ import TeacherPortalView from './components/TeacherPortalView';
 import PomodoroModal from './components/PomodoroModal';
 import ClassSelectorModal from './components/ClassSelectorModal';
 import AddSubjectModal from './components/AddSubjectModal';
+import InstallAppModal from './components/InstallAppModal';
 import { CheckCircle2, AlertCircle } from 'lucide-react';
 
 function AppContent() {
-  const { activeTab, toastMessage } = useApp();
+  const { activeTab, toastMessage, isInstallModalOpen, setIsInstallModalOpen } = useApp();
 
   return (
     <div className="min-h-screen bg-[#edf0f5] flex justify-center text-slate-900 selection:bg-red-600 selection:text-white">
@@ -63,6 +64,10 @@ function AppContent() {
         <PomodoroModal />
         <ClassSelectorModal />
         <AddSubjectModal />
+        <InstallAppModal 
+          isOpen={isInstallModalOpen} 
+          onClose={() => setIsInstallModalOpen(false)} 
+        />
 
         {/* Mobile App Bottom Navigation */}
         <BottomNav />
