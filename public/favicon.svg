@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="favGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dc2626" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <linearGradient id="gGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#favGrad)" />
+  <!-- Cap Diamond -->
+  <path d="M 32 14 L 54 24 L 32 34 L 10 24 Z" fill="#ffffff" stroke="url(#gGrad)" stroke-width="1.5" stroke-linejoin="round" />
+  <!-- Cap Base -->
+  <path d="M 18 29 L 18 39 C 18 48 46 48 46 39 L 46 29 C 40 33 24 33 18 29 Z" fill="#f8fafc" />
+  <!-- Tassel -->
+  <circle cx="32" cy="24" r="2" fill="url(#gGrad)" />
+  <path d="M 32 24 C 44 26 50 32 50 42" fill="none" stroke="url(#gGrad)" stroke-width="2" stroke-linecap="round" />
+</svg>
