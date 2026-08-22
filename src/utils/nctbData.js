@@ -422,6 +422,22 @@ export const NCTB_OFFICIAL_BOOK_NOTES = [
     podcastDuration: '3:05 min',
     tags: ['Class 9-10', 'Religion', 'Buddhism', 'Tripitaka', 'Metta'],
     hasAudio: true,
+  },
+  // 21. খ্রিস্টধর্ম ও নৈতিক শিক্ষা (Christian Religion)
+  {
+    id: 'note-chr-1',
+    title: 'খ্রিস্টধর্ম ও নৈতিক শিক্ষা: অধ্যায় ৩ ও ৮ - দশ আজ্ঞা ও মানবসেবায় মাদার তেরেসা',
+    subject: 'Christian Religion Studies',
+    subjectBn: 'খ্রিস্টধর্ম ও নৈতিক শিক্ষা',
+    subjectId: 'christian-studies',
+    classId: 'class-9',
+    summary: 'সিনাই পর্বতের দশ আজ্ঞা ও যিশুর প্রেমের মহাআদেশ। উইলিয়াম কেরির বাংলা মুদ্রণ ও শিক্ষা এবং সাধ্বী মাদার তেরেসার আর্তপীড়িতদের নিঃস্বার্থ সেবা ও নোবেল শান্তি পুরস্কার।',
+    formula: 'দশ আজ্ঞা (Decalogue) + যিশুর প্রেমের মহাআদেশ | মাদার তেরেসা = নিঃস্বার্থ মানবসেবা',
+    scannedImage: 'https://images.unsplash.com/photo-1548625361-195feee742f1?w=600&auto=format&fit=crop&q=80',
+    date: '31 Jul, 04:20 PM',
+    podcastDuration: '3:10 min',
+    tags: ['Class 9-10', 'Religion', 'Christianity', 'Bible', 'Mother Teresa'],
+    hasAudio: true,
   }
 ];
 

@@ -25,6 +25,7 @@ import { NCTB_ECONOMICS_CHAPTERS } from '../utils/nctbEconomicsData';
 import { NCTB_ISLAM_CHAPTERS } from '../utils/nctbIslamData';
 import { NCTB_HINDU_CHAPTERS } from '../utils/nctbHinduData';
 import { NCTB_BUDDHIST_CHAPTERS } from '../utils/nctbBuddhistData';
+import { NCTB_CHRISTIAN_CHAPTERS } from '../utils/nctbChristianData';
 import { 
   BookMarked, 
   Search, 
@@ -91,6 +92,7 @@ export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
   'islam-studies': NCTB_ISLAM_CHAPTERS,
   'hindu-studies': NCTB_HINDU_CHAPTERS,
   'buddhist-studies': NCTB_BUDDHIST_CHAPTERS,
+  'christian-studies': NCTB_CHRISTIAN_CHAPTERS,
   'ict': NCTB_ICT_CHAPTERS,
   'ict-6': NCTB_ICT_CHAPTERS.slice(0, 3),
   'ict-7': NCTB_ICT_CHAPTERS.slice(0, 4),
