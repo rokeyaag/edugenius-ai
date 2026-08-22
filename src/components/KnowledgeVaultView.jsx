@@ -19,6 +19,7 @@ import { NCTB_ACCOUNTING_CHAPTERS } from '../utils/nctbAccountingData';
 import { NCTB_FINANCE_BANKING_CHAPTERS } from '../utils/nctbFinanceBankingData';
 import { NCTB_BUSINESS_ENT_CHAPTERS } from '../utils/nctbBusinessEntData';
 import { NCTB_HISTORY_CHAPTERS } from '../utils/nctbHistoryData';
+import { NCTB_GEOGRAPHY_CHAPTERS } from '../utils/nctbGeographyData';
 import { 
   BookMarked, 
   Search, 
@@ -78,6 +79,7 @@ export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
   'finance-banking': NCTB_FINANCE_BANKING_CHAPTERS,
   'business-ent': NCTB_BUSINESS_ENT_CHAPTERS,
   'history-bd': NCTB_HISTORY_CHAPTERS,
+  'geography-env': NCTB_GEOGRAPHY_CHAPTERS,
   'ict': NCTB_ICT_CHAPTERS,
   'ict-6': NCTB_ICT_CHAPTERS.slice(0, 3),
   'ict-7': NCTB_ICT_CHAPTERS.slice(0, 4),
