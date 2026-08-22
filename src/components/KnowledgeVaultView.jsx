@@ -29,7 +29,8 @@ import { NCTB_CHRISTIAN_CHAPTERS } from '../utils/nctbChristianData';
 import { NCTB_AGRI_CHAPTERS } from '../utils/nctbAgriData';
 import { NCTB_HOME_SCIENCE_CHAPTERS } from '../utils/nctbHomeScienceData';
 import { NCTB_ARABIC_CHAPTERS } from '../utils/nctbArabicData';
-import { NCTB_CAREER_EDU_CHAPTERS, NCTB_MUSIC_CHAPTERS } from '../utils/nctbCareerMusicData';
+import { NCTB_CAREER_EDU_CHAPTERS } from '../utils/nctbCareerMusicData';
+import { NCTB_MUSIC_CHAPTERS } from '../utils/nctbMusicData';
 import { 
   BookMarked, 
   Search, 
