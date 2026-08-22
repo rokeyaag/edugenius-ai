@@ -374,6 +374,22 @@ export const NCTB_OFFICIAL_BOOK_NOTES = [
     podcastDuration: '3:00 min',
     tags: ['Class 9-10', 'Commerce', 'Business', 'Entrepreneurship', 'Management'],
     hasAudio: true,
+  },
+  // 18. অর্থনীতি (Economics)
+  {
+    id: 'note-eco-1',
+    title: 'অর্থনীতি: অধ্যায় ৩ ও ৬ - চাহিদা-জোগান ভারসাম্য ও জাতীয় আয় পরিমাপ',
+    subject: 'Economics',
+    subjectBn: 'অর্থনীতি',
+    subjectId: 'economics',
+    classId: 'class-9',
+    summary: 'চাহিদা ও জোগানের ছেদবিন্দুতে ভারসাম্য দাম ও পরিমাণ নির্ধারণ (Qd = Qs)। মোট দেশজ উৎপাদন (GDP) ও মোট জাতীয় উৎপাদন (GNP) পরিমাপের ৩টি পদ্ধতি এবং মাথাপিছু আয় নির্ণয়।',
+    formula: 'ভারসাম্য: Qd = Qs | GDP vs GNP | Y = C + I + G + (X - M)',
+    scannedImage: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&auto=format&fit=crop&q=80',
+    date: '03 Aug, 11:30 AM',
+    podcastDuration: '3:20 min',
+    tags: ['Class 9-10', 'Humanities', 'Economics', 'Demand', 'Supply', 'GDP'],
+    hasAudio: true,
   }
 ];
 

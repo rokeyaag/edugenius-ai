@@ -224,5 +224,27 @@ export const NCTB_OFFICIAL_FULL_PDF_BOOKS = {
     pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Geography_Environment_9_10.pdf',
     backupUrl: 'https://archive.org/details/nctb-class-9-10-geography-bangla-version',
     summary: 'মহাবিশ্ব, সৌরজগৎ, বায়ুমণ্ডল, বারিমণ্ডল, মানচিত্র ও স্কেল, বাংলাদেশের প্রাকৃতিক ও অর্থনৈতিক ভূগোল—সম্পূর্ণ ১৫টি অধ্যায়।'
+  },
+  'civics-citizen': {
+    id: 'pdf-civics-citizen',
+    subjectId: 'civics-citizen',
+    nameBn: 'পৌরনীতি ও নাগরিকতা (Civics & Citizenship)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (মানবিক)',
+    totalPages: 192,
+    fileSize: '11.0 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Civics_Citizenship_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-civics-bangla-version',
+    summary: 'রাষ্ট্র, সরকার, সংবিধান, নাগরিক অধিকার ও কর্তব্য, স্থানীয় সরকার ও আন্তর্জাতিক সংস্থা—সম্পূর্ণ ১১টি অধ্যায়।'
+  },
+  'economics': {
+    id: 'pdf-economics',
+    subjectId: 'economics',
+    nameBn: 'অর্থনীতি (Economics)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (মানবিক ও ব্যবসায় শিক্ষা)',
+    totalPages: 204,
+    fileSize: '12.0 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Economics_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-economics-bangla-version',
+    summary: 'অর্থনীতির মৌলিক সমস্যা, চাহিদা ও জোগান ভারসাম্য, উৎপাদন ও বাজার, জাতীয় আয় GDP/GNP, মূল্যস্ফীতি, সরকারি অর্থব্যবস্থা ও বাজেট—সম্পূর্ণ ১০টি অধ্যায়।'
   }
 };
