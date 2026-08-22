@@ -342,6 +342,38 @@ export const NCTB_OFFICIAL_BOOK_NOTES = [
     podcastDuration: '3:00 min',
     tags: ['Class 9-10', 'Islam', 'Aqeedah', 'Ibadah', 'Ethics'],
     hasAudio: true,
+  },
+  // 16. পৌরনীতি ও নাগরিকতা (Civics & Citizenship)
+  {
+    id: 'note-civ-1',
+    title: 'পৌরনীতি ও নাগরিকতা: অধ্যায় ৫ ও ৬ - বাংলাদেশ সংবিধান ও সরকার ব্যবস্থা',
+    subject: 'Civics & Citizenship',
+    subjectBn: 'পৌরনীতি ও নাগরিকতা',
+    subjectId: 'civics-citizenship',
+    classId: 'class-9',
+    summary: '১৯৭২ সালের ৪ নভেম্বর গণপরিষদে সংবিধান গৃহীত ও ১৬ ডিসেম্বর কার্যকর। ১৫৩টি অনুচ্ছেদ ও ৪ মূলনীতি। সরকারের ৩টি বিভাগ: আইন বিভাগ (জাতীয় সংসদ ৩৫০ আসন), শাসন বিভাগ ও সুপ্রিম কোর্ট।',
+    formula: 'সংবিধান ৪ মূলনীতি = জাতীয়তাবাদ + সমাজতন্ত্র + গণতন্ত্র + ধর্মনিরপেক্ষতা | সংসদ = ৩৫০ আসন',
+    scannedImage: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&auto=format&fit=crop&q=80',
+    date: '05 Aug, 10:15 AM',
+    podcastDuration: '3:10 min',
+    tags: ['Class 9-10', 'Humanities', 'Civics', 'Constitution', 'Government'],
+    hasAudio: true,
+  },
+  // 17. ব্যবসায় উদ্যোগ (Business Entrepreneurship)
+  {
+    id: 'note-be-1',
+    title: 'ব্যবসায় উদ্যোগ: অধ্যায় ৬ ও ৮ - ব্যবসায় পরিকল্পনা ও প্রাতিষ্ঠানিক ব্যবস্থাপনা',
+    subject: 'Business Entrepreneurship',
+    subjectBn: 'ব্যবসায় উদ্যোগ',
+    subjectId: 'business-ent',
+    classId: 'class-9',
+    summary: 'ব্যবসা পরিকল্পনার উপাদান ও SWOT বিশ্লেষণ (Strengths, Weaknesses, Opportunities, Threats)। আধুনিক ব্যবস্থাপনার ৭টি মৌলিক কার্যাবলী এবং হেনরি ফেয়ল এর ১৪টি মূলনীতি।',
+    formula: 'SWOT = Strengths + Weaknesses + Opportunities + Threats | POSDCORB',
+    scannedImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&auto=format&fit=crop&q=80',
+    date: '04 Aug, 2:40 PM',
+    podcastDuration: '3:00 min',
+    tags: ['Class 9-10', 'Commerce', 'Business', 'Entrepreneurship', 'Management'],
+    hasAudio: true,
   }
 ];
 
