@@ -44,9 +44,14 @@ export default function TeacherPortalView() {
 
   // AUTO-LOCK & AUTO-LOGOUT ON TAB SWITCH / EXIT / UNMOUNT
   useEffect(() => {
-    // Automatically wipe session & lock portal whenever navigating away from Teacher tab
+    // Whenever entering or leaving the Teacher tab, wipe password input completely
+    setInputPin('');
+    setLoginError('');
+
     return () => {
       setIsTeacherLoggedIn(false);
+      setInputPin('');
+      setLoginError('');
       localStorage.removeItem('edugenius_teacher_session');
     };
   }, []);
@@ -72,11 +77,11 @@ export default function TeacherPortalView() {
     }
   });
 
-  // Login Form Inputs
+  // Login Form Inputs (Password is always empty by default)
   const [inputName, setInputName] = useState('মো: রফিকুল ইসলাম');
   const [inputSchool, setInputSchool] = useState('রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ');
   const [inputPhone, setInputPhone] = useState('01712-345678');
-  const [inputPin, setInputPin] = useState('1234');
+  const [inputPin, setInputPin] = useState('');
   const [loginError, setLoginError] = useState('');
 
   // 1. Selection State
@@ -113,7 +118,7 @@ export default function TeacherPortalView() {
       return;
     }
     if (!inputPin.trim() || inputPin.length < 4) {
-      setLoginError('৪ সংখ্যার সিকিউর পিন লিখুন (ডিফল্ট: 1234)');
+      setLoginError('৪ সংখ্যার সিকিউর পিন টাইপ করুন (ডিফল্ট: 1234)');
       return;
     }
 
@@ -131,6 +136,7 @@ export default function TeacherPortalView() {
     setTeacherProfile(session);
     setSchoolName(session.school);
     setIsTeacherLoggedIn(true);
+    setInputPin('');
     setLoginError('');
     showToast(`স্বাগতম, ${session.name}! শিক্ষক প্যানেলে প্রবেশ সফল হয়েছে`, 'success');
   };
@@ -150,6 +156,7 @@ export default function TeacherPortalView() {
     setTeacherProfile(demoSession);
     setSchoolName(demoSession.school);
     setIsTeacherLoggedIn(true);
+    setInputPin('');
     setLoginError('');
     showToast('ডেমো শিক্ষক হিসেবে ১ ক্লিকে লগইন সফল!', 'success');
   };
@@ -158,6 +165,8 @@ export default function TeacherPortalView() {
   const handleTeacherLogout = () => {
     localStorage.removeItem('edugenius_teacher_session');
     setIsTeacherLoggedIn(false);
+    setInputPin('');
+    setLoginError('');
     showToast('শিক্ষক প্যানেল থেকে সফলভাবে লগআউট করা হয়েছে', 'info');
   };
 
@@ -430,8 +439,9 @@ export default function TeacherPortalView() {
                   type="password"
                   value={inputPin}
                   onChange={e => setInputPin(e.target.value)}
-                  placeholder="৪ সংখ্যার পিন"
+                  placeholder="৪ সংখ্যার পিন লিখুন"
                   maxLength={6}
+                  autoComplete="new-password"
                   className="w-full p-2.5 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-red-500 font-black tracking-widest text-slate-800 text-center"
                   required
                 />
