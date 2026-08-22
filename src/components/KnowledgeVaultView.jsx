@@ -4950,7 +4950,7 @@ ${lectureText}
   };
 
   return (
-    <div className="space-y-4 pb-24 pt-2">
+    <div className="space-y-4 pb-32 pt-2">
       
       {/* Header Bar */}
       <div className="flex items-center justify-between px-1">

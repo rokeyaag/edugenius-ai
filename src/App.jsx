@@ -49,8 +49,8 @@ function AppContent() {
           </div>
         )}
 
-        {/* Main Viewport */}
-        <main className="flex-1 px-4 pt-1 bg-[#ffffff]">
+        {/* Main Viewport with proper bottom safe padding */}
+        <main className="flex-1 px-4 pt-1 pb-28 bg-[#ffffff]">
           {activeTab === 'home' && <DashboardView />}
           {activeTab === 'creative' && <CreativeQuestionsView />}
           {activeTab === 'tutor' && <AITutorView />}

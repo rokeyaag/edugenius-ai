@@ -6,18 +6,18 @@ export default function BottomNav() {
   const { activeTab, setActiveTab, language, t } = useApp();
 
   const tabs = [
-    { id: 'home', label: t('navHome'), icon: Home },
+    { id: 'home', label: language === 'bn' ? 'হোম' : 'Home', icon: Home },
     { id: 'creative', label: language === 'bn' ? 'সৃজনশীল' : 'Creative', icon: PenTool },
-    { id: 'tutor', label: t('navTutor'), icon: Bot },
+    { id: 'tutor', label: language === 'bn' ? 'টিউটর' : 'Tutor', icon: Bot },
     { id: 'teacher', label: language === 'bn' ? 'শিক্ষক' : 'Teacher', icon: GraduationCap },
-    { id: 'quiz', label: t('navQuiz'), icon: Award },
-    { id: 'vault', label: t('navVault'), icon: BookMarked },
-    { id: 'store', label: t('navStore'), icon: ShoppingBag },
+    { id: 'quiz', label: language === 'bn' ? 'কুইজ' : 'Quiz', icon: Award },
+    { id: 'vault', label: language === 'bn' ? 'ভল্ট' : 'Vault', icon: BookMarked },
+    { id: 'store', label: language === 'bn' ? 'স্টোর' : 'Store', icon: ShoppingBag },
   ];
 
   return (
-    <nav className="fixed bottom-2 sm:bottom-4 left-2 right-2 sm:left-auto sm:right-auto sm:max-w-md sm:mx-auto z-40">
-      <div className="bg-slate-900/90 backdrop-blur-2xl border border-white/15 p-1.5 rounded-3xl shadow-2xl shadow-slate-950/40 flex items-center justify-between gap-1">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 max-w-md mx-auto bg-white/95 backdrop-blur-2xl border-t border-slate-200 shadow-2xl safe-area-bottom">
+      <div className="flex items-center justify-between px-1.5 py-1.5">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -25,25 +25,31 @@ export default function BottomNav() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-2xl transition-all duration-300 tap-active relative cursor-pointer group ${
+              className={`flex-1 flex flex-col items-center justify-center py-1 px-0.5 rounded-xl transition-all duration-200 tap-active relative cursor-pointer group ${
                 isActive
-                  ? 'bg-gradient-to-b from-red-600 to-rose-700 text-white shadow-lg shadow-red-600/30 scale-105 font-black'
-                  : 'text-slate-400 hover:text-slate-100 hover:bg-white/5 font-bold'
+                  ? 'text-red-600 font-black'
+                  : 'text-slate-500 hover:text-slate-900 font-semibold'
               }`}
             >
-              {isActive && (
-                <span className="absolute -top-1 w-2.5 h-2.5 bg-amber-400 rounded-full shadow-sm ring-2 ring-slate-900 animate-pulse"></span>
-              )}
+              {/* Active Pill Highlight */}
               <div
-                className={`p-1 rounded-xl transition-transform duration-300 ${
+                className={`p-1.5 rounded-xl transition-all duration-200 flex items-center justify-center ${
                   isActive
-                    ? 'scale-110'
-                    : 'group-hover:scale-110'
+                    ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md shadow-red-500/25 scale-105'
+                    : 'bg-transparent text-slate-500 group-hover:bg-slate-100 group-hover:text-slate-800'
                 }`}
               >
                 <Icon className="w-4 h-4" />
               </div>
-              <span className={`text-[9.5px] sm:text-[10px] tracking-tight truncate max-w-[50px] leading-none ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'}`}>
+
+              {/* Label: Short, clear, no ellipsis cutting */}
+              <span 
+                className={`text-[9.5px] mt-0.5 whitespace-nowrap tracking-tight transition-colors ${
+                  isActive 
+                    ? 'text-red-700 font-black' 
+                    : 'text-slate-500 group-hover:text-slate-800'
+                }`}
+              >
                 {tab.label}
               </span>
             </button>
