@@ -282,62 +282,83 @@ export default function TeacherPortalView() {
       {activeTabSub === 'builder' && (
         <div className="space-y-4">
 
-          {/* STEP 1: CLASS & SUBJECT SELECTOR */}
-          <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-3">
+          {/* STEP 1: CLASS & SUBJECT DROPDOWN SELECTORS */}
+          <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-3.5">
             <div className="flex items-center justify-between">
               <span className="font-black text-slate-800 text-xs flex items-center gap-1.5">
                 <span className="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-[10px] font-black">১</span>
-                <span>শ্রেণি ও বিষয় নির্বাচন:</span>
+                <span>শ্রেণি ও বিষয় ড্রপডাউন নির্বাচন:</span>
               </span>
-              <span className="text-[11px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-lg">
-                {classObj.nameBn}
+              <span className="text-[10px] font-black text-red-600 bg-red-50 border border-red-200 px-2.5 py-0.5 rounded-full">
+                NCTB কারিকুলাম
               </span>
             </div>
 
-            {/* Class Dropdown / Pills */}
-            <div className="grid grid-cols-4 gap-1.5">
-              {NCTB_CLASSES.map(cls => (
-                <button
-                  key={cls.id}
-                  onClick={() => {
-                    setSelectedClassId(cls.id);
-                    setSelectedSubjectId(cls.subjects[0]?.id || 'bangla-sahitya');
-                    showToast(`${cls.nameBn} সিলেক্ট করা হয়েছে`, 'info');
+            {/* 1. Class Dropdown List */}
+            <div className="space-y-1">
+              <label className="text-[11px] font-black text-slate-600 flex items-center justify-between">
+                <span className="flex items-center gap-1">
+                  <GraduationCap className="w-3.5 h-3.5 text-red-600" />
+                  <span>শ্রেণি নির্বাচন করুন:</span>
+                </span>
+                <span className="text-[10px] text-slate-400 font-bold">Class Select</span>
+              </label>
+              <div className="relative">
+                <select
+                  value={selectedClassId}
+                  onChange={(e) => {
+                    const newClassId = e.target.value;
+                    setSelectedClassId(newClassId);
+                    const newClassObj = NCTB_CLASSES.find(c => c.id === newClassId);
+                    setSelectedSubjectId(newClassObj?.subjects[0]?.id || 'bangla-sahitya');
+                    showToast(`${newClassObj?.nameBn} সিলেক্ট করা হয়েছে`, 'info');
                   }}
-                  className={`py-2 px-1 rounded-xl text-[11px] font-black text-center transition-all ${
-                    selectedClassId === cls.id
-                      ? 'bg-red-600 text-white shadow-md ring-2 ring-red-300'
-                      : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200'
-                  }`}
+                  className="w-full appearance-none bg-slate-50 hover:bg-slate-100/80 border border-slate-300 rounded-2xl p-3 pr-10 text-xs font-black text-slate-800 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 cursor-pointer shadow-xs transition-all"
                 >
-                  {cls.nameEn.replace('Class ', 'শ্রেণি ')}
-                </button>
-              ))}
-            </div>
-
-            {/* Subject Selector Pills */}
-            <div className="space-y-1.5 pt-1">
-              <label className="text-[11px] font-bold text-slate-500">বিষয় নির্বাচন করুন:</label>
-              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
-                {availableSubjects.map(sub => (
-                  <button
-                    key={sub.id}
-                    onClick={() => {
-                      setSelectedSubjectId(sub.id);
-                      showToast(`বিষয়: ${sub.nameBn}`, 'info');
-                    }}
-                    className={`shrink-0 px-3 py-1.5 rounded-xl text-xs font-black flex items-center gap-1.5 transition-all ${
-                      selectedSubjectId === sub.id
-                        ? 'bg-slate-900 text-white shadow-md ring-2 ring-amber-400'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
-                    }`}
-                  >
-                    <span>{sub.icon}</span>
-                    <span>{sub.nameBn}</span>
-                  </button>
-                ))}
+                  {NCTB_CLASSES.map(cls => (
+                    <option key={cls.id} value={cls.id} className="py-1 text-slate-800 font-bold">
+                      🎓 {cls.nameBn} — {cls.levelBn}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+                  <ChevronDown className="w-4 h-4 text-red-600" />
+                </div>
               </div>
             </div>
+
+            {/* 2. Subject Dropdown List */}
+            <div className="space-y-1">
+              <label className="text-[11px] font-black text-slate-600 flex items-center justify-between">
+                <span className="flex items-center gap-1">
+                  <BookOpen className="w-3.5 h-3.5 text-amber-600" />
+                  <span>বিষয় নির্বাচন করুন:</span>
+                </span>
+                <span className="text-[10px] text-slate-400 font-bold">Subject Select</span>
+              </label>
+              <div className="relative">
+                <select
+                  value={selectedSubjectId}
+                  onChange={(e) => {
+                    const newSubId = e.target.value;
+                    setSelectedSubjectId(newSubId);
+                    const subObj = availableSubjects.find(s => s.id === newSubId);
+                    showToast(`বিষয়: ${subObj?.nameBn || newSubId}`, 'info');
+                  }}
+                  className="w-full appearance-none bg-slate-50 hover:bg-slate-100/80 border border-slate-300 rounded-2xl p-3 pr-10 text-xs font-black text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 cursor-pointer shadow-xs transition-all"
+                >
+                  {availableSubjects.map(sub => (
+                    <option key={sub.id} value={sub.id} className="py-1 text-slate-800 font-bold">
+                      {sub.icon} {sub.nameBn} ({sub.group || 'আবশ্যিক'})
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+                  <ChevronDown className="w-4 h-4 text-amber-600" />
+                </div>
+              </div>
+            </div>
+
           </div>
 
           {/* STEP 2: MULTI-CHAPTER SELECTOR */}
