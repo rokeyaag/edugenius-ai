@@ -39,14 +39,17 @@ export default function TeacherPortalView() {
   const { currentClass, currentClassId, showToast, language } = useApp();
 
   // 0. TEACHER SECURITY & AUTHENTICATION STATE
-  const [isTeacherLoggedIn, setIsTeacherLoggedIn] = useState(() => {
-    try {
-      const saved = localStorage.getItem('edugenius_teacher_session');
-      return saved ? JSON.parse(saved)?.isLoggedIn === true : false;
-    } catch {
-      return false;
-    }
-  });
+  // Always starts securely locked whenever entering the tab
+  const [isTeacherLoggedIn, setIsTeacherLoggedIn] = useState(false);
+
+  // AUTO-LOCK & AUTO-LOGOUT ON TAB SWITCH / EXIT / UNMOUNT
+  useEffect(() => {
+    // Automatically wipe session & lock portal whenever navigating away from Teacher tab
+    return () => {
+      setIsTeacherLoggedIn(false);
+      localStorage.removeItem('edugenius_teacher_session');
+    };
+  }, []);
 
   const [teacherProfile, setTeacherProfile] = useState(() => {
     try {
