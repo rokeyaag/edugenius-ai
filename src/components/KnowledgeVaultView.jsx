@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import UploadPdfModal from './UploadPdfModal';
 import { findCuratedQuizForChapter } from '../utils/chapterQuizzes';
+import { NCTB_GENERAL_MATH_CHAPTERS, NCTB_HIGHER_MATH_CHAPTERS } from '../utils/nctbMathData';
 import { 
   BookMarked, 
   Search, 
@@ -48,6 +49,11 @@ const SUBJECT_GROUPS = [
 
 // Complete Official NCTB Secondary (Class 9-10 & SSC) Textbook Chapters Database
 export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
+  'general-math': NCTB_GENERAL_MATH_CHAPTERS,
+  'higher-math': NCTB_HIGHER_MATH_CHAPTERS,
+  'math-6': NCTB_GENERAL_MATH_CHAPTERS.slice(0, 8),
+  'math-7': NCTB_GENERAL_MATH_CHAPTERS.slice(0, 10),
+  'math-8': NCTB_GENERAL_MATH_CHAPTERS.slice(0, 12),
   'bangla-sahitya': [
     // ========================================================================
     // অংশ ১: গদ্যাংশ (২৫টি সম্পূর্ণ গল্প, প্রবন্ধ ও আত্মজীবনী)
@@ -3916,15 +3922,6 @@ export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
     }
 ],
 
-  'general-math': [
-    { id: 'gm-1', title: 'অধ্যায় ১: বাস্তব সংখ্যা (Real Numbers)', type: 'পাটিগণিত', summary: 'মূলদ, অমূলদ সংখ্যা, আবৃত্ত দশমিক, ভগ্নাংশ ও প্রমাণসমূহ।' },
-    { id: 'gm-2', title: 'অধ্যায় ২: সেট ও ফাংশন (Set & Function)', type: 'বীজগণিত', summary: 'সেট প্রকাশের পদ্ধতি, সংযোগ, ছেদ, ফাঁকা সেট, ডোমেন ও রেঞ্জ।' },
-    { id: 'gm-3', title: 'অধ্যায় ৩: বীজগাণিতিক রাশি (Algebraic Expressions)', type: 'বীজগণিত', summary: 'বর্গ ও ঘনের সূত্রাবলি, উৎপাদকে বিশ্লেষণ এবং ভাগশেষ উপপাদ্য।' }
-  ],
-  'higher-math': [
-    { id: 'hm-1', title: 'অধ্যায় ১: সেট ও ফাংশন', type: 'উচ্চতর গণিত', summary: 'সার্বিক সেট, উপসেট, শক্তি সেট, এক-এক ফাংশন ও অন্বয়।' },
-    { id: 'hm-2', title: 'অধ্যায় ২: বীজগাণিতিক রাশি', type: 'উচ্চতর গণিত', summary: 'সমমাত্রিক, প্রতিসম, চক্র-ক্রমিক রাশি এবং আংশিক ভগ্নাংশ।' }
-  ],
   'physics': [
     { id: 'phy-1', title: 'অধ্যায় ১: ভৌত রাশি ও পরিমাপ', type: 'পদার্থবিজ্ঞান', summary: 'মৌলিক ও লব্ধ রাশি, স্লাইড ক্যালিপার্স, স্ক্রু গজ ও ত্রুটির হিসাব।' },
     { id: 'phy-2', title: 'অধ্যায় ২: গতি (Motion)', type: 'পদার্থবিজ্ঞান', summary: 'দূরত্ব, সরণ, দ্রুতি, বেগ, ত্বরণ এবং গতির সমীকরণসমূহ।' }
