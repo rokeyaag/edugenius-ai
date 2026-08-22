@@ -454,6 +454,22 @@ export const NCTB_OFFICIAL_BOOK_NOTES = [
     podcastDuration: '3:15 min',
     tags: ['Class 9-10', 'Optional', 'Agriculture', 'Crops', 'Agroforestry'],
     hasAudio: true,
+  },
+  // 23. গার্হস্থ্যবিজ্ঞান (Home Science)
+  {
+    id: 'note-hs-1',
+    title: 'গার্হস্থ্যবিজ্ঞান: অধ্যায় ১, ১১ ও ১৫ - গৃহ ব্যবস্থাপনা, পুষ্টিবিজ্ঞান ও বস্ত্রতন্তু',
+    subject: 'Home Science',
+    subjectBn: 'গার্হস্থ্যবিজ্ঞান',
+    subjectId: 'home-science',
+    classId: 'class-9',
+    summary: 'গৃহ ব্যবস্থাপনা চক্র (পরিকল্পনা, সংগঠন, নিয়ন্ত্রণ ও মূল্যায়ন), খাদ্যের ৬টি মৌলিক উপাদান ও ক্যালরি হিসাব, এবং প্রাকৃতিক ও কৃত্রিম বস্ত্রতন্তুর যত্ন ও দাগ মোচন।',
+    formula: 'ব্যবস্থাপনা = পরিকল্পনা ➔ সংগঠন ➔ নিয়ন্ত্রণ ➔ মূল্যায়ন | ১ গ্রাম শর্করা/আমিষ = ৪ kcal, ১ গ্রাম স্নেহ = ৯ kcal',
+    scannedImage: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=600&auto=format&fit=crop&q=80',
+    date: '29 Jul, 02:15 PM',
+    podcastDuration: '3:20 min',
+    tags: ['Class 9-10', 'Optional', 'Home Science', 'Nutrition', 'Management'],
+    hasAudio: true,
   }
 ];
 

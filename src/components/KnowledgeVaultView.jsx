@@ -27,6 +27,7 @@ import { NCTB_HINDU_CHAPTERS } from '../utils/nctbHinduData';
 import { NCTB_BUDDHIST_CHAPTERS } from '../utils/nctbBuddhistData';
 import { NCTB_CHRISTIAN_CHAPTERS } from '../utils/nctbChristianData';
 import { NCTB_AGRI_CHAPTERS } from '../utils/nctbAgriData';
+import { NCTB_HOME_SCIENCE_CHAPTERS } from '../utils/nctbHomeScienceData';
 import { 
   BookMarked, 
   Search, 
@@ -95,6 +96,7 @@ export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
   'buddhist-studies': NCTB_BUDDHIST_CHAPTERS,
   'christian-studies': NCTB_CHRISTIAN_CHAPTERS,
   'agri-studies': NCTB_AGRI_CHAPTERS,
+  'home-science': NCTB_HOME_SCIENCE_CHAPTERS,
   'ict': NCTB_ICT_CHAPTERS,
   'ict-6': NCTB_ICT_CHAPTERS.slice(0, 3),
   'ict-7': NCTB_ICT_CHAPTERS.slice(0, 4),

@@ -301,5 +301,16 @@ export const NCTB_OFFICIAL_FULL_PDF_BOOKS = {
     pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Christian_Religion_9_10.pdf',
     backupUrl: 'https://archive.org/details/nctb-class-9-10-christian-religion-bangla-version',
     summary: 'ঈশ্বর, সৃষ্টি ও মুক্তিদাতা যিশুখ্রিস্ট, পবিত্র বাইবেল, দশ আজ্ঞা, সাক্রামেন্ত ও প্রার্থনা, এবং মানবপ্রেম—সম্পূর্ণ পাঠ্যবই।'
+  },
+  'home-science': {
+    id: 'pdf-home-science',
+    subjectId: 'home-science',
+    nameBn: 'গার্হস্থ্যবিজ্ঞান (Home Science)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (ঐচ্ছিক)',
+    totalPages: 248,
+    fileSize: '14.8 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Home_Science_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-home-science-bangla-version',
+    summary: 'গৃহ ব্যবস্থাপনা, শিশু বিকাশ ও বয়ঃসন্ধি, খাদ্য ও পুষ্টিবিজ্ঞান (৬ উপাদান ও ক্যালরি), এবং বস্ত্র ও বয়নশিল্প—সম্পূর্ণ ১৮টি অধ্যায়।'
   }
 };
