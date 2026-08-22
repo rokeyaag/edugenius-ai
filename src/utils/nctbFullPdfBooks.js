@@ -175,11 +175,11 @@ export const NCTB_OFFICIAL_FULL_PDF_BOOKS = {
     subjectId: 'finance-banking',
     nameBn: 'ফিন্যান্স ও ব্যাংকিং (Finance & Banking)',
     classBn: 'নবম-দশম শ্রেণি ও এসএসসি (ব্যবসায় শিক্ষা)',
-    totalPages: 208,
-    fileSize: '12.8 MB',
+    totalPages: 228,
+    fileSize: '13.5 MB',
     pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Finance_Banking_9_10.pdf',
     backupUrl: 'https://archive.org/details/nctb-class-9-10-finance-and-banking-bangla-version',
-    summary: 'অর্থের সময়মূল্য, ঝুঁকি ও অনিশ্চয়তা, মূলধনি আয়-ব্যয় প্রাক্কলন, বাণিজ্যিক ব্যাংক ও কেন্দ্রীয় ব্যাংক—সম্পূর্ণ ১১টি অধ্যায়।'
+    summary: 'অর্থের সময়মূল্য, ঝুঁকি ও অনিশ্চয়তা, মূলধনি আয়-ব্যয় প্রাক্কলন, বাণিজ্যিক ব্যাংক, কেন্দ্রীয় ব্যাংক, বিশেষায়িত আর্থিক প্রতিষ্ঠান ও ফিনটেক—সম্পূর্ণ ১৩টি অধ্যায়।'
   },
   'business-ent': {
     id: 'pdf-business-ent',
