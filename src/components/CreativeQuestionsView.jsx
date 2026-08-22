@@ -719,12 +719,12 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
       </div>
 
       {/* 1. Class, Subject & Chapter Selector Card */}
-      <div className="p-3.5 rounded-3xl bg-white border-2 border-red-100 space-y-3 shadow-sm">
+      <div className="p-3.5 rounded-3xl bg-[#fffdf0] border-2 border-amber-200/90 space-y-3 shadow-sm">
         
         {/* ================= 1ST LINE: CLASS SELECTOR (শ্রেণি নির্বাচন) ================= */}
-        <div className="space-y-1.5 pb-2.5 border-b border-slate-100">
+        <div className="space-y-1.5 pb-2.5 border-b border-amber-200/60">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-black text-slate-900 flex items-center gap-1.5">
+            <label className="text-xs font-black text-amber-950 flex items-center gap-1.5">
               <GraduationCap className="w-4 h-4 text-red-600" />
               <span>শ্রেণি নির্বাচন করুন (Class):</span>
             </label>
@@ -745,7 +745,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
                 setStudentPracticeInput('');
                 showToast(`🎓 ${matchedClass?.nameBn || e.target.value} সিলেক্ট করা হয়েছে`, 'info');
               }}
-              className="w-full appearance-none bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
+              className="w-full appearance-none bg-white hover:bg-amber-50/50 border border-amber-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
             >
               {(classes || []).map((cls) => (
                 <option key={cls.id} value={cls.id}>
@@ -753,14 +753,14 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
                 </option>
               ))}
             </select>
-            <ChevronDown className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <ChevronDown className="w-4 h-4 text-amber-700 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
         </div>
 
         {/* ================= 2ND LINE: SUBJECT SELECTOR (বিষয় নির্বাচন) ================= */}
-        <div className="space-y-1.5 pb-2.5 border-b border-slate-100">
+        <div className="space-y-1.5 pb-2.5 border-b border-amber-200/60">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-black text-slate-900 flex items-center gap-1.5">
+            <label className="text-xs font-black text-amber-950 flex items-center gap-1.5">
               <BookOpen className="w-4 h-4 text-red-600" />
               <span>বিষয় নির্বাচন করুন (Subject):</span>
             </label>
@@ -785,7 +785,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
                 setAiFeedback(null);
                 setStudentPracticeInput('');
               }}
-              className="w-full appearance-none bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
+              className="w-full appearance-none bg-white hover:bg-amber-50/50 border border-amber-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
             >
               {Object.entries(groupedSubjects).map(([groupName, groupSubs]) => (
                 <optgroup key={groupName} label={`--- ${groupName} (${groupSubs.length}টি বিষয়) ---`}>
@@ -800,7 +800,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
                 </optgroup>
               ))}
             </select>
-            <ChevronDown className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <ChevronDown className="w-4 h-4 text-amber-700 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
         </div>
 
@@ -823,7 +823,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
                 setAiFeedback(null);
                 setStudentPracticeInput('');
               }}
-              className="w-full appearance-none bg-amber-50/70 hover:bg-amber-100/70 border border-amber-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-amber-950 font-black focus:outline-none focus:border-amber-500 shadow-sm transition-all cursor-pointer"
+              className="w-full appearance-none bg-amber-100/70 hover:bg-amber-200/70 border border-amber-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-amber-950 font-black focus:outline-none focus:border-amber-500 shadow-sm transition-all cursor-pointer"
             >
               {filteredCqList.map((cq, idx) => (
                 <option key={cq.id || idx} value={cq.originalIdx !== undefined ? cq.originalIdx : idx}>
@@ -890,7 +890,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
       </div>
 
       {/* 2. STIMULUS (উদ্দীপক) CARD */}
-      <div className="rounded-3xl p-5 bg-gradient-to-br from-amber-500/10 via-amber-50 to-white border-2 border-amber-200/90 space-y-2.5 shadow-sm">
+      <div className="rounded-3xl p-5 bg-gradient-to-br from-[#fffdf0] via-amber-50 to-[#fffbe8] border-2 border-amber-300 space-y-2.5 shadow-sm">
         <div className="flex items-center justify-between">
           <span className="text-xs font-black text-amber-950 bg-amber-200/80 px-2.5 py-1 rounded-xl border border-amber-300 flex items-center gap-1.5 shadow-sm">
             <Sparkles className="w-3.5 h-3.5 text-red-600" />
@@ -944,7 +944,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
           return (
             <div
               key={q.tag}
-              className="rounded-3xl p-4 bg-white border border-slate-200 space-y-3 shadow-sm hover:border-slate-300 transition-all"
+              className="rounded-3xl p-4 bg-[#fffdf0] border border-amber-200/90 space-y-3 shadow-sm hover:border-amber-300 transition-all"
             >
               {/* Question Header */}
               <div className="flex items-start justify-between gap-2">
@@ -953,7 +953,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
                     ({q.tag})
                   </span>
                   <div>
-                    <span className="text-[10px] font-black text-red-700 bg-red-50 px-2 py-0.5 rounded-full border border-red-100 mr-2">
+                    <span className="text-[10px] font-black text-red-800 bg-red-50 px-2 py-0.5 rounded-full border border-red-200 mr-2">
                       {q.type} প্রশ্ন [{q.marks} নম্বর]
                     </span>
                     <h4 className="text-xs sm:text-sm font-black text-slate-900 mt-1 leading-snug">
@@ -968,7 +968,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
                   className={`p-1.5 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all tap-active shrink-0 ${
                     isRevealed
                       ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200 border-slate-200'
+                      : 'bg-white text-slate-700 hover:bg-slate-100 border-slate-200 shadow-xs'
                   }`}
                   title="Toggle Answer"
                 >
@@ -979,7 +979,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
 
               {/* Model Answer Display Card */}
               {isRevealed && (
-                <div className="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-300 text-xs text-slate-800 space-y-1.5 animate-in fade-in">
+                <div className="p-3.5 rounded-2xl bg-emerald-50/80 border border-emerald-300 text-xs text-slate-800 space-y-1.5 animate-in fade-in">
                   <div className="flex items-center gap-1.5 text-emerald-900 font-black">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                     <span>বোর্ড স্ট্যান্ডার্ড আদর্শ মডেল উত্তর:</span>
