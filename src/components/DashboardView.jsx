@@ -158,6 +158,53 @@ export default function DashboardView() {
           />
         </div>
 
+        {/* ================= 1.5 LINE: QUICK SCIENCE & CORE SUBJECTS BAR ================= */}
+        <div className="space-y-1 pb-2 border-b border-amber-200/60">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-black text-amber-950 flex items-center gap-1">
+              <Sparkles className="w-3.5 h-3.5 text-red-600" />
+              <span>বিজ্ঞান ও মূল বিষয়সমূহ (১-ট্যাপে নির্বাচন):</span>
+            </span>
+          </div>
+
+          <div className="grid grid-cols-4 gap-1.5 sm:grid-cols-8 text-center">
+            {[
+              { id: 'physics', label: 'পদার্থবিজ্ঞান', icon: '⚛️' },
+              { id: 'chemistry', label: 'রসায়ন', icon: '🧪' },
+              { id: 'biology', label: 'জীববিজ্ঞান', icon: '🧬' },
+              { id: 'general-science', label: 'সাধারণ বিজ্ঞান', icon: '🔬' },
+              { id: 'higher-math', label: 'উচ্চতর গণিত', icon: '📊' },
+              { id: 'general-math', label: 'গণিত (সাধারণ)', icon: '📐' },
+              { id: 'ict', label: 'তথ্যপ্রযুক্তি (ICT)', icon: '💻' },
+              { id: 'bgs', label: 'বিজিএস (BGS)', icon: '🌏' },
+            ].map((item) => {
+              const isSelected = selectedSubjectId === item.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => {
+                    setSelectedSubjectId(item.id);
+                    setSelectedChapterTitle('all');
+                    setChapterSearchQuery('');
+                    showToast(`📖 ${item.label} বিষয় ও সকল অধ্যায় লোড হয়েছে`, 'success');
+                  }}
+                  className={`p-2 rounded-2xl border flex flex-col items-center justify-center gap-0.5 transition-all tap-active ${
+                    isSelected 
+                      ? 'bg-red-600 border-red-600 text-white shadow-md shadow-red-200 scale-[1.03] font-black ring-2 ring-red-400' 
+                      : 'bg-white hover:bg-amber-100/60 border-amber-300 text-slate-800 shadow-xs font-bold'
+                  }`}
+                >
+                  <span className="text-base">{item.icon}</span>
+                  <span className="text-[9.5px] leading-tight line-clamp-1 truncate w-full text-center">
+                    {item.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* ================= 2ND LINE: SUBJECT SELECTOR (বিষয় নির্বাচন) ================= */}
         <div className="space-y-1 pb-2 border-b border-amber-200/60">
           <div className="flex items-center justify-between">
