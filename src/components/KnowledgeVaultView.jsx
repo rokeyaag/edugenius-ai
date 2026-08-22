@@ -17,6 +17,7 @@ import { NCTB_PHYSICAL_EDU_CHAPTERS } from '../utils/nctbPhysicalEduData';
 import { NCTB_ARTS_CRAFTS_CHAPTERS } from '../utils/nctbArtsCraftsData';
 import { NCTB_ACCOUNTING_CHAPTERS } from '../utils/nctbAccountingData';
 import { NCTB_FINANCE_BANKING_CHAPTERS } from '../utils/nctbFinanceBankingData';
+import { NCTB_BUSINESS_ENT_CHAPTERS } from '../utils/nctbBusinessEntData';
 import { 
   BookMarked, 
   Search, 
@@ -74,6 +75,7 @@ export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
   'biology': NCTB_BIOLOGY_CHAPTERS,
   'accounting': NCTB_ACCOUNTING_CHAPTERS,
   'finance-banking': NCTB_FINANCE_BANKING_CHAPTERS,
+  'business-ent': NCTB_BUSINESS_ENT_CHAPTERS,
   'ict': NCTB_ICT_CHAPTERS,
   'ict-6': NCTB_ICT_CHAPTERS.slice(0, 3),
   'ict-7': NCTB_ICT_CHAPTERS.slice(0, 4),
