@@ -7,6 +7,12 @@ import { NCTB_GENERAL_MATH_CHAPTERS, NCTB_HIGHER_MATH_CHAPTERS } from '../utils/
 import { NCTB_ICT_CHAPTERS } from '../utils/nctbIctData';
 import { NCTB_BGS_CHAPTERS } from '../utils/nctbBgsData';
 import { 
+  NCTB_GENERAL_SCIENCE_CHAPTERS, 
+  NCTB_PHYSICS_CHAPTERS, 
+  NCTB_CHEMISTRY_CHAPTERS, 
+  NCTB_BIOLOGY_CHAPTERS 
+} from '../utils/nctbScienceData';
+import { 
   BookMarked, 
   Search, 
   Download, 
@@ -54,6 +60,13 @@ const SUBJECT_GROUPS = [
 export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
   'general-math': NCTB_GENERAL_MATH_CHAPTERS,
   'higher-math': NCTB_HIGHER_MATH_CHAPTERS,
+  'general-science': NCTB_GENERAL_SCIENCE_CHAPTERS,
+  'science-6': NCTB_GENERAL_SCIENCE_CHAPTERS.slice(0, 3),
+  'science-7': NCTB_GENERAL_SCIENCE_CHAPTERS.slice(0, 3),
+  'science-8': NCTB_GENERAL_SCIENCE_CHAPTERS.slice(0, 3),
+  'physics': NCTB_PHYSICS_CHAPTERS,
+  'chemistry': NCTB_CHEMISTRY_CHAPTERS,
+  'biology': NCTB_BIOLOGY_CHAPTERS,
   'ict': NCTB_ICT_CHAPTERS,
   'ict-6': NCTB_ICT_CHAPTERS.slice(0, 3),
   'ict-7': NCTB_ICT_CHAPTERS.slice(0, 4),
@@ -3931,19 +3944,6 @@ export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
             }
         ]
     }
-],
-
-  'physics': [
-    { id: 'phy-1', title: 'অধ্যায় ১: ভৌত রাশি ও পরিমাপ', type: 'পদার্থবিজ্ঞান', summary: 'মৌলিক ও লব্ধ রাশি, স্লাইড ক্যালিপার্স, স্ক্রু গজ ও ত্রুটির হিসাব।' },
-    { id: 'phy-2', title: 'অধ্যায় ২: গতি (Motion)', type: 'পদার্থবিজ্ঞান', summary: 'দূরত্ব, সরণ, দ্রুতি, বেগ, ত্বরণ এবং গতির সমীকরণসমূহ।' }
-  ],
-  'chemistry': [
-    { id: 'chem-1', title: 'অধ্যায় ১: রসায়নের ধারণা', type: 'রসায়ন', summary: 'রসায়নের পরিধি, অনুসন্ধানমূলক পদ্ধতি ও পরীক্ষাগারের সতর্কতা।' },
-    { id: 'chem-2', title: 'অধ্যায় ২: পদার্থের অবস্থা', type: 'রসায়ন', summary: 'কণার গতিতত্ত্ব, ব্যাপন, নিঃসরণ, গলন, স্ফুটন ও পাতন।' }
-  ],
-  'biology': [
-    { id: 'bio-1', title: 'অধ্যায় ১: জীবন পাঠ (Life Lesson)', type: 'জীববিজ্ঞান', summary: 'জীববিজ্ঞানের শাখাসমূহ, ক্যারোলাস লিনিয়াস ও দ্বিপদ নামকরণ।' },
-    { id: 'bio-2', title: 'অধ্যায় ২: জীবকোষ ও টিস্যু', type: 'জীববিজ্ঞান', summary: 'উদ্ভিদ ও প্রাণিকোষের অঙ্গাণু, সাইটোপ্লাজম ও টিস্যুতন্ত্র।' }
   ]
 };
 
