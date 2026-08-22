@@ -323,5 +323,49 @@ export const NCTB_OFFICIAL_FULL_PDF_BOOKS = {
     pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Arabic_9_10.pdf',
     backupUrl: 'https://archive.org/details/nctb-class-9-10-arabic-bangla-version',
     summary: 'আল-কুরআন ও আল-হাদিস, আরবি কথোপকথন, ইসলামী ইতিহাস, ইলমুন নাহু ও ইলমুস সরফ এবং অনুবাদ ও রচনা—সম্পূর্ণ পাঠ্যবই।'
+  },
+  'career-edu': {
+    id: 'pdf-career-edu',
+    subjectId: 'career-edu',
+    nameBn: 'ক্যারিয়ার শিক্ষা (Career Education)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (আবশ্যিক)',
+    totalPages: 112,
+    fileSize: '7.5 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Career_Education_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-career-education-bangla-version',
+    summary: 'আমি ও আমার ক্যারিয়ার, ৪আইআর ও এআই এর যুগে কর্মক্ষেত্র, যোগাযোগ ও জীবনদক্ষতা, এবং স্মার্ট লক্ষ্য নির্ধারণ—সম্পূর্ণ পাঠ্যবই।'
+  },
+  'physical-edu': {
+    id: 'pdf-physical-edu',
+    subjectId: 'physical-edu',
+    nameBn: 'শারীরিক শিক্ষা, স্বাস্থ্যবিজ্ঞান ও খেলাধুলা',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (আবশ্যিক)',
+    totalPages: 168,
+    fileSize: '9.8 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Physical_Education_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-physical-education-bangla-version',
+    summary: 'শারীরিক সক্ষমতা, সুস্থ জীবন, খাদ্য ও পুষ্টি, প্রাথমিক চিকিৎসা, মাদকাসক্তি প্রতিরোধ ও খেলাধুলার নিয়মাবলী—সম্পূর্ণ পাঠ্যবই।'
+  },
+  'arts-crafts': {
+    id: 'pdf-arts-crafts',
+    subjectId: 'arts-crafts',
+    nameBn: 'চারু ও কারুকলা (Arts and Crafts)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (আবশ্যিক)',
+    totalPages: 144,
+    fileSize: '8.9 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Arts_and_Crafts_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-arts-and-crafts-bangla-version',
+    summary: 'শিল্পকলা ও চিত্রকলা, রঙের চাকা, জয়নুল আবেদিন ও কামরুল হাসান, মৃৎশিল্প ও ঐতিহ্যবাহী নকশিকাঁথা—সম্পূর্ণ পাঠ্যবই।'
+  },
+  'music': {
+    id: 'pdf-music',
+    subjectId: 'music',
+    nameBn: 'সংগীত (Music)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (ঐচ্ছিক)',
+    totalPages: 128,
+    fileSize: '8.2 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Music_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-music-bangla-version',
+    summary: 'শাস্ত্রীয় সংগীত, ১২ স্বর, রাগ ও তাল প্রকরণ, পঞ্চকবির গান, ভাটিয়ালি-ভাওয়াইয়া-লালনগীতি ও মুক্তিযুদ্ধের গান—সম্পূর্ণ পাঠ্যবই।'
   }
 };

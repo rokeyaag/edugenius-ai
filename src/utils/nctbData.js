@@ -486,6 +486,38 @@ export const NCTB_OFFICIAL_BOOK_NOTES = [
     podcastDuration: '3:10 min',
     tags: ['Class 9-10', 'Optional', 'Arabic', 'Quran', 'Grammar'],
     hasAudio: true,
+  },
+  // 25. ক্যারিয়ার শিক্ষা (Career Education)
+  {
+    id: 'note-ce-1',
+    title: 'ক্যারিয়ার শিক্ষা: অধ্যায় ১ ও ৪ - আত্মমূল্যায়ন ও SMART লক্ষ্য নির্ধারণ',
+    subject: 'Career Education',
+    subjectBn: 'ক্যারিয়ার শিক্ষা',
+    subjectId: 'career-edu',
+    classId: 'class-9',
+    summary: 'সোয়াট বিশ্লেষণ (SWOT Analysis: শক্তি, দুর্বলতা, সুযোগ ও ঝুঁকি), চতুর্থ শিল্পবিপ্লবের জীবনদক্ষতা এবং SMART ক্যারিয়ার পরিকল্পনা।',
+    formula: 'SWOT = শক্তি + দুর্বলতা + সুযোগ + প্রতিবন্ধকতা | SMART লক্ষ্য নির্ধারণ',
+    scannedImage: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&auto=format&fit=crop&q=80',
+    date: '27 Jul, 03:40 PM',
+    podcastDuration: '3:00 min',
+    tags: ['Class 9-10', 'Compulsory', 'Career', 'SWOT', 'Skills'],
+    hasAudio: true,
+  },
+  // 26. সংগীত (Music)
+  {
+    id: 'note-mus-1',
+    title: 'সংগীত: অধ্যায় ১, ৩ ও ৫ - শাস্ত্রীয় সংগীতের ১২ স্বর, পঞ্চকবি ও একুশের গান',
+    subject: 'Music Studies',
+    subjectBn: 'সংগীত',
+    subjectId: 'music',
+    classId: 'class-9',
+    summary: '৭ শুদ্ধ ও ৫ বিকৃত স্বর, ত্রিতাল ও কাহারবা তাল, পঞ্চকবির গান এবং স্বাধীন বাংলা বেতার কেন্দ্রের উদ্দীপক অমর গান।',
+    formula: '১২ স্বর = ৭ শুদ্ধ + ৫ বিকৃত | ত্রিতাল = ১৬ মাত্রা | "আমার ভাইয়ের রক্তে রাঙানো একুশে ফেব্রুয়ারি"',
+    scannedImage: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&auto=format&fit=crop&q=80',
+    date: '26 Jul, 05:15 PM',
+    podcastDuration: '3:05 min',
+    tags: ['Class 9-10', 'Optional', 'Music', 'Ragas', 'Folk'],
+    hasAudio: true,
   }
 ];
 
