@@ -246,5 +246,38 @@ export const NCTB_OFFICIAL_FULL_PDF_BOOKS = {
     pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Economics_9_10.pdf',
     backupUrl: 'https://archive.org/details/nctb-class-9-10-economics-bangla-version',
     summary: 'অর্থনীতির মৌলিক সমস্যা, চাহিদা ও জোগান ভারসাম্য, উৎপাদন ও বাজার, জাতীয় আয় GDP/GNP, মূল্যস্ফীতি, সরকারি অর্থব্যবস্থা ও বাজেট—সম্পূর্ণ ১০টি অধ্যায়।'
+  },
+  'islam-studies': {
+    id: 'pdf-islam-studies',
+    subjectId: 'islam-studies',
+    nameBn: 'ইসলাম ও নৈতিক শিক্ষা (Islamic Studies)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (সকল বিভাগ আবশ্যিক)',
+    totalPages: 216,
+    fileSize: '13.2 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Islam_and_Moral_Education_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-islam-and-moral-education-bangla-version',
+    summary: 'আকাইদ ও ঈমান, শরীয়তের ৪ উৎস (কুরআন ও হাদিস), সালাত/সাওম/যাকাত/হজ ইবাদত, আখলাক ও সচ্চরিত্র, এবং মহানবী (সা.) ও চার খলিফার জীবনচরিত—সম্পূর্ণ ৫টি অধ্যায়।'
+  },
+  'hindu-studies': {
+    id: 'pdf-hindu-studies',
+    subjectId: 'hindu-studies',
+    nameBn: 'হিন্দুধর্ম ও নৈতিক শিক্ষা',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (ধর্ম শিক্ষা)',
+    totalPages: 180,
+    fileSize: '10.8 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Hindu_Religion_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-hindu-religion-bangla-version',
+    summary: 'স্রষ্টা ও সৃষ্টি, দেব-দেবী ও পূজা-অর্চনা, ধর্মগ্রন্থ বেদ ও গীতা, সংস্কার ও সদাচার—সম্পূর্ণ পাঠ্যবই।'
+  },
+  'agri-studies': {
+    id: 'pdf-agri-studies',
+    subjectId: 'agri-studies',
+    nameBn: 'কৃষিশিক্ষা (Agriculture Studies)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (ঐচ্ছিক)',
+    totalPages: 200,
+    fileSize: '12.5 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Agriculture_Studies_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-agriculture-studies-bangla-version',
+    summary: 'কৃষি প্রযুক্তি, কৃষি উপকরণ, কৃষি ও জলবায়ু, কৃষিজ উৎপাদন ও বনজ সম্পদ—সম্পূর্ণ পাঠ্যবই।'
   }
 };
