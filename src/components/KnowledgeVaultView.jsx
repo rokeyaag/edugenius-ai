@@ -4,6 +4,7 @@ import UploadPdfModal from './UploadPdfModal';
 import SleekCustomDropdown from './SleekCustomDropdown';
 import { findCuratedQuizForChapter } from '../utils/chapterQuizzes';
 import { NCTB_GENERAL_MATH_CHAPTERS, NCTB_HIGHER_MATH_CHAPTERS } from '../utils/nctbMathData';
+import { NCTB_ICT_CHAPTERS } from '../utils/nctbIctData';
 import { 
   BookMarked, 
   Search, 
@@ -52,6 +53,10 @@ const SUBJECT_GROUPS = [
 export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
   'general-math': NCTB_GENERAL_MATH_CHAPTERS,
   'higher-math': NCTB_HIGHER_MATH_CHAPTERS,
+  'ict': NCTB_ICT_CHAPTERS,
+  'ict-6': NCTB_ICT_CHAPTERS.slice(0, 3),
+  'ict-7': NCTB_ICT_CHAPTERS.slice(0, 4),
+  'ict-8': NCTB_ICT_CHAPTERS.slice(0, 5),
   'math-6': NCTB_GENERAL_MATH_CHAPTERS.slice(0, 8),
   'math-7': NCTB_GENERAL_MATH_CHAPTERS.slice(0, 10),
   'math-8': NCTB_GENERAL_MATH_CHAPTERS.slice(0, 12),
@@ -3934,10 +3939,6 @@ export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
   'biology': [
     { id: 'bio-1', title: 'অধ্যায় ১: জীবন পাঠ (Life Lesson)', type: 'জীববিজ্ঞান', summary: 'জীববিজ্ঞানের শাখাসমূহ, ক্যারোলাস লিনিয়াস ও দ্বিপদ নামকরণ।' },
     { id: 'bio-2', title: 'অধ্যায় ২: জীবকোষ ও টিস্যু', type: 'জীববিজ্ঞান', summary: 'উদ্ভিদ ও প্রাণিকোষের অঙ্গাণু, সাইটোপ্লাজম ও টিস্যুতন্ত্র।' }
-  ],
-  'ict': [
-    { id: 'ict-1', title: 'অধ্যায় ১: তথ্য ও যোগাযোগ প্রযুক্তি এবং আমাদের বাংলাদেশ', type: 'তথ্য ও প্রযুক্তি', summary: 'ই-লার্নিং, ই-গভর্ন্যান্স, ই-সার্ভিস ও কর্মসংস্থানে আইসিটি।' },
-    { id: 'ict-2', title: 'অধ্যায় ২: কম্পিউটার ও কম্পিউটার ব্যবহারকারীর নিরাপত্তা', type: 'তথ্য ও প্রযুক্তি', summary: 'পাসওয়ার্ড সুরক্ষা, ম্যালওয়্যার, অ্যান্টিভাইরাস ও পাইরেসি প্রতিরোধ।' }
   ]
 };
 
