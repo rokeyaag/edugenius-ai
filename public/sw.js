@@ -1,5 +1,5 @@
 // EduGenius AI - Service Worker for PWA Offline Support & Mobile Installation
-const CACHE_NAME = 'edugenius-ai-v1';
+const CACHE_NAME = 'edugenius-ai-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',

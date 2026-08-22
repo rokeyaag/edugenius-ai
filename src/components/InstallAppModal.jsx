@@ -67,9 +67,7 @@ export default function InstallAppModal({ isOpen, onClose }) {
 
         {/* Modal Header */}
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-red-600 to-amber-500 flex items-center justify-center text-white shadow-md shrink-0">
-            <Smartphone className="w-6 h-6 text-amber-200" />
-          </div>
+          <img src="/icon-192.png?v=2" alt="EduGenius AI" className="w-12 h-12 rounded-2xl shadow-md border border-amber-300 object-cover shrink-0" />
           <div>
             <h3 className="text-sm font-black text-slate-900 leading-tight">
               মোবাইলে অ্যাপ ডাউনলোড ও ইনস্টল
