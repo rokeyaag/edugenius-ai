@@ -16,8 +16,8 @@ export default function BottomNav() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-slate-200 py-1.5 px-2 safe-area-bottom shadow-lg">
-      <div className="max-w-md mx-auto flex items-center justify-between">
+    <nav className="fixed bottom-2 sm:bottom-4 left-2 right-2 sm:left-auto sm:right-auto sm:max-w-md sm:mx-auto z-40">
+      <div className="bg-slate-900/90 backdrop-blur-2xl border border-white/15 p-1.5 rounded-3xl shadow-2xl shadow-slate-950/40 flex items-center justify-between gap-1">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -25,25 +25,27 @@ export default function BottomNav() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 flex flex-col items-center gap-0.5 py-1 px-1 rounded-xl transition-all duration-200 tap-active relative ${
+              className={`flex-1 flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-2xl transition-all duration-300 tap-active relative cursor-pointer group ${
                 isActive
-                  ? 'text-red-600 font-extrabold scale-105'
-                  : 'text-slate-500 hover:text-slate-800 font-medium'
+                  ? 'bg-gradient-to-b from-red-600 to-rose-700 text-white shadow-lg shadow-red-600/30 scale-105 font-black'
+                  : 'text-slate-400 hover:text-slate-100 hover:bg-white/5 font-bold'
               }`}
             >
               {isActive && (
-                <span className="absolute -top-1.5 w-6 h-1 bg-gradient-to-r from-red-600 via-amber-400 to-red-600 rounded-full shadow-sm"></span>
+                <span className="absolute -top-1 w-2.5 h-2.5 bg-amber-400 rounded-full shadow-sm ring-2 ring-slate-900 animate-pulse"></span>
               )}
               <div
-                className={`p-1 rounded-lg transition-all ${
+                className={`p-1 rounded-xl transition-transform duration-300 ${
                   isActive
-                    ? 'bg-red-50 text-red-600 ring-1 ring-red-200 shadow-sm'
-                    : 'bg-transparent text-slate-500'
+                    ? 'scale-110'
+                    : 'group-hover:scale-110'
                 }`}
               >
                 <Icon className="w-4 h-4" />
               </div>
-              <span className="text-[10px] tracking-tight truncate max-w-[54px]">{tab.label}</span>
+              <span className={`text-[9.5px] sm:text-[10px] tracking-tight truncate max-w-[50px] leading-none ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'}`}>
+                {tab.label}
+              </span>
             </button>
           );
         })}

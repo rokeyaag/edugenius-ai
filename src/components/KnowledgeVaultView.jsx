@@ -5080,30 +5080,31 @@ ${lectureText}
       {/* ============================================================== */}
       {/* FULL BOOK PDF & COMPLETE STUDY GUIDE BANNER */}
       {/* ============================================================== */}
-      <div className="p-3.5 rounded-3xl bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-md">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-xl shrink-0">
+      <div className="p-4 rounded-3xl bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5 shadow-xl shadow-red-600/20 border border-white/20 relative overflow-hidden group">
+        <div className="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 rounded-full bg-white/10 blur-2xl pointer-events-none group-hover:scale-150 transition-transform duration-500" />
+        <div className="flex items-center gap-3.5 z-10">
+          <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-2xl shrink-0 shadow-inner border border-white/30 group-hover:rotate-6 transition-transform">
             📚
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-black uppercase bg-white/20 px-2 py-0.5 rounded-full">
+              <span className="text-[10px] font-black uppercase tracking-wider bg-white/25 px-2.5 py-0.5 rounded-full border border-white/20 shadow-xs">
                 NCTB Full E-Book
               </span>
               <span className="text-[10px] font-bold text-amber-200">
                 {availableChapters.length}টি সম্পূর্ণ অধ্যায়
               </span>
             </div>
-            <h3 className="text-xs sm:text-sm font-black mt-0.5">
+            <h3 className="text-sm sm:text-base font-black mt-1 tracking-tight">
               [{activeSelectedSub?.nameBn || 'নির্বাচিত বিষয়'}] সম্পূর্ণ মূল পাঠ্যবই PDF ও গাইড
             </h3>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 w-full sm:w-auto">
+        <div className="flex items-center gap-2 w-full sm:w-auto z-10">
           <button
             onClick={() => setIsFullBookPdfModalOpen(true)}
-            className="w-full sm:w-auto px-4 py-2 rounded-xl bg-white text-red-700 hover:bg-amber-100 font-black text-xs shadow-md transition-all flex items-center justify-center gap-1.5 shrink-0 tap-active"
+            className="w-full sm:w-auto px-4 py-2.5 rounded-2xl bg-white hover:bg-amber-50 text-red-700 font-black text-xs shadow-lg transition-all flex items-center justify-center gap-2 shrink-0 tap-active cursor-pointer hover:scale-105"
           >
             <BookOpen className="w-4 h-4 text-red-600" />
             <span>সম্পূর্ণ বইয়ের PDF খুলুন</span>
@@ -5112,35 +5113,41 @@ ${lectureText}
       </div>
 
       {/* ============================================================== */}
-      {/* COMPREHENSIVE ACTION TOOLBAR (আপলোড, স্ক্যান, অ্যাড ও অন্যান্য অপশন) */}
+      {/* COMPREHENSIVE ACTION TOOLBAR (Bento Grid Interactive Bar) */}
       {/* ============================================================== */}
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-2.5">
         
-        {/* 1. PDF Upload */}
+        {/* 1. PDF Upload Bento Button */}
         <button
           onClick={() => setIsPdfUploadModalOpen(true)}
-          className="p-2.5 rounded-2xl bg-amber-400 hover:bg-amber-500 text-slate-950 flex flex-col items-center justify-center gap-1 shadow-sm transition-all tap-active"
+          className="p-3 rounded-2xl bg-gradient-to-b from-amber-300 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-500 text-slate-950 flex flex-col items-center justify-center gap-1.5 shadow-md shadow-amber-400/20 border border-amber-200 transition-all hover:-translate-y-0.5 active:translate-y-0 tap-active cursor-pointer group"
         >
-          <FileUp className="w-4 h-4 text-red-900" />
-          <span className="text-[10px] font-black">PDF আপলোড</span>
+          <div className="w-8 h-8 rounded-xl bg-slate-950/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <FileUp className="w-4 h-4 text-amber-950" />
+          </div>
+          <span className="text-[10.5px] font-black tracking-tight">PDF আপলোড</span>
         </button>
 
-        {/* 2. Page Scanner */}
+        {/* 2. Page Scanner Bento Button */}
         <button
           onClick={() => setActiveTab('tutor')}
-          className="p-2.5 rounded-2xl bg-red-600 hover:bg-red-700 text-white flex flex-col items-center justify-center gap-1 shadow-sm transition-all tap-active"
+          className="p-3 rounded-2xl bg-gradient-to-b from-red-500 via-red-600 to-rose-700 hover:from-red-600 hover:to-rose-800 text-white flex flex-col items-center justify-center gap-1.5 shadow-md shadow-red-600/25 border border-red-400/30 transition-all hover:-translate-y-0.5 active:translate-y-0 tap-active cursor-pointer group"
         >
-          <Camera className="w-4 h-4 text-amber-200" />
-          <span className="text-[10px] font-black">বই স্ক্যানার</span>
+          <div className="w-8 h-8 rounded-xl bg-white/15 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <Camera className="w-4 h-4 text-amber-200" />
+          </div>
+          <span className="text-[10.5px] font-black tracking-tight">বই স্ক্যানার</span>
         </button>
 
-        {/* 3. Add Custom Note */}
+        {/* 3. Add Custom Note Bento Button */}
         <button
           onClick={() => setIsAddNoteOpen(!isAddNoteOpen)}
-          className="p-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white flex flex-col items-center justify-center gap-1 shadow-sm transition-all tap-active"
+          className="p-3 rounded-2xl bg-gradient-to-b from-slate-900 via-slate-850 to-slate-950 hover:from-slate-800 hover:to-slate-900 text-white flex flex-col items-center justify-center gap-1.5 shadow-md shadow-slate-900/30 border border-white/10 transition-all hover:-translate-y-0.5 active:translate-y-0 tap-active cursor-pointer group"
         >
-          <Plus className="w-4 h-4 text-amber-400" />
-          <span className="text-[10px] font-black">নোট যোগ</span>
+          <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <Plus className="w-4 h-4 text-amber-400" />
+          </div>
+          <span className="text-[10.5px] font-black tracking-tight">নোট যোগ</span>
         </button>
 
       </div>
