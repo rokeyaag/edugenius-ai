@@ -23,6 +23,7 @@ import { NCTB_GEOGRAPHY_CHAPTERS } from '../utils/nctbGeographyData';
 import { NCTB_CIVICS_CHAPTERS } from '../utils/nctbCivicsData';
 import { NCTB_ECONOMICS_CHAPTERS } from '../utils/nctbEconomicsData';
 import { NCTB_ISLAM_CHAPTERS } from '../utils/nctbIslamData';
+import { NCTB_HINDU_CHAPTERS } from '../utils/nctbHinduData';
 import { 
   BookMarked, 
   Search, 
@@ -87,6 +88,7 @@ export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
   'civics-citizen': NCTB_CIVICS_CHAPTERS,
   'economics': NCTB_ECONOMICS_CHAPTERS,
   'islam-studies': NCTB_ISLAM_CHAPTERS,
+  'hindu-studies': NCTB_HINDU_CHAPTERS,
   'ict': NCTB_ICT_CHAPTERS,
   'ict-6': NCTB_ICT_CHAPTERS.slice(0, 3),
   'ict-7': NCTB_ICT_CHAPTERS.slice(0, 4),

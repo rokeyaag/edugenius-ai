@@ -390,6 +390,22 @@ export const NCTB_OFFICIAL_BOOK_NOTES = [
     podcastDuration: '3:20 min',
     tags: ['Class 9-10', 'Humanities', 'Economics', 'Demand', 'Supply', 'GDP'],
     hasAudio: true,
+  },
+  // 19. হিন্দুধর্ম ও নৈতিক শিক্ষা (Hindu Religion)
+  {
+    id: 'note-hin-1',
+    title: 'হিন্দুধর্ম ও নৈতিক শিক্ষা: অধ্যায় ৩ ও ৮ - গীতার কর্মযোগ ও স্বামী বিবেকানন্দ',
+    subject: 'Hindu Religion Studies',
+    subjectBn: 'হিন্দুধর্ম ও নৈতিক শিক্ষা',
+    subjectId: 'hindu-studies',
+    classId: 'class-9',
+    summary: 'শ্রীমদ্ভগবদ্গীতার ১৮ অধ্যায় ও ৭০০ শ্লোক—নিষ্কাম কর্মযোগ ("কর্মণ্যেবাধিকারস্তে মা ফলেষু কদাচন")। ১৮৯৩ সালে শিকাগো বিশ্বধর্ম সম্মেলনে স্বামী বিবেকানন্দের সার্বজনীন মানবপ্রেমের জয়গান ও রামকৃষ্ণ মিশন।',
+    formula: 'গীতা = নিষ্কাম কর্মযোগ | "জীবে প্রেম করে যেই জন, সেই জন সেবিছে ঈশ্বর" | যত মত তত পথ',
+    scannedImage: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&auto=format&fit=crop&q=80',
+    date: '02 Aug, 09:15 AM',
+    podcastDuration: '3:15 min',
+    tags: ['Class 9-10', 'Religion', 'Hinduism', 'Gita', 'Vivekananda'],
+    hasAudio: true,
   }
 ];
 
