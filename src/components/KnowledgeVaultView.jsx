@@ -5,6 +5,7 @@ import SleekCustomDropdown from './SleekCustomDropdown';
 import { findCuratedQuizForChapter } from '../utils/chapterQuizzes';
 import { NCTB_GENERAL_MATH_CHAPTERS, NCTB_HIGHER_MATH_CHAPTERS } from '../utils/nctbMathData';
 import { NCTB_ICT_CHAPTERS } from '../utils/nctbIctData';
+import { NCTB_BGS_CHAPTERS } from '../utils/nctbBgsData';
 import { 
   BookMarked, 
   Search, 
@@ -57,6 +58,10 @@ export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
   'ict-6': NCTB_ICT_CHAPTERS.slice(0, 3),
   'ict-7': NCTB_ICT_CHAPTERS.slice(0, 4),
   'ict-8': NCTB_ICT_CHAPTERS.slice(0, 5),
+  'bgs': NCTB_BGS_CHAPTERS,
+  'bgs-6': NCTB_BGS_CHAPTERS.slice(0, 5),
+  'bgs-7': NCTB_BGS_CHAPTERS.slice(0, 6),
+  'bgs-8': NCTB_BGS_CHAPTERS.slice(0, 8),
   'math-6': NCTB_GENERAL_MATH_CHAPTERS.slice(0, 8),
   'math-7': NCTB_GENERAL_MATH_CHAPTERS.slice(0, 10),
   'math-8': NCTB_GENERAL_MATH_CHAPTERS.slice(0, 12),
