@@ -8,6 +8,7 @@ import AITutorView from './components/AITutorView';
 import QuizArenaView from './components/QuizArenaView';
 import KnowledgeVaultView from './components/KnowledgeVaultView';
 import SubscriptionStoreView from './components/SubscriptionStoreView';
+import TeacherPortalView from './components/TeacherPortalView';
 import PomodoroModal from './components/PomodoroModal';
 import ClassSelectorModal from './components/ClassSelectorModal';
 import AddSubjectModal from './components/AddSubjectModal';
@@ -52,6 +53,7 @@ function AppContent() {
           {activeTab === 'home' && <DashboardView />}
           {activeTab === 'creative' && <CreativeQuestionsView />}
           {activeTab === 'tutor' && <AITutorView />}
+          {activeTab === 'teacher' && <TeacherPortalView />}
           {activeTab === 'quiz' && <QuizArenaView />}
           {activeTab === 'vault' && <KnowledgeVaultView />}
           {activeTab === 'store' && <SubscriptionStoreView />}

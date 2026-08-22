@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Home, PenTool, Award, BookMarked, ShoppingBag, Bot } from 'lucide-react';
+import { Home, PenTool, Award, BookMarked, ShoppingBag, Bot, GraduationCap } from 'lucide-react';
 
 export default function BottomNav() {
   const { activeTab, setActiveTab, language, t } = useApp();
@@ -9,6 +9,7 @@ export default function BottomNav() {
     { id: 'home', label: t('navHome'), icon: Home },
     { id: 'creative', label: language === 'bn' ? 'সৃজনশীল' : 'Creative', icon: PenTool },
     { id: 'tutor', label: t('navTutor'), icon: Bot },
+    { id: 'teacher', label: language === 'bn' ? 'শিক্ষক' : 'Teacher', icon: GraduationCap },
     { id: 'quiz', label: t('navQuiz'), icon: Award },
     { id: 'vault', label: t('navVault'), icon: BookMarked },
     { id: 'store', label: t('navStore'), icon: ShoppingBag },
