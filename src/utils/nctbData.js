@@ -438,6 +438,22 @@ export const NCTB_OFFICIAL_BOOK_NOTES = [
     podcastDuration: '3:10 min',
     tags: ['Class 9-10', 'Religion', 'Christianity', 'Bible', 'Mother Teresa'],
     hasAudio: true,
+  },
+  // 22. কৃষিশিক্ষা (Agriculture Studies)
+  {
+    id: 'note-agri-1',
+    title: 'কৃষিশিক্ষা: অধ্যায় ৩ ও ৫ - জলবায়ু সহিষ্ণু ফসল ও কৃষি বনায়ন',
+    subject: 'Agriculture Studies',
+    subjectBn: 'কৃষিশিক্ষা',
+    subjectId: 'agri-studies',
+    classId: 'class-9',
+    summary: 'বন্যা ও জলমগ্নতাসহিষ্ণু ব্রি ধান-৫১/৫২ (স্কুবা ধান), উপকূলীয় লবণাক্ততাসহিষ্ণু ব্রি ধান-৪৭ এবং একই জমিতে কাঠজাতীয় বৃক্ষ ও ফসলের বহুমুখী সমন্বিত কৃষি বনায়ন (Agroforestry)।',
+    formula: 'স্কুবা ধান = ব্রি ধান-৫১, ৫২ (১৪ দিন জলমগ্ন জীবিত) | কৃষি বনায়ন = বৃক্ষ + ফসল + পশুপাখি',
+    scannedImage: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=600&auto=format&fit=crop&q=80',
+    date: '30 Jul, 09:30 AM',
+    podcastDuration: '3:15 min',
+    tags: ['Class 9-10', 'Optional', 'Agriculture', 'Crops', 'Agroforestry'],
+    hasAudio: true,
   }
 ];
 
