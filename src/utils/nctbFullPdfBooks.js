@@ -146,6 +146,17 @@ export const NCTB_OFFICIAL_FULL_PDF_BOOKS = {
     fileSize: '9.8 MB',
     pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Physical_Education_9_10.pdf',
     backupUrl: 'https://archive.org/details/nctb-class-9-10-physical-education-bangla-version',
-    summary: 'শারীরিক শিক্ষা, ফিটনেস, মানসিক স্বাস্থ্য, বয়ঃসন্ধি, রোগ প্রতিরোধ, প্রাথমিক চিকিৎসা ও দলগত খেলাধুলা—সম্পূর্ণ ১০টি অধ্যায়।'
+    summary: 'শারীরিক শিক্ষা, ফিটনেস, মানসিক স্বাস্থ্য, বয়ঃসন্ধি, রোগ প্রতিরোধ, প্রাথমিক চিকিৎসা ও দলগত খেলাধুলা—সম্পূর্ণ ১১টি অধ্যায়।'
+  },
+  'arts-crafts': {
+    id: 'pdf-arts-crafts',
+    subjectId: 'arts-crafts',
+    nameBn: 'চারু ও কারুকলা (Arts & Crafts)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি',
+    totalPages: 168,
+    fileSize: '11.5 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Arts_and_Crafts_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-arts-and-crafts-bangla-version',
+    summary: 'শিল্পকলা পরিচিতি, লোকশিল্প ও কারুশিল্প, জয়নুল আবেদিন ও প্রখ্যাত শিল্পীগণ, বিশ্বশিল্পের ইতিহাস, ভাস্কর্য ও চিত্র প্রদর্শনী—সম্পূর্ণ ৭টি অধ্যায়।'
   }
 };
