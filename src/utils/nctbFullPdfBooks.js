@@ -191,5 +191,38 @@ export const NCTB_OFFICIAL_FULL_PDF_BOOKS = {
     pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Business_Entrepreneurship_9_10.pdf',
     backupUrl: 'https://archive.org/details/nctb-class-9-10-business-entrepreneurship-bangla-version',
     summary: 'ব্যবসায় পরিচিতি, আত্মকর্মসংস্থান, ব্যবসায় পরিকল্পনা, বিপণন ও ব্যবসায়িক নৈতিকতা—সম্পূর্ণ ১২টি অধ্যায়।'
+  },
+  'history-bd': {
+    id: 'pdf-history-bd',
+    subjectId: 'history-bd',
+    nameBn: 'বাংলাদেশের ইতিহাস ও বিশ্বসভ্যতা',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (মানবিক)',
+    totalPages: 264,
+    fileSize: '15.2 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/History_of_Bangladesh_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-history-of-bangladesh-bangla-version',
+    summary: 'ইতিহাস পরিচিতি, প্রাচীন জনপদ, রাজনৈতিক ইতিহাস, মধ্যযুগ, ব্রিটিশ আমল, মুক্তিযুদ্ধ ও ঐতিহ্য—সম্পূর্ণ ১৫টি অধ্যায়।'
+  },
+  'civics-citizenship': {
+    id: 'pdf-civics-citizenship',
+    subjectId: 'civics-citizenship',
+    nameBn: 'পৌরনীতি ও নাগরিকতা (Civics & Citizenship)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (মানবিক)',
+    totalPages: 192,
+    fileSize: '11.0 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Civics_Citizenship_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-civics-bangla-version',
+    summary: 'রাষ্ট্র, সরকার, সংবিধান, নাগরিক অধিকার ও কর্তব্য, স্থানীয় সরকার ও আন্তর্জাতিক সংস্থা—সম্পূর্ণ ১১টি অধ্যায়।'
+  },
+  'geography-env': {
+    id: 'pdf-geography-env',
+    subjectId: 'geography-env',
+    nameBn: 'ভূগোল ও পরিবেশ (Geography & Environment)',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি (মানবিক)',
+    totalPages: 240,
+    fileSize: '14.5 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Geography_Environment_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-geography-bangla-version',
+    summary: 'মহাবিশ্ব, সৌরজগৎ, বায়ুমণ্ডল, বারিমণ্ডল, মানচিত্র ও স্কেল, বাংলাদেশের প্রাকৃতিক ও অর্থনৈতিক ভূগোল—সম্পূর্ণ ১৫টি অধ্যায়।'
   }
 };
