@@ -13,6 +13,7 @@ import {
   NCTB_CHEMISTRY_CHAPTERS, 
   NCTB_BIOLOGY_CHAPTERS 
 } from '../utils/nctbScienceData';
+import { NCTB_PHYSICAL_EDU_CHAPTERS } from '../utils/nctbPhysicalEduData';
 import { 
   BookMarked, 
   Search, 
@@ -76,6 +77,7 @@ export const NCTB_FULL_BOOK_CHAPTERS_MAP = {
   'bgs-6': NCTB_BGS_CHAPTERS.slice(0, 5),
   'bgs-7': NCTB_BGS_CHAPTERS.slice(0, 6),
   'bgs-8': NCTB_BGS_CHAPTERS.slice(0, 8),
+  'physical-edu': NCTB_PHYSICAL_EDU_CHAPTERS,
   'math-6': NCTB_GENERAL_MATH_CHAPTERS.slice(0, 8),
   'math-7': NCTB_GENERAL_MATH_CHAPTERS.slice(0, 10),
   'math-8': NCTB_GENERAL_MATH_CHAPTERS.slice(0, 12),

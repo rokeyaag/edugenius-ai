@@ -136,5 +136,16 @@ export const NCTB_OFFICIAL_FULL_PDF_BOOKS = {
     pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/English_For_Today_9_10.pdf',
     backupUrl: 'https://archive.org/details/nctb-class-9-10-english-for-today',
     summary: 'All units with authentic reading passages, dialogues, vocabulary & exercises.'
+  },
+  'physical-edu': {
+    id: 'pdf-physical-edu',
+    subjectId: 'physical-edu',
+    nameBn: 'শারীরিক শিক্ষা, স্বাস্থ্যবিজ্ঞান ও খেলাধুলা',
+    classBn: 'নবম-দশম শ্রেণি ও এসএসসি',
+    totalPages: 192,
+    fileSize: '9.8 MB',
+    pdfUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/Physical_Education_9_10.pdf',
+    backupUrl: 'https://archive.org/details/nctb-class-9-10-physical-education-bangla-version',
+    summary: 'শারীরিক শিক্ষা, ফিটনেস, মানসিক স্বাস্থ্য, বয়ঃসন্ধি, রোগ প্রতিরোধ, প্রাথমিক চিকিৎসা ও দলগত খেলাধুলা—সম্পূর্ণ ১০টি অধ্যায়।'
   }
 };
