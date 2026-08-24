@@ -283,7 +283,7 @@ export default function DashboardView() {
       </div>
 
       {/* ============================================================== */}
-      {/* 4. INTERACTIVE SUBJECT EXPLORER (বিষয়ভিত্তিক স্টাডি কার্ড গ্রিড) */}
+      {/* 4. COLORFUL INTERACTIVE SUBJECT EXPLORER (রঙিন বিষয়ভিত্তিক কার্ড) */}
       {/* ============================================================== */}
       <div className="space-y-3">
         <div className="flex items-center justify-between px-1">
@@ -304,22 +304,36 @@ export default function DashboardView() {
           </button>
         </div>
 
-        {/* Subjects Grid (2 columns on mobile for readable non-truncated text!) */}
+        {/* Colorful Subjects Grid */}
         <div className="grid grid-cols-2 gap-2.5">
-          {subjects.slice(0, 8).map((sub) => {
+          {subjects.slice(0, 8).map((sub, idx) => {
             const chCount = NCTB_FULL_BOOK_CHAPTERS_MAP[sub.id]?.length || (sub.id === 'bangla-sahitya' ? 50 : 3);
             
+            // Unique colorful theme for each subject
+            const colorThemes = [
+              { bg: 'from-rose-50 to-red-100/60', border: 'border-rose-200/90 hover:border-red-400', badge: 'bg-rose-100 text-rose-900 border-rose-300', iconBg: 'bg-rose-100 text-rose-700', btn: 'text-rose-700' },
+              { bg: 'from-indigo-50 to-purple-100/60', border: 'border-indigo-200/90 hover:border-purple-400', badge: 'bg-indigo-100 text-indigo-900 border-indigo-300', iconBg: 'bg-indigo-100 text-indigo-700', btn: 'text-indigo-700' },
+              { bg: 'from-amber-50 to-orange-100/60', border: 'border-amber-200/90 hover:border-amber-400', badge: 'bg-amber-100 text-amber-950 border-amber-300', iconBg: 'bg-amber-100 text-amber-800', btn: 'text-amber-800' },
+              { bg: 'from-sky-50 to-blue-100/60', border: 'border-sky-200/90 hover:border-blue-400', badge: 'bg-sky-100 text-sky-900 border-sky-300', iconBg: 'bg-sky-100 text-sky-700', btn: 'text-sky-700' },
+              { bg: 'from-emerald-50 to-teal-100/60', border: 'border-emerald-200/90 hover:border-emerald-400', badge: 'bg-emerald-100 text-emerald-900 border-emerald-300', iconBg: 'bg-emerald-100 text-emerald-700', btn: 'text-emerald-700' },
+              { bg: 'from-violet-50 to-fuchsia-100/60', border: 'border-violet-200/90 hover:border-violet-400', badge: 'bg-violet-100 text-violet-900 border-violet-300', iconBg: 'bg-violet-100 text-violet-700', btn: 'text-violet-700' },
+              { bg: 'from-cyan-50 to-teal-100/60', border: 'border-cyan-200/90 hover:border-cyan-400', badge: 'bg-cyan-100 text-cyan-900 border-cyan-300', iconBg: 'bg-cyan-100 text-cyan-700', btn: 'text-cyan-700' },
+              { bg: 'from-lime-50 to-green-100/60', border: 'border-lime-200/90 hover:border-lime-400', badge: 'bg-lime-100 text-lime-900 border-lime-300', iconBg: 'bg-lime-100 text-lime-800', btn: 'text-lime-800' }
+            ];
+
+            const theme = colorThemes[idx % colorThemes.length];
+
             return (
               <div
                 key={sub.id}
                 onClick={() => setActiveTab('vault')}
-                className="p-3.5 rounded-2xl bg-white hover:bg-amber-50/70 border border-slate-200/90 hover:border-amber-400 transition-all cursor-pointer shadow-2xs hover:shadow-xs space-y-2.5 tap-active group flex flex-col justify-between"
+                className={`p-3.5 rounded-3xl bg-gradient-to-br ${theme.bg} border ${theme.border} transition-all cursor-pointer shadow-2xs hover:shadow-md space-y-2.5 tap-active group flex flex-col justify-between`}
               >
                 <div className="flex items-start justify-between gap-1">
-                  <div className="w-10 h-10 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
+                  <div className={`w-10 h-10 rounded-2xl ${theme.iconBg} border border-white/60 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform shadow-2xs`}>
                     {sub.icon || '📖'}
                   </div>
-                  <span className="text-[9.5px] font-black text-amber-900 bg-amber-100/80 px-2 py-0.5 rounded-full border border-amber-300 shrink-0">
+                  <span className={`text-[9.5px] font-black ${theme.badge} px-2 py-0.5 rounded-full border shrink-0`}>
                     {chCount}টি অধ্যায়
                   </span>
                 </div>
@@ -328,14 +342,14 @@ export default function DashboardView() {
                   <h5 className="text-xs font-black text-slate-900 leading-snug group-hover:text-red-700 transition-colors">
                     {language === 'bn' ? sub.nameBn : sub.nameEn}
                   </h5>
-                  <p className="text-[10px] text-slate-500 font-medium">
+                  <p className="text-[10px] text-slate-600 font-bold">
                     {sub.group || 'আবশ্যিক বিষয়'}
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between pt-1.5 border-t border-slate-100 text-[10px] text-red-600 font-black">
+                <div className={`flex items-center justify-between pt-1.5 border-t border-black/5 text-[10.5px] font-black ${theme.btn}`}>
                   <span>পড়া শুরু করুন</span>
-                  <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-red-600" />
+                  <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
             );
@@ -356,7 +370,99 @@ export default function DashboardView() {
       </div>
 
       {/* ============================================================== */}
-      {/* 5. DAILY SMART BOARD EXAM CAPSULE (দৈনিক বোর্ড টিপস ও ট্রিকস) */}
+      {/* 5. GAMIFICATION RULES & REWARDS GUIDE (পয়েন্ট, স্ট্রিক ও প্রো মেম্বারশিপ গাইড) */}
+      {/* ============================================================== */}
+      <div className="p-4 rounded-3xl bg-gradient-to-br from-slate-900 via-slate-850 to-slate-900 text-white space-y-3.5 shadow-xl border border-slate-700">
+        
+        <div className="flex items-center justify-between border-b border-slate-700/80 pb-2.5">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-amber-300">
+              <Trophy className="w-4 h-4" />
+            </div>
+            <div>
+              <h4 className="text-xs sm:text-sm font-black text-white flex items-center gap-1.5">
+                <span>পয়েন্ট, স্ট্রিক ও প্রো মেম্বারশিপ গাইড</span>
+                <span className="text-amber-400">🏆</span>
+              </h4>
+              <p className="text-[10px] text-slate-400 font-medium">কীভাবে ফ্রিতে পয়েন্ট ও প্রো মেম্বারশিপ অর্জন করবেন?</p>
+            </div>
+          </div>
+
+          <span className="text-[10px] font-black bg-gradient-to-r from-amber-400 to-orange-400 text-slate-950 px-2.5 py-0.5 rounded-full">
+            ১০০% ফ্রি
+          </span>
+        </div>
+
+        {/* 3 Interactive Rule Bento Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+          
+          {/* Rule 1: Streak */}
+          <div className="p-3 rounded-2xl bg-slate-800/80 border border-amber-400/30 space-y-1.5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5 font-black text-amber-300 text-[11px]">
+                <Flame className="w-4 h-4 text-amber-400 fill-amber-400 animate-pulse" />
+                <span>১. স্টাডি স্ট্রিক (Streak)</span>
+              </div>
+              <span className="text-[9px] bg-amber-400/20 text-amber-200 px-1.5 py-0.5 rounded-md font-bold">প্রতিদিন</span>
+            </div>
+            <p className="text-[10.5px] text-slate-300 font-medium leading-relaxed">
+              টানা প্রতিদিন অন্তত ১ বার কুইজ দিলে বা লেকচার পড়লে স্ট্রিক বৃদ্ধি পাবে ও পড়াশোনায় ধারাবাহিকতা তৈরি হবে।
+            </p>
+          </div>
+
+          {/* Rule 2: Points */}
+          <div className="p-3 rounded-2xl bg-slate-800/80 border border-red-400/30 space-y-1.5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5 font-black text-red-300 text-[11px]">
+                <Award className="w-4 h-4 text-red-400" />
+                <span>২. রিওয়ার্ড পয়েন্ট (Points)</span>
+              </div>
+              <span className="text-[9px] bg-red-400/20 text-red-200 px-1.5 py-0.5 rounded-md font-bold">+১০ থেকে +৫০</span>
+            </div>
+            <p className="text-[10.5px] text-slate-300 font-medium leading-relaxed">
+              কুইজে সঠিক উত্তর দিলে <strong>+৫০</strong>, সৃজনশীল লিখলে <strong>+২০</strong> ও নিজস্ব নোট সেভ করলে <strong>+১৫</strong> পয়েন্ট পাবেন।
+            </p>
+          </div>
+
+          {/* Rule 3: Pro Membership */}
+          <div className="p-3 rounded-2xl bg-slate-800/80 border border-emerald-400/30 space-y-1.5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5 font-black text-emerald-300 text-[11px]">
+                <Sparkles className="w-4 h-4 text-emerald-400" />
+                <span>৩. প্রো মেম্বার (Pro Member)</span>
+              </div>
+              <span className="text-[9px] bg-emerald-400/20 text-emerald-200 px-1.5 py-0.5 rounded-md font-bold">আনলিমিটেড</span>
+            </div>
+            <p className="text-[10.5px] text-slate-300 font-medium leading-relaxed">
+              ১০০ পয়েন্ট জমলেই স্টোর থেকে বিনামূল্যে ১ মাসের জন্য সব প্রিমিয়াম AI সমাধান ও ফুল বই PDF আনলক করতে পারবেন।
+            </p>
+          </div>
+
+        </div>
+
+        {/* Action Bar */}
+        <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-700/80 flex-wrap sm:flex-nowrap">
+          <button
+            onClick={() => setActiveTab('quiz')}
+            className="flex-1 py-2 px-3 rounded-xl bg-gradient-to-r from-red-600 to-amber-500 hover:brightness-105 text-white font-black text-xs shadow-md transition-all tap-active flex items-center justify-center gap-1.5 cursor-pointer"
+          >
+            <BrainCircuit className="w-3.5 h-3.5" />
+            <span>⚡ কুইজ দিয়ে পয়েন্ট অর্জন করুন</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('store')}
+            className="py-2 px-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-amber-300 font-black text-xs transition-all tap-active flex items-center justify-center gap-1.5 cursor-pointer"
+          >
+            <Trophy className="w-3.5 h-3.5 text-amber-400" />
+            <span>👑 স্টোরে প্রো মেম্বারশিপ রিডিম</span>
+          </button>
+        </div>
+
+      </div>
+
+      {/* ============================================================== */}
+      {/* 6. DAILY SMART BOARD EXAM CAPSULE (দৈনিক বোর্ড টিপস ও ট্রিকস) */}
       {/* ============================================================== */}
       <div className="p-4 rounded-3xl bg-gradient-to-r from-amber-500/10 via-red-500/10 to-orange-500/10 border border-amber-300/80 space-y-2 shadow-2xs relative overflow-hidden">
         <div className="flex items-center justify-between">
@@ -376,50 +482,6 @@ export default function DashboardView() {
         <p className="text-xs text-slate-800 font-medium leading-relaxed">
           {dailyTips[currentTipIdx].tip}
         </p>
-      </div>
-
-      {/* ============================================================== */}
-      {/* 6. RECENT STUDY HISTORY & RESUME CARDS */}
-      {/* ============================================================== */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between px-1">
-          <h4 className="text-xs font-black text-slate-900 flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5 text-amber-600" />
-            <span>{language === 'bn' ? 'সাম্প্রতিক সংরক্ষিত নোটস ও রিভিশন' : 'Recent Study Notes'}</span>
-          </h4>
-          <span className="text-[10px] text-amber-800 font-bold bg-amber-100/80 px-2 py-0.5 rounded-full border border-amber-200">
-            {vaultNotes.length}টি সেভ করা
-          </span>
-        </div>
-
-        <div className="space-y-2">
-          {vaultNotes.slice(0, 3).map((note) => (
-            <div
-              key={note.id}
-              onClick={() => setActiveTab('vault')}
-              className="p-3.5 rounded-2xl bg-white hover:bg-amber-50/50 border border-slate-200 hover:border-amber-300 transition-all cursor-pointer shadow-2xs flex items-center justify-between gap-3 tap-active group"
-            >
-              <div className="space-y-1 truncate min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="text-[9px] font-black text-red-800 bg-red-50 px-2 py-0.5 rounded-full border border-red-200">
-                    {language === 'bn' ? (note.subjectBn || note.subject) : note.subject}
-                  </span>
-                  <span className="text-[10px] text-slate-400 font-medium">{note.date}</span>
-                </div>
-                <h5 className="text-xs font-black text-slate-900 truncate group-hover:text-red-700 transition-colors">
-                  {note.title}
-                </h5>
-                <p className="text-[11px] text-slate-600 truncate font-medium">
-                  {note.summary}
-                </p>
-              </div>
-
-              <div className="w-9 h-9 rounded-xl bg-amber-100/80 text-amber-800 flex items-center justify-center text-xs font-black shrink-0 border border-amber-300 group-hover:scale-105 transition-transform">
-                🎧
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
 
     </div>
