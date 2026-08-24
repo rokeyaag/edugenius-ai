@@ -4117,18 +4117,13 @@ export default function KnowledgeVaultView() {
     // Prepend user uploads to the top
     let combined = [...userUploadedList, ...officialList];
 
-    if (chapterSearchQuery.trim()) {
-      const q = chapterSearchQuery.toLowerCase();
-      combined = combined.filter(item => (item.title || '').toLowerCase().includes(q) || (item.summary || '').toLowerCase().includes(q));
-    }
-
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       combined = combined.filter(item => (item.title || '').toLowerCase().includes(q) || (item.summary || '').toLowerCase().includes(q));
     }
 
     return combined;
-  }, [vaultNotes, availableChapters, selectedChapterTitle, activeSelectedSub, selectedSubjectId, chapterSearchQuery, searchQuery]);
+  }, [vaultNotes, availableChapters, selectedChapterTitle, activeSelectedSub, selectedSubjectId, searchQuery]);
 
   // Voice Loading and Cleanup on unmount
   useEffect(() => {

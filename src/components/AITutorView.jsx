@@ -131,10 +131,6 @@ export default function AITutorView() {
   }, {});
 
   const availableChapters = NCTB_FULL_BOOK_CHAPTERS_MAP[selectedSubIdForUpload] || [];
-  const filteredChapters = availableChapters.filter(ch => {
-    if (!chapterSearchQuery.trim()) return true;
-    return (ch.title || '').toLowerCase().includes(chapterSearchQuery.toLowerCase());
-  });
 
   const handleScanSample = (sample) => {
     setIsScanning(true);
@@ -744,7 +740,6 @@ const CHAPTER_STORY_QA_DATABASE = [
                 const firstSubId = matchedClass?.subjects?.[0]?.id || 'bangla-sahitya';
                 setSelectedSubIdForUpload(firstSubId);
                 setSelectedChapterTitle('all');
-                setChapterSearchQuery('');
                 showToast(`🎓 ${matchedClass?.nameBn || e.target.value} সিলেক্ট করা হয়েছে`, 'info');
               }}
               className="w-full appearance-none bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
@@ -782,7 +777,6 @@ const CHAPTER_STORY_QA_DATABASE = [
               onChange={(e) => {
                 setSelectedSubIdForUpload(e.target.value);
                 setSelectedChapterTitle('all');
-                setChapterSearchQuery('');
               }}
               className="w-full appearance-none bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
             >
