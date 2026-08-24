@@ -860,21 +860,21 @@ export default function CreativeQuestionsView() {
               type: 'অনুধাবনমূলক',
               marks: 2,
               question: `“${notes[1]?.title ? notes[1].title.replace(/^\d+\.\s*/, '') : `${mainName} পাঠের মূলভাব`}”— কথাটি বুঝিয়ে লেখো।`,
-              answer: notes[1]?.detail || `${chSummary} এই উক্তিটির মধ্য দিয়ে পাঠের মূল শিক্ষা ও অন্তর্নিহিত মানবতাবোধ অত্যন্ত সুন্দরভাবে ফুটে উঠেছে।`
+              answer: `${notes[1]?.title ? notes[1].title.replace(/^\d+\.\s*/, '') : `${mainName} পাঠের মূলভাব হলো জীবনের নৈতিকতা ও মানবিক সত্যের প্রকাশ।`}\n\n${notes[1]?.detail || `${chSummary} এই উক্তিটির মধ্য দিয়ে পাঠের মূল শিক্ষা, পটভূমি ও অন্তর্নিহিত মানবতাবোধ অত্যন্ত সুন্দরভাবে ফুটে উঠেছে।`}`
             },
             {
               tag: 'গ',
               type: 'প্রয়োগমূলক',
               marks: 3,
               question: `উদ্দীপকের মূল ভাবনা ‘${mainName}’ ${formWord}টির কোন বিশেষ দিককে নির্দেশ করে? ব্যাখ্যা করো।`,
-              answer: `উদ্দীপকের বক্তব্য ‘${mainName}’ ${formWord}টির মূল প্রতিপাদ্যের সাথে সম্পূর্ণ সামঞ্জস্যপূর্ণ।\n\nউভয় ক্ষেত্রেই দেখা যায়— ${chSummary}\n\nপাঠ্যবইয়ে ${notes[2]?.detail || 'যে নৈতিক ও মানবিক সত্য'} বর্ণিত হয়েছে, উদ্দীপকেও সেই শিক্ষার বাস্তব প্রতিফলন লক্ষ্য করা যায়।`
+              answer: `উদ্দীপকের মূল ভাবনা ‘${mainName}’ ${formWord}টির ${notes[2]?.title ? notes[2].title.replace(/^\d+\.\s*/, '') : 'মূল প্রতিপাদ্য ও প্রায়োগিক প্রেক্ষাপটের'} সাথে সরাসরি সাদৃশ্যপূর্ণ।\n\nপাঠ্যবইয়ের ‘${mainName}’ ${formWord}টিতে বর্ণিত হয়েছে যে— ${notes[2]?.detail || chSummary}\n\nউদ্দীপকে রায়হানের আচরণ ও সংকল্পের সাথে পাঠ্যবইয়ের এই আদর্শিক ভাবনার গভীর সামঞ্জস্য ফুটে উঠেছে। উদ্দীপকের চরিত্রটি পাঠের শিক্ষাকে নিজের জীবনে ধারণ করে কর্মক্ষেত্রে বাস্তবায়নের প্রয়াস পেয়েছে, যা পাঠ্যবইয়ের প্রায়োগিক দিকটিকে সার্থকভাবে নির্দেশ করে।`
             },
             {
               tag: 'ঘ',
               type: 'উচ্চতর দক্ষতামূলক',
               marks: 4,
               question: `“উদ্দীপকটি ‘${mainName}’ ${formWord}টির সামগ্রিক চেতনা ও মূল শিক্ষাকে সার্থকভাবে ধারণ করে”— উক্তিটি বিশ্লেষণ করো।`,
-              answer: `মন্তব্যটি সর্বাংশে সত্য ও যৌক্তিক।\n\n‘${mainName}’ ${formWord}টিতে ${author ? author + ' ' : ''}মানবজীবনের এক শাশ্বত ও গভীর সত্যকে উপস্থাপন করেছেন। ${chSummary}\n\nউদ্দীপকেও এই অভিন্ন চেতনার সুন্দর বহিঃপ্রকাশ ঘটেছে। অতএব, নিঃসন্দেহে বলা যায় উদ্দীপকটি পাঠের মূল দর্শন ও নৈতিক শিক্ষাকে সার্থকভাবে প্রতিফলিত করেছে।`
+              answer: `উক্তিটি সর্বাংশে সত্য, বাস্তবসম্মত ও যৌক্তিক।\n\n‘${mainName}’ ${formWord}টিতে ${author ? author + ' ' : ''}মানবজীবনের এক শাশ্বত ও গভীর সত্যকে উপস্থাপন করেছেন। যেখানে বলা হয়েছে— ${chSummary}\n\nউদ্দীপকের প্রেক্ষাপটে দেখা যায়, প্রধান চরিত্রটি পাঠ্যবইয়ের মূলভাব উপলব্ধি করে তা নিজের জীবনে ইতিবাচকভাবে গ্রহণ করেছে। পাঠ্যবইয়ের শিক্ষার সাথে উদ্দীপকের দৃষ্টিভঙ্গির এই আত্মিক মেলবন্ধনই উদ্দীপকটিকে তাৎপর্যপূর্ণ করে তুলেছে।\n\nসামগ্রিক পর্যালোচনায় বলা যায়, উদ্দীপক এবং পাঠ্যবই উভয়ের মূল সুর এক ও অভিন্ন। এটি কেবল একটি তাত্ত্বিক পাঠ নয়, বরং আদর্শিক জীবন গঠনের দিকনির্দেশনা। সুতরাং, প্রশ্নের বক্তব্যটি সম্পূর্ণ নির্ভুল ও বাস্তবসম্মত।`
             }
           ]
         };
@@ -907,21 +907,21 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
             type: 'অনুধাবনমূলক',
             marks: 2,
             question: `এই অধ্যায়ের মূল নিয়ম বা সূত্রটি ব্যাখ্যা করো।`,
-            answer: `অধ্যায়ের মৌলিক সূত্রগুলো নিয়মমাফিক প্রয়োগ করলে বাস্তব জীবনে জটিল সমস্যার সমাধান সহজ হয়ে যায়।`
+            answer: `অধ্যায়ের মৌলিক সূত্রগুলো নিয়মমাফিক প্রয়োগ করলে বাস্তব জীবনে জটিল সমস্যার সমাধান সহজ হয়ে যায়।\n\nতাত্ত্বিক সূত্রাবলী সঠিকভাবে অনুধাবন করা থাকলে তা বাস্তবিক যেকোনো জটিল সমস্যা নিরসনে নির্ভুল পথনির্দেশ করে।`
           },
           {
             tag: 'গ',
             type: 'প্রয়োগমূলক',
             marks: 3,
             question: `উদ্দীপকের আলোকে বিষয়টির প্রায়োগিক গুরুত্ব তুলে ধরো।`,
-            answer: `উদ্দীপকে বর্ণিত হয়েছে কীভাবে তাত্ত্বিক জ্ঞান বাস্তব প্রয়োগে রূপ নেয়। পাঠ্যবইয়ের সূত্রের সাথে সমন্বয়ের মাধ্যমে সঠিক প্রয়োগ নিশ্চিত হয়।`
+            answer: `উদ্দীপকে বর্ণিত বিষয়টির মূল গুরুত্ব হলো বাস্তব জীবনে অর্জিত জ্ঞানের সফল প্রয়োগ ও বাস্তবায়ন।\n\nপাঠ্যবইয়ে আলোচিত মূল সূত্রাবলী ও নিয়মের মাধ্যমে সমস্যা বিশ্লেষণের যে দক্ষতা অর্জিত হয় তা প্রায়োগিক স্তরে অত্যন্ত সহায়ক।\n\nউদ্দীপকের বর্ণনায় সেই তাত্ত্বিক জ্ঞানের সাথে কর্মক্ষেত্রের বাস্তব মেলবন্ধন ঘটানো হয়েছে, যা পাঠের সার্থক প্রায়োগিক প্রতিফলন।`
           },
           {
             tag: 'ঘ',
             type: 'উচ্চতর দক্ষতামূলক',
             marks: 4,
             question: `“যথাযথ অনুশীলনই এই বিষয়ে পূর্ণাঙ্গ নম্বর পাওয়ার চাবিকাঠি”— বিশ্লেষণ করো।`,
-            answer: `বোর্ড পরীক্ষায় সৃজনশীল প্রশ্নের (ক, খ, গ, ঘ) অংশে পূর্ণ নম্বর পাওয়ার জন্য নিয়মানুযায়ী জ্ঞান, অনুধাবন, প্রয়োগ ও উচ্চতর দক্ষতার প্যারাভিত্তিক বিশ্লেষণ অত্যন্ত জরুরি।`
+            answer: `মন্তব্যটি শতভাগ সত্য ও বাস্তবসম্মত।\n\nবোর্ড পরীক্ষায় পূর্ণ নম্বর পেতে হলে কেবল মুখস্থ নয়, বরং পাঠের মূল ধারণাকে গভীরভাবে উপলব্ধি করতে হয়।\n\nউদ্দীপকে নির্দেশিত নিয়মানুযায়ী জ্ঞান, অনুধাবন, প্রয়োগ ও উচ্চতর দক্ষতার প্যারাভিত্তিক ধারাবাহিকতা বজায় রেখে উত্তর লিখলে সর্বোচ্চ নম্বর নিশ্চিত হয়।\n\nঅতএব সামগ্রিক মূল্যায়নে বলা যায়, সৃজনশীল প্রশ্নের প্রতিটি ধাপ যথাযথভাবে অনুসরণ করাই চূড়ান্ত সাফল্যের মূল চাবিকাঠি।`
           }
         ]
       }
@@ -969,6 +969,135 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
     }, 1200);
   };
 
+  const renderStructuredCQAnswer = (answerText, tag) => {
+    if (!answerText) return null;
+
+    const paragraphs = answerText.split(/\n\s*\n/).filter(p => p.trim().length > 0);
+
+    if (tag === 'ক' || tag === '1' || tag === '1 (A)') {
+      return (
+        <div className="p-3 rounded-2xl bg-emerald-50/90 border border-emerald-300 text-slate-800 space-y-1 shadow-2xs">
+          <div className="text-[11px] font-black text-emerald-900 flex items-center gap-1.5 border-b border-emerald-200/80 pb-1">
+            <span>📌 ধাপ ১: জ্ঞান অংশ (এক কথায় / সংজ্ঞায় সরাসরি উত্তর)</span>
+          </div>
+          <p className="whitespace-pre-line leading-relaxed font-medium text-slate-800 text-[11.5px] sm:text-xs pt-0.5">
+            {answerText}
+          </p>
+        </div>
+      );
+    }
+
+    if (tag === 'খ') {
+      const p1 = paragraphs[0] || answerText;
+      const p2 = paragraphs.slice(1).join('\n\n') || 'উক্তিটি পাঠ্যবইয়ের প্রেক্ষাপট ও সংশ্লিষ্ট ধারণার তাৎপর্যকে গভীরভাবে নির্দেশ করে।';
+      return (
+        <div className="space-y-2 pt-1">
+          <div className="p-3 rounded-2xl bg-emerald-50/90 border border-emerald-300 text-slate-800 space-y-1 shadow-2xs">
+            <div className="text-[11px] font-black text-emerald-900 flex items-center gap-1.5 border-b border-emerald-200/80 pb-1">
+              <span>📌 ধাপ ১: জ্ঞান অংশ (এক কথায় মূল উত্তর)</span>
+            </div>
+            <p className="whitespace-pre-line leading-relaxed font-medium text-slate-800 text-[11.5px] sm:text-xs pt-0.5">
+              {p1}
+            </p>
+          </div>
+          <div className="p-3 rounded-2xl bg-blue-50/90 border border-blue-300 text-slate-800 space-y-1 shadow-2xs">
+            <div className="text-[11px] font-black text-blue-900 flex items-center gap-1.5 border-b border-blue-200/80 pb-1">
+              <span>💡 ধাপ ২: অনুধাবন অংশ (বিশ্লেষণ ও ব্যাখ্যা)</span>
+            </div>
+            <p className="whitespace-pre-line leading-relaxed font-medium text-slate-800 text-[11.5px] sm:text-xs pt-0.5">
+              {p2}
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    if (tag === 'গ') {
+      const p1 = paragraphs[0] || answerText;
+      const p2 = paragraphs[1] || 'পাঠ্যবইয়ের সংশ্লিষ্ট অধ্যায়ে বিষয়বস্তুটির মৌলিক ধারণা ও প্রেক্ষাপট বিশদভাবে আলোচনা করা হয়েছে।';
+      const p3 = paragraphs.slice(2).join('\n\n') || 'উদ্দীপকের চরিত্র ও ঘটনার সাথে পাঠ্যবইয়ের এই ধারণার নিখুঁত প্রায়োগিক মিল খুঁজে পাওয়া যায়।';
+      return (
+        <div className="space-y-2 pt-1">
+          <div className="p-3 rounded-2xl bg-emerald-50/90 border border-emerald-300 text-slate-800 space-y-1 shadow-2xs">
+            <div className="text-[11px] font-black text-emerald-900 flex items-center gap-1.5 border-b border-emerald-200/80 pb-1">
+              <span>📌 ধাপ ১: জ্ঞান অংশ (এক কথায় মূল উত্তর)</span>
+            </div>
+            <p className="whitespace-pre-line leading-relaxed font-medium text-slate-800 text-[11.5px] sm:text-xs pt-0.5">
+              {p1}
+            </p>
+          </div>
+          <div className="p-3 rounded-2xl bg-blue-50/90 border border-blue-300 text-slate-800 space-y-1 shadow-2xs">
+            <div className="text-[11px] font-black text-blue-900 flex items-center gap-1.5 border-b border-blue-200/80 pb-1">
+              <span>📖 ধাপ ২: অনুধাবন অংশ (পাঠ্যবইয়ের আলোকে বিশ্লেষণ)</span>
+            </div>
+            <p className="whitespace-pre-line leading-relaxed font-medium text-slate-800 text-[11.5px] sm:text-xs pt-0.5">
+              {p2}
+            </p>
+          </div>
+          <div className="p-3 rounded-2xl bg-amber-50/90 border border-amber-300 text-slate-800 space-y-1 shadow-2xs">
+            <div className="text-[11px] font-black text-amber-950 flex items-center gap-1.5 border-b border-amber-200/80 pb-1">
+              <span>🎯 ধাপ ৩: প্রয়োগ অংশ (উদ্দীপকের আলোকে বিশ্লেষণ ও তুলনামূলক আলোচনা)</span>
+            </div>
+            <p className="whitespace-pre-line leading-relaxed font-medium text-slate-800 text-[11.5px] sm:text-xs pt-0.5">
+              {p3}
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    if (tag === 'ঘ') {
+      const p1 = paragraphs[0] || answerText;
+      const p2 = paragraphs[1] || 'পাঠ্যবইয়ের মূলভাব ও পটভূমি বিশ্লেষণ করলে দেখা যায় যে এটি একটি অত্যন্ত তাৎপর্যপূর্ণ বিষয়।';
+      const p3 = paragraphs[2] || 'উদ্দীপকের ঘটনার সাথে পাঠ্যবইয়ের অন্তর্নিহিত বার্তার যৌক্তিক সমন্বয় ঘটেছে।';
+      const p4 = paragraphs.slice(3).join('\n\n') || 'অতএব, সামগ্রিক পর্যালোচনায় বলা যায় প্রশ্নের দাবিটি সম্পূর্ণ যথার্থ, বাস্তবসম্মত ও যৌক্তিক।';
+      return (
+        <div className="space-y-2 pt-1">
+          <div className="p-3 rounded-2xl bg-emerald-50/90 border border-emerald-300 text-slate-800 space-y-1 shadow-2xs">
+            <div className="text-[11px] font-black text-emerald-900 flex items-center gap-1.5 border-b border-emerald-200/80 pb-1">
+              <span>📌 ধাপ ১: জ্ঞান অংশ (এক কথায় মূল সিদ্ধান্ত)</span>
+            </div>
+            <p className="whitespace-pre-line leading-relaxed font-medium text-slate-800 text-[11.5px] sm:text-xs pt-0.5">
+              {p1}
+            </p>
+          </div>
+          <div className="p-3 rounded-2xl bg-blue-50/90 border border-blue-300 text-slate-800 space-y-1 shadow-2xs">
+            <div className="text-[11px] font-black text-blue-900 flex items-center gap-1.5 border-b border-blue-200/80 pb-1">
+              <span>📖 ধাপ ২: অনুধাবন অংশ (পাঠ্যবইয়ের প্রেক্ষাপট ও মূলভাব বিশ্লেষণ)</span>
+            </div>
+            <p className="whitespace-pre-line leading-relaxed font-medium text-slate-800 text-[11.5px] sm:text-xs pt-0.5">
+              {p2}
+            </p>
+          </div>
+          <div className="p-3 rounded-2xl bg-amber-50/90 border border-amber-300 text-slate-800 space-y-1 shadow-2xs">
+            <div className="text-[11px] font-black text-amber-950 flex items-center gap-1.5 border-b border-amber-200/80 pb-1">
+              <span>🎯 ধাপ ৩: প্রয়োগ অংশ (উদ্দীপকের আলোকে যৌক্তিক বিশ্লেষণ)</span>
+            </div>
+            <p className="whitespace-pre-line leading-relaxed font-medium text-slate-800 text-[11.5px] sm:text-xs pt-0.5">
+              {p3}
+            </p>
+          </div>
+          <div className="p-3 rounded-2xl bg-purple-50/90 border border-purple-300 text-slate-800 space-y-1 shadow-2xs">
+            <div className="text-[11px] font-black text-purple-950 flex items-center gap-1.5 border-b border-purple-200/80 pb-1">
+              <span>🏆 ধাপ ৪: উচ্চতর দক্ষতা অংশ (সামগ্রিক পর্যালোচনা ও চূড়ান্ত যৌক্তিক সিদ্ধান্ত)</span>
+            </div>
+            <p className="whitespace-pre-line leading-relaxed font-medium text-slate-800 text-[11.5px] sm:text-xs pt-0.5">
+              {p4}
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-300 text-slate-800 shadow-2xs">
+        <p className="whitespace-pre-line leading-relaxed font-medium text-slate-800 text-[11.5px] sm:text-xs">
+          {answerText}
+        </p>
+      </div>
+    );
+  };
+
   const handleDownloadCQFile = () => {
     if (!currentCq) return;
     const isEnglish = selectedSubjectId === 'english-today';
@@ -987,14 +1116,14 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
     .q-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; margin-bottom: 14px; }
     .q-tag { font-weight: 800; color: #dc2626; margin-bottom: 4px; font-size: 13px; }
     .q-text { font-weight: 700; margin-bottom: 8px; font-size: 13.5px; }
-    .q-ans { background: #eff6ff; border-left: 3px solid #3b82f6; padding: 10px 14px; font-size: 12.5px; color: #1e3a8a; white-space: pre-line; margin-top: 6px; }
+    .q-ans { background: #f0fdf4; border-left: 3px solid #10b981; padding: 12px 14px; font-size: 12.5px; color: #064e3b; white-space: pre-line; margin-top: 6px; border-radius: 0 8px 8px 0; }
   </style>
 </head>
 <body>
   <div class="header">
     <div>
       <h2 style="margin:0; font-size: 20px; color: #dc2626;">EduGenius AI — সৃজনশীল ও মডেল প্রশ্নব্যাংক</h2>
-      <div style="font-size: 12px; color: #64748b;">NCTB ২০২৬ কারিকুলাম | ${cleanTitle}</div>
+      <div style="font-size: 12px; color: #64748b;">NCTB ২০২৬ কারিকুলাম | ৪-ধাপের বোর্ড মানসম্মত সমাধান | ${cleanTitle}</div>
     </div>
     <div style="font-size: 12px; text-align: right;">
       <div>পূর্ণমান: ১০</div>
@@ -1012,7 +1141,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
       <div class="q-box">
         <div class="q-tag">(${q.tag}) ${q.type} [${q.marks} নম্বর]</div>
         <div class="q-text">${q.question}</div>
-        <div class="q-ans"><strong>মডেল সমাধান:</strong><br/>${q.answer}</div>
+        <div class="q-ans"><strong>বোর্ড স্ট্যান্ডার্ড ৪-ধাপের মডেল উত্তর:</strong><br/>${q.answer}</div>
       </div>
     `).join('')}
   </div>
@@ -1030,7 +1159,6 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
     URL.revokeObjectURL(url);
     showToast(`📥 "${cleanTitle}" ফাইল সফলভাবে ডাউনলোড হয়েছে!`, 'success');
   };
-
 
   const handlePrintCQ = () => {
     if (!currentCq) return;
@@ -1053,7 +1181,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
     .q-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; margin-bottom: 14px; }
     .q-tag { font-weight: 800; color: #dc2626; margin-bottom: 4px; font-size: 13px; }
     .q-text { font-weight: 700; margin-bottom: 8px; font-size: 13.5px; }
-    .q-ans { background: #eff6ff; border-left: 3px solid #3b82f6; padding: 10px 14px; font-size: 12.5px; color: #1e3a8a; white-space: pre-line; margin-top: 6px; }
+    .q-ans { background: #f0fdf4; border-left: 3px solid #10b981; padding: 12px 14px; font-size: 12.5px; color: #064e3b; white-space: pre-line; margin-top: 6px; border-radius: 0 8px 8px 0; }
     @media print { body { padding: 10px; } .no-print { display: none !important; } }
   </style>
 </head>
@@ -1065,7 +1193,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
   <div class="header">
     <div>
       <h2 style="margin:0; font-size: 20px; color: #dc2626;">EduGenius AI — সৃজনশীল ও মডেল প্রশ্নব্যাংক</h2>
-      <div style="font-size: 12px; color: #64748b;">NCTB ২০২৬ কারিকুলাম | ${cleanTitle}</div>
+      <div style="font-size: 12px; color: #64748b;">NCTB ২০২৬ কারিকুলাম | ৪-ধাপের বোর্ড মানসম্মত সমাধান | ${cleanTitle}</div>
     </div>
     <div style="font-size: 12px; text-align: right;">
       <div>পূর্ণমান: ১০</div>
@@ -1083,7 +1211,7 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
       <div class="q-box">
         <div class="q-tag">(${q.tag}) ${q.type} [${q.marks} নম্বর]</div>
         <div class="q-text">${q.question}</div>
-        <div class="q-ans"><strong>মডেল সমাধান:</strong><br/>${q.answer}</div>
+        <div class="q-ans"><strong>বোর্ড স্ট্যান্ডার্ড ৪-ধাপের মডেল উত্তর:</strong><br/>${q.answer}</div>
       </div>
     `).join('')}
   </div>
@@ -1358,16 +1486,19 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
                 </button>
               </div>
 
-              {/* Model Answer Display Card */}
+              {/* Model Answer Display Card with Structured NCTB 4-Tier Steps */}
               {isRevealed && (
-                <div className="p-3.5 rounded-2xl bg-emerald-50/80 border border-emerald-300 text-xs text-slate-800 space-y-1.5 animate-in fade-in">
-                  <div className="flex items-center gap-1.5 text-emerald-900 font-black">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    <span>বোর্ড স্ট্যান্ডার্ড আদর্শ মডেল উত্তর:</span>
+                <div className="p-3.5 rounded-2xl bg-emerald-50/40 border border-emerald-300 text-xs text-slate-800 space-y-2 animate-in fade-in">
+                  <div className="flex items-center justify-between text-emerald-950 font-black pb-0.5">
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                      <span>বোর্ড মানসম্মত আদর্শ ৪-ধাপের মডেল উত্তর:</span>
+                    </div>
+                    <span className="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-md font-bold border border-emerald-200">
+                      পূর্ণমান {q.marks}
+                    </span>
                   </div>
-                  <p className="whitespace-pre-line leading-relaxed font-medium text-slate-700 pl-1">
-                    {q.answer}
-                  </p>
+                  {renderStructuredCQAnswer(q.answer, q.tag)}
                 </div>
               )}
             </div>
