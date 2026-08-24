@@ -31,6 +31,7 @@ import { NCTB_HOME_SCIENCE_CHAPTERS } from '../utils/nctbHomeScienceData';
 import { NCTB_ARABIC_CHAPTERS } from '../utils/nctbArabicData';
 import { NCTB_CAREER_EDU_CHAPTERS } from '../utils/nctbCareerMusicData';
 import { NCTB_MUSIC_CHAPTERS } from '../utils/nctbMusicData';
+import { shuffleQuestionOptions } from '../utils/quizRandomizer';
 import { 
   BookMarked, 
   Search, 
@@ -4603,9 +4604,10 @@ ${lectureText}
 
   // 3. Interactive Student Chapter Study Pad & Note-Taker
   const openStudyPad = (note, initialTab = 'lecture') => {
-    // Guarantee strictly 5 MCQs per chapter
-    const fiveMCQs = getChapterSelfTest(note);
-    const enrichedNote = { ...note, selfTest: fiveMCQs };
+    // Guarantee strictly 5 MCQs per chapter with randomized option positions (A, B, C, D)
+    const rawFiveMCQs = getChapterSelfTest(note);
+    const randomizedFiveMCQs = rawFiveMCQs.map((q, idx) => shuffleQuestionOptions(q, idx));
+    const enrichedNote = { ...note, selfTest: randomizedFiveMCQs };
 
     setStudyPadNote(enrichedNote);
     setActiveStudyTab(initialTab);

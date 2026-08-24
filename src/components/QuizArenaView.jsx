@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { NCTB_FULL_BOOK_CHAPTERS_MAP } from './KnowledgeVaultView';
 import { findCuratedQuizForChapter, NCTB_10Q_CHAPTER_QUIZZES as MASTER_CHAPTER_QUIZZES } from '../utils/chapterQuizzes';
+import { prepareDynamicChapterQuiz, shuffleQuestionOptions } from '../utils/quizRandomizer';
 import { 
   Award, 
   CheckCircle2, 
@@ -808,6 +809,7 @@ export default function QuizArenaView() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [isQuizSubmitted, setIsQuizSubmitted] = useState(false);
+  const [quizSeed, setQuizSeed] = useState(1);
 
   const getSubjectChapters = (subId) => {
     // 1. Curated questions bank (combined from master bank & local bank)
@@ -824,128 +826,100 @@ export default function QuizArenaView() {
     // If we have full official chapters list for this subject
     if (allNctbChapters.length > 0) {
       return allNctbChapters.map((ch, idx) => {
+        const cleanTitle = (ch.title || ch.chapterNameBn || `অধ্যায় ${idx + 1}`).replace(/📖|📄|📝/g, '').trim();
+
         // Match if chapter has curated questions in master/local bank
         const matchedCurated = findCuratedQuizForChapter(subId, ch) || curatedList.find(c => c.chapterId === ch.id);
 
+        let rawQuestions = [];
+
         if (matchedCurated && matchedCurated.questions && matchedCurated.questions.length > 0) {
-          return {
-            ...matchedCurated,
-            stageNumber: idx + 1,
-            chapterNameBn: `অধ্যায় ${idx + 1}: ${ch.title.replace(/📖|📄|📝/g, '').trim()}`
-          };
-        }
-
-        const cleanTitle = ch.title.replace(/📖|📄|📝/g, '').trim();
-
-        // Specific 10-Question Masterclass for Chapter 1: Nouns (English Grammar)
-        if ((cleanTitle.toLowerCase().includes('noun') || ch.id === 'eg-1') && (subId === 'english-grammar' || cleanTitle.toLowerCase().includes('noun'))) {
-          return {
-            chapterId: ch.id,
-            stageNumber: idx + 1,
-            chapterNameBn: `অধ্যায় ${idx + 1}: ${cleanTitle}`,
-            chapterNameEn: `Chapter ${idx + 1}: ${cleanTitle}`,
-            pointsReward: 50,
-            questions: [
-              {
-                id: 1,
-                question: '"Honesty is the best policy" — এখানে Honesty কোন প্রকারের Noun?',
-                options: ['Abstract Noun', 'Proper Noun', 'Common Noun', 'Material Noun'],
-                correctIndex: 0,
-                explanation: 'Honesty একটি গুণ বা অনুভূতির নাম যা শুধু উপলব্ধি করা যায়, তাই এটি Abstract Noun।'
-              },
-              {
-                id: 2,
-                question: 'নিচের কোনটি Uncountable Noun এর সঠিক উদাহরণ?',
-                options: ['Information', 'Book', 'Teacher', 'Pen'],
-                correctIndex: 0,
-                explanation: 'Information গণনা করা যায় না, তাই এটি Uncountable Noun।'
-              },
-              {
-                id: 3,
-                question: '"The jury found the prisoner guilty." — এই বাক্যে "jury" কোন Noun?',
-                options: ['Collective Noun', 'Proper Noun', 'Common Noun', 'Material Noun'],
-                correctIndex: 0,
-                explanation: 'Jury হলো বিচারকমণ্ডলীর অবিভক্ত দল বা সমষ্টি, তাই এটি Collective Noun।'
-              },
-              {
-                id: 4,
-                question: 'নিচের কোন বাক্যটি ব্যাকরণগতভাবে সঠিক?',
-                options: ['He gave me a piece of advice.', 'He gave me an advice.', 'The furnitures are old.', 'I have many informations.'],
-                correctIndex: 0,
-                explanation: 'Advice আনকাউন্টেবল হওয়ায় সরাসরি "an advice" বলা ভুল, "a piece of advice" সঠিক।'
-              },
-              {
-                id: 5,
-                question: '"Gold is a precious metal." — এই বাক্যে "Gold" কোন শ্রেণির Noun?',
-                options: ['Material Noun', 'Proper Noun', 'Abstract Noun', 'Common Noun'],
-                correctIndex: 0,
-                explanation: 'Gold একটি পদার্থ যা গণনা করা যায় না কিন্তু পরিমাপ করা যায়। তাই এটি Material Noun।'
-              },
-              {
-                id: 6,
-                question: 'Proper Noun লেখার সময় কোন নিয়মটি সর্বদা অনুসরণ করতে হয়?',
-                options: ['প্রথম অক্ষর সর্বদা Capital Letter হয়', 'সর্বদা Plural হয়', 'কখনো article বসে না', 'সবগুলো ছোট হাতের হয়'],
-                correctIndex: 0,
-                explanation: 'Proper Noun এর প্রথম বর্ণটি সবসময় Capital Letter দিয়ে শুরু করতে হয়।'
-              },
-              {
-                id: 7,
-                question: '‘Class’, ‘Army’, ‘Team’, ‘Family’ — এগুলো কোন প্রকারের Noun?',
-                options: ['Collective Noun', 'Abstract Noun', 'Proper Noun', 'Material Noun'],
-                correctIndex: 0,
-                explanation: 'সমজাতীয় ব্যক্তি বা বস্তুর অবিভক্ত সমষ্টিকে Collective Noun বলে।'
-              },
-              {
-                id: 8,
-                question: 'Uncountable Noun এর পূর্বে নিচের কোনটি ব্যবহার করা যায়?',
-                options: ['much বা little', 'a বা an', 'many', 'few'],
-                correctIndex: 0,
-                explanation: 'Uncountable Noun এর পূর্বে much, little বা a piece of বসে।'
-              },
-              {
-                id: 9,
-                question: '"The river flows through the city." — এখানে "river" এবং "city" কোন Noun?',
-                options: ['Common Noun', 'Proper Noun', 'Collective Noun', 'Material Noun'],
-                correctIndex: 0,
-                explanation: 'River ও City একজাতীয় ব্যক্তি বা স্থানের সাধারণ নাম, তাই এরা Common Noun।'
-              },
-              {
-                id: 10,
-                question: '‘Kindness’, ‘Freedom’, ‘Bravery’ — কোন Noun এর উদাহরণ?',
-                options: ['Abstract Noun', 'Material Noun', 'Proper Noun', 'Common Noun'],
-                correctIndex: 0,
-                explanation: 'যা ইন্দ্রিয় দ্বারা ধরা বা ছোঁয়া যায় না, শুধু অনুভব করা যায় তাকে Abstract Noun বলে।'
-              }
-            ]
-          };
-        }
-
-        // If chapter has selfTest defined
-        if (ch.selfTest && ch.selfTest.length >= 5) {
-          return {
-            chapterId: ch.id,
-            stageNumber: idx + 1,
-            chapterNameBn: `অধ্যায় ${idx + 1}: ${cleanTitle}`,
-            chapterNameEn: `Chapter ${idx + 1}: ${cleanTitle}`,
-            pointsReward: 50,
-            questions: ch.selfTest.map((st, qIdx) => ({
-              id: qIdx + 1,
-              question: st.q,
-              options: st.options,
-              correctIndex: st.correct,
-              explanation: st.explanation
-            }))
-          };
-        }
-
-        // Content-driven Authentic 5 Board Standard Questions for this chapter
-        return {
-          chapterId: ch.id,
-          stageNumber: idx + 1,
-          chapterNameBn: `অধ্যায় ${idx + 1}: ${cleanTitle}`,
-          chapterNameEn: `Chapter ${idx + 1}: ${cleanTitle}`,
-          pointsReward: 50,
-          questions: [
+          rawQuestions = matchedCurated.questions;
+        } else if ((cleanTitle.toLowerCase().includes('noun') || ch.id === 'eg-1') && (subId === 'english-grammar' || cleanTitle.toLowerCase().includes('noun'))) {
+          // Specific 10-Question Masterclass for Chapter 1: Nouns (English Grammar)
+          rawQuestions = [
+            {
+              id: 1,
+              question: '"Honesty is the best policy" — এখানে Honesty কোন প্রকারের Noun?',
+              options: ['Abstract Noun', 'Proper Noun', 'Common Noun', 'Material Noun'],
+              correctIndex: 0,
+              explanation: 'Honesty একটি গুণ বা অনুভূতির নাম যা শুধু উপলব্ধি করা যায়, তাই এটি Abstract Noun।'
+            },
+            {
+              id: 2,
+              question: 'নিচের কোনটি Uncountable Noun এর সঠিক উদাহরণ?',
+              options: ['Information', 'Book', 'Teacher', 'Pen'],
+              correctIndex: 0,
+              explanation: 'Information গণনা করা যায় না, তাই এটি Uncountable Noun।'
+            },
+            {
+              id: 3,
+              question: '"The jury found the prisoner guilty." — এই বাক্যে "jury" কোন Noun?',
+              options: ['Collective Noun', 'Proper Noun', 'Common Noun', 'Material Noun'],
+              correctIndex: 0,
+              explanation: 'Jury হলো বিচারকমণ্ডলীর অবিভক্ত দল বা সমষ্টি, তাই এটি Collective Noun।'
+            },
+            {
+              id: 4,
+              question: 'নিচের কোন বাক্যটি ব্যাকরণগতভাবে সঠিক?',
+              options: ['He gave me a piece of advice.', 'He gave me an advice.', 'The furnitures are old.', 'I have many informations.'],
+              correctIndex: 0,
+              explanation: 'Advice আনকাউন্টেবল হওয়ায় সরাসরি "an advice" বলা ভুল, "a piece of advice" সঠিক।'
+            },
+            {
+              id: 5,
+              question: '"Gold is a precious metal." — এই বাক্যে "Gold" কোন শ্রেণির Noun?',
+              options: ['Material Noun', 'Proper Noun', 'Abstract Noun', 'Common Noun'],
+              correctIndex: 0,
+              explanation: 'Gold একটি পদার্থ যা গণনা করা যায় না কিন্তু পরিমাপ করা যায়। তাই এটি Material Noun।'
+            },
+            {
+              id: 6,
+              question: 'Proper Noun লেখার সময় কোন নিয়মটি সর্বদা অনুসরণ করতে হয়?',
+              options: ['প্রথম অক্ষর সর্বদা Capital Letter হয়', 'সর্বদা Plural হয়', 'কখনো article বসে না', 'সবগুলো ছোট হাতের হয়'],
+              correctIndex: 0,
+              explanation: 'Proper Noun এর প্রথম বর্ণটি সবসময় Capital Letter দিয়ে শুরু করতে হয়।'
+            },
+            {
+              id: 7,
+              question: '‘Class’, ‘Army’, ‘Team’, ‘Family’ — এগুলো কোন প্রকারের Noun?',
+              options: ['Collective Noun', 'Abstract Noun', 'Proper Noun', 'Material Noun'],
+              correctIndex: 0,
+              explanation: 'সমজাতীয় ব্যক্তি বা বস্তুর অবিভক্ত সমষ্টিকে Collective Noun বলে।'
+            },
+            {
+              id: 8,
+              question: 'Uncountable Noun এর পূর্বে নিচের কোনটি ব্যবহার করা যায়?',
+              options: ['much বা little', 'a বা an', 'many', 'few'],
+              correctIndex: 0,
+              explanation: 'Uncountable Noun এর পূর্বে much, little বা a piece of বসে।'
+            },
+            {
+              id: 9,
+              question: '"The river flows through the city." — এখানে "river" এবং "city" কোন Noun?',
+              options: ['Common Noun', 'Proper Noun', 'Collective Noun', 'Material Noun'],
+              correctIndex: 0,
+              explanation: 'River ও City একজাতীয় ব্যক্তি বা স্থানের সাধারণ নাম, তাই এরা Common Noun।'
+            },
+            {
+              id: 10,
+              question: '‘Kindness’, ‘Freedom’, ‘Bravery’ — কোন Noun এর উদাহরণ?',
+              options: ['Abstract Noun', 'Material Noun', 'Proper Noun', 'Common Noun'],
+              correctIndex: 0,
+              explanation: 'যা ইন্দ্রিয় দ্বারা ধরা বা ছোঁয়া যায় না, শুধু অনুভব করা যায় তাকে Abstract Noun বলে।'
+            }
+          ];
+        } else if (ch.selfTest && ch.selfTest.length >= 5) {
+          rawQuestions = ch.selfTest.map((st, qIdx) => ({
+            id: qIdx + 1,
+            question: st.q,
+            options: st.options,
+            correctIndex: st.correct !== undefined ? st.correct : 0,
+            explanation: st.explanation
+          }));
+        } else {
+          // Content-driven Authentic 5 Board Standard Questions for this chapter
+          rawQuestions = [
             {
               id: 1,
               question: `"${cleanTitle}" অধ্যায়ের মূল প্রতিপাদ্য ও কেন্দ্রীয় বক্তব্য কোনটি?`,
@@ -1006,12 +980,37 @@ export default function QuizArenaView() {
               correctIndex: 0,
               explanation: 'লেখক বিষয়বস্তুর অন্তর্নিহিত তাৎপর্য ও গভীর জীবনবোধকে শিক্ষার্থীদের সামনে নিখুঁতভাবে তুলে ধরেছেন।'
             }
-          ]
+          ];
+        }
+
+        // Dynamically prepare 10 randomized questions with randomly shuffled options A, B, C, D!
+        const dynamic10Questions = prepareDynamicChapterQuiz(rawQuestions, cleanTitle, 10);
+
+        return {
+          chapterId: ch.id || `${subId}-ch${idx + 1}`,
+          stageNumber: idx + 1,
+          chapterNameBn: `অধ্যায় ${idx + 1}: ${cleanTitle}`,
+          chapterNameEn: `Chapter ${idx + 1}: ${cleanTitle}`,
+          pointsReward: 50,
+          questions: dynamic10Questions
         };
       });
     }
 
-    // Fallback if no specific chapters in map: generate 3-5 standard chapters for this subject
+    // Fallback if no specific chapters in map: generate 10 dynamic questions for this subject
+    const fallbackRaw = Array.from({ length: 5 }, (_, i) => ({
+      id: i + 1,
+      question: `[${subName}] প্রশ্ন ${i + 1}: এই অধ্যায়ের বোর্ড পরীক্ষার জন্য গুরুত্বপূর্ণ কনসেপ্ট ও নিয়ম কোনটি?`,
+      options: [
+        `পাঠ্যবইয়ের সূত্র ও নিয়মের সঠিক প্রয়োগ ও জ্ঞানার্জন`,
+        `শুধুমাত্র না বুঝে মুখস্থ করা`,
+        `পরীক্ষার প্রশ্ন এড়িয়ে যাওয়া`,
+        `অপ্রাসঙ্গিক তথ্য লেখা`
+      ],
+      correctIndex: 0,
+      explanation: `বোর্ডের কারিকুলাম অনুযায়ী ${subName} বিষয়ের মৌলিক সূত্র ও ধারণা গভীরভাবে বোঝা জরুরি।`
+    }));
+
     return [
       {
         chapterId: `${subId}-ch1`,
@@ -1019,25 +1018,17 @@ export default function QuizArenaView() {
         chapterNameBn: `অধ্যায় ১: ${subName} — ১ম অধ্যায় বেসিক মডেল টেস্ট`,
         chapterNameEn: `Chapter 1: ${subName} - Basic Model Test`,
         pointsReward: 50,
-        questions: Array.from({ length: 5 }, (_, i) => ({
-          id: i + 1,
-          question: `[${subName}] প্রশ্ন ${i + 1}: এই অধ্যায়ের বোর্ড পরীক্ষার জন্য গুরুত্বপূর্ণ কনসেপ্ট ও নিয়ম কোনটি?`,
-          options: [
-            `পাঠ্যবইয়ের সূত্র ও নিয়মের সঠিক প্রয়োগ ও জ্ঞানার্জন`,
-            `শুধুমাত্র না বুঝে মুখস্থ করা`,
-            `পরীক্ষার প্রশ্ন এড়িয়ে যাওয়া`,
-            `অপ্রাসঙ্গিক তথ্য লেখা`
-          ],
-          correctIndex: 0,
-          explanation: `বোর্ডের কারিকুলাম অনুযায়ী ${subName} বিষয়ের মৌলিক সূত্র ও ধারণা গভীরভাবে বোঝা জরুরি।`
-        }))
+        questions: prepareDynamicChapterQuiz(fallbackRaw, subName, 10)
       }
     ];
   };
 
-  const subjectChapters = getSubjectChapters(selectedSubjectId);
+  const subjectChapters = React.useMemo(() => {
+    return getSubjectChapters(selectedSubjectId);
+  }, [selectedSubjectId, quizSeed]);
+
   const currentChapter = subjectChapters[selectedChapterIdx] || subjectChapters[0];
-  const currentQ = currentChapter.questions[currentIndex] || currentChapter.questions[0];
+  const currentQ = currentChapter?.questions?.[currentIndex] || currentChapter?.questions?.[0];
   const currentSelectedOption = selectedAnswers[currentIndex];
   const isOptionChosenForCurrentQ = currentSelectedOption !== undefined;
 
@@ -1047,6 +1038,7 @@ export default function QuizArenaView() {
     setCurrentIndex(0);
     setSelectedAnswers({});
     setIsQuizSubmitted(false);
+    setQuizSeed(prev => prev + 1);
   };
 
   const handleChapterChange = (chapterIdx) => {
@@ -1054,6 +1046,7 @@ export default function QuizArenaView() {
     setCurrentIndex(0);
     setSelectedAnswers({});
     setIsQuizSubmitted(false);
+    setQuizSeed(prev => prev + 1);
   };
 
   const handleSelectOption = (optIdx) => {
@@ -1095,6 +1088,8 @@ export default function QuizArenaView() {
     setCurrentIndex(0);
     setSelectedAnswers({});
     setIsQuizSubmitted(false);
+    setQuizSeed(prev => prev + 1); // Trigger fresh dynamic question & option randomization!
+    showToast('🔄 কুইজের ১০টি প্রশ্ন ও অপশনগুলো নতুনভাবে র‍্যান্ডমাইজ করা হয়েছে!', 'info');
   };
 
   const handleNextChapter = () => {
