@@ -805,7 +805,6 @@ export default function CreativeQuestionsView() {
 
   const [selectedSubjectId, setSelectedSubjectId] = useState('bangla-sahitya');
   const [selectedCqIdx, setSelectedCqIdx] = useState(0);
-  const [chapterSearchQuery, setChapterSearchQuery] = useState('');
   const [revealedAnswers, setRevealedAnswers] = useState({});
   const [studentPracticeInput, setStudentPracticeInput] = useState('');
   const [selectedPracticeTag, setSelectedPracticeTag] = useState('all');
@@ -1280,14 +1279,6 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
     }
   };
 
-
-  const filteredCqList = subjectCqList
-    .map((cq, idx) => ({ ...cq, originalIdx: idx }))
-    .filter(cq => {
-      if (!chapterSearchQuery.trim()) return true;
-      return (cq.chapterNameBn || '').toLowerCase().includes(chapterSearchQuery.toLowerCase());
-    });
-
   return (
     <div className="space-y-3.5 pb-24 pt-2">
       
@@ -1325,7 +1316,6 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
               const firstSubId = matchedClass?.subjects?.[0]?.id || 'bangla-sahitya';
               setSelectedSubjectId(firstSubId);
               setSelectedCqIdx(0);
-              setChapterSearchQuery('');
               setRevealedAnswers({});
               setAiFeedback(null);
               setStudentPracticeInput('');
@@ -1366,7 +1356,6 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
             onChange={(val) => {
               setSelectedSubjectId(val);
               setSelectedCqIdx(0);
-              setChapterSearchQuery('');
               setRevealedAnswers({});
               setAiFeedback(null);
               setStudentPracticeInput('');
@@ -1382,8 +1371,8 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
           </label>
 
           <SleekCustomDropdown
-            options={filteredCqList.map((cq, idx) => ({
-              value: cq.originalIdx !== undefined ? cq.originalIdx : idx,
+            options={subjectCqList.map((cq, idx) => ({
+              value: idx,
               label: `${cq.chapterNameBn}`,
               badge: '১০ নম্বর'
             }))}
@@ -1395,26 +1384,6 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
               setStudentPracticeInput('');
             }}
           />
-
-          {/* Instant Search Input */}
-          <div className="relative pt-1">
-            <Search className="w-3 h-3 text-amber-600 absolute left-2.5 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={chapterSearchQuery}
-              onChange={(e) => setChapterSearchQuery(e.target.value)}
-              placeholder={`[${subjectsList.find(s => s.id === selectedSubjectId)?.nameBn || 'অধ্যায়'}] ফিল্টার করুন...`}
-              className="w-full bg-white border border-amber-200 rounded-xl pl-8 pr-7 py-1.5 text-[10.5px] text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-amber-500 transition-all font-medium shadow-inner"
-            />
-            {chapterSearchQuery && (
-              <button
-                onClick={() => setChapterSearchQuery('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-0.5"
-              >
-                <X className="w-3 h-3" />
-              </button>
-            )}
-          </div>
         </div>
 
       </div>
