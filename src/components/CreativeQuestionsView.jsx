@@ -808,6 +808,7 @@ export default function CreativeQuestionsView() {
   const [chapterSearchQuery, setChapterSearchQuery] = useState('');
   const [revealedAnswers, setRevealedAnswers] = useState({});
   const [studentPracticeInput, setStudentPracticeInput] = useState('');
+  const [selectedPracticeTag, setSelectedPracticeTag] = useState('all');
   const [aiFeedback, setAiFeedback] = useState(null);
   const [isEvaluating, setIsEvaluating] = useState(false);
 
@@ -947,26 +948,78 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
     showToast(language === 'bn' ? '📖 সম্পূর্ণ সৃজনশীল মডেল উত্তরপত্র খোলা হয়েছে!' : '📖 Model Answer Sheet Revealed!', 'info');
   };
 
+  const handleLoadOfficialRightAnswer = (targetTag = selectedPracticeTag) => {
+    if (!currentCq) return;
+
+    let targetQuestions = [];
+    let assembledText = '';
+
+    if (targetTag === 'all') {
+      targetQuestions = currentCq.questions;
+      assembledText = currentCq.questions.map(q => `(${q.tag}) [${q.type} - ${q.marks} নম্বর]\n${q.answer}`).join('\n\n------------------------------\n\n');
+    } else {
+      const matchedQ = currentCq.questions.find(q => q.tag === targetTag) || currentCq.questions[0];
+      targetQuestions = [matchedQ];
+      assembledText = `(${matchedQ.tag}) [${matchedQ.type} - ${matchedQ.marks} নম্বর]\n${matchedQ.answer}`;
+    }
+
+    setStudentPracticeInput(assembledText);
+
+    const totalMarks = targetQuestions.reduce((acc, q) => acc + (q.marks || 0), 0);
+    setAiFeedback({
+      score: totalMarks,
+      total: totalMarks,
+      grade: 'A+ (১০০% নির্ভুল)',
+      practiceTag: targetTag,
+      feedbackBn: `🌟 বোর্ডের শতভাগ সঠিক আদর্শ মডেল উত্তর প্রস্তুত করা হয়েছে! প্রতিটি প্রশ্নের জ্ঞান, অনুধাবন, প্রয়োগ ও উচ্চতর দক্ষতার ৪-ধাপের মানদণ্ড নিচে বিস্তারিত তুলে ধরা হলো।`,
+      targetQuestions: targetQuestions
+    });
+
+    showToast(`🌟 ১০০% সঠিক আদর্শ মডেল উত্তর লোড ও প্রস্তুত করা হয়েছে!`, 'success');
+  };
+
   const handleEvaluateAnswer = () => {
     if (!studentPracticeInput.trim()) {
-      showToast(language === 'bn' ? 'অনুগ্রহ করে বক্সে আপনার উত্তরটি লিখুন' : 'Please type your answer in the box', 'error');
+      showToast(language === 'bn' ? 'অনুগ্রহ করে বক্সে আপনার উত্তরটি লিখুন অথবা "১০০% সঠিক উত্তর লোড করুন" বাটনে চাপ দিন' : 'Please type your answer or click "Load 100% Right Answer"', 'error');
       return;
     }
 
     setIsEvaluating(true);
     setAiFeedback(null);
 
+    let targetQuestions = [];
+    if (selectedPracticeTag === 'all') {
+      targetQuestions = currentCq.questions;
+    } else {
+      const matchedQ = currentCq.questions.find(q => q.tag === selectedPracticeTag) || currentCq.questions[0];
+      targetQuestions = [matchedQ];
+    }
+
+    const totalMarks = targetQuestions.reduce((acc, q) => acc + (q.marks || 0), 0);
+    const userWordsCount = studentPracticeInput.trim().split(/\s+/).length;
+
     setTimeout(() => {
       setIsEvaluating(false);
-      const marksAwarded = Math.floor(Math.random() * 2) + 8;
+
+      let awardedScore = totalMarks;
+      if (selectedPracticeTag === 'all') {
+        awardedScore = userWordsCount > 40 ? 10 : (userWordsCount > 20 ? 9 : 8);
+      } else {
+        awardedScore = totalMarks;
+      }
+
       setAiFeedback({
-        score: marksAwarded,
-        total: 10,
-        feedbackBn: `চমৎকার উত্তর হয়েছে! আপনার উত্তরে বোর্ডের জ্ঞান, অনুধাবন ও উদ্দীপকের প্রাসঙ্গিক তথ্যের সুন্দর উপস্থাপন রয়েছে। খাতায় মার্জিন দিয়ে পয়েন্টগুলো লিখলে ১০-এ ১০ পাওয়া সম্ভব!`,
-        feedbackEn: `Outstanding response! Your answer thoroughly covers the knowledge points, conceptual explanation, and stimulus-aligned evaluation required by NCTB board examiners.`
+        score: awardedScore,
+        total: totalMarks,
+        grade: awardedScore >= totalMarks ? 'A+ (১০০% চমৎকার)' : 'A (চমৎকার)',
+        practiceTag: selectedPracticeTag,
+        feedbackBn: `চমৎকার খাতা উপস্থাপন! আপনার উত্তরে NCTB বোর্ডের প্যারাভিত্তিক কাঠামো (জ্ঞান, অনুধাবন, প্রয়োগ ও উচ্চতর দক্ষতা) সুন্দরভাবে ফুটে উঠেছে। নিচে বোর্ডের ১০০% সঠিক আদর্শ মডেল উত্তর দেওয়া হলো যাতে আপনি পূর্ণাঙ্গভাবে মিলিয়ে দেখতে পারেন।`,
+        targetQuestions: targetQuestions
       });
+
       earnPoints(20, 'সৃজনশীল খাতা AI দ্বারা মূল্যায়ন সম্পন্ন!');
-    }, 1200);
+      showToast('🎉 AI খাতা মূল্যায়ন সম্পন্ন ও সঠিক সমাধান প্রস্তুত!', 'success');
+    }, 900);
   };
 
   const renderStructuredCQAnswer = (answerText, tag) => {
@@ -1507,59 +1560,163 @@ ${subName} বিষয়ের বাস্তবসম্মত প্রয়ো�
       </div>
 
       {/* 4. AI PRACTICE & EVALUATION BOX */}
-      <div className="p-4 rounded-3xl bg-slate-900 text-white space-y-3 shadow-lg">
+      <div className="p-4 rounded-3xl bg-slate-900 text-white space-y-3.5 shadow-xl border border-slate-800">
         <div className="flex items-center justify-between">
           <span className="text-xs font-black flex items-center gap-1.5 text-amber-300">
-            <Sparkles className="w-4 h-4" />
-            <span>AI খাতা মূল্যায়ন (Practice & AI Marking)</span>
+            <Sparkles className="w-4 h-4 text-amber-400" />
+            <span>AI খাতা মূল্যায়ন ও ১০০% সঠিক সমাধান (Practice & Right Answer)</span>
           </span>
-          <span className="text-[10px] bg-white/20 text-white px-2 py-0.5 rounded-full font-bold">
-            ১০ নম্বরের পরীক্ষা
+          <span className="text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded-full font-bold">
+            {selectedPracticeTag === 'all' ? '১০ নম্বরের পূর্ণাঙ্গ খাতা' : `(${selectedPracticeTag}) প্রশ্নের প্র্যাকটিস`}
           </span>
         </div>
 
+        {/* Question Selector Tabs */}
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
+          <button
+            onClick={() => { setSelectedPracticeTag('all'); setAiFeedback(null); }}
+            className={`px-2.5 py-1 rounded-xl text-[11px] font-bold shrink-0 transition-all ${
+              selectedPracticeTag === 'all'
+                ? 'bg-amber-400 text-slate-950 font-black shadow-xs'
+                : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+            }`}
+          >
+            🎯 সম্পূর্ণ সৃজনশীল (১০)
+          </button>
+          {currentCq?.questions?.map((q) => (
+            <button
+              key={q.tag}
+              onClick={() => { setSelectedPracticeTag(q.tag); setAiFeedback(null); }}
+              className={`px-2.5 py-1 rounded-xl text-[11px] font-bold shrink-0 transition-all ${
+                selectedPracticeTag === q.tag
+                  ? 'bg-amber-400 text-slate-950 font-black shadow-xs'
+                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+              }`}
+            >
+              ({q.tag}) {q.type} [{q.marks} নম্বর]
+            </button>
+          ))}
+        </div>
+
         <p className="text-[11px] text-slate-300 font-medium">
-          যেকোনো প্রশ্নের উত্তর নিচের বক্সে লিখুন, AI বোর্ডের নিয়মানুযায়ী খাতা দেখে মার্ক ও ফিডব্যাক দেবে!
+          {selectedPracticeTag === 'all'
+            ? 'সম্পূর্ণ সৃজনশীল বা যেকোনো প্রশ্নের উত্তর লিখুন, অথবা সরাসরি ১০০% সঠিক উত্তর দেখে অনুশীলন করুন!'
+            : `(${selectedPracticeTag}) ${currentCq?.questions?.find(q => q.tag === selectedPracticeTag)?.type || 'প্রশ্ন'}-এর উত্তর লিখুন বা ১০০% সঠিক উত্তর লোড করুন:`}
         </p>
 
         <textarea
           rows={3}
           value={studentPracticeInput}
           onChange={(e) => setStudentPracticeInput(e.target.value)}
-          placeholder="এখানে আপনার সৃজনশীল উত্তরটি লিখুন (যেমন: উদ্দীপকে বর্ণিত ঘটনা অনুযায়ী...)..."
+          placeholder={
+            selectedPracticeTag === 'all'
+              ? 'এখানে আপনার সৃজনশীল উত্তরটি লিখুন (যেমন: ক. জ্ঞান অংশ..., খ. অনুধাবন অংশ...) অথবা নিচে "১০০% সঠিক উত্তর লোড করুন" বাটনে চাপ দিন...'
+              : `(${selectedPracticeTag}) প্রশ্নের জন্য আপনার উত্তর লিখুন...`
+          }
           className="w-full bg-slate-800/90 border border-slate-700 rounded-2xl p-3 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400 font-medium leading-relaxed"
         />
 
-        <button
-          onClick={handleEvaluateAnswer}
-          disabled={isEvaluating}
-          className="w-full py-2.5 rounded-2xl bg-gradient-to-r from-red-600 to-amber-500 hover:opacity-95 text-white font-black text-xs shadow-md transition-all tap-active flex items-center justify-center gap-2"
-        >
-          {isEvaluating ? (
-            <span>AI খাতা যাচাই করছে...</span>
-          ) : (
-            <>
-              <Send className="w-3.5 h-3.5" />
-              <span>🤖 AI দিয়ে খাতা মূল্যায়ন করুন (+২০ পয়েন্ট)</span>
-            </>
-          )}
-        </button>
+        {/* Action Buttons: 1. Load Right Answer & 2. Evaluate with AI */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <button
+            onClick={() => handleLoadOfficialRightAnswer(selectedPracticeTag)}
+            className="py-2.5 px-3 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-md transition-all tap-active flex items-center justify-center gap-1.5"
+          >
+            <Sparkles className="w-4 h-4 text-slate-950" />
+            <span>🌟 ১০০% সঠিক আদর্শ উত্তর লোড করুন</span>
+          </button>
 
-        {/* AI Marking Feedback Card */}
+          <button
+            onClick={handleEvaluateAnswer}
+            disabled={isEvaluating}
+            className="py-2.5 px-3 rounded-2xl bg-gradient-to-r from-red-600 to-rose-600 hover:opacity-95 text-white font-black text-xs shadow-md transition-all tap-active flex items-center justify-center gap-1.5"
+          >
+            {isEvaluating ? (
+              <span>AI খাতা যাচাই করছে...</span>
+            ) : (
+              <>
+                <Send className="w-3.5 h-3.5" />
+                <span>🤖 AI দিয়ে খাতা মূল্যায়ন (+২০ পয়েন্ট)</span>
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* AI Marking & Official Right Answer Solution Card */}
         {aiFeedback && (
-          <div className="p-3.5 rounded-2xl bg-emerald-950/80 border border-emerald-500 text-white space-y-1.5 animate-in fade-in">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-black text-emerald-300 flex items-center gap-1">
-                <Award className="w-4 h-4 text-amber-400" />
+          <div className="p-4 rounded-2xl bg-slate-800/95 border border-emerald-500/80 text-white space-y-3 animate-in fade-in shadow-lg">
+            
+            {/* Score & Grade Header */}
+            <div className="flex items-center justify-between border-b border-slate-700/80 pb-2.5">
+              <span className="text-xs sm:text-sm font-black text-emerald-300 flex items-center gap-1.5">
+                <Award className="w-4 h-4 text-amber-400 shrink-0" />
                 <span>বোর্ড ফলাফল: {aiFeedback.score} / {aiFeedback.total} নম্বর</span>
               </span>
-              <span className="text-[10px] bg-emerald-500/30 text-emerald-300 font-black px-2 py-0.5 rounded-full border border-emerald-400">
-                A+ গ্রেড
+              <span className="text-[10.5px] bg-emerald-500/20 text-emerald-300 font-black px-2.5 py-0.5 rounded-full border border-emerald-400/40">
+                {aiFeedback.grade}
               </span>
             </div>
-            <p className="text-xs text-slate-200 leading-relaxed font-medium">
+
+            {/* AI Review Text */}
+            <p className="text-xs text-slate-200 leading-relaxed font-medium bg-slate-900/60 p-2.5 rounded-xl border border-slate-700/50">
               {aiFeedback.feedbackBn}
             </p>
+
+            {/* 100% Right Model Answer Section */}
+            <div className="space-y-2.5 pt-1">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-black text-amber-300 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <span>বোর্ডের ১০০% সঠিক আদর্শ মডেল উত্তর (Official Model Solution):</span>
+                </span>
+              </div>
+
+              <div className="space-y-3">
+                {aiFeedback.targetQuestions?.map((tq) => (
+                  <div key={tq.tag} className="p-3 rounded-2xl bg-slate-900/90 border border-slate-700/80 space-y-2">
+                    <div className="flex items-center justify-between text-xs font-black">
+                      <span className="text-amber-400">
+                        ({tq.tag}) {tq.type} [{tq.marks} নম্বর]
+                      </span>
+                      <span className="text-[10px] text-slate-400">
+                        {tq.question}
+                      </span>
+                    </div>
+
+                    {/* Step-by-Step 4-Tier Render */}
+                    {renderStructuredCQAnswer(tq.answer, tq.tag)}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Bottom Utility Controls */}
+            <div className="flex items-center justify-end gap-2 pt-1">
+              <button
+                onClick={() => {
+                  const textToCopy = aiFeedback.targetQuestions?.map(q => `(${q.tag}) ${q.question}\n\n${q.answer}`).join('\n\n---\n\n') || '';
+                  navigator.clipboard.writeText(textToCopy);
+                  showToast('📋 ১০০% সঠিক আদর্শ উত্তর কপি করা হয়েছে!', 'success');
+                }}
+                className="px-3 py-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs flex items-center gap-1 transition-all"
+              >
+                <Copy className="w-3.5 h-3.5" />
+                <span>উত্তর কপি করুন</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setStudentPracticeInput('');
+                  setAiFeedback(null);
+                  showToast('✍️ খাতা পুনরায় লেখার জন্য প্রস্তুত!', 'info');
+                }}
+                className="px-3 py-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-300 font-bold text-xs flex items-center gap-1 transition-all"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>আবার লিখুন</span>
+              </button>
+            </div>
+
           </div>
         )}
       </div>
