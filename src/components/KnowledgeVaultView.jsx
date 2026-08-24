@@ -4009,7 +4009,6 @@ export default function KnowledgeVaultView() {
   const [selectedGroup, setSelectedGroup] = useState('সকল বিষয়');
   const [selectedSubjectId, setSelectedSubjectId] = useState('general-math'); // Default to General Math
   const [selectedChapterTitle, setSelectedChapterTitle] = useState('all');
-  const [chapterSearchQuery, setChapterSearchQuery] = useState('');
   
   // Real AI Audio Podcast State
   const [activePodcastNote, setActivePodcastNote] = useState(null);
@@ -5024,7 +5023,6 @@ ${lectureText}
             onChange={(val) => {
               setSelectedSubjectId(val);
               setSelectedChapterTitle('all');
-              setChapterSearchQuery('');
             }}
             options={subjectsList.map(sub => {
               const chCount = NCTB_FULL_BOOK_CHAPTERS_MAP[sub.id]?.length || 3;
@@ -5039,7 +5037,7 @@ ${lectureText}
         </div>
 
         {/* ================= 3RD LINE: CHAPTER SELECTOR (অধ্যায় নির্বাচন) ================= */}
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <SleekCustomDropdown
             label={`[${activeSelectedSub?.nameBn || 'নির্বাচিত বিষয়'}]-এর সম্পূর্ণ অধ্যায় তালিকা:`}
             icon="📚"
@@ -5054,27 +5052,6 @@ ${lectureText}
               }))
             ]}
           />
-
-          {/* Dedicated Chapter Instant Search Input */}
-          <div className="relative">
-            <Search className="w-3.5 h-3.5 text-amber-600 absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={chapterSearchQuery}
-              onChange={(e) => setChapterSearchQuery(e.target.value)}
-              placeholder={`[${activeSelectedSub?.nameBn || 'অধ্যায়'}] এর নাম লিখে খুঁজুন...`}
-              className="w-full bg-white border border-amber-200 rounded-2xl pl-9 pr-8 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-amber-500 transition-all font-medium shadow-inner"
-            />
-            {chapterSearchQuery && (
-              <button
-                onClick={() => setChapterSearchQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-0.5"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </div>
-
         </div>
 
       </div>

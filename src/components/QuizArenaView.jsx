@@ -805,7 +805,6 @@ export default function QuizArenaView() {
 
   const [selectedSubjectId, setSelectedSubjectId] = useState('bangla-sahitya');
   const [selectedChapterIdx, setSelectedChapterIdx] = useState(0);
-  const [chapterSearchQuery, setChapterSearchQuery] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [isQuizSubmitted, setIsQuizSubmitted] = useState(false);
@@ -1105,13 +1104,6 @@ export default function QuizArenaView() {
 
   const totalScore = currentChapter.questions.filter((q, idx) => selectedAnswers[idx] === q.correctIndex).length;
 
-  const filteredChapters = subjectChapters
-    .map((ch, idx) => ({ ...ch, originalIdx: idx }))
-    .filter(ch => {
-      if (!chapterSearchQuery.trim()) return true;
-      return (ch.chapterNameBn || '').toLowerCase().includes(chapterSearchQuery.toLowerCase());
-    });
-
   return (
     <div className="space-y-3.5 pb-24 pt-2">
       
@@ -1201,7 +1193,7 @@ export default function QuizArenaView() {
         </div>
 
         {/* ================= 3RD LINE: CHAPTER / STAGE SELECTOR (অধ্যায় ও ধাপ) ================= */}
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <div className="flex items-center justify-between">
             <label className="text-xs font-black text-amber-950 flex items-center gap-1.5">
               <Layers className="w-4 h-4 text-amber-700" />
@@ -1216,33 +1208,13 @@ export default function QuizArenaView() {
               onChange={(e) => handleChapterChange(parseInt(e.target.value, 10))}
               className="w-full appearance-none bg-amber-50/70 hover:bg-amber-100/70 border border-amber-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-amber-950 font-black focus:outline-none focus:border-amber-500 shadow-sm transition-all cursor-pointer"
             >
-              {filteredChapters.map((ch, idx) => (
-                <option key={ch.chapterId || idx} value={ch.originalIdx !== undefined ? ch.originalIdx : idx}>
+              {subjectChapters.map((ch, idx) => (
+                <option key={ch.chapterId || idx} value={idx}>
                   🎯 {ch.chapterNameBn} ({ch.questions.length}টি প্রশ্ন)
                 </option>
               ))}
             </select>
             <ChevronDown className="w-4 h-4 text-amber-700 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
-
-          {/* Instant Search Input */}
-          <div className="relative">
-            <Search className="w-3.5 h-3.5 text-amber-600 absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={chapterSearchQuery}
-              onChange={(e) => setChapterSearchQuery(e.target.value)}
-              placeholder={`[${subjectsList.find(s => s.id === selectedSubjectId)?.nameBn || 'অধ্যায়'}] এর নাম লিখে খুঁজুন...`}
-              className="w-full bg-white border border-amber-200 rounded-2xl pl-9 pr-8 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-amber-500 transition-all font-medium shadow-inner"
-            />
-            {chapterSearchQuery && (
-              <button
-                onClick={() => setChapterSearchQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-0.5"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
           </div>
         </div>
 

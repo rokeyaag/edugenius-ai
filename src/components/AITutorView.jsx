@@ -93,7 +93,6 @@ export default function AITutorView() {
   const [activeMode, setActiveMode] = useState(isScannerOpen ? 'scanner' : 'chat');
   const [selectedSubIdForUpload, setSelectedSubIdForUpload] = useState(subjectsList[0]?.id || 'bangla-sahitya');
   const [selectedChapterTitle, setSelectedChapterTitle] = useState('all');
-  const [chapterSearchQuery, setChapterSearchQuery] = useState('');
   const [isScanning, setIsScanning] = useState(false);
   const [scanResult, setScanResult] = useState(null);
   const [tutorPersona, setTutorPersona] = useState('socratic'); // 'socratic' | 'exam' | 'quick'

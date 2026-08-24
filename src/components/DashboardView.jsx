@@ -44,7 +44,6 @@ export default function DashboardView() {
   const subjects = currentClassObj?.subjects || [];
   const [selectedSubjectId, setSelectedSubjectId] = React.useState(subjects[0]?.id || 'bangla-sahitya');
   const [selectedChapterTitle, setSelectedChapterTitle] = React.useState('all');
-  const [chapterSearchQuery, setChapterSearchQuery] = React.useState('');
 
   const groupedSubjects = subjects.reduce((acc, sub) => {
     const grp = sub.group || 'সাধারণ';
@@ -54,10 +53,6 @@ export default function DashboardView() {
   }, {});
 
   const availableChapters = NCTB_FULL_BOOK_CHAPTERS_MAP[selectedSubjectId] || [];
-  const filteredChapters = availableChapters.filter(ch => {
-    if (!chapterSearchQuery.trim()) return true;
-    return (ch.title || '').toLowerCase().includes(chapterSearchQuery.toLowerCase());
-  });
 
   return (
     <div className="space-y-4 pb-24 pt-2">
@@ -152,7 +147,6 @@ export default function DashboardView() {
               const firstSubId = matchedClass?.subjects?.[0]?.id || 'bangla-sahitya';
               setSelectedSubjectId(firstSubId);
               setSelectedChapterTitle('all');
-              setChapterSearchQuery('');
               showToast(`🎓 ${matchedClass?.nameBn || val} সিলেক্ট করা হয়েছে`, 'info');
             }}
           />
@@ -190,7 +184,6 @@ export default function DashboardView() {
             onChange={(val) => {
               setSelectedSubjectId(val);
               setSelectedChapterTitle('all');
-              setChapterSearchQuery('');
             }}
           />
         </div>
@@ -213,26 +206,6 @@ export default function DashboardView() {
             value={selectedChapterTitle}
             onChange={(val) => setSelectedChapterTitle(val)}
           />
-
-          {/* Instant Search Input */}
-          <div className="relative pt-1">
-            <Search className="w-3 h-3 text-amber-600 absolute left-2.5 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={chapterSearchQuery}
-              onChange={(e) => setChapterSearchQuery(e.target.value)}
-              placeholder={`[${subjects.find(s => s.id === selectedSubjectId)?.nameBn || 'অধ্যায়'}] ফিল্টার করুন...`}
-              className="w-full bg-white border border-amber-200 rounded-xl pl-8 pr-7 py-1.5 text-[10.5px] text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-amber-500 transition-all font-medium shadow-inner"
-            />
-            {chapterSearchQuery && (
-              <button
-                onClick={() => setChapterSearchQuery('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-0.5"
-              >
-                <X className="w-3 h-3" />
-              </button>
-            )}
-          </div>
         </div>
 
       </div>
