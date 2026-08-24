@@ -285,64 +285,64 @@ export default function DashboardView() {
       {/* ============================================================== */}
       {/* 4. INTERACTIVE SUBJECT EXPLORER (বিষয়ভিত্তিক স্টাডি কার্ড গ্রিড) */}
       {/* ============================================================== */}
-      <div className="space-y-2.5">
+      <div className="space-y-3">
         <div className="flex items-center justify-between px-1">
           <div>
             <h4 className="text-xs font-black text-slate-900 flex items-center gap-1.5">
               <BookOpen className="w-3.5 h-3.5 text-red-600" />
-              <span>বিষয়ভিত্তিক অধ্যয়ন ও অনুশীলন (Subjects):</span>
+              <span>বিষয়ভিত্তিক অধ্যয়ন ও প্রস্তুতি (Subjects):</span>
             </h4>
-            <p className="text-[10px] text-slate-500 font-medium">যেকোনো বিষয়ে ক্লিক করে সরাসরি রিভিশন শুরু করুন</p>
+            <p className="text-[10px] text-slate-500 font-medium">যেকোনো বিষয়ে ট্যাপ করে রিভিশন ও সৃজনশীল প্র্যাকটিস শুরু করুন</p>
           </div>
           
           <button
             onClick={() => setIsAddSubjectModalOpen(true)}
-            className="text-[10px] font-black text-red-700 bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl border border-red-200 tap-active flex items-center gap-1 shrink-0 cursor-pointer"
+            className="text-[10.5px] font-black text-red-700 bg-red-50 hover:bg-red-100 px-2.5 py-1 rounded-xl border border-red-200 tap-active flex items-center gap-1 shrink-0 cursor-pointer shadow-2xs"
           >
-            <Plus className="w-3 h-3" />
+            <Plus className="w-3.5 h-3.5" />
             <span>বিষয় যোগ</span>
           </button>
         </div>
 
-        {/* Subjects Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-          {subjects.slice(0, 6).map((sub) => {
+        {/* Subjects Grid (2 columns on mobile for readable non-truncated text!) */}
+        <div className="grid grid-cols-2 gap-2.5">
+          {subjects.slice(0, 8).map((sub) => {
             const chCount = NCTB_FULL_BOOK_CHAPTERS_MAP[sub.id]?.length || (sub.id === 'bangla-sahitya' ? 50 : 3);
             
             return (
               <div
                 key={sub.id}
                 onClick={() => setActiveTab('vault')}
-                className="p-3 rounded-2xl bg-white hover:bg-amber-50/60 border border-slate-200 hover:border-amber-400 transition-all cursor-pointer shadow-2xs hover:shadow-xs space-y-2 tap-active group"
+                className="p-3.5 rounded-2xl bg-white hover:bg-amber-50/70 border border-slate-200/90 hover:border-amber-400 transition-all cursor-pointer shadow-2xs hover:shadow-xs space-y-2.5 tap-active group flex flex-col justify-between"
               >
-                <div className="flex items-start justify-between">
-                  <span className="text-2xl group-hover:scale-110 transition-transform">
+                <div className="flex items-start justify-between gap-1">
+                  <div className="w-10 h-10 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
                     {sub.icon || '📖'}
-                  </span>
-                  <span className="text-[9px] font-black text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
+                  </div>
+                  <span className="text-[9.5px] font-black text-amber-900 bg-amber-100/80 px-2 py-0.5 rounded-full border border-amber-300 shrink-0">
                     {chCount}টি অধ্যায়
                   </span>
                 </div>
 
-                <div className="space-y-0.5">
-                  <h5 className="text-xs font-black text-slate-900 truncate group-hover:text-red-700 transition-colors">
+                <div className="space-y-0.5 min-w-0">
+                  <h5 className="text-xs font-black text-slate-900 leading-snug group-hover:text-red-700 transition-colors">
                     {language === 'bn' ? sub.nameBn : sub.nameEn}
                   </h5>
-                  <p className="text-[9.5px] text-slate-500 font-medium">
+                  <p className="text-[10px] text-slate-500 font-medium">
                     {sub.group || 'আবশ্যিক বিষয়'}
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-[9.5px] text-red-600 font-bold">
+                <div className="flex items-center justify-between pt-1.5 border-t border-slate-100 text-[10px] text-red-600 font-black">
                   <span>পড়া শুরু করুন</span>
-                  <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                  <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-red-600" />
                 </div>
               </div>
             );
           })}
         </div>
 
-        {subjects.length > 6 && (
+        {subjects.length > 8 && (
           <div className="text-center pt-1">
             <button
               onClick={() => setActiveTab('vault')}
