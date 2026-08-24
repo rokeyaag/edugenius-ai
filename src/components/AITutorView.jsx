@@ -31,6 +31,7 @@ import {
   BookMarked
 } from 'lucide-react';
 import { NCTB_FULL_BOOK_CHAPTERS_MAP } from './KnowledgeVaultView';
+import SleekCustomDropdown from './SleekCustomDropdown';
 
 const PDF_PRESET_SCANS = [
   {
@@ -578,7 +579,22 @@ const CHAPTER_STORY_QA_DATABASE = [
 
         const qLower = query.toLowerCase().trim();
 
-        // 0. CHECK STORY PLOT & COMPREHENSION DATABASE FIRST (Score-based best match)
+        // 0. CHECK CREATIVE QUESTIONS (CQ) WRITING RULES & 4-TIER FORMAT
+        const isCQRuleQuery = qLower.includes('সৃজনশীল') || qLower.includes('cq') || qLower.includes('ক খ গ ঘ') || qLower.includes('লেখার নিয়ম') || qLower.includes('উত্তর কীভাবে') || qLower.includes('খাতা মূল্যায়ন');
+
+        // 0.1 CHECK GRAMMAR QUERIES (সন্ধি, সমাস, কারক, প্রত্যয়, ইত্যাদি)
+        const isSamasQuery = qLower.includes('সমাস') || qLower.includes('দ্বন্দ্ব') || qLower.includes('দ্বিগু') || qLower.includes('তৎপুরুষ') || qLower.includes('বহুব্রীহি');
+        const isSandhiQuery = qLower.includes('সন্ধি') || qLower.includes('স্বরসন্ধি') || qLower.includes('ব্যঞ্জনসন্ধি');
+        const isKarakQuery = qLower.includes('কারক') || qLower.includes('বিভক্তি') || qLower.includes('কর্তা') || qLower.includes('কর্ম');
+        const isProttoyQuery = qLower.includes('প্রত্যয়') || qLower.includes('উপসর্গ') || qLower.includes('অনুসর্গ');
+
+        // 0.2 CHECK MATH & SCIENCE QUERIES
+        const isMathFormulaQuery = qLower.includes('সূত্র') || qLower.includes('উৎপাদক') || qLower.includes('মান নির্ণয়') || qLower.includes('ডোমেন') || qLower.includes('পিথাগোরাস') || qLower.includes('ত্রিকোণমিতি');
+        const isSciencePhysicsQuery = qLower.includes('জড়তা') || qLower.includes('নিউটন') || qLower.includes('ত্বরণ') || qLower.includes('ভরবেগ') || qLower.includes('গতি');
+        const isScienceChemQuery = qLower.includes('পরমাণু') || qLower.includes('ইলেকট্রন') || qLower.includes('পর্যায় সারণি') || qLower.includes('বন্ধন') || qLower.includes('যোজ্যতা');
+        const isScienceBioQuery = qLower.includes('মাইটোকনড্রিয়া') || qLower.includes('কোষ') || qLower.includes('সালোকসংশ্লেষণ') || qLower.includes('atp') || qLower.includes('রক্ত');
+
+        // 0.3 CHECK STORY PLOT & COMPREHENSION DATABASE FIRST
         let matchedStoryQA = null;
         let highestScore = 0;
 
@@ -595,29 +611,41 @@ const CHAPTER_STORY_QA_DATABASE = [
           }
         });
 
-        // 1. SPECIFIC INTENT: BIRTH / DEATH / YEAR (জন্ম, মৃত্যু, কত সালে, কবে)
+        // 1. SPECIFIC INTENT: BIRTH / DEATH / YEAR
         const isBirthQuery = qLower.includes('jonmo') || qLower.includes('জন্ম') || qLower.includes('সাল') || qLower.includes('shaley') || qLower.includes('shale') || qLower.includes('sal') || qLower.includes('kobe') || qLower.includes('কবে') || qLower.includes('birth') || qLower.includes('মৃত্যু') || qLower.includes('death');
         
-        // 2. SPECIFIC INTENT: WHO WROTE / AUTHOR (কার লেখা, লেখক কে, রচয়িতা)
+        // 2. SPECIFIC INTENT: WHO WROTE / AUTHOR
         const isWhoWroteQuery = qLower.includes('kar lekha') || qLower.includes('কার লেখা') || qLower.includes('lekhok ke') || qLower.includes('লেখক কে') || qLower.includes('রচয়িতা কে') || qLower.includes('লেখক') || qLower.includes('রচয়িতা') || qLower.includes('কবি কে');
 
-        // 3. SPECIFIC INTENT: BOOK / SOURCE (কোন গ্রন্থ, কোথা থেকে নেওয়া, উৎস, সংকলিত)
+        // 3. SPECIFIC INTENT: BOOK / SOURCE
         const isSourceBookQuery = qLower.includes('কোন গ্রন্থ') || qLower.includes('উৎস') || qLower.includes('কোথা থেকে') || qLower.includes('গ্রন্থের নাম') || qLower.includes('বইয়ের নাম') || qLower.includes('সংকলিত') || qLower.includes('kon grontho');
 
-        // 4. SPECIFIC INTENT: WORD MEANING / DEFINITION (শব্দের অর্থ, মানে, কাকে বলে)
+        // 4. SPECIFIC INTENT: WORD MEANING / DEFINITION
         const isMeaningQuery = qLower.includes('ortho') || qLower.includes('অর্থ') || qLower.includes('মানে') || qLower.includes('meaning') || qLower.includes('কাকে বলে');
 
-        // 5. SPECIFIC INTENT: SUMMARY / THEME (সারসংক্ষেপ, মূলভাব, মূল কথা)
+        // 5. SPECIFIC INTENT: SUMMARY / THEME
         const isSummaryQuery = qLower.includes('summary') || qLower.includes('সারসংক্ষেপ') || qLower.includes('মূলভাব') || qLower.includes('মূল ভাব') || qLower.includes('বক্তব্য') || qLower.includes('মূল কথা');
 
-        // 6. SPECIFIC INTENT: QUESTIONS / CQ / MCQ (বোর্ড প্রশ্ন, সৃজনশীল, MCQ)
-        const isQuestionQuery = qLower.includes('cq') || qLower.includes('mcq') || qLower.includes('প্রশ্ন') || qLower.includes('question');
+        // 6. SPECIFIC INTENT: QUESTIONS / CQ / MCQ
+        const isQuestionQuery = qLower.includes('mcq') || qLower.includes('প্রশ্ন') || qLower.includes('question');
 
-        // 7. SPECIFIC CHARACTER ACTIONS & STORY FACTS
+        // 7. SPECIFIC CHARACTER ACTIONS
         const isLifeSaverQuery = (qLower.includes('প্রাণ') || qLower.includes('জীবন') || qLower.includes('বাঁচিয়ে') || qLower.includes('রক্ষা')) && (qLower.includes('আলী') || qLower.includes('আব্বাস') || qLower.includes('কে'));
         const isKhalifaQuery = qLower.includes('খলিফা') || qLower.includes('khalifa') || qLower.includes('মামুন');
 
-        if (matchedStoryQA) {
+        if (isCQRuleQuery) {
+          reply = `🎯 **NCTB বোর্ড স্ট্যান্ডার্ড সৃজনশীল (CQ) উত্তর লেখার নিয়মাবলী:**\n\nপ্রতিটি সৃজনশীলে মোট **১০ নম্বর** থাকে এবং ৪টি সুনির্দিষ্ট ধাপে উত্তর লিখতে হয়:\n\n📌 **(ক) জ্ঞানমূলক [১ নম্বর]:**\n• সরাসরি ১ বাক্যে তথ্য বা সঠিক সংজ্ঞা লিখবেন। কোনো ব্যাখ্যা দেওয়ার প্রয়োজন নেই।\n\n💡 **(খ) অনুধাবনমূলক [২ নম্বর] (২টি প্যারা):**\n• ১ম প্যারা (জ্ঞান): ১ বাক্যে মূল ভাব বা উত্তর।\n• ২য় প্যারা (অনুধাবন): পাঠ্যবইয়ের প্রেক্ষিতে ২-৩ বাক্যে বিশদ ব্যাখ্যা।\n\n🎯 **(গ) প্রয়োগমূলক [৩ নম্বর] (৩টি প্যারা):**\n• ১ম প্যারা (জ্ঞান): উদ্দীপকের সাথে পাঠের কোন দিকের মিল/অমিল রয়েছে তা ১ বাক্যে প্রকাশ।\n• ২য় প্যারা (অনুধাবন): পাঠ্যবইয়ের সংশ্লিষ্ট তত্ত্বের ব্যাখ্যা।\n• ৩য় প্যারা (প্রয়োগ): উদ্দীপকের চরিত্রের সাথে পাঠের তুলনামূলক বিচার।\n\n🏆 **(ঘ) উচ্চতর দক্ষতামূলক [৪ নম্বর] (৪টি প্যারা):**\n• ১ম প্যারা: চূড়ান্ত সিদ্ধান্তমূলক জ্ঞান (১ বাক্য)।\n• ২য় প্যারা: পাঠ্যবইয়ের সামগ্রিক তাৎপর্য।\n• ৩য় প্যারা: উদ্দীপকের যৌক্তিক ঘটনা পর্যালোচনা।\n• ৪র্থ প্যারা: সামগ্রিক মূল্যায়ন ও সমাপ্তি মন্তব্য।`;
+        } else if (isSamasQuery) {
+          reply = `🎯 **সমাস (Samas) সংক্রান্ত ব্যাকরণ নিয়ম:**\n\n• **সংজ্ঞা:** পরস্পর অর্থসঙ্গতিবিশিষ্ট দুই বা ততোধিক পদ এক পদে পরিণত হওয়াকে সমাস বলে।\n• **প্রধান সমাস ৬ প্রকার:**\n১. **দ্বন্দ্ব সমাস:** উভয় পদের অর্থ প্রধান (যেমন: পিতা ও মাতা = পিতামাতা)।\n২. **দ্বিগু সমাস:** সংখ্যাবাচক শব্দ পূর্বে থাকে (যেমন: তিন কালের সমাহার = ত্রিকাল)।\n৩. **তৎপুরুষ সমাস:** পূর্বপদের বিভক্তি লোপ পায় (যেমন: দুঃখকে প্রাপ্ত = দুঃখপ্রাপ্ত)।\n৪. **কর্মধারয় সমাস:** বিশেষণ ও বিশেষ্য পদ (যেমন: নীল যে পদ্ম = নীলপদ্ম)।\n৫. **বহুব্রীহি সমাস:** অন্য কোনো তৃতীয় অর্থ বোঝায় (যেমন: দশ আনন যার = দশানন)।\n৬. **অব্যয়ীভাব সমাস:** পূর্বপদের অব্যয়ের অর্থ প্রধান (যেমন: কূলের সমীপে = উপকূল)।`;
+        } else if (isSandhiQuery) {
+          reply = `🎯 **সন্ধি (Sandhi) সংক্রান্ত নিয়ম ও উদাহরণ:**\n\n• **সংজ্ঞা:** সন্নিহিত দুটি ধ্বনির মিলনকে সন্ধি বলে।\n• **প্রধান প্রকারভেদ:** ১. স্বরসন্ধি, ২. ব্যঞ্জনসন্ধি ও ৩. বিসর্গ সন্ধি।\n\n📌 **গুরুত্বপূর্ণ বোর্ড উদাহরণ:**\n• বিদ্যা + আলয় = বিদ্যালয় (অ/আ + অ/আ = আ)\n• রবি + ইন্দ্র = রবীন্দ্র (ই + ই = ঈ)\n• দিক্ + অন্ত = দিগন্ত (ক্ + অ = গ্)\n• নমঃ + কার = নমস্কার (বিসর্গ রূপান্তর)`;
+        } else if (isSciencePhysicsQuery) {
+          reply = `🎯 **পদার্থবিজ্ঞান: গতি, বল ও নিউটনের সূত্রাবলী:**\n\n• **জড়তা:** বস্তু যে অবস্থায় আছে চিরকাল সে অবস্থায় থাকতে চাওয়ার ধর্ম।\n• **নিউটনের গতিসূত্রাবলী:**\n১. ১ম সূত্র (জড়তা ও বলের সংজ্ঞা): বাহ্যিক বল প্রয়োগ না করলে স্থির বস্তু চিরকাল স্থির এবং গতিশীল বস্তু সুষম দ্রুতিতে সরলরেখায় চলতে থাকবে।\n২. ২য় সূত্র (বলের পরিমাপ): বস্তুর ভরবেগের পরিবর্তনের হার তার ওপর প্রযুক্ত বলের সমানুপাতিক (\(F = ma\))।\n৩. ৩য় সূত্র (ক্রিয়া ও প্রতিক্রিয়া): প্রত্যেক ক্রিয়ারই একটি সমান ও বিপরীত প্রতিক্রিয়া আছে (\(F₁ = -F₂\))।`;
+        } else if (isScienceChemQuery) {
+          reply = `🎯 **রসায়ন: পরমাণুর গঠন ও রাসায়নিক বন্ধন:**\n\n• **অষ্টক নিয়ম:** পরমাণুসমূহের সর্ববহিঃস্থ স্তরে ৮টি ইলেকট্রন অর্জনের প্রবণতা।\n• **আয়নীয় বন্ধন:** ধাতু ও অধাতুর মধ্যে ইলেকট্রন আদান-প্রদানের ফলে সৃষ্ট বন্ধন (যেমন: \(Na + Cl \rightarrow NaCl\))।\n• **সমযোজী বন্ধন:** দুটি অধাতু পরমাণু পরস্পরের মধ্যে ইলেকট্রন শেয়ারের মাধ্যমে যে বন্ধন গঠন করে (যেমন: \(H₂O, CH₄, CO₂\))।`;
+        } else if (isScienceBioQuery) {
+          reply = `🎯 **জীববিজ্ঞান: কোষ ও গুরুত্বপূর্ণ অঙ্গাণু:**\n\n• **মাইটোকনড্রিয়া (Powerhouse):** কোষের শ্বসন ও শক্তি উৎপাদন কেন্দ্র যেখানে ক্রেবস চক্রের মাধ্যমে সিংহভাগ ATP তৈরি হয়।\n• **ক্লোরোপ্লাস্ট:** সালোকসংশ্লেষণের মাধ্যমে সূর্যালোকের সাহায্যে শর্করা খাদ্য ও অক্সিজেন প্রস্তুতকারী প্লাস্টিড।\n• **রক্তের প্রধান ৩ কণিকা:** লোহিত রক্তকণিকা (অক্সিজেন পরিবহন), শ্বেত রক্তকণিকা (রোগ প্রতিরোধ), অনুচক্রিকা (রক্ত তঞ্চন/জমাট বাঁধা)।`;
+        } else if (matchedStoryQA) {
           reply = matchedStoryQA.answer;
         } else if (isBirthQuery && authorInfo) {
           if (authorInfo.prophetBirth && (qLower.includes('মুহম্মদ') || qLower.includes('নবী') || qLower.includes('prophet') || !qLower.includes('ওয়াজেদ'))) {
@@ -678,7 +706,7 @@ const CHAPTER_STORY_QA_DATABASE = [
             reply = `🎯 **সঠিক উত্তর: ${specificSt.options[specificSt.correct]}**\n\n📌 ব্যাখ্যা: ${specificSt.explanation}`;
           } else {
             const shortNote = chLectureNotes[0]?.detail || chSummary;
-            reply = `🎯 **উত্তর:**\n${shortNote || 'পাঠ্যবই অনুযায়ী উত্তর প্রস্তুত করা হয়েছে।'}\n\n📖 অধ্যায়: “${chTitle}”`;
+            reply = `🎯 **সঠিক উত্তর ও বিশ্লেষণ:**\n${shortNote || 'পাঠ্যবই অনুযায়ী উত্তর ও তথ্য প্রস্তুত করা হয়েছে।'}\n\n💡 অধ্যায়: “${chTitle}”\n📝 বোর্ড পরীক্ষার টিপস: জ্ঞান, অনুধাবন ও ব্যাখ্যার স্পষ্টতা বজায় রাখুন।`;
           }
         }
 
@@ -720,45 +748,38 @@ const CHAPTER_STORY_QA_DATABASE = [
     <div className="space-y-4 pb-24 pt-2">
       
       {/* 1. Class, Subject & Chapter Selector Card (Standardized 3-Tier Master Card) */}
-      <div className="p-3.5 rounded-3xl bg-white border-2 border-red-100 space-y-3 shadow-sm">
+      <div className="p-3.5 rounded-3xl bg-[#fffdf0] border-2 border-amber-200/90 space-y-3 shadow-sm">
         
         {/* ================= 1ST LINE: CLASS SELECTOR (শ্রেণি নির্বাচন) ================= */}
-        <div className="space-y-1.5 pb-2.5 border-b border-slate-100">
-          <div className="flex items-center justify-between">
-            <label className="text-xs font-black text-slate-900 flex items-center gap-1.5">
-              <GraduationCap className="w-4 h-4 text-red-600" />
-              <span>শ্রেণি নির্বাচন করুন (Class):</span>
-            </label>
-          </div>
+        <div className="space-y-1 pb-2 border-b border-amber-200/60">
+          <label className="text-[11px] font-black text-amber-950 flex items-center gap-1">
+            <GraduationCap className="w-3.5 h-3.5 text-red-600" />
+            <span>শ্রেণি নির্বাচন করুন (Class):</span>
+          </label>
 
-          <div className="relative">
-            <select
-              value={selectedClass}
-              onChange={(e) => {
-                setSelectedClass(e.target.value);
-                const matchedClass = (classes || []).find(c => c.id === e.target.value);
-                const firstSubId = matchedClass?.subjects?.[0]?.id || 'bangla-sahitya';
-                setSelectedSubIdForUpload(firstSubId);
-                setSelectedChapterTitle('all');
-                showToast(`🎓 ${matchedClass?.nameBn || e.target.value} সিলেক্ট করা হয়েছে`, 'info');
-              }}
-              className="w-full appearance-none bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
-            >
-              {(classes || []).map((cls) => (
-                <option key={cls.id} value={cls.id}>
-                  🎓 {cls.nameBn} — ({cls.subjects?.length || 0}টি বিষয়)
-                </option>
-              ))}
-            </select>
-            <ChevronDown className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
+          <SleekCustomDropdown
+            options={(classes || []).map((cls) => ({
+              value: cls.id,
+              label: `${cls.nameBn}`,
+              badge: `${cls.subjects?.length || 0}টি বিষয়`
+            }))}
+            value={selectedClass}
+            onChange={(val) => {
+              setSelectedClass(val);
+              const matchedClass = (classes || []).find(c => c.id === val);
+              const firstSubId = matchedClass?.subjects?.[0]?.id || 'bangla-sahitya';
+              setSelectedSubIdForUpload(firstSubId);
+              setSelectedChapterTitle('all');
+              showToast(`🎓 ${matchedClass?.nameBn || val} সিলেক্ট করা হয়েছে`, 'info');
+            }}
+          />
         </div>
 
         {/* ================= 2ND LINE: SUBJECT SELECTOR (বিষয় নির্বাচন) ================= */}
-        <div className="space-y-1.5 pb-2.5 border-b border-slate-100">
+        <div className="space-y-1 pb-2 border-b border-amber-200/60">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-black text-slate-900 flex items-center gap-1.5">
-              <BookOpen className="w-4 h-4 text-red-600" />
+            <label className="text-[11px] font-black text-amber-950 flex items-center gap-1">
+              <BookOpen className="w-3.5 h-3.5 text-red-600" />
               <span>বিষয় নির্বাচন করুন (Subject):</span>
             </label>
             <button
@@ -771,59 +792,48 @@ const CHAPTER_STORY_QA_DATABASE = [
             </button>
           </div>
 
-          <div className="relative">
-            <select
-              value={selectedSubIdForUpload}
-              onChange={(e) => {
-                setSelectedSubIdForUpload(e.target.value);
-                setSelectedChapterTitle('all');
-              }}
-              className="w-full appearance-none bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-slate-900 font-black focus:outline-none focus:border-red-500 shadow-sm transition-all cursor-pointer"
-            >
-              {Object.entries(groupedSubjects).map(([groupName, groupSubs]) => (
-                <optgroup key={groupName} label={`--- ${groupName} (${groupSubs.length}টি বিষয়) ---`}>
-                  {groupSubs.map((sub) => {
-                    const chCount = NCTB_FULL_BOOK_CHAPTERS_MAP[sub.id]?.length || (sub.id === 'bangla-sahitya' ? 50 : 3);
-                    return (
-                      <option key={sub.id} value={sub.id}>
-                        {sub.icon || '📖'} {language === 'bn' ? sub.nameBn : sub.nameEn} ({chCount}টি অধ্যায়)
-                      </option>
-                    );
-                  })}
-                </optgroup>
-              ))}
-            </select>
-            <ChevronDown className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
+          <SleekCustomDropdown
+            options={Object.entries(groupedSubjects).flatMap(([groupName, groupSubs]) => 
+              groupSubs.map((sub) => {
+                const chCount = NCTB_FULL_BOOK_CHAPTERS_MAP[sub.id]?.length || (sub.id === 'bangla-sahitya' ? 50 : 3);
+                return {
+                  value: sub.id,
+                  label: `${sub.icon || '📖'} ${language === 'bn' ? sub.nameBn : sub.nameEn}`,
+                  badge: `${chCount}টি অধ্যায়`
+                };
+              })
+            )}
+            value={selectedSubIdForUpload}
+            onChange={(val) => {
+              setSelectedSubIdForUpload(val);
+              setSelectedChapterTitle('all');
+            }}
+          />
         </div>
 
         {/* ================= 3RD LINE: CHAPTER SELECTOR (অধ্যায় তালিকা) ================= */}
-        <div className="space-y-1.5">
-          <div className="flex items-center justify-between">
-            <label className="text-xs font-black text-amber-950 flex items-center gap-1.5">
-              <Layers className="w-4 h-4 text-amber-700" />
-              <span>[{activeSubName}]-এর সম্পূর্ণ অধ্যায় তালিকা:</span>
-            </label>
-          </div>
+        <div className="space-y-1">
+          <label className="text-[11px] font-black text-amber-950 flex items-center gap-1">
+            <Layers className="w-3.5 h-3.5 text-amber-700" />
+            <span>[{activeSubName}]-এর সম্পূর্ণ অধ্যায় তালিকা:</span>
+          </label>
 
-          {/* Chapter Selector Dropdown */}
-          <div className="relative">
-            <select
-              value={selectedChapterTitle}
-              onChange={(e) => setSelectedChapterTitle(e.target.value)}
-              className="w-full appearance-none bg-amber-50/70 hover:bg-amber-100/70 border border-amber-300 rounded-2xl pl-3.5 pr-9 py-2.5 text-xs text-amber-950 font-black focus:outline-none focus:border-amber-500 shadow-sm transition-all cursor-pointer"
-            >
-              <option value="all">
-                🌟 [{activeSubName}] সকল {availableChapters.length}টি অধ্যায় দেখুন
-              </option>
-              {availableChapters.map((ch, idx) => (
-                <option key={ch.id || idx} value={ch.title}>
-                  📖 {ch.title}
-                </option>
-              ))}
-            </select>
-            <ChevronDown className="w-4 h-4 text-amber-700 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
+          <SleekCustomDropdown
+            options={[
+              {
+                value: 'all',
+                label: `🌟 [${activeSubName}] সকল অধ্যায় থেকে প্রশ্ন করুন`,
+                badge: `${availableChapters.length}টি অধ্যায়`
+              },
+              ...availableChapters.map((ch, idx) => ({
+                value: ch.title,
+                label: `📖 ${ch.title}`,
+                badge: ch.type || `অধ্যায় ${idx + 1}`
+              }))
+            ]}
+            value={selectedChapterTitle}
+            onChange={(val) => setSelectedChapterTitle(val)}
+          />
         </div>
 
       </div>
