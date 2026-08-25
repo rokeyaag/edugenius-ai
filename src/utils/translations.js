@@ -11,7 +11,7 @@ export const translations = {
     
     // Bottom Nav
     navHome: 'হোম',
-    navTutor: 'AI টিউটর',
+    navTutor: 'AI',
     navQuiz: 'কুইজ',
     navVault: 'নলেজ ভল্ট',
     navStore: 'স্টোর ও প্রো',
@@ -147,7 +147,7 @@ export const translations = {
 
     // Bottom Nav
     navHome: 'Home',
-    navTutor: 'AI Tutor',
+    navTutor: 'AI',
     navQuiz: 'Quizzes',
     navVault: 'Vault',
     navStore: 'Store & Pro',

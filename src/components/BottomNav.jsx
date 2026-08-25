@@ -24,7 +24,7 @@ export default function BottomNav() {
     },
     { 
       id: 'tutor', 
-      label: language === 'bn' ? 'টিউটর' : 'Tutor', 
+      label: language === 'bn' ? 'AI' : 'AI', 
       icon: Bot,
       inactiveColor: 'text-purple-500 group-hover:text-purple-600 bg-purple-50/80',
       activeGradient: 'bg-gradient-to-tr from-purple-600 to-violet-600 text-white shadow-md shadow-purple-500/30',
