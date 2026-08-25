@@ -565,19 +565,33 @@ const CHAPTER_STORY_QA_DATABASE = [
     setTimeout(() => {
       try {
         let reply = '';
-        
-        // Find selected chapter object from full knowledge base
-        const selectedChObj = availableChapters.find(c => c.title === selectedChapterTitle) || availableChapters[0];
-        const chTitle = selectedChObj?.title || activeSubName;
+        const qLower = query.toLowerCase().trim();
+
+        // 1. Resolve chapter object (either from explicit selection or auto-detecting chapter name in query)
+        let selectedChObj = null;
+        if (selectedChapterTitle !== 'all') {
+          selectedChObj = availableChapters.find(c => c.title === selectedChapterTitle) || null;
+        } else {
+          // If "all" chapters is selected, detect which chapter is mentioned in the query
+          selectedChObj = availableChapters.find(c => {
+            const cleanTitle = c.title.toLowerCase().replace(/^\d+\.\s*/, '').replace(/‘|’|'|"/g, '').trim();
+            const parts = cleanTitle.split('—');
+            const mainName = parts[0]?.trim();
+            const author = parts[1]?.trim();
+            return (mainName && mainName.length >= 2 && qLower.includes(mainName.toLowerCase())) || 
+                   (author && author.length >= 3 && qLower.includes(author.toLowerCase())) ||
+                   qLower.includes(c.title.toLowerCase());
+          }) || null;
+        }
+
+        const chTitle = selectedChObj?.title || (selectedChapterTitle !== 'all' ? selectedChapterTitle : activeSubName);
         const chSummary = selectedChObj?.summary || '';
         const chLectureNotes = selectedChObj?.lectureNotes || [];
         const chSelfTest = selectedChObj?.selfTest || [];
 
         // Find author key match
-        const matchedKey = Object.keys(NCTB_AUTHOR_KNOWLEDGE_MAP).find(k => chTitle.includes(k));
+        const matchedKey = selectedChObj ? Object.keys(NCTB_AUTHOR_KNOWLEDGE_MAP).find(k => chTitle.includes(k)) : null;
         const authorInfo = matchedKey ? NCTB_AUTHOR_KNOWLEDGE_MAP[matchedKey] : null;
-
-        const qLower = query.toLowerCase().trim();
 
         // 0. CHECK GIBBERISH / MEANINGLESS RANDOM INPUT (e.g. "dfdsgsd", "asdf", "zzzz")
         const isGibberish = (text) => {
@@ -614,18 +628,20 @@ const CHAPTER_STORY_QA_DATABASE = [
         let matchedStoryQA = null;
         let highestScore = 0;
 
-        CHAPTER_STORY_QA_DATABASE.filter(qa => chTitle.includes(qa.chapterMatch)).forEach(qa => {
-          let score = 0;
-          qa.triggers.forEach(tr => {
-            if (qLower.includes(tr.toLowerCase())) {
-              score += tr.length >= 4 ? 3 : 1.5;
+        if (selectedChObj) {
+          CHAPTER_STORY_QA_DATABASE.filter(qa => chTitle.includes(qa.chapterMatch)).forEach(qa => {
+            let score = 0;
+            qa.triggers.forEach(tr => {
+              if (qLower.includes(tr.toLowerCase())) {
+                score += tr.length >= 4 ? 3 : 1.5;
+              }
+            });
+            if (score > highestScore && score >= 3) {
+              highestScore = score;
+              matchedStoryQA = qa;
             }
           });
-          if (score > highestScore && score >= 3) {
-            highestScore = score;
-            matchedStoryQA = qa;
-          }
-        });
+        }
 
         // 1. SPECIFIC INTENT: BIRTH / DEATH / YEAR
         const isBirthQuery = qLower.includes('jonmo') || qLower.includes('জন্ম') || qLower.includes('সাল') || qLower.includes('shaley') || qLower.includes('shale') || qLower.includes('sal') || qLower.includes('kobe') || qLower.includes('কবে') || qLower.includes('birth') || qLower.includes('মৃত্যু') || qLower.includes('death');
@@ -650,9 +666,9 @@ const CHAPTER_STORY_QA_DATABASE = [
         const isKhalifaQuery = qLower.includes('খলিফা') || qLower.includes('khalifa') || qLower.includes('মামুন');
 
         if (isGibberish(query)) {
-          reply = `🤔 দুঃখিত, আপনার বার্তাটি ("${query}") অর্থপূর্ণ কোনো প্রশ্ন হিসেবে শনাক্ত করা যায়নি।\n\n💡 **আপনি নিচের বিষয়গুলো নিয়ে আমাকে প্রশ্ন করতে পারেন:**\n• “${chTitle}”-এর সারসংক্ষেপ বা মূলভাব কী?\n• অধ্যায়ের লেখক কে এবং উৎস গ্রন্থ কী?\n• গুরুত্বপূর্ণ শব্দের অর্থ ও ব্যাকরণ ব্যাখ্যা\n• সৃজনশীল (ক, খ, গ, ঘ) লেখার নিয়মাবলী\n• বোর্ড পরীক্ষার গুরুত্বপূর্ণ প্রশ্নোত্তর`;
+          reply = `🤔 দুঃখিত, আপনার বার্তাটি ("${query}") অর্থপূর্ণ কোনো প্রশ্ন হিসেবে শনাক্ত করা যায়নি।\n\n💡 **আপনি নিচের বিষয়গুলো নিয়ে আমাকে প্রশ্ন করতে পারেন:**\n• অধ্যায়ের সারসংক্ষেপ বা মূলভাব কী?\n• অধ্যায়ের লেখক কে এবং উৎস গ্রন্থ কী?\n• গুরুত্বপূর্ণ শব্দের অর্থ ও ব্যাকরণ ব্যাখ্যা\n• সৃজনশীল (ক, খ, গ, ঘ) লেখার নিয়মাবলী\n• বোর্ড পরীক্ষার গুরুত্বপূর্ণ প্রশ্নোত্তর`;
         } else if (isGreeting) {
-          reply = `👋 **আসসালামু আলাইকুম!** আমি আপনার NCTB এআই পড়ার সাথী (AI Tutor)।\n\nবর্তমানে সিলেক্ট করা অধ্যায়: **“${chTitle}”**।\n\nআপনি আমাকে পাঠ্যবইয়ের সারসংক্ষেপ, শব্দার্থ, লেখক পরিচিতি, ব্যাকরণ বা সৃজনশীল লেখার নিয়ম নিয়ে যেকোনো প্রশ্ন করতে পারেন!`;
+          reply = `👋 **আসসালামু আলাইকুম!** আমি আপনার NCTB এআই পড়ার সাথী (AI Tutor)।\n\n${selectedChObj ? `বর্তমানে সিলেক্ট করা অধ্যায়: **“${chTitle}”**।\n\n` : `` }আপনি আমাকে পাঠ্যবইয়ের সারসংক্ষেপ, শব্দার্থ, লেখক পরিচিতি, ব্যাকরণ বা সৃজনশীল লেখার নিয়ম নিয়ে যেকোনো প্রশ্ন করতে পারেন!`;
         } else if (isCQRuleQuery) {
           reply = `🎯 **NCTB বোর্ড স্ট্যান্ডার্ড সৃজনশীল (CQ) উত্তর লেখার নিয়মাবলী:**\n\nপ্রতিটি সৃজনশীলে মোট **১০ নম্বর** থাকে এবং ৪টি সুনির্দিষ্ট ধাপে উত্তর লিখতে হয়:\n\n📌 **(ক) জ্ঞানমূলক [১ নম্বর]:**\n• সরাসরি ১ বাক্যে তথ্য বা সঠিক সংজ্ঞা লিখবেন। কোনো ব্যাখ্যা দেওয়ার প্রয়োজন নেই।\n\n💡 **(খ) অনুধাবনমূলক [২ নম্বর] (২টি প্যারা):**\n• ১ম প্যারা (জ্ঞান): ১ বাক্যে মূল ভাব বা উত্তর।\n• ২য় প্যারা (অনুধাবন): পাঠ্যবইয়ের প্রেক্ষিতে ২-৩ বাক্যে বিশদ ব্যাখ্যা।\n\n🎯 **(গ) প্রয়োগমূলক [৩ নম্বর] (৩টি প্যারা):**\n• ১ম প্যারা (জ্ঞান): উদ্দীপকের সাথে পাঠের কোন দিকের মিল/অমিল রয়েছে তা ১ বাক্যে প্রকাশ।\n• ২য় প্যারা (অনুধাবন): পাঠ্যবইয়ের সংশ্লিষ্ট তত্ত্বের ব্যাখ্যা।\n• ৩য় প্যারা (প্রয়োগ): উদ্দীপকের চরিত্রের সাথে পাঠের তুলনামূলক বিচার।\n\n🏆 **(ঘ) উচ্চতর দক্ষতামূলক [৪ নম্বর] (৪টি প্যারা):**\n• ১ম প্যারা: চূড়ান্ত সিদ্ধান্তমূলক জ্ঞান (১ বাক্য)।\n• ২য় প্যারা: পাঠ্যবইয়ের সামগ্রিক তাৎপর্য।\n• ৩য় প্যারা: উদ্দীপকের যৌক্তিক ঘটনা পর্যালোচনা।\n• ৪র্থ প্যারা: সামগ্রিক মূল্যায়ন ও সমাপ্তি মন্তব্য।`;
         } else if (isSamasQuery) {
@@ -665,6 +681,8 @@ const CHAPTER_STORY_QA_DATABASE = [
           reply = `🎯 **রসায়ন: পরমাণুর গঠন ও রাসায়নিক বন্ধন:**\n\n• **অষ্টক নিয়ম:** পরমাণুসমূহের সর্ববহিঃস্থ স্তরে ৮টি ইলেকট্রন অর্জনের প্রবণতা।\n• **আয়নীয় বন্ধন:** ধাতু ও অধাতুর মধ্যে ইলেকট্রন আদান-প্রদানের ফলে সৃষ্ট বন্ধন (যেমন: Na + Cl -> NaCl)।\n• **সমযোজী বন্ধন:** দুটি অধাতু পরমাণু পরস্পরের মধ্যে ইলেকট্রন শেয়ারের মাধ্যমে যে বন্ধন গঠন করে (যেমন: H₂O, CH₄, CO₂)।`;
         } else if (isScienceBioQuery) {
           reply = `🎯 **জীববিজ্ঞান: কোষ ও গুরুত্বপূর্ণ অঙ্গাণু:**\n\n• **মাইটোকনড্রিয়া (Powerhouse):** কোষের শ্বসন ও শক্তি উৎপাদন কেন্দ্র যেখানে ক্রেবস চক্রের মাধ্যমে সিংহভাগ ATP তৈরি হয়।\n• **ক্লোরোপ্লাস্ট:** সালোকসংশ্লেষণের মাধ্যমে সূর্যালোকের সাহায্যে শর্করা খাদ্য ও অক্সিজেন প্রস্তুতকারী প্লাস্টিড।\n• **রক্তের প্রধান ৩ কণিকা:** লোহিত রক্তকণিকা (অক্সিজেন পরিবহন), শ্বেত রক্তকণিকা (রোগ প্রতিরোধ), অনুচক্রিকা (রক্ত তঞ্চন/জমাট বাঁধা)।`;
+        } else if (!selectedChObj && (isMeaningQuery || isBirthQuery || isWhoWroteQuery || isSourceBookQuery || isSummaryQuery || isQuestionQuery || isLifeSaverQuery || isKhalifaQuery)) {
+          reply = `⚠️ **অনুগ্রহ করে প্রথমে একটি নির্দিষ্ট অধ্যায় নির্বাচন করুন!**\n\nআপনি বর্তমানে কোনো নির্দিষ্ট অধ্যায় সিলেক্ট করেননি (সকল অধ্যায় অপশনে রয়েছে)।\n\n💡 **সমাধান:**\n১. উপরের **অধ্যায় তালিকা** ড্রপডাউন থেকে যে অধ্যায়টি পড়তে চান সেটি বেছে নিন (যেমন: “১. প্রত্যুপকার”, “২. শুভা”, “নিমগাছ” ইত্যাদি)।\n২. অথবা আপনার প্রশ্নের মধ্যে অধ্যায়ের নাম উল্লেখ করুন (যেমন: *“শুভা গল্পের মূলভাব কী?”* বা *“কাকতাড়ুয়া কার লেখা?”*)।`;
         } else if (matchedStoryQA) {
           reply = matchedStoryQA.answer;
         } else if (isBirthQuery && authorInfo) {
@@ -684,8 +702,10 @@ const CHAPTER_STORY_QA_DATABASE = [
             reply = `🎯 **উৎস গ্রন্থ: ‘মরুভাস্কর’**\n\n📌 মোহাম্মদ ওয়াজেদ আলীর বিখ্যাত গ্রন্থ ‘মরুভাস্কর’ থেকে ‘মানুষ মুহম্মদ (স.)’ প্রবন্ধটি সংকলিত।`;
           } else if (chTitle.includes('শুভা')) {
             reply = `🎯 **উৎস গ্রন্থ: ‘গল্পগুচ্ছ’**\n\n📌 রবীন্দ্রনাথ ঠাকুরের বিখ্যাত ‘গল্পগুচ্ছ’ থেকে ‘শুভা’ গল্পটি সংকলিত।`;
-          } else {
+          } else if (selectedChObj) {
             reply = `🎯 **উৎস:**\n“${chTitle}” পাঠ্যবইয়ের মূল সংকলন থেকে গৃহীত।`;
+          } else {
+            reply = `⚠️ অনুগ্রহ করে উপরের ড্রপডাউন থেকে অধ্যায় নির্বাচন করুন অথবা প্রশ্নের সাথে অধ্যায়ের নাম লিখুন।`;
           }
         } else if (isMeaningQuery) {
           if (chTitle.includes('প্রত্যুপকার')) {
@@ -694,22 +714,24 @@ const CHAPTER_STORY_QA_DATABASE = [
             reply = `🎯 **‘নিমগাছ’ গল্পের মূল অর্থ:** পরিবারে নিঃস্বার্থভাবে সেবা দিয়ে যাওয়া গৃহকর্মনিপুণা লক্ষ্মীবউয়ের নীরব ত্যাগের রূপক।`;
           } else if (chTitle.includes('শিক্ষা ও মনুষ্যত্ব')) {
             reply = `🎯 **‘মনুষ্যত্ব’ শব্দের অর্থ:** প্রকৃত মানবীয় মূল্যবোধ ও আত্মার মুক্তি।`;
-          } else {
+          } else if (selectedChObj) {
             const meaningNote = chSelfTest.find(st => st.q.includes('অর্থ')) || chLectureNotes[0];
             reply = `🎯 **অর্থ ও তাৎপর্য:**\n${meaningNote ? (meaningNote.options ? meaningNote.options[meaningNote.correct] : meaningNote.detail) : chSummary}`;
+          } else {
+            reply = `⚠️ অনুগ্রহ করে উপরের ড্রপডাউন থেকে অধ্যায় নির্বাচন করুন অথবা প্রশ্নের সাথে অধ্যায়ের নাম লিখুন।`;
           }
         } else if (isWhoWroteQuery && authorInfo) {
           reply = `🎯 **সঠিক উত্তর: ${authorInfo.author}**\n\n📖 অধ্যায়: “${chTitle}”`;
-        } else if (isSummaryQuery) {
+        } else if (isSummaryQuery && selectedChObj) {
           reply = `📚 **“${chTitle}” সারসংক্ষেপ:**\n${chSummary}\n\n💡 মূল শিক্ষা: ${chLectureNotes[0]?.detail || 'পাঠ্যবইয়ের মূল ভাববস্তু নিয়মিত চর্চা করো।'}`;
-        } else if (isQuestionQuery) {
+        } else if (isQuestionQuery && selectedChObj) {
           if (chSelfTest.length > 0) {
             const qList = chSelfTest.slice(0, 2).map((st, i) => `${i + 1}. ${st.q}\n✓ **${st.options[st.correct]}** (${st.explanation})`).join('\n\n');
             reply = `🎯 **গুরুত্বপূর্ণ বোর্ড প্রশ্নোত্তর:**\n\n${qList}`;
           } else {
             reply = `🎯 **বোর্ড প্রশ্নোত্তর:**\n১. জ্ঞানমূলক: অধ্যায়ের মূল সংজ্ঞা ও লেখকের নাম মুখস্থ করো।\n২. অনুধাবন: মূল ভাববস্তুর আলোকে সংক্ষেপে ২ প্যারায় উত্তর লেখো।`;
           }
-        } else {
+        } else if (selectedChObj) {
           let specificSt = null;
           const stopWords = ['কার', 'কে', 'কী', 'কি', 'কোন', 'কত', 'সালে', 'নাম', 'বলতে', 'হলো', 'পিতা', 'পিতার', 'মাতা', 'মাতার', 'বাবা', 'মা', 'ঈশ্বরচন্দ্র', 'বিদ্যাসাগর', 'রবীন্দ্রনাথ', 'নজরুল', 'শরৎচন্দ্র', 'বঙ্কিমচন্দ্র', 'মুহম্মদ', 'প্রত্যুপকার', 'শুভা', 'নিমগাছ'];
           
@@ -735,6 +757,9 @@ const CHAPTER_STORY_QA_DATABASE = [
           } else {
             reply = `🤔 দুঃখিত, আপনার প্রশ্নটি (“${query}”) স্পষ্ট নয় অথবা বর্তমান সিলেক্ট করা অধ্যায় **“${chTitle}”**-এর তথ্যের সাথে সরাসরি মেলেনি।\n\n💡 **আপনি এই অধ্যায় সম্পর্কিত নিচের যেকোনো তথ্য জানতে পারেন:**\n• অধ্যায়ের মূলভাব বা সারসংক্ষেপ কী?\n• রচয়িতা বা লেখকের পরিচিতি ও উৎস\n• গুরুত্বপূর্ণ বোর্ড প্রশ্নোত্তর\n• সৃজনশীল প্রশ্নের উত্তর লেখার কাঠামো`;
           }
+        } else {
+          // When NO chapter is selected and question is generic / unmatched
+          reply = `⚠️ **অনুগ্রহ করে প্রথমে একটি নির্দিষ্ট অধ্যায় নির্বাচন করুন!**\n\nবর্তমানে কোনো নির্দিষ্ট অধ্যায় সিলেক্ট করা নেই (সকল অধ্যায় অপশনে রয়েছে)।\n\n💡 **কীভাবে করবেন:**\n• উপরের **অধ্যায় তালিকা** ড্রপডাউন থেকে আপনার কাঙ্ক্ষিত অধ্যায়টি বেছে নিন (যেমন: “১. প্রত্যুপকার”, “২. শুভা”, “নিমগাছ” ইত্যাদি)।\n• অথবা প্রশ্নে অধ্যায়ের নাম উল্লেখ করে লিখুন (যেমন: *“শুভা গল্পের মূলভাব কী?”* বা *“কাকতাড়ুয়ার বুধা কে?”*)।`;
         }
 
         setChatMessages(prev => [
@@ -764,7 +789,7 @@ const CHAPTER_STORY_QA_DATABASE = [
     }, 150);
   };
 
-    const handleCopyMessage = (msgId, text) => {
+      const handleCopyMessage = (msgId, text) => {
     navigator.clipboard?.writeText(text);
     setCopiedMsgId(msgId);
     showToast('📋 উত্তর কপি করা হয়েছে!', 'success');
