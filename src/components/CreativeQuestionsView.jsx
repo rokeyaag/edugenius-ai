@@ -22,7 +22,8 @@ import {
   Camera,
   Copy,
   RotateCcw,
-  Check
+  Check,
+  AlertTriangle
 } from 'lucide-react';
 import { NCTB_FULL_BOOK_CHAPTERS_MAP } from './KnowledgeVaultView';
 import SleekCustomDropdown from './SleekCustomDropdown';
@@ -1005,68 +1006,148 @@ export default function CreativeQuestionsView() {
 
     const totalMarks = targetQuestions.reduce((acc, q) => acc + (q.marks || 0), 0);
     const userWordsCount = studentPracticeInput.trim().split(/\s+/).length;
-    const userTextLower = studentPracticeInput.toLowerCase();
+    const userTextLower = studentPracticeInput.toLowerCase().trim();
+
+    // Extract significant keywords from stimulus and model answers
+    const stopWords = new Set([
+      'এবং', 'বা', 'ও', 'অথবা', 'কিন্তু', 'যদি', 'তবে', 'কী', 'কে', 'কাকে', 'কার', 'কেন',
+      'কখন', 'কোথায়', 'কয়টি', 'কীভাবে', 'হলে', 'হলো', 'হয়েছে', 'করা', 'করে', 'বলতে', 'বোঝায়',
+      'ব্যাখ্যা', 'করো', 'বিশ্লেষণ', 'মূল্যায়ন', 'নির্দেশ', 'প্যারা', 'নম্বর', 'ধাপ', 'অংশ',
+      'উক্তিটি', 'উদ্দীপক', 'উদ্দীপকের', 'পাঠ্যবই', 'পাঠ্যবইয়ের', 'অধ্যায়', 'প্রশ্ন', 'উত্তর',
+      'the', 'is', 'a', 'an', 'and', 'or', 'of', 'to', 'in', 'for', 'with', 'on', 'at'
+    ]);
+
+    const extractKeywords = (text) => {
+      if (!text) return [];
+      return text
+        .toLowerCase()
+        .replace(/[^\u0980-\u09FFa-zA-Z0-9\s]/g, ' ')
+        .split(/\s+/)
+        .filter(w => w.length >= 2 && !stopWords.has(w));
+    };
+
+    const stimulusKeywords = extractKeywords(currentCq.stimulus);
+    const allAnswerKeywords = targetQuestions.flatMap(q => extractKeywords(`${q.question} ${q.answer}`));
+    const topicKeywords = Array.from(new Set([...stimulusKeywords, ...allAnswerKeywords]));
+
+    const userKeywords = userTextLower
+      .replace(/[^\u0980-\u09FFa-zA-Z0-9\s]/g, ' ')
+      .split(/\s+/)
+      .filter(w => w.length >= 2 && !stopWords.has(w));
+
+    // Check matching keywords
+    const matchedCount = userKeywords.filter(uw => 
+      topicKeywords.some(tk => uw.includes(tk) || tk.includes(uw))
+    ).length;
+
+    // Strict detection for gibberish / wrong / irrelevant text (e.g. "rafid", "123", random words with 0 match)
+    const isGibberishOrWrong = (userWordsCount < 4 && matchedCount === 0) || 
+      (matchedCount === 0 && userWordsCount < 10) || 
+      (userKeywords.length > 0 && matchedCount === 0);
 
     setTimeout(() => {
       setIsEvaluating(false);
 
+      if (isGibberishOrWrong) {
+        // Strict Fail: 0 Marks
+        const rubrics = targetQuestions.map(q => ({
+          tag: q.tag,
+          type: q.type,
+          maxMarks: q.marks,
+          awardedMarks: 0,
+          rubricStatus: '০ নম্বর (ভুল বা অপ্রাসঙ্গিক)',
+          rubricNote: 'প্রশ্নের মূল ভাববস্তু ও সঠিক উত্তরের সাথে কোনো মিল পাওয়া যায়নি।'
+        }));
+
+        setAiFeedback({
+          score: 0,
+          total: totalMarks,
+          grade: 'F (অপ্রাসঙ্গিক বা ভুল উত্তর)',
+          isFail: true,
+          practiceTag: selectedPracticeTag,
+          feedbackBn: `❌ আপনার প্রদানকৃত উত্তরটি প্রশ্নের বিষয়ের সাথে একেবারেই অপ্রাসঙ্গিক বা ভুল। সৃজনশীল প্রশ্নের জ্ঞান, অনুধাবন, প্রয়োগ ও উচ্চতর দক্ষতার নিয়ম মেনে পাঠ্যবই অনুযায়ী উত্তর লিখুন অথবা নিচের বাটনে চাপ দিয়ে ১০০% সঠিক আদর্শ উত্তর দেখে নিন।`,
+          rubrics: rubrics,
+          examinerTip: `প্রধান পরীক্ষকের সতর্কতা: পরীক্ষায় অপ্রাসঙ্গিক বা মনগড়া লেখা লিখলে শূন্য (০) দেওয়া হয়। পাঠ্যবই ও উদ্দীপক সঠিকভাবে পড়ে উত্তর লিখুন।`,
+          targetQuestions: targetQuestions
+        });
+
+        showToast('❌ অপ্রাসঙ্গিক বা ভুল উত্তর শনাক্ত হয়েছে! (প্রাপ্ত নম্বর: ০)', 'error');
+        return;
+      }
+
+      // Legitimate answer evaluation
       let awardedScore = 0;
       const rubrics = [];
 
       targetQuestions.forEach(q => {
-        let qScore = q.marks;
+        let qScore = 0;
         let note = '';
-        let status = 'উৎসর্গীকৃত ও সঠিক';
+        let status = '';
+
+        const qKeywords = extractKeywords(`${q.question} ${q.answer}`);
+        const qMatched = userKeywords.filter(uw => qKeywords.some(qk => uw.includes(qk) || qk.includes(uw))).length;
 
         if (q.tag === 'ক' || q.marks === 1) {
-          if (userWordsCount < 3) {
-            qScore = 0.5;
-            note = 'জ্ঞানমূলক উত্তর আরও স্পষ্ট ও পূর্ণাঙ্গ বাক্যে লিখুন।';
-            status = 'আংশিক';
-          } else {
+          if (qMatched >= 1 || userWordsCount >= 3) {
             qScore = 1;
-            note = '১ বাক্যে সরাসরি তথ্য/সংজ্ঞার উপস্থিতি সঠিক।';
             status = 'পূর্ণ নম্বর (১/১)';
+            note = '১ বাক্যে সরাসরি তথ্য/সংজ্ঞার উপস্থিতি সঠিক।';
+          } else {
+            qScore = 0.5;
+            status = 'আংশিক (০.৫/১)';
+            note = 'জ্ঞানমূলক উত্তরটি আরও সুস্পষ্ট বাক্যে লেখা প্রয়োজন।';
           }
         } else if (q.tag === 'খ' || q.marks === 2) {
-          if (userWordsCount < 8) {
-            qScore = 1;
-            note = 'অনুধাবন অংশের ব্যাখ্যা আরও বিস্তারিত হওয়া প্রয়োজন।';
-            status = 'আংশিক (১/২)';
-          } else {
+          if (qMatched >= 2 && userWordsCount >= 10) {
             qScore = 2;
-            note = 'জ্ঞান মূল উত্তর ও পাঠ্যবইয়ের অনুধাবনমূলক ব্যাখ্যা চমৎকার।';
             status = 'পূর্ণ নম্বর (২/২)';
+            note = 'জ্ঞান মূল উত্তর ও পাঠ্যবইয়ের অনুধাবনমূলক ব্যাখ্যা চমৎকার।';
+          } else if (qMatched >= 1 || userWordsCount >= 5) {
+            qScore = 1;
+            status = 'আংশিক (১/২)';
+            note = 'অনুধাবন অংশের ব্যাখ্যা আরও বিস্তারিত হওয়া প্রয়োজন।';
+          } else {
+            qScore = 0.5;
+            status = 'খুব দুর্বল (০.৫/২)';
+            note = 'অনুধাবনের মূল বক্তব্য স্পষ্ট নয়।';
           }
         } else if (q.tag === 'গ' || q.marks === 3) {
           const hasStimulusMention = userTextLower.includes('উদ্দীপক') || userTextLower.includes('চরিত্র') || userTextLower.includes('সাদৃশ্য') || userTextLower.includes('তুলনা');
-          if (userWordsCount < 18) {
-            qScore = 2;
-            note = 'উদ্দীপকের সাথে প্রায়োগিক মিল/অমিলের বিশ্লেষণ যোগ করুন।';
-            status = 'আংশিক (২/৩)';
-          } else if (!hasStimulusMention && userWordsCount < 30) {
-            qScore = 2.5;
-            note = 'উদ্দীপকের সরাসরি রেফারেন্স ও পাঠ্যবইয়ের সমন্বয় আরও বৃদ্ধি করুন।';
-            status = 'খুব ভালো (২.৫/৩)';
-          } else {
+          if (qMatched >= 3 && hasStimulusMention && userWordsCount >= 25) {
             qScore = 3;
-            note = 'জ্ঞান, অনুধাবন ও উদ্দীপকের প্রায়োগিক ৩টি ধাপ সুন্দরভাবে সম্পন্ন।';
             status = 'পূর্ণ নম্বর (৩/৩)';
+            note = 'জ্ঞান, অনুধাবন ও উদ্দীপকের প্রায়োগিক ৩টি ধাপ সুন্দরভাবে সম্পন্ন।';
+          } else if (qMatched >= 2 || (hasStimulusMention && userWordsCount >= 15)) {
+            qScore = 2;
+            status = 'ভালো (২/৩)';
+            note = 'উদ্দীপক ও পাঠ্যবইয়ের মেলবন্ধন আরও বিশদ করুন।';
+          } else if (qMatched >= 1 || userWordsCount >= 8) {
+            qScore = 1;
+            status = 'আংশিক (১/৩)';
+            note = 'উদ্দীপকের সাথে প্রায়োগিক মিল/অমিলের বিশ্লেষণ যোগ করুন।';
+          } else {
+            qScore = 0.5;
+            status = 'দুর্বল (০.৫/৩)';
+            note = 'প্রয়োগের ধাপগুলো অসম্পূর্ণ।';
           }
         } else if (q.tag === 'ঘ' || q.marks === 4) {
-          const hasConclusion = userTextLower.includes('যৌক্তিক') || userTextLower.includes('সিদ্ধান্ত') || userTextLower.includes('বলা যায়') || userTextLower.includes('পরিশেষে') || userTextLower.includes('অতএব');
-          if (userWordsCount < 25) {
-            qScore = 2.5;
-            note = 'উচ্চতর দক্ষতার জন্য সামগ্রিক মূল্যায়ন ও সমাপ্তি প্যারাটি বড় করুন।';
-            status = 'আংশিক (২.৫/৪)';
-          } else if (!hasConclusion) {
-            qScore = 3.5;
-            note = '৪র্থ ধাপে চূড়ান্ত বিচার-বিশ্লেষণ ও যৌক্তিক মতামত স্পষ্ট করুন।';
-            status = 'খুব ভালো (৩.৫/৪)';
-          } else {
+          const hasConclusion = userTextLower.includes('যৌক্তিক') || userTextLower.includes('সিদ্ধান্ত') || userTextLower.includes('বলা যায়') || userTextLower.includes('পরিশেষে') || userTextLower.includes('অতএব') || userTextLower.includes('বাস্তবসম্মত');
+          if (qMatched >= 4 && hasConclusion && userWordsCount >= 35) {
             qScore = 4;
-            note = 'জ্ঞান, পাঠের সারমর্ম, উদ্দীপক বিশ্লেষণ ও চূড়ান্ত যৌক্তিক সিদ্ধান্ত নিখুঁত।';
             status = 'পূর্ণ নম্বর (৪/৪)';
+            note = 'জ্ঞান, পাঠের সারমর্ম, উদ্দীপক বিশ্লেষণ ও চূড়ান্ত যৌক্তিক সিদ্ধান্ত নিখুঁত।';
+          } else if (qMatched >= 2 && userWordsCount >= 20) {
+            qScore = 2.5;
+            status = 'মাঝারি (২.৫/৪)';
+            note = '৪র্থ ধাপে চূড়ান্ত বিচার-বিশ্লেষণ ও যৌক্তিক মতামত স্পষ্ট করুন।';
+          } else if (qMatched >= 1 || userWordsCount >= 10) {
+            qScore = 1.5;
+            status = 'আংশিক (১.৫/৪)';
+            note = 'উচ্চতর দক্ষতার জন্য সামগ্রিক মূল্যায়ন ও সমাপ্তি প্যারাটি বড় করুন।';
+          } else {
+            qScore = 1;
+            status = 'দুর্বল (১/৪)';
+            note = 'উচ্চতর দক্ষতার ধাপগুলো যথাযথভাবে আসেনি।';
           }
         }
 
@@ -1081,24 +1162,24 @@ export default function CreativeQuestionsView() {
         });
       });
 
-      // Total awarded rounded
-      const finalScore = Math.min(totalMarks, Math.max(1, Math.round(awardedScore * 10) / 10));
+      const finalScore = Math.min(totalMarks, Math.max(0, Math.round(awardedScore * 10) / 10));
       const percentage = (finalScore / totalMarks) * 100;
-      const grade = percentage >= 90 ? 'A+ (অসাধারণ ও নির্ভুল)' : percentage >= 80 ? 'A (চমৎকার)' : percentage >= 70 ? 'A- (ভালো)' : 'B (উন্নতির সুযোগ রয়েছে)';
+      const grade = percentage >= 90 ? 'A+ (অসাধারণ ও নির্ভুল)' : percentage >= 80 ? 'A (চমৎকার)' : percentage >= 70 ? 'A- (ভালো)' : percentage >= 50 ? 'B (উন্নতির সুযোগ রয়েছে)' : 'C (অসম্পূর্ণ উত্তর)';
 
       setAiFeedback({
         score: finalScore,
         total: totalMarks,
         grade: grade,
+        isFail: false,
         practiceTag: selectedPracticeTag,
-        feedbackBn: `আপনার সৃজনশীল খাতা NCTB বোর্ড মূল্যায়নের ৪-ধাপের মানদণ্ডে পুঙ্খানুপুঙ্খভাবে যাচাই করা হয়েছে। খাতার কাঠামো ও প্রাসঙ্গিকতা সুন্দরভাবে ফুটে উঠেছে। নিচে বিস্তারিত রুব্রিক্স মার্কস ও ১০০% সঠিক মডেল উত্তর দেওয়া হলো।`,
+        feedbackBn: `আপনার সৃজনশীল খাতা NCTB বোর্ড মূল্যায়নের ৪-ধাপের মানদণ্ডে পুঙ্খানুপুঙ্খভাবে যাচাই করা হয়েছে। নিচে বিস্তারিত রুব্রিক্স মার্কস ও ১০০% সঠিক মডেল উত্তর দেওয়া হলো।`,
         rubrics: rubrics,
         examinerTip: `প্রধান পরীক্ষকের টিপস: বোর্ড পরীক্ষায় প্রতি প্রশ্নের প্যারাগ্রাফ পরিষ্কার রাখতে ক (১ প্যারা), খ (২ প্যারা), গ (৩ প্যারা) এবং ঘ (৪ প্যারা) বিন্যাস বজায় রাখুন।`,
         targetQuestions: targetQuestions
       });
 
-      earnPoints(20, 'সৃজনশীল খাতা AI দ্বারা মূল্যায়ন সম্পন্ন!');
-      showToast('🎉 AI খাতা মূল্যায়ন সম্পন্ন ও সঠিক সমাধান প্রস্তুত!', 'success');
+      earnPoints(finalScore >= 5 ? 20 : 5, 'সৃজনশীল খাতা AI দ্বারা মূল্যায়ন সম্পন্ন!');
+      showToast('🎉 AI খাতা মূল্যায়ন সম্পন্ন!', 'success');
     }, 900);
   };
 
@@ -1694,21 +1775,33 @@ export default function CreativeQuestionsView() {
 
         {/* AI Marking & Official Right Answer Solution Card */}
         {aiFeedback && (
-          <div className="p-4 rounded-2xl bg-slate-800/95 border border-emerald-500/80 text-white space-y-3 animate-in fade-in shadow-lg">
+          <div className={`p-4 rounded-2xl bg-slate-800/95 border ${aiFeedback.score === 0 ? 'border-red-500 shadow-red-950/40' : 'border-emerald-500/80 shadow-emerald-950/40'} text-white space-y-3 animate-in fade-in shadow-lg`}>
             
             {/* Score & Grade Header */}
-            <div className="flex items-center justify-between border-b border-slate-700/80 pb-2.5">
-              <span className="text-xs sm:text-sm font-black text-emerald-300 flex items-center gap-1.5">
-                <Award className="w-4 h-4 text-amber-400 shrink-0" />
+            <div className={`flex items-center justify-between border-b ${aiFeedback.score === 0 ? 'border-red-900/60' : 'border-slate-700/80'} pb-2.5`}>
+              <span className={`text-xs sm:text-sm font-black ${aiFeedback.score === 0 ? 'text-rose-400' : 'text-emerald-300'} flex items-center gap-1.5`}>
+                {aiFeedback.score === 0 ? (
+                  <AlertTriangle className="w-4 h-4 text-rose-500 shrink-0" />
+                ) : (
+                  <Award className="w-4 h-4 text-amber-400 shrink-0" />
+                )}
                 <span>বোর্ড ফলাফল: {aiFeedback.score} / {aiFeedback.total} নম্বর</span>
               </span>
-              <span className="text-[10.5px] bg-emerald-500/20 text-emerald-300 font-black px-2.5 py-0.5 rounded-full border border-emerald-400/40">
+              <span className={`text-[10.5px] font-black px-2.5 py-0.5 rounded-full border ${
+                aiFeedback.score === 0 
+                  ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' 
+                  : 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40'
+              }`}>
                 {aiFeedback.grade}
               </span>
             </div>
 
             {/* AI Review Text */}
-            <p className="text-xs text-slate-200 leading-relaxed font-medium bg-slate-900/60 p-2.5 rounded-xl border border-slate-700/50">
+            <p className={`text-xs leading-relaxed font-medium p-2.5 rounded-xl border ${
+              aiFeedback.score === 0 
+                ? 'bg-rose-950/40 border-rose-800/60 text-rose-200' 
+                : 'bg-slate-900/60 border-slate-700/50 text-slate-200'
+            }`}>
               {aiFeedback.feedbackBn}
             </p>
 
@@ -1721,12 +1814,16 @@ export default function CreativeQuestionsView() {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {aiFeedback.rubrics.map((rb) => (
-                    <div key={rb.tag} className="p-2.5 rounded-xl bg-slate-900/90 border border-slate-700/70 space-y-1">
+                    <div key={rb.tag} className={`p-2.5 rounded-xl bg-slate-900/90 border ${rb.awardedMarks === 0 ? 'border-rose-900/70' : 'border-slate-700/70'} space-y-1`}>
                       <div className="flex items-center justify-between text-[11px] font-bold">
                         <span className="text-amber-300">
                           ({rb.tag}) {rb.type}
                         </span>
-                        <span className="text-emerald-400 font-black bg-emerald-950/60 px-2 py-0.5 rounded-md border border-emerald-500/30 text-[10px]">
+                        <span className={`font-black px-2 py-0.5 rounded-md border text-[10px] ${
+                          rb.awardedMarks === 0 
+                            ? 'bg-rose-950/80 text-rose-300 border-rose-600/50' 
+                            : 'bg-emerald-950/60 text-emerald-400 border-emerald-500/30'
+                        }`}>
                           {rb.awardedMarks} / {rb.maxMarks} নম্বর
                         </span>
                       </div>
@@ -1741,8 +1838,16 @@ export default function CreativeQuestionsView() {
 
             {/* Examiner Advice */}
             {aiFeedback.examinerTip && (
-              <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-400/30 text-amber-200 text-[11px] font-medium flex items-start gap-2">
-                <Sparkles className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+              <div className={`p-2.5 rounded-xl border text-[11px] font-medium flex items-start gap-2 ${
+                aiFeedback.score === 0 
+                  ? 'bg-rose-950/30 border-rose-500/40 text-rose-200' 
+                  : 'bg-amber-500/10 border-amber-400/30 text-amber-200'
+              }`}>
+                {aiFeedback.score === 0 ? (
+                  <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                ) : (
+                  <Sparkles className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                )}
                 <span>{aiFeedback.examinerTip}</span>
               </div>
             )}
