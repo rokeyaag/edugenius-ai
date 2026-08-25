@@ -579,22 +579,38 @@ const CHAPTER_STORY_QA_DATABASE = [
 
         const qLower = query.toLowerCase().trim();
 
-        // 0. CHECK CREATIVE QUESTIONS (CQ) WRITING RULES & 4-TIER FORMAT
+        // 0. CHECK GIBBERISH / MEANINGLESS RANDOM INPUT (e.g. "dfdsgsd", "asdf", "zzzz")
+        const isGibberish = (text) => {
+          const t = text.trim().toLowerCase();
+          if (t.length <= 1) return true;
+          // Repeated character check
+          if (t.length >= 3 && t.split('').every(c => c === t[0])) return true;
+          // 4 or more consonants in a row with no vowels
+          if (/^[bcdfghjklmnpqrstvwxyz]{4,}$/i.test(t)) return true;
+          // Only symbols, numbers or punctuation
+          if (/^[0-9!@#$%^&*()_+=\-\[\]{};:'",.<>/?\\|~`\s]+$/.test(t)) return true;
+          return false;
+        };
+
+        // 0.1 GREETINGS & CASUAL INTERACTION
+        const isGreeting = ['hi', 'hello', 'হাই', 'হ্যালো', 'সালাম', 'assalamu', 'slam', 'ধন্যবাদ', 'thanks', 'thank you', 'কেমন আছো', 'কেমন আছেন', 'hey'].some(g => qLower === g || qLower.startsWith(g + ' ') || qLower.endsWith(' ' + g));
+
+        // 0.2 CHECK CREATIVE QUESTIONS (CQ) WRITING RULES & 4-TIER FORMAT
         const isCQRuleQuery = qLower.includes('সৃজনশীল') || qLower.includes('cq') || qLower.includes('ক খ গ ঘ') || qLower.includes('লেখার নিয়ম') || qLower.includes('উত্তর কীভাবে') || qLower.includes('খাতা মূল্যায়ন');
 
-        // 0.1 CHECK GRAMMAR QUERIES (সন্ধি, সমাস, কারক, প্রত্যয়, ইত্যাদি)
+        // 0.3 CHECK GRAMMAR QUERIES (সন্ধি, সমাস, কারক, প্রত্যয়, ইত্যাদি)
         const isSamasQuery = qLower.includes('সমাস') || qLower.includes('দ্বন্দ্ব') || qLower.includes('দ্বিগু') || qLower.includes('তৎপুরুষ') || qLower.includes('বহুব্রীহি');
         const isSandhiQuery = qLower.includes('সন্ধি') || qLower.includes('স্বরসন্ধি') || qLower.includes('ব্যঞ্জনসন্ধি');
         const isKarakQuery = qLower.includes('কারক') || qLower.includes('বিভক্তি') || qLower.includes('কর্তা') || qLower.includes('কর্ম');
         const isProttoyQuery = qLower.includes('প্রত্যয়') || qLower.includes('উপসর্গ') || qLower.includes('অনুসর্গ');
 
-        // 0.2 CHECK MATH & SCIENCE QUERIES
+        // 0.4 CHECK MATH & SCIENCE QUERIES
         const isMathFormulaQuery = qLower.includes('সূত্র') || qLower.includes('উৎপাদক') || qLower.includes('মান নির্ণয়') || qLower.includes('ডোমেন') || qLower.includes('পিথাগোরাস') || qLower.includes('ত্রিকোণমিতি');
         const isSciencePhysicsQuery = qLower.includes('জড়তা') || qLower.includes('নিউটন') || qLower.includes('ত্বরণ') || qLower.includes('ভরবেগ') || qLower.includes('গতি');
         const isScienceChemQuery = qLower.includes('পরমাণু') || qLower.includes('ইলেকট্রন') || qLower.includes('পর্যায় সারণি') || qLower.includes('বন্ধন') || qLower.includes('যোজ্যতা');
         const isScienceBioQuery = qLower.includes('মাইটোকনড্রিয়া') || qLower.includes('কোষ') || qLower.includes('সালোকসংশ্লেষণ') || qLower.includes('atp') || qLower.includes('রক্ত');
 
-        // 0.3 CHECK STORY PLOT & COMPREHENSION DATABASE FIRST
+        // 0.5 CHECK STORY PLOT & COMPREHENSION DATABASE FIRST
         let matchedStoryQA = null;
         let highestScore = 0;
 
@@ -633,16 +649,20 @@ const CHAPTER_STORY_QA_DATABASE = [
         const isLifeSaverQuery = (qLower.includes('প্রাণ') || qLower.includes('জীবন') || qLower.includes('বাঁচিয়ে') || qLower.includes('রক্ষা')) && (qLower.includes('আলী') || qLower.includes('আব্বাস') || qLower.includes('কে'));
         const isKhalifaQuery = qLower.includes('খলিফা') || qLower.includes('khalifa') || qLower.includes('মামুন');
 
-        if (isCQRuleQuery) {
+        if (isGibberish(query)) {
+          reply = `🤔 দুঃখিত, আপনার বার্তাটি ("${query}") অর্থপূর্ণ কোনো প্রশ্ন হিসেবে শনাক্ত করা যায়নি।\n\n💡 **আপনি নিচের বিষয়গুলো নিয়ে আমাকে প্রশ্ন করতে পারেন:**\n• “${chTitle}”-এর সারসংক্ষেপ বা মূলভাব কী?\n• অধ্যায়ের লেখক কে এবং উৎস গ্রন্থ কী?\n• গুরুত্বপূর্ণ শব্দের অর্থ ও ব্যাকরণ ব্যাখ্যা\n• সৃজনশীল (ক, খ, গ, ঘ) লেখার নিয়মাবলী\n• বোর্ড পরীক্ষার গুরুত্বপূর্ণ প্রশ্নোত্তর`;
+        } else if (isGreeting) {
+          reply = `👋 **আসসালামু আলাইকুম!** আমি আপনার NCTB এআই পড়ার সাথী (AI Tutor)।\n\nবর্তমানে সিলেক্ট করা অধ্যায়: **“${chTitle}”**।\n\nআপনি আমাকে পাঠ্যবইয়ের সারসংক্ষেপ, শব্দার্থ, লেখক পরিচিতি, ব্যাকরণ বা সৃজনশীল লেখার নিয়ম নিয়ে যেকোনো প্রশ্ন করতে পারেন!`;
+        } else if (isCQRuleQuery) {
           reply = `🎯 **NCTB বোর্ড স্ট্যান্ডার্ড সৃজনশীল (CQ) উত্তর লেখার নিয়মাবলী:**\n\nপ্রতিটি সৃজনশীলে মোট **১০ নম্বর** থাকে এবং ৪টি সুনির্দিষ্ট ধাপে উত্তর লিখতে হয়:\n\n📌 **(ক) জ্ঞানমূলক [১ নম্বর]:**\n• সরাসরি ১ বাক্যে তথ্য বা সঠিক সংজ্ঞা লিখবেন। কোনো ব্যাখ্যা দেওয়ার প্রয়োজন নেই।\n\n💡 **(খ) অনুধাবনমূলক [২ নম্বর] (২টি প্যারা):**\n• ১ম প্যারা (জ্ঞান): ১ বাক্যে মূল ভাব বা উত্তর।\n• ২য় প্যারা (অনুধাবন): পাঠ্যবইয়ের প্রেক্ষিতে ২-৩ বাক্যে বিশদ ব্যাখ্যা।\n\n🎯 **(গ) প্রয়োগমূলক [৩ নম্বর] (৩টি প্যারা):**\n• ১ম প্যারা (জ্ঞান): উদ্দীপকের সাথে পাঠের কোন দিকের মিল/অমিল রয়েছে তা ১ বাক্যে প্রকাশ।\n• ২য় প্যারা (অনুধাবন): পাঠ্যবইয়ের সংশ্লিষ্ট তত্ত্বের ব্যাখ্যা।\n• ৩য় প্যারা (প্রয়োগ): উদ্দীপকের চরিত্রের সাথে পাঠের তুলনামূলক বিচার।\n\n🏆 **(ঘ) উচ্চতর দক্ষতামূলক [৪ নম্বর] (৪টি প্যারা):**\n• ১ম প্যারা: চূড়ান্ত সিদ্ধান্তমূলক জ্ঞান (১ বাক্য)।\n• ২য় প্যারা: পাঠ্যবইয়ের সামগ্রিক তাৎপর্য।\n• ৩য় প্যারা: উদ্দীপকের যৌক্তিক ঘটনা পর্যালোচনা।\n• ৪র্থ প্যারা: সামগ্রিক মূল্যায়ন ও সমাপ্তি মন্তব্য।`;
         } else if (isSamasQuery) {
           reply = `🎯 **সমাস (Samas) সংক্রান্ত ব্যাকরণ নিয়ম:**\n\n• **সংজ্ঞা:** পরস্পর অর্থসঙ্গতিবিশিষ্ট দুই বা ততোধিক পদ এক পদে পরিণত হওয়াকে সমাস বলে।\n• **প্রধান সমাস ৬ প্রকার:**\n১. **দ্বন্দ্ব সমাস:** উভয় পদের অর্থ প্রধান (যেমন: পিতা ও মাতা = পিতামাতা)।\n২. **দ্বিগু সমাস:** সংখ্যাবাচক শব্দ পূর্বে থাকে (যেমন: তিন কালের সমাহার = ত্রিকাল)।\n৩. **তৎপুরুষ সমাস:** পূর্বপদের বিভক্তি লোপ পায় (যেমন: দুঃখকে প্রাপ্ত = দুঃখপ্রাপ্ত)।\n৪. **কর্মধারয় সমাস:** বিশেষণ ও বিশেষ্য পদ (যেমন: নীল যে পদ্ম = নীলপদ্ম)।\n৫. **বহুব্রীহি সমাস:** অন্য কোনো তৃতীয় অর্থ বোঝায় (যেমন: দশ আনন যার = দশানন)।\n৬. **অব্যয়ীভাব সমাস:** পূর্বপদের অব্যয়ের অর্থ প্রধান (যেমন: কূলের সমীপে = উপকূল)।`;
         } else if (isSandhiQuery) {
           reply = `🎯 **সন্ধি (Sandhi) সংক্রান্ত নিয়ম ও উদাহরণ:**\n\n• **সংজ্ঞা:** সন্নিহিত দুটি ধ্বনির মিলনকে সন্ধি বলে।\n• **প্রধান প্রকারভেদ:** ১. স্বরসন্ধি, ২. ব্যঞ্জনসন্ধি ও ৩. বিসর্গ সন্ধি।\n\n📌 **গুরুত্বপূর্ণ বোর্ড উদাহরণ:**\n• বিদ্যা + আলয় = বিদ্যালয় (অ/আ + অ/আ = আ)\n• রবি + ইন্দ্র = রবীন্দ্র (ই + ই = ঈ)\n• দিক্ + অন্ত = দিগন্ত (ক্ + অ = গ্)\n• নমঃ + কার = নমস্কার (বিসর্গ রূপান্তর)`;
         } else if (isSciencePhysicsQuery) {
-          reply = `🎯 **পদার্থবিজ্ঞান: গতি, বল ও নিউটনের সূত্রাবলী:**\n\n• **জড়তা:** বস্তু যে অবস্থায় আছে চিরকাল সে অবস্থায় থাকতে চাওয়ার ধর্ম।\n• **নিউটনের গতিসূত্রাবলী:**\n১. ১ম সূত্র (জড়তা ও বলের সংজ্ঞা): বাহ্যিক বল প্রয়োগ না করলে স্থির বস্তু চিরকাল স্থির এবং গতিশীল বস্তু সুষম দ্রুতিতে সরলরেখায় চলতে থাকবে।\n২. ২য় সূত্র (বলের পরিমাপ): বস্তুর ভরবেগের পরিবর্তনের হার তার ওপর প্রযুক্ত বলের সমানুপাতিক (\(F = ma\))।\n৩. ৩য় সূত্র (ক্রিয়া ও প্রতিক্রিয়া): প্রত্যেক ক্রিয়ারই একটি সমান ও বিপরীত প্রতিক্রিয়া আছে (\(F₁ = -F₂\))।`;
+          reply = `🎯 **পদার্থবিজ্ঞান: গতি, বল ও নিউটনের সূত্রাবলী:**\n\n• **জড়তা:** বস্তু যে অবস্থায় আছে চিরকাল সে অবস্থায় থাকতে চাওয়ার ধর্ম।\n• **নিউটনের গতিসূত্রাবলী:**\n১. ১ম সূত্র (জড়তা ও বলের সংজ্ঞা): বাহ্যিক বল প্রয়োগ না করলে স্থির বস্তু চিরকাল স্থির এবং গতিশীল বস্তু সুষম দ্রুতিতে সরলরেখায় চলতে থাকবে।\n২. ২য় সূত্র (বলের পরিমাপ): বস্তুর ভরবেগের পরিবর্তনের হার তার ওপর প্রযুক্ত বলের সমানুপাতিক (F = ma)।\n৩. ৩য় সূত্র (ক্রিয়া ও প্রতিক্রিয়া): প্রত্যেক ক্রিয়ারই একটি সমান ও বিপরীত প্রতিক্রিয়া আছে (F₁ = -F₂)।`;
         } else if (isScienceChemQuery) {
-          reply = `🎯 **রসায়ন: পরমাণুর গঠন ও রাসায়নিক বন্ধন:**\n\n• **অষ্টক নিয়ম:** পরমাণুসমূহের সর্ববহিঃস্থ স্তরে ৮টি ইলেকট্রন অর্জনের প্রবণতা।\n• **আয়নীয় বন্ধন:** ধাতু ও অধাতুর মধ্যে ইলেকট্রন আদান-প্রদানের ফলে সৃষ্ট বন্ধন (যেমন: \(Na + Cl \rightarrow NaCl\))।\n• **সমযোজী বন্ধন:** দুটি অধাতু পরমাণু পরস্পরের মধ্যে ইলেকট্রন শেয়ারের মাধ্যমে যে বন্ধন গঠন করে (যেমন: \(H₂O, CH₄, CO₂\))।`;
+          reply = `🎯 **রসায়ন: পরমাণুর গঠন ও রাসায়নিক বন্ধন:**\n\n• **অষ্টক নিয়ম:** পরমাণুসমূহের সর্ববহিঃস্থ স্তরে ৮টি ইলেকট্রন অর্জনের প্রবণতা।\n• **আয়নীয় বন্ধন:** ধাতু ও অধাতুর মধ্যে ইলেকট্রন আদান-প্রদানের ফলে সৃষ্ট বন্ধন (যেমন: Na + Cl -> NaCl)।\n• **সমযোজী বন্ধন:** দুটি অধাতু পরমাণু পরস্পরের মধ্যে ইলেকট্রন শেয়ারের মাধ্যমে যে বন্ধন গঠন করে (যেমন: H₂O, CH₄, CO₂)।`;
         } else if (isScienceBioQuery) {
           reply = `🎯 **জীববিজ্ঞান: কোষ ও গুরুত্বপূর্ণ অঙ্গাণু:**\n\n• **মাইটোকনড্রিয়া (Powerhouse):** কোষের শ্বসন ও শক্তি উৎপাদন কেন্দ্র যেখানে ক্রেবস চক্রের মাধ্যমে সিংহভাগ ATP তৈরি হয়।\n• **ক্লোরোপ্লাস্ট:** সালোকসংশ্লেষণের মাধ্যমে সূর্যালোকের সাহায্যে শর্করা খাদ্য ও অক্সিজেন প্রস্তুতকারী প্লাস্টিড।\n• **রক্তের প্রধান ৩ কণিকা:** লোহিত রক্তকণিকা (অক্সিজেন পরিবহন), শ্বেত রক্তকণিকা (রোগ প্রতিরোধ), অনুচক্রিকা (রক্ত তঞ্চন/জমাট বাঁধা)।`;
         } else if (matchedStoryQA) {
@@ -690,9 +710,9 @@ const CHAPTER_STORY_QA_DATABASE = [
             reply = `🎯 **বোর্ড প্রশ্নোত্তর:**\n১. জ্ঞানমূলক: অধ্যায়ের মূল সংজ্ঞা ও লেখকের নাম মুখস্থ করো।\n২. অনুধাবন: মূল ভাববস্তুর আলোকে সংক্ষেপে ২ প্যারায় উত্তর লেখো।`;
           }
         } else {
-          // Fallback to strict selfTest match or concise note
           let specificSt = null;
           const stopWords = ['কার', 'কে', 'কী', 'কি', 'কোন', 'কত', 'সালে', 'নাম', 'বলতে', 'হলো', 'পিতা', 'পিতার', 'মাতা', 'মাতার', 'বাবা', 'মা', 'ঈশ্বরচন্দ্র', 'বিদ্যাসাগর', 'রবীন্দ্রনাথ', 'নজরুল', 'শরৎচন্দ্র', 'বঙ্কিমচন্দ্র', 'মুহম্মদ', 'প্রত্যুপকার', 'শুভা', 'নিমগাছ'];
+          
           if (chSelfTest && chSelfTest.length > 0) {
             specificSt = chSelfTest.find(st => {
               const qClean = st.q.replace(/[০-৯১-৫\.\‘\’\'\?]/g, '').toLowerCase();
@@ -702,11 +722,18 @@ const CHAPTER_STORY_QA_DATABASE = [
             });
           }
 
+          const matchedNote = chLectureNotes.find(note => {
+            const noteText = `${note.title} ${note.detail}`.toLowerCase();
+            const words = qLower.split(/[\s,?.!]+/).filter(w => w.length >= 3 && !stopWords.includes(w));
+            return words.some(w => noteText.includes(w));
+          });
+
           if (specificSt) {
             reply = `🎯 **সঠিক উত্তর: ${specificSt.options[specificSt.correct]}**\n\n📌 ব্যাখ্যা: ${specificSt.explanation}`;
+          } else if (matchedNote) {
+            reply = `🎯 **${matchedNote.title}:**\n${matchedNote.detail}\n\n📖 অধ্যায়: “${chTitle}”`;
           } else {
-            const shortNote = chLectureNotes[0]?.detail || chSummary;
-            reply = `🎯 **সঠিক উত্তর ও বিশ্লেষণ:**\n${shortNote || 'পাঠ্যবই অনুযায়ী উত্তর ও তথ্য প্রস্তুত করা হয়েছে।'}\n\n💡 অধ্যায়: “${chTitle}”\n📝 বোর্ড পরীক্ষার টিপস: জ্ঞান, অনুধাবন ও ব্যাখ্যার স্পষ্টতা বজায় রাখুন।`;
+            reply = `🤔 দুঃখিত, আপনার প্রশ্নটি (“${query}”) স্পষ্ট নয় অথবা বর্তমান সিলেক্ট করা অধ্যায় **“${chTitle}”**-এর তথ্যের সাথে সরাসরি মেলেনি।\n\n💡 **আপনি এই অধ্যায় সম্পর্কিত নিচের যেকোনো তথ্য জানতে পারেন:**\n• অধ্যায়ের মূলভাব বা সারসংক্ষেপ কী?\n• রচয়িতা বা লেখকের পরিচিতি ও উৎস\n• গুরুত্বপূর্ণ বোর্ড প্রশ্নোত্তর\n• সৃজনশীল প্রশ্নের উত্তর লেখার কাঠামো`;
           }
         }
 
@@ -737,7 +764,7 @@ const CHAPTER_STORY_QA_DATABASE = [
     }, 150);
   };
 
-  const handleCopyMessage = (msgId, text) => {
+    const handleCopyMessage = (msgId, text) => {
     navigator.clipboard?.writeText(text);
     setCopiedMsgId(msgId);
     showToast('📋 উত্তর কপি করা হয়েছে!', 'success');
