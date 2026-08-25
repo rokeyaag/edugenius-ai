@@ -567,20 +567,34 @@ const CHAPTER_STORY_QA_DATABASE = [
         let reply = '';
         const qLower = query.toLowerCase().trim();
 
-        // 1. Resolve chapter object (either from explicit selection or auto-detecting chapter name in query)
+        // 1. Resolve chapter object (from explicit selection OR auto-detecting chapter/author in Bangla or Banglish)
         let selectedChObj = null;
         if (selectedChapterTitle !== 'all') {
           selectedChObj = availableChapters.find(c => c.title === selectedChapterTitle) || null;
         } else {
-          // If "all" chapters is selected, detect which chapter is mentioned in the query
+          // Detect if any chapter or its Banglish alias is mentioned in the query
           selectedChObj = availableChapters.find(c => {
             const cleanTitle = c.title.toLowerCase().replace(/^\d+\.\s*/, '').replace(/‘|’|'|"/g, '').trim();
             const parts = cleanTitle.split('—');
             const mainName = parts[0]?.trim();
             const author = parts[1]?.trim();
-            return (mainName && mainName.length >= 2 && qLower.includes(mainName.toLowerCase())) || 
-                   (author && author.length >= 3 && qLower.includes(author.toLowerCase())) ||
-                   qLower.includes(c.title.toLowerCase());
+            
+            // Check direct Bangla match
+            const directMatch = (mainName && mainName.length >= 2 && qLower.includes(mainName.toLowerCase())) || 
+                                (author && author.length >= 3 && qLower.includes(author.toLowerCase())) ||
+                                qLower.includes(c.title.toLowerCase());
+            if (directMatch) return true;
+
+            // Banglish chapter aliases
+            if (c.title.includes('প্রত্যুপকার') && (qLower.includes('protyupokar') || qLower.includes('protiupokar') || qLower.includes('viddasagar') || qLower.includes('biddasagar'))) return true;
+            if (c.title.includes('শুভা') && (qLower.includes('shuva') || qLower.includes('subha') || qLower.includes('rabindranath') || qLower.includes('tagore'))) return true;
+            if (c.title.includes('মানুষ মুহম্মদ') && (qLower.includes('manush muhommod') || qLower.includes('mohammad') || qLower.includes('wajed'))) return true;
+            if (c.title.includes('নিমগাছ') && (qLower.includes('nim gach') || qLower.includes('nimgach') || qLower.includes('bonophul') || qLower.includes('banaphul'))) return true;
+            if (c.title.includes('শিক্ষা ও মনুষ্যত্ব') && (qLower.includes('shikha') || qLower.includes('monushotto') || qLower.includes('monussotto') || qLower.includes('motahar'))) return true;
+            if (c.title.includes('কাকতাড়ুয়া') && (qLower.includes('kaktarua') || qLower.includes('kaktarua') || qLower.includes('selina') || qLower.includes('budha'))) return true;
+            if (c.title.includes('বহিপীর') && (qLower.includes('bohipir') || qLower.includes('bohipir') || qLower.includes('waliullah') || qLower.includes('tahera'))) return true;
+
+            return false;
           }) || null;
         }
 
@@ -593,36 +607,33 @@ const CHAPTER_STORY_QA_DATABASE = [
         const matchedKey = selectedChObj ? Object.keys(NCTB_AUTHOR_KNOWLEDGE_MAP).find(k => chTitle.includes(k)) : null;
         const authorInfo = matchedKey ? NCTB_AUTHOR_KNOWLEDGE_MAP[matchedKey] : null;
 
-        // 0. CHECK GIBBERISH / MEANINGLESS RANDOM INPUT (e.g. "dfdsgsd", "asdf", "zzzz")
+        // 0. CHECK GIBBERISH / MEANINGLESS RANDOM INPUT
         const isGibberish = (text) => {
           const t = text.trim().toLowerCase();
           if (t.length <= 1) return true;
-          // Repeated character check
           if (t.length >= 3 && t.split('').every(c => c === t[0])) return true;
-          // 4 or more consonants in a row with no vowels
-          if (/^[bcdfghjklmnpqrstvwxyz]{4,}$/i.test(t)) return true;
-          // Only symbols, numbers or punctuation
+          if (/^[bcdfghjklmnpqrstvwxyz]{5,}$/i.test(t)) return true;
           if (/^[0-9!@#$%^&*()_+=\-\[\]{};:'",.<>/?\\|~`\s]+$/.test(t)) return true;
           return false;
         };
 
-        // 0.1 GREETINGS & CASUAL INTERACTION
-        const isGreeting = ['hi', 'hello', 'হাই', 'হ্যালো', 'সালাম', 'assalamu', 'slam', 'ধন্যবাদ', 'thanks', 'thank you', 'কেমন আছো', 'কেমন আছেন', 'hey'].some(g => qLower === g || qLower.startsWith(g + ' ') || qLower.endsWith(' ' + g));
+        // 0.1 GREETINGS & CASUAL INTERACTION (Bangla & Banglish)
+        const isGreeting = ['hi', 'hello', 'হাই', 'হ্যালো', 'সালাম', 'assalamu', 'slam', 'salam', 'ধন্যবাদ', 'thanks', 'thank you', 'thx', 'কেমন আছো', 'kemon acho', 'কেমন আছেন', 'kemon achen', 'hey'].some(g => qLower === g || qLower.startsWith(g + ' ') || qLower.endsWith(' ' + g));
 
-        // 0.2 CHECK CREATIVE QUESTIONS (CQ) WRITING RULES & 4-TIER FORMAT
-        const isCQRuleQuery = qLower.includes('সৃজনশীল') || qLower.includes('cq') || qLower.includes('ক খ গ ঘ') || qLower.includes('লেখার নিয়ম') || qLower.includes('উত্তর কীভাবে') || qLower.includes('খাতা মূল্যায়ন');
+        // 0.2 CHECK CREATIVE QUESTIONS (CQ) WRITING RULES & 4-TIER FORMAT (Bangla & Banglish)
+        const isCQRuleQuery = qLower.includes('সৃজনশীল') || qLower.includes('cq') || qLower.includes('srijonshil') || qLower.includes('srijonsil') || qLower.includes('ক খ গ ঘ') || qLower.includes('লেখার নিয়ম') || qLower.includes('likhar nium') || qLower.includes('likhar niom') || qLower.includes('kivabe likhbo') || qLower.includes('kivabe likhte hoy') || qLower.includes('writing rules') || qLower.includes('উত্তর কীভাবে') || qLower.includes('খাতা মূল্যায়ন');
 
-        // 0.3 CHECK GRAMMAR QUERIES (সন্ধি, সমাস, কারক, প্রত্যয়, ইত্যাদি)
-        const isSamasQuery = qLower.includes('সমাস') || qLower.includes('দ্বন্দ্ব') || qLower.includes('দ্বিগু') || qLower.includes('তৎপুরুষ') || qLower.includes('বহুব্রীহি');
-        const isSandhiQuery = qLower.includes('সন্ধি') || qLower.includes('স্বরসন্ধি') || qLower.includes('ব্যঞ্জনসন্ধি');
-        const isKarakQuery = qLower.includes('কারক') || qLower.includes('বিভক্তি') || qLower.includes('কর্তা') || qLower.includes('কর্ম');
-        const isProttoyQuery = qLower.includes('প্রত্যয়') || qLower.includes('উপসর্গ') || qLower.includes('অনুসর্গ');
+        // 0.3 CHECK GRAMMAR QUERIES (Bangla & Banglish)
+        const isSamasQuery = qLower.includes('সমাস') || qLower.includes('shomash') || qLower.includes('somas') || qLower.includes('shomas') || qLower.includes('দ্বন্দ্ব') || qLower.includes('দ্বিগু') || qLower.includes('তৎপুরুষ') || qLower.includes('বহুব্রীহি');
+        const isSandhiQuery = qLower.includes('সন্ধি') || qLower.includes('sandhi') || qLower.includes('shondhi') || qLower.includes('স্বরসন্ধি') || qLower.includes('ব্যঞ্জনসন্ধি');
+        const isKarakQuery = qLower.includes('কারক') || qLower.includes('karok') || qLower.includes('karak') || qLower.includes('বিভক্তি') || qLower.includes('bivokti') || qLower.includes('কর্তা') || qLower.includes('কর্ম');
+        const isProttoyQuery = qLower.includes('প্রত্যয়') || qLower.includes('protoy') || qLower.includes('prottoy') || qLower.includes('উপসর্গ') || qLower.includes('uposorgo') || qLower.includes('অনুসর্গ');
 
-        // 0.4 CHECK MATH & SCIENCE QUERIES
-        const isMathFormulaQuery = qLower.includes('সূত্র') || qLower.includes('উৎপাদক') || qLower.includes('মান নির্ণয়') || qLower.includes('ডোমেন') || qLower.includes('পিথাগোরাস') || qLower.includes('ত্রিকোণমিতি');
-        const isSciencePhysicsQuery = qLower.includes('জড়তা') || qLower.includes('নিউটন') || qLower.includes('ত্বরণ') || qLower.includes('ভরবেগ') || qLower.includes('গতি');
-        const isScienceChemQuery = qLower.includes('পরমাণু') || qLower.includes('ইলেকট্রন') || qLower.includes('পর্যায় সারণি') || qLower.includes('বন্ধন') || qLower.includes('যোজ্যতা');
-        const isScienceBioQuery = qLower.includes('মাইটোকনড্রিয়া') || qLower.includes('কোষ') || qLower.includes('সালোকসংশ্লেষণ') || qLower.includes('atp') || qLower.includes('রক্ত');
+        // 0.4 CHECK MATH & SCIENCE QUERIES (Bangla & Banglish)
+        const isMathFormulaQuery = qLower.includes('সূত্র') || qLower.includes('shutro') || qLower.includes('sutro') || qLower.includes('formula') || qLower.includes('উৎপাদক') || qLower.includes('utpadok') || qLower.includes('মান নির্ণয়') || qLower.includes('man nirnoy') || qLower.includes('ডোমেন') || qLower.includes('domain') || qLower.includes('পিথাগোরাস') || qLower.includes('pythagoras') || qLower.includes('ত্রিকোণমিতি') || qLower.includes('trigonometry');
+        const isSciencePhysicsQuery = qLower.includes('জড়তা') || qLower.includes('jorota') || qLower.includes('নিউটন') || qLower.includes('newton') || qLower.includes('ত্বরণ') || qLower.includes('ভরবেগ') || qLower.includes('গতি') || qLower.includes('motion') || qLower.includes('force');
+        const isScienceChemQuery = qLower.includes('পরমাণু') || qLower.includes('poromanu') || qLower.includes('atom') || qLower.includes('ইলেকট্রন') || qLower.includes('electron') || qLower.includes('পর্যায় সারণি') || qLower.includes('periodic') || qLower.includes('বন্ধন') || qLower.includes('bond') || qLower.includes('যোজ্যতা') || qLower.includes('valency');
+        const isScienceBioQuery = qLower.includes('মাইটোকনড্রিয়া') || qLower.includes('mitochondria') || qLower.includes('কোষ') || qLower.includes('cell') || qLower.includes('kosh') || qLower.includes('সালোকসংশ্লেষণ') || qLower.includes('photosynthesis') || qLower.includes('atp') || qLower.includes('রক্ত') || qLower.includes('blood') || qLower.includes('rokto');
 
         // 0.5 CHECK STORY PLOT & COMPREHENSION DATABASE FIRST
         let matchedStoryQA = null;
@@ -643,32 +654,64 @@ const CHAPTER_STORY_QA_DATABASE = [
           });
         }
 
-        // 1. SPECIFIC INTENT: BIRTH / DEATH / YEAR
-        const isBirthQuery = qLower.includes('jonmo') || qLower.includes('জন্ম') || qLower.includes('সাল') || qLower.includes('shaley') || qLower.includes('shale') || qLower.includes('sal') || qLower.includes('kobe') || qLower.includes('কবে') || qLower.includes('birth') || qLower.includes('মৃত্যু') || qLower.includes('death');
+        // 1. SPECIFIC INTENT: BIRTH / DEATH / YEAR (Bangla & Banglish)
+        const isBirthQuery = qLower.includes('jonmo') || qLower.includes('jonmodin') || qLower.includes('জন্ম') || qLower.includes('সাল') || qLower.includes('shaley') || qLower.includes('shale') || qLower.includes('sal') || qLower.includes('kobe') || qLower.includes('কবে') || qLower.includes('birth') || qLower.includes('born') || qLower.includes('mrittu') || qLower.includes('mritu') || qLower.includes('মৃত্যু') || qLower.includes('death');
         
-        // 2. SPECIFIC INTENT: WHO WROTE / AUTHOR
-        const isWhoWroteQuery = qLower.includes('kar lekha') || qLower.includes('কার লেখা') || qLower.includes('lekhok ke') || qLower.includes('লেখক কে') || qLower.includes('রচয়িতা কে') || qLower.includes('লেখক') || qLower.includes('রচয়িতা') || qLower.includes('কবি কে');
+        // 2. SPECIFIC INTENT: WHO WROTE / AUTHOR (Bangla & Banglish)
+        const isWhoWroteQuery = qLower.includes('kar lekha') || qLower.includes('car lekha') || qLower.includes('কার লেখা') || qLower.includes('lekhok ke') || qLower.includes('lekhok') || qLower.includes('লেখক কে') || qLower.includes('রচয়িতা কে') || qLower.includes('লেখক') || qLower.includes('রচয়িতা') || qLower.includes('কবি কে') || qLower.includes('kobi ke') || qLower.includes('kobi') || qLower.includes('ke likhese') || qLower.includes('ke likhse') || qLower.includes('ke likheche') || qLower.includes('who wrote') || qLower.includes('writer') || qLower.includes('writter') || qLower.includes('author') || qLower.includes('rochoita') || qLower.includes('rochoyita');
 
-        // 3. SPECIFIC INTENT: BOOK / SOURCE
-        const isSourceBookQuery = qLower.includes('কোন গ্রন্থ') || qLower.includes('উৎস') || qLower.includes('কোথা থেকে') || qLower.includes('গ্রন্থের নাম') || qLower.includes('বইয়ের নাম') || qLower.includes('সংকলিত') || qLower.includes('kon grontho');
+        // 3. SPECIFIC INTENT: BOOK / SOURCE (Bangla & Banglish)
+        const isSourceBookQuery = qLower.includes('কোন গ্রন্থ') || qLower.includes('উৎস') || qLower.includes('কোথা থেকে') || qLower.includes('গ্রন্থের নাম') || qLower.includes('বইয়ের নাম') || qLower.includes('সংকলিত') || qLower.includes('kon grontho') || qLower.includes('utsho') || qLower.includes('utso') || qLower.includes('source') || qLower.includes('source book') || qLower.includes('kotha theke') || qLower.includes('kothatheke') || qLower.includes('kon boi');
 
-        // 4. SPECIFIC INTENT: WORD MEANING / DEFINITION
-        const isMeaningQuery = qLower.includes('ortho') || qLower.includes('অর্থ') || qLower.includes('মানে') || qLower.includes('meaning') || qLower.includes('কাকে বলে');
+        // 4. SPECIFIC INTENT: WORD MEANING / DEFINITION (Bangla & Banglish)
+        const isMeaningQuery = qLower.includes('ortho') || qLower.includes('ortho ki') || qLower.includes('অর্থ') || qLower.includes('মানে') || qLower.includes('mane') || qLower.includes('mane ki') || qLower.includes('meaning') || qLower.includes('mean') || qLower.includes('কাকে বলে') || qLower.includes('kake বলে') || qLower.includes('kake bole') || qLower.includes('ki bole') || qLower.includes('definition') || qLower.includes('defination');
 
-        // 5. SPECIFIC INTENT: SUMMARY / THEME
-        const isSummaryQuery = qLower.includes('summary') || qLower.includes('সারসংক্ষেপ') || qLower.includes('মূলভাব') || qLower.includes('মূল ভাব') || qLower.includes('বক্তব্য') || qLower.includes('মূল কথা');
+        // 5. SPECIFIC INTENT: SUMMARY / THEME / FULL CHAPTER (Bangla & Banglish: "summary", "summery", "sommary", "mulvab", "sarongsho", "full chapter", "porao", "bujhiye dao")
+        const isSummaryQuery = qLower.includes('summary') || 
+                               qLower.includes('summery') || 
+                               qLower.includes('sommary') || 
+                               qLower.includes('sommery') || 
+                               qLower.includes('সারসংক্ষেপ') || 
+                               qLower.includes('সারমর্ম') || 
+                               qLower.includes('মূলভাব') || 
+                               qLower.includes('মূল ভাব') || 
+                               qLower.includes('মূল কথা') || 
+                               qLower.includes('mulvab') || 
+                               qLower.includes('mul vab') || 
+                               qLower.includes('mulbhab') || 
+                               qLower.includes('mul bhab') || 
+                               qLower.includes('sarongsho') || 
+                               qLower.includes('sarongso') || 
+                               qLower.includes('full chapter') || 
+                               qLower.includes('pura chapter') || 
+                               qLower.includes('porao') || 
+                               qLower.includes('porate') || 
+                               qLower.includes('bujhiye') || 
+                               qLower.includes('bujhaw') || 
+                               qLower.includes('bujhao') || 
+                               qLower.includes('bujhiye dao') || 
+                               qLower.includes('bekha') || 
+                               qLower.includes('bekkha') || 
+                               qLower.includes('explain') || 
+                               qLower.includes('overview') || 
+                               qLower.includes('details') || 
+                               qLower.includes('kise lekha') || 
+                               qLower.includes('ki ache') || 
+                               qLower.includes('ki ase') ||
+                               qLower.includes('বক্তব্য');
 
-        // 6. SPECIFIC INTENT: QUESTIONS / CQ / MCQ
-        const isQuestionQuery = qLower.includes('mcq') || qLower.includes('প্রশ্ন') || qLower.includes('question');
+        // 6. SPECIFIC INTENT: QUESTIONS / CQ / MCQ (Bangla & Banglish)
+        const isQuestionQuery = qLower.includes('mcq') || qLower.includes('প্রশ্ন') || qLower.includes('question') || qLower.includes('prosno') || qLower.includes('proshno');
 
         // 7. SPECIFIC CHARACTER ACTIONS
-        const isLifeSaverQuery = (qLower.includes('প্রাণ') || qLower.includes('জীবন') || qLower.includes('বাঁচিয়ে') || qLower.includes('রক্ষা')) && (qLower.includes('আলী') || qLower.includes('আব্বাস') || qLower.includes('কে'));
-        const isKhalifaQuery = qLower.includes('খলিফা') || qLower.includes('khalifa') || qLower.includes('মামুন');
+        const isLifeSaverQuery = (qLower.includes('প্রাণ') || qLower.includes('জীবন') || qLower.includes('বাঁচিয়ে') || qLower.includes('বাচিয়ে') || qLower.includes('রক্ষা') || qLower.includes('life') || qLower.includes('save') || qLower.includes('bachiye') || qLower.includes('bachie')) && (qLower.includes('আলী') || qLower.includes('আব্বাস') || qLower.includes('ali') || qLower.includes('abbas') || qLower.includes('কে') || qLower.includes('ke') || qLower.includes('who'));
+        const isKhalifaQuery = qLower.includes('খলিফা') || qLower.includes('khalifa') || qLower.includes('মামুন') || qLower.includes('mamun');
 
         if (isGibberish(query)) {
           reply = `🤔 দুঃখিত, আপনার বার্তাটি ("${query}") অর্থপূর্ণ কোনো প্রশ্ন হিসেবে শনাক্ত করা যায়নি।\n\n💡 **আপনি নিচের বিষয়গুলো নিয়ে আমাকে প্রশ্ন করতে পারেন:**\n• অধ্যায়ের সারসংক্ষেপ বা মূলভাব কী?\n• অধ্যায়ের লেখক কে এবং উৎস গ্রন্থ কী?\n• গুরুত্বপূর্ণ শব্দের অর্থ ও ব্যাকরণ ব্যাখ্যা\n• সৃজনশীল (ক, খ, গ, ঘ) লেখার নিয়মাবলী\n• বোর্ড পরীক্ষার গুরুত্বপূর্ণ প্রশ্নোত্তর`;
         } else if (isGreeting) {
-          reply = `👋 **আসসালামু আলাইকুম!** আমি আপনার NCTB এআই পড়ার সাথী (AI Tutor)।\n\n${selectedChObj ? `বর্তমানে সিলেক্ট করা অধ্যায়: **“${chTitle}”**।\n\n` : `` }আপনি আমাকে পাঠ্যবইয়ের সারসংক্ষেপ, শব্দার্থ, লেখক পরিচিতি, ব্যাকরণ বা সৃজনশীল লেখার নিয়ম নিয়ে যেকোনো প্রশ্ন করতে পারেন!`;
+          const chPrefix = selectedChObj ? `বর্তমানে সিলেক্ট করা অধ্যায়: **“${chTitle}”**।\n\n` : '';
+          reply = `👋 **আসসালামু আলাইকুম!** আমি আপনার NCTB এআই পড়ার সাথী (AI Tutor)।\n\n${chPrefix}আপনি আমাকে পাঠ্যবইয়ের সারসংক্ষেপ, শব্দার্থ, লেখক পরিচিতি, ব্যাকরণ বা সৃজনশীল লেখার নিয়ম নিয়ে যেকোনো প্রশ্ন করতে পারেন (বাংলা বা ইংলিশ ফন্টে)!`;
         } else if (isCQRuleQuery) {
           reply = `🎯 **NCTB বোর্ড স্ট্যান্ডার্ড সৃজনশীল (CQ) উত্তর লেখার নিয়মাবলী:**\n\nপ্রতিটি সৃজনশীলে মোট **১০ নম্বর** থাকে এবং ৪টি সুনির্দিষ্ট ধাপে উত্তর লিখতে হয়:\n\n📌 **(ক) জ্ঞানমূলক [১ নম্বর]:**\n• সরাসরি ১ বাক্যে তথ্য বা সঠিক সংজ্ঞা লিখবেন। কোনো ব্যাখ্যা দেওয়ার প্রয়োজন নেই।\n\n💡 **(খ) অনুধাবনমূলক [২ নম্বর] (২টি প্যারা):**\n• ১ম প্যারা (জ্ঞান): ১ বাক্যে মূল ভাব বা উত্তর।\n• ২য় প্যারা (অনুধাবন): পাঠ্যবইয়ের প্রেক্ষিতে ২-৩ বাক্যে বিশদ ব্যাখ্যা।\n\n🎯 **(গ) প্রয়োগমূলক [৩ নম্বর] (৩টি প্যারা):**\n• ১ম প্যারা (জ্ঞান): উদ্দীপকের সাথে পাঠের কোন দিকের মিল/অমিল রয়েছে তা ১ বাক্যে প্রকাশ।\n• ২য় প্যারা (অনুধাবন): পাঠ্যবইয়ের সংশ্লিষ্ট তত্ত্বের ব্যাখ্যা।\n• ৩য় প্যারা (প্রয়োগ): উদ্দীপকের চরিত্রের সাথে পাঠের তুলনামূলক বিচার।\n\n🏆 **(ঘ) উচ্চতর দক্ষতামূলক [৪ নম্বর] (৪টি প্যারা):**\n• ১ম প্যারা: চূড়ান্ত সিদ্ধান্তমূলক জ্ঞান (১ বাক্য)।\n• ২য় প্যারা: পাঠ্যবইয়ের সামগ্রিক তাৎপর্য।\n• ৩য় প্যারা: উদ্দীপকের যৌক্তিক ঘটনা পর্যালোচনা।\n• ৪র্থ প্যারা: সামগ্রিক মূল্যায়ন ও সমাপ্তি মন্তব্য।`;
         } else if (isSamasQuery) {
@@ -682,11 +725,17 @@ const CHAPTER_STORY_QA_DATABASE = [
         } else if (isScienceBioQuery) {
           reply = `🎯 **জীববিজ্ঞান: কোষ ও গুরুত্বপূর্ণ অঙ্গাণু:**\n\n• **মাইটোকনড্রিয়া (Powerhouse):** কোষের শ্বসন ও শক্তি উৎপাদন কেন্দ্র যেখানে ক্রেবস চক্রের মাধ্যমে সিংহভাগ ATP তৈরি হয়।\n• **ক্লোরোপ্লাস্ট:** সালোকসংশ্লেষণের মাধ্যমে সূর্যালোকের সাহায্যে শর্করা খাদ্য ও অক্সিজেন প্রস্তুতকারী প্লাস্টিড।\n• **রক্তের প্রধান ৩ কণিকা:** লোহিত রক্তকণিকা (অক্সিজেন পরিবহন), শ্বেত রক্তকণিকা (রোগ প্রতিরোধ), অনুচক্রিকা (রক্ত তঞ্চন/জমাট বাঁধা)।`;
         } else if (!selectedChObj && (isMeaningQuery || isBirthQuery || isWhoWroteQuery || isSourceBookQuery || isSummaryQuery || isQuestionQuery || isLifeSaverQuery || isKhalifaQuery)) {
-          reply = `⚠️ **অনুগ্রহ করে প্রথমে একটি নির্দিষ্ট অধ্যায় নির্বাচন করুন!**\n\nআপনি বর্তমানে কোনো নির্দিষ্ট অধ্যায় সিলেক্ট করেননি (সকল অধ্যায় অপশনে রয়েছে)।\n\n💡 **সমাধান:**\n১. উপরের **অধ্যায় তালিকা** ড্রপডাউন থেকে যে অধ্যায়টি পড়তে চান সেটি বেছে নিন (যেমন: “১. প্রত্যুপকার”, “২. শুভা”, “নিমগাছ” ইত্যাদি)।\n২. অথবা আপনার প্রশ্নের মধ্যে অধ্যায়ের নাম উল্লেখ করুন (যেমন: *“শুভা গল্পের মূলভাব কী?”* বা *“কাকতাড়ুয়া কার লেখা?”*)।`;
+          reply = `⚠️ **অনুগ্রহ করে প্রথমে একটি নির্দিষ্ট অধ্যায় নির্বাচন করুন!**\n\nআপনি বর্তমানে কোনো নির্দিষ্ট অধ্যায় সিলেক্ট করেননি (সকল অধ্যায় অপশনে রয়েছে)।\n\n💡 **সমাধান:**\n১. উপরের **অধ্যায় তালিকা** ড্রপডাউন থেকে যে অধ্যায়টি পড়তে চান সেটি বেছে নিন (যেমন: “১. প্রত্যুপকার”, “২. শুভা”, “নিমগাছ” ইত্যাদি)।\n২. অথবা আপনার প্রশ্নের মধ্যে অধ্যায়ের নাম উল্লেখ করুন (যেমন: *“শুভা গল্পের মূলভাব কী?”* বা *“kaktarua car lekha”*)।`;
         } else if (matchedStoryQA) {
           reply = matchedStoryQA.answer;
+        } else if (isSummaryQuery && selectedChObj) {
+          const notesBullets = chLectureNotes.length > 0
+            ? chLectureNotes.map(n => `• **${n.title}:** ${n.detail}`).join('\n\n')
+            : '• পাঠ্যবইয়ের প্রতিটি অনুচ্ছেদ ও মূল বক্তব্য নিয়মিত চর্চা করো।';
+
+          reply = `📚 **“${chTitle}” অধ্যায়ের সম্পূর্ণ সারসংক্ষেপ ও লেকচার নোটস:**\n\n${chSummary || 'এই অধ্যায়ে মানবপ্রেম, নৈতিক মূল্যবোধ ও সত্যের জয়গান প্রতিধ্বনিত হয়েছে।'}\n\n📌 **গুরুত্বপূর্ণ পাঠ্য বিষয়সমূহ:**\n${notesBullets}\n\n💡 **মূল শিক্ষা ও বার্তা:**\n${chLectureNotes[0]?.detail || 'নৈতিকতা, পরোপকার এবং সৎ সাহসিকতার সাথে জীবন গঠন করাই এই পাঠের মূল লক্ষ্য।'}`;
         } else if (isBirthQuery && authorInfo) {
-          if (authorInfo.prophetBirth && (qLower.includes('মুহম্মদ') || qLower.includes('নবী') || qLower.includes('prophet') || !qLower.includes('ওয়াজেদ'))) {
+          if (authorInfo.prophetBirth && (qLower.includes('মুহম্মদ') || qLower.includes('নবী') || qLower.includes('prophet') || qLower.includes('mohammad') || !qLower.includes('ওয়াজেদ'))) {
             reply = `🎯 **হজরত মুহম্মদ (সা.)-এর জন্ম ও ওফাত:**\n• জন্ম: **৫৭০ খ্রিস্টাব্দের ১২ই রবিউল আউয়াল** (মক্কা নগরীর কুরাইশ বংশ)।\n• ওফাত: **৬৩২ খ্রিস্টাব্দের ১২ই রবিউল আউয়াল** (মদিনা শরিফ)।\n• পিতা-মাতা: পিতা আবদুল্লাহ ও মাতা মা আমিনা।`;
           } else {
             reply = `🎯 **${authorInfo.author}-এর জন্ম ও পরিচয়:**\n• জন্মসাল: **${authorInfo.authorBirth}**\n• মৃত্যু: **${authorInfo.authorDeath}**\n📖 অধ্যায়: “${chTitle}”`;
@@ -722,8 +771,6 @@ const CHAPTER_STORY_QA_DATABASE = [
           }
         } else if (isWhoWroteQuery && authorInfo) {
           reply = `🎯 **সঠিক উত্তর: ${authorInfo.author}**\n\n📖 অধ্যায়: “${chTitle}”`;
-        } else if (isSummaryQuery && selectedChObj) {
-          reply = `📚 **“${chTitle}” সারসংক্ষেপ:**\n${chSummary}\n\n💡 মূল শিক্ষা: ${chLectureNotes[0]?.detail || 'পাঠ্যবইয়ের মূল ভাববস্তু নিয়মিত চর্চা করো।'}`;
         } else if (isQuestionQuery && selectedChObj) {
           if (chSelfTest.length > 0) {
             const qList = chSelfTest.slice(0, 2).map((st, i) => `${i + 1}. ${st.q}\n✓ **${st.options[st.correct]}** (${st.explanation})`).join('\n\n');
@@ -733,7 +780,7 @@ const CHAPTER_STORY_QA_DATABASE = [
           }
         } else if (selectedChObj) {
           let specificSt = null;
-          const stopWords = ['কার', 'কে', 'কী', 'কি', 'কোন', 'কত', 'সালে', 'নাম', 'বলতে', 'হলো', 'পিতা', 'পিতার', 'মাতা', 'মাতার', 'বাবা', 'মা', 'ঈশ্বরচন্দ্র', 'বিদ্যাসাগর', 'রবীন্দ্রনাথ', 'নজরুল', 'শরৎচন্দ্র', 'বঙ্কিমচন্দ্র', 'মুহম্মদ', 'প্রত্যুপকার', 'শুভা', 'নিমগাছ'];
+          const stopWords = ['কার', 'কে', 'কী', 'কি', 'কোন', 'কত', 'সালে', 'নাম', 'বলতে', 'হলো', 'পিতা', 'পিতার', 'মাতা', 'মাতার', 'বাবা', 'মা', 'ঈশ্বরচন্দ্র', 'বিদ্যাসাগর', 'রবীন্দ্রনাথ', 'নজরুল', 'শরৎচন্দ্র', 'বঙ্কিমচন্দ্র', 'মুহম্মদ', 'প্রত্যুপকার', 'শুভা', 'নিমগাছ', 'ki', 'ke', 'kar', 'koto', 'sale', 'shale', 'nam', 'bolte', 'holo'];
           
           if (chSelfTest && chSelfTest.length > 0) {
             specificSt = chSelfTest.find(st => {
@@ -758,8 +805,7 @@ const CHAPTER_STORY_QA_DATABASE = [
             reply = `🤔 দুঃখিত, আপনার প্রশ্নটি (“${query}”) স্পষ্ট নয় অথবা বর্তমান সিলেক্ট করা অধ্যায় **“${chTitle}”**-এর তথ্যের সাথে সরাসরি মেলেনি।\n\n💡 **আপনি এই অধ্যায় সম্পর্কিত নিচের যেকোনো তথ্য জানতে পারেন:**\n• অধ্যায়ের মূলভাব বা সারসংক্ষেপ কী?\n• রচয়িতা বা লেখকের পরিচিতি ও উৎস\n• গুরুত্বপূর্ণ বোর্ড প্রশ্নোত্তর\n• সৃজনশীল প্রশ্নের উত্তর লেখার কাঠামো`;
           }
         } else {
-          // When NO chapter is selected and question is generic / unmatched
-          reply = `⚠️ **অনুগ্রহ করে প্রথমে একটি নির্দিষ্ট অধ্যায় নির্বাচন করুন!**\n\nবর্তমানে কোনো নির্দিষ্ট অধ্যায় সিলেক্ট করা নেই (সকল অধ্যায় অপশনে রয়েছে)।\n\n💡 **কীভাবে করবেন:**\n• উপরের **অধ্যায় তালিকা** ড্রপডাউন থেকে আপনার কাঙ্ক্ষিত অধ্যায়টি বেছে নিন (যেমন: “১. প্রত্যুপকার”, “২. শুভা”, “নিমগাছ” ইত্যাদি)।\n• অথবা প্রশ্নে অধ্যায়ের নাম উল্লেখ করে লিখুন (যেমন: *“শুভা গল্পের মূলভাব কী?”* বা *“কাকতাড়ুয়ার বুধা কে?”*)।`;
+          reply = `⚠️ **অনুগ্রহ করে প্রথমে একটি নির্দিষ্ট অধ্যায় নির্বাচন করুন!**\n\nবর্তমানে কোনো নির্দিষ্ট অধ্যায় সিলেক্ট করা নেই (সকল অধ্যায় অপশনে রয়েছে)।\n\n💡 **কীভাবে করবেন:**\n• উপরের **অধ্যায় তালিকা** ড্রপডাউন থেকে আপনার কাঙ্ক্ষিত অধ্যায়টি বেছে নিন (যেমন: “১. প্রত্যুপকার”, “২. শুভা”, “নিমগাছ” ইত্যাদি)।\n• অথবা প্রশ্নে অধ্যায়ের নাম উল্লেখ করে লিখুন (যেমন: *“শুভা গল্পের মূলভাব কী?”* বা *“kaktarua car lekha”*)।`;
         }
 
         setChatMessages(prev => [
@@ -789,7 +835,7 @@ const CHAPTER_STORY_QA_DATABASE = [
     }, 150);
   };
 
-      const handleCopyMessage = (msgId, text) => {
+        const handleCopyMessage = (msgId, text) => {
     navigator.clipboard?.writeText(text);
     setCopiedMsgId(msgId);
     showToast('📋 উত্তর কপি করা হয়েছে!', 'success');
