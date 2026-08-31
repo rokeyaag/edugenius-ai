@@ -74,3 +74,46 @@ button {
 .btn-hover-lift:active {
   transform: translateY(0) scale(0.97);
 }
+
+/* =========================================================================
+   OFFICIAL EXAM PAPER CLEAN PRINT STYLES
+   ========================================================================= */
+@media print {
+  @page {
+    margin: 12mm 15mm 12mm 15mm;
+    size: A4 portrait;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 11pt !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  header, 
+  nav, 
+  footer, 
+  .print\:hidden, 
+  .no-print,
+  button {
+    display: none !important;
+  }
+
+  /* Reset shell max-width and background shadows */
+  .min-h-screen,
+  main,
+  div {
+    box-shadow: none !important;
+  }
+
+  /* Prevent page breaks inside stems and questions */
+  .break-inside-avoid {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+}

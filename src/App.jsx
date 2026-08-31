@@ -19,17 +19,17 @@ function AppContent() {
   const { activeTab, toastMessage, isInstallModalOpen, setIsInstallModalOpen } = useApp();
 
   return (
-    <div className="min-h-screen bg-slate-900 md:bg-slate-100/90 flex justify-center text-slate-900 selection:bg-red-600 selection:text-white antialiased">
+    <div className="min-h-screen bg-slate-900 md:bg-slate-100/90 flex justify-center text-slate-900 selection:bg-red-600 selection:text-white antialiased print:bg-white print:min-h-0 print:block">
       
       {/* Responsive Shell Wrapper: Mobile (full width) & Desktop (sleek max-w-4xl lg:max-w-5xl with card borders) */}
-      <div className="w-full max-w-md md:max-w-4xl lg:max-w-5xl min-h-screen flex flex-col bg-[#ffffff] md:border-x md:border-slate-200/90 md:shadow-2xl relative transition-all duration-300">
+      <div className="w-full max-w-md md:max-w-4xl lg:max-w-5xl min-h-screen flex flex-col bg-[#ffffff] md:border-x md:border-slate-200/90 md:shadow-2xl relative transition-all duration-300 print:max-w-none print:w-full print:border-none print:shadow-none print:min-h-0 print:block">
         
         {/* Top Header Navbar */}
         <Navbar />
 
         {/* Dynamic Toast Notification */}
         {toastMessage && (
-          <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 max-w-sm w-full px-4 animate-in slide-in-from-top-4 duration-300 pointer-events-none">
+          <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 max-w-sm w-full px-4 animate-in slide-in-from-top-4 duration-300 pointer-events-none print:hidden">
             <div className={`p-3.5 rounded-2xl border shadow-xl flex items-center gap-2.5 text-xs font-black ${
               toastMessage.type === 'point'
                 ? 'bg-amber-50 border-amber-400 text-amber-900 shadow-md'
@@ -50,7 +50,7 @@ function AppContent() {
         )}
 
         {/* Main Viewport with proper bottom safe padding for desktop and mobile */}
-        <main className="flex-1 px-3 sm:px-6 md:px-8 pt-1 pb-28 md:pb-32 bg-[#ffffff]">
+        <main className="flex-1 px-3 sm:px-6 md:px-8 pt-1 pb-28 md:pb-32 bg-[#ffffff] print:p-0 print:m-0 print:pb-0 print:block">
           {activeTab === 'home' && <DashboardView />}
           {activeTab === 'creative' && <CreativeQuestionsView />}
           {activeTab === 'tutor' && <AITutorView />}

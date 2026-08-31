@@ -29,7 +29,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full px-2 sm:px-4 pt-1.5 sm:pt-2 pb-1.5">
+    <header className="sticky top-0 z-40 w-full px-2 sm:px-4 pt-1.5 sm:pt-2 pb-1.5 print:hidden">
       <div className="max-w-md md:max-w-4xl lg:max-w-5xl mx-auto bg-white/95 backdrop-blur-2xl border border-slate-200/70 shadow-xl shadow-slate-200/60 rounded-3xl p-3 space-y-2.5 transition-all duration-300">
         
         {/* Top Mini Utilities Bar: Class, App Install & Language Switcher */}
