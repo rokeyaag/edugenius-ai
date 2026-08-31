@@ -262,12 +262,12 @@ export default function TeacherPortalView() {
   // 1. Selection State
   const [selectedClassId, setSelectedClassId] = useState(currentClassId || 'class-9');
   const [selectedSubjectId, setSelectedSubjectId] = useState('bangla-sahitya');
-  const [selectedChapterIds, setSelectedChapterIds] = useState(['bs-g1', 'bs-g2', 'bs-g6']);
+  const [selectedChapterIds, setSelectedChapterIds] = useState(['bs-g1', 'bs-g2']);
   const [selectedTemplate, setSelectedTemplate] = useState('cq-board'); // 'cq-board', 'mcq-test', 'class-test', 'knowledge-drill', 'final-exam'
 
   // 2. Exam Header Customization State
   const [schoolName, setSchoolName] = useState(teacherProfile?.school || 'রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ');
-  const [examTitle, setExamTitle] = useState('১ম সাময়িক মূল্যায়ন পরীক্ষা — ২০২৬');
+  const [examTitle, setExamTitle] = useState('সৃজনশীল মূল্যায়ন ও সাময়িক পরীক্ষা — ২০২৬');
   const [examTime, setExamTime] = useState('২ ঘণ্টা ৩০ মিনিট');
   const [totalMarks, setTotalMarks] = useState('৭০');
   const [difficulty, setDifficulty] = useState('board'); // 'easy', 'board', 'hard'
@@ -283,6 +283,16 @@ export default function TeacherPortalView() {
   // Available chapters for the selected subject
   const availableChapters = useMemo(() => {
     return NCTB_FULL_BOOK_CHAPTERS_MAP[selectedSubjectId] || NCTB_FULL_BOOK_CHAPTERS_MAP['bangla-sahitya'] || [];
+  }, [selectedSubjectId]);
+
+  // When subject changes, automatically sync selected chapters to the first 2 chapters of the selected subject
+  useEffect(() => {
+    const chapters = NCTB_FULL_BOOK_CHAPTERS_MAP[selectedSubjectId] || [];
+    if (chapters.length > 0) {
+      setSelectedChapterIds([chapters[0].id, chapters[1]?.id].filter(Boolean));
+    } else {
+      setSelectedChapterIds([]);
+    }
   }, [selectedSubjectId]);
 
   // Handle Teacher Login Form Submission (Supports Mobile Number OR Email Address)
@@ -551,7 +561,7 @@ export default function TeacherPortalView() {
   // Selected Chapter Objects
   const chosenChapters = useMemo(() => {
     const list = availableChapters.filter(c => selectedChapterIds.includes(c.id));
-    return list.length > 0 ? list : availableChapters.slice(0, 3);
+    return list.length > 0 ? list : availableChapters.slice(0, 2);
   }, [availableChapters, selectedChapterIds, refreshKey]);
 
   // 5 Ready Sample Templates Definition
@@ -563,34 +573,38 @@ export default function TeacherPortalView() {
       desc: 'উদ্দীপক + ক (জ্ঞান), খ (অনুধাবন), গ (প্রয়োগ), ঘ (উচ্চতর দক্ষতা)',
       marks: '৭০',
       time: '২ ঘণ্টা ৩০ মিনিট',
-      icon: '📝'
+      icon: '📝',
+      defaultTitle: 'সৃজনশীল মূল্যায়ন ও সাময়িক পরীক্ষা — ২০২৬'
     },
     {
       id: 'mcq-test',
       title: '⚡ নৈর্ব্যক্তিক পরীক্ষা (MCQ Sheet)',
       badge: '৩০টি প্রশ্ন',
-      desc: '৪ অপশন বিশিষ্ট বোর্ড স্ট্যান্ডার্ড বহুনির্বাচনী ও উত্তরপত্র',
+      desc: '৪ অপশন বিশিষ্ট বোর্ড স্ট্যান্ডার্ড বহুনির্বাচনী ও ওএমআর মূল্যায়ন',
       marks: '৩০',
       time: '৩০ মিনিট',
-      icon: '🔘'
+      icon: '🔘',
+      defaultTitle: 'নৈর্ব্যক্তিক মূল্যায়ন ও MCQ পরীক্ষা — ২০২৬'
     },
     {
       id: 'class-test',
       title: '📋 অধ্যায়ভিত্তিক ক্লাস টেস্ট',
       badge: 'কুইক টেস্ট',
-      desc: '৫টি জ্ঞানমূলক + ৫টি অনুধাবনমূলক + ১টি সৃজনশীল প্রশ্ন',
-      marks: '২০',
+      desc: 'অধ্যায়ভিত্তিক সংক্ষিপ্ত বহুনির্বাচনী ও ১টি সৃজনশীল প্রশ্ন',
+      marks: '২৫',
       time: '৪৫ মিনিট',
-      icon: '⏱️'
+      icon: '⏱️',
+      defaultTitle: 'অধ্যায়ভিত্তিক মূল্যায়ন ক্লাস টেস্ট — ২০২৬'
     },
     {
       id: 'knowledge-drill',
       title: '💡 জ্ঞান ও অনুধাবন ড্রিল',
       badge: 'স্পেশাল কুইজ',
-      desc: 'ক ও খ নম্বরের ২০টি সর্বোচ্চ নম্বর নিশ্চিতকরণ প্রশ্ন',
+      desc: 'ক ও খ নম্বরের সর্বোচ্চ নম্বর নিশ্চিতকরণ বিশেষ মডেল ড্রিল',
       marks: '২৫',
       time: '৪০ মিনিট',
-      icon: '💡'
+      icon: '💡',
+      defaultTitle: 'জ্ঞান ও অনুধাবন বিশেষ মডেল পরীক্ষা — ২০২৬'
     },
     {
       id: 'final-exam',
@@ -599,7 +613,8 @@ export default function TeacherPortalView() {
       desc: 'সৃজনশীল (৭০) + বহুনির্বাচনী (৩০) সমন্বিত পূর্ণাঙ্গ প্রশ্নপত্র',
       marks: '১০০',
       time: '৩ ঘণ্টা',
-      icon: '📜'
+      icon: '📜',
+      defaultTitle: 'বার্ষিক / সাময়িক পূর্ণাঙ্গ মডেল টেস্ট পরীক্ষা — ২০২৬'
     }
   ];
 
@@ -668,27 +683,37 @@ export default function TeacherPortalView() {
   const handlePrint = () => {
     if (!generatedPaper) return;
 
+    const currentTemplateObj = SAMPLE_TEMPLATES.find(t => t.id === selectedTemplate) || SAMPLE_TEMPLATES[0];
+    const subjectNameBn = availableSubjects.find(s => s.id === selectedSubjectId)?.nameBn || 'বাংলা';
+    const chaptersText = chosenChapters.map(c => c.title.split('—')[0].replace(/[০-৯\.\‘\’]/g, '').trim()).join(', ');
+
     let questionsHtml = '';
 
     // 1. Creative Questions (CQ - ক বিভাগ)
     if (generatedPaper.cqQuestions?.length) {
+      const numToAnswer = Math.min(5, generatedPaper.cqQuestions.length);
+      const totalCqMarks = numToAnswer * 10;
       questionsHtml += `
         <div style="margin-top: 12px; margin-bottom: 22px;">
-          <div style="text-align: center; margin-bottom: 14px;">
-            <span style="font-weight: 800; font-size: 13.5px; border-bottom: 1.5px solid #000; padding-bottom: 2px;">
-              [ক বিভাগ: সৃজনশীল প্রশ্নাবলী — যেকোনো ${chosenChapters.length > 2 ? '৫' : chosenChapters.length}টি প্রশ্নের উত্তর দাও]
-            </span>
+          <div style="text-align: center; margin-bottom: 12px;">
+            <div style="font-weight: 900; font-size: 13.5px; border-bottom: 1.5px solid #000; padding-bottom: 2px; display: inline-block;">
+              [ক বিভাগ: সৃজনশীল প্রশ্নাবলী — পূর্ণমান: ${toBnDigit(totalCqMarks)}]
+            </div>
+            <div style="font-size: 11px; font-weight: bold; color: #222; margin-top: 3px;">
+              [যেকোনো ${toBnDigit(numToAnswer)}টি প্রশ্নের উত্তর দাও — প্রতিটি প্রশ্নের মান ১০ (ক=১, খ=২, গ=৩, ঘ=৪)]
+            </div>
           </div>
           ${generatedPaper.cqQuestions.map((q) => `
             <div style="margin-bottom: 16px; page-break-inside: avoid; break-inside: avoid; border-bottom: 1px dashed #ccc; padding-bottom: 12px;">
-              <div style="font-weight: bold; font-size: 13px; line-height: 1.55; margin-bottom: 8px; text-align: justify;">
-                <span style="font-weight: 800;">${q.num}.</span> <span style="font-weight: normal;">${q.stem}</span>
+              <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 13px; line-height: 1.55; margin-bottom: 8px; text-align: justify;">
+                <div><span style="font-weight: 900;">${q.num}.</span> <span style="font-weight: normal;">${q.stem}</span></div>
+                <div style="font-weight: 800; padding-left: 10px; font-size: 11.5px; white-space: nowrap;">[১০]</div>
               </div>
               <div style="padding-left: 20px; font-size: 12.5px; line-height: 1.6;">
                 ${q.parts.map(p => `
                   <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
                     <div><strong>(${p.label})</strong> ${p.q}</div>
-                    <div style="font-weight: bold; padding-left: 12px; white-space: nowrap;">${p.marks}</div>
+                    <div style="font-weight: bold; padding-left: 12px; white-space: nowrap;">[${p.marks}]</div>
                   </div>
                 `).join('')}
               </div>
@@ -700,20 +725,25 @@ export default function TeacherPortalView() {
 
     // 2. MCQ Sheet (খ বিভাগ)
     if (generatedPaper.mcqQuestions?.length) {
+      const totalMcqMarks = generatedPaper.mcqQuestions.length;
       questionsHtml += `
         <div style="margin-top: 15px; margin-bottom: 20px; page-break-before: auto;">
-          <div style="text-align: center; margin-bottom: 14px;">
-            <span style="font-weight: 800; font-size: 13.5px; border-bottom: 1.5px solid #000; padding-bottom: 2px;">
-              [খ বিভাগ: বহুনির্বাচনী প্রশ্ন (MCQ / কুইজ) — সঠিক উত্তরের বৃত্ত ভরাট করো]
-            </span>
+          <div style="text-align: center; margin-bottom: 12px;">
+            <div style="font-weight: 900; font-size: 13.5px; border-bottom: 1.5px solid #000; padding-bottom: 2px; display: inline-block;">
+              [খ বিভাগ: বহুনির্বাচনী প্রশ্ন (MCQ / কুইজ) — পূর্ণমান: ${toBnDigit(totalMcqMarks)}]
+            </div>
+            <div style="font-size: 11px; font-weight: bold; color: #222; margin-top: 3px;">
+              [সকল প্রশ্নের উত্তর দেওয়া আবশ্যক — প্রতিটি সঠিক উত্তরের জন্য ১ নম্বর বরাদ্দ: ${toBnDigit(totalMcqMarks)} × ১ = ${toBnDigit(totalMcqMarks)}]
+            </div>
           </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px;">
             ${generatedPaper.mcqQuestions.map((m) => `
               <div style="page-break-inside: avoid; break-inside: avoid; border-bottom: 1px dashed #e2e8f0; padding-bottom: 6px;">
-                <div style="font-weight: bold; font-size: 12.5px; margin-bottom: 4px;">
-                  <span style="font-weight: 800;">${m.num}.</span> ${m.question}
+                <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 12.5px; margin-bottom: 4px;">
+                  <div><span style="font-weight: 900;">${m.num}.</span> ${m.question}</div>
+                  <div style="font-weight: 800; font-size: 11px; padding-left: 8px; white-space: nowrap;">[১]</div>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3px; padding-left: 14px; font-size: 11.5px; color: #222;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; padding-left: 14px; font-size: 11.5px; color: #222;">
                   ${m.options.map((opt, optIdx) => `
                     <div>(${['ক', 'খ', 'গ', 'ঘ'][optIdx]}) ${opt}</div>
                   `).join('')}
@@ -764,7 +794,14 @@ export default function TeacherPortalView() {
     .exam-title {
       font-size: 14px;
       font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .template-badge {
+      font-size: 11.5px;
+      font-weight: bold;
+      display: inline-block;
       margin-bottom: 6px;
+      text-decoration: underline;
     }
     .meta-row {
       display: flex;
@@ -777,11 +814,14 @@ export default function TeacherPortalView() {
       border-top: 1px dotted #777;
       padding-top: 3px;
     }
-    .teacher-line {
-      text-align: right;
+    .meta-details {
+      display: flex;
+      justify-content: space-between;
       font-size: 11px;
       font-weight: bold;
       color: #333;
+      border-top: 1px dashed #aaa;
+      padding-top: 3px;
       margin-top: 3px;
     }
     .end-footer {
@@ -798,16 +838,22 @@ export default function TeacherPortalView() {
   <div class="header-box">
     <div class="school-title">${schoolName}</div>
     <div class="exam-title">${examTitle}</div>
+    <div class="template-badge">[${currentTemplateObj.title.replace(/^[^\s]+\s*/, '')}]</div>
     <div class="meta-row">
       <div>শ্রেণি: ${classObj.nameBn}</div>
-      <div>বিষয়: ${availableSubjects.find(s => s.id === selectedSubjectId)?.nameBn || 'বাংলা'}</div>
+      <div>বিষয়: ${subjectNameBn}</div>
     </div>
     <div class="meta-row meta-sub">
       <div>সময়: ${examTime}</div>
       <div>পূর্ণমান: ${totalMarks}</div>
     </div>
-    <div class="teacher-line">
-      পরীক্ষক / প্রস্তুতকারক: ${teacherProfile?.name || 'বিষয় শিক্ষক'} (${teacherProfile?.designation || 'সহকারী শিক্ষক'})
+    <div class="meta-details">
+      <div style="max-width: 65%; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+        অন্তর্ভুক্ত অধ্যায়: ${chaptersText}
+      </div>
+      <div>
+        পরীক্ষক: ${teacherProfile?.name || 'বিষয় শিক্ষক'} (${teacherProfile?.designation || 'সহকারী শিক্ষক'})
+      </div>
     </div>
   </div>
 
@@ -842,22 +888,29 @@ export default function TeacherPortalView() {
     }, 350);
   };
 
-  // Copy Question Text (Includes Both CQ & MCQ)
+  // Copy Question Text (Includes Both CQ & MCQ with Marks)
   const handleCopy = () => {
     if (!generatedPaper) return;
-    let fullText = `${schoolName}\n${examTitle}\nশ্রেণি: ${classObj.nameBn} | বিষয়: ${availableSubjects.find(s => s.id === selectedSubjectId)?.nameBn || 'বাংলা'}\nপরীক্ষক: ${teacherProfile?.name || 'বিষয় শিক্ষক'}\nসময়: ${examTime} | পূর্ণমান: ${totalMarks}\n------------------------------------------------\n\n`;
+    const currentTemplateObj = SAMPLE_TEMPLATES.find(t => t.id === selectedTemplate) || SAMPLE_TEMPLATES[0];
+    const subjectNameBn = availableSubjects.find(s => s.id === selectedSubjectId)?.nameBn || 'বাংলা';
+    const chaptersText = chosenChapters.map(c => c.title.split('—')[0].replace(/[০-৯\.\‘\’]/g, '').trim()).join(', ');
+
+    let fullText = `${schoolName}\n${examTitle}\n[${currentTemplateObj.title.replace(/^[^\s]+\s*/, '')}]\nশ্রেণি: ${classObj.nameBn} | বিষয়: ${subjectNameBn}\nসময়: ${examTime} | পূর্ণমান: ${totalMarks}\nঅন্তর্ভুক্ত অধ্যায়: ${chaptersText}\nপরীক্ষক: ${teacherProfile?.name || 'বিষয় শিক্ষক'} (${teacherProfile?.designation || 'সহকারী শিক্ষক'})\n------------------------------------------------\n\n`;
 
     if (generatedPaper.cqQuestions?.length) {
-      fullText += `[ক বিভাগ: সৃজনশীল অংশ — যেকোনো ${chosenChapters.length > 2 ? '৫' : chosenChapters.length}টি প্রশ্নের উত্তর দাও]\n\n`;
+      const numToAnswer = Math.min(5, generatedPaper.cqQuestions.length);
+      const totalCqMarks = numToAnswer * 10;
+      fullText += `[ক বিভাগ: সৃজনশীল অংশ — পূর্ণমান: ${toBnDigit(totalCqMarks)}]\n[যেকোনো ${toBnDigit(numToAnswer)}টি প্রশ্নের উত্তর দাও — প্রতিটি প্রশ্নের মান ১০ (ক=১, খ=২, গ=৩, ঘ=৪)]\n\n`;
       generatedPaper.cqQuestions.forEach((q) => {
-        fullText += `প্রশ্ন নং ${q.num}:\n${q.stem}\n(ক) ${q.parts[0].q} [১]\n(খ) ${q.parts[1].q} [২]\n(গ) ${q.parts[2].q} [৩]\n(ঘ) ${q.parts[3].q} [৪]\n\n`;
+        fullText += `প্রশ্ন নং ${q.num}: [১০]\n${q.stem}\n(ক) ${q.parts[0].q} [১]\n(খ) ${q.parts[1].q} [২]\n(গ) ${q.parts[2].q} [৩]\n(ঘ) ${q.parts[3].q} [৪]\n\n`;
       });
     }
 
     if (generatedPaper.mcqQuestions?.length) {
-      fullText += `[খ বিভাগ: বহুনির্বাচনী প্রশ্ন (MCQ / কুইজ)]\n\n`;
+      const totalMcqMarks = generatedPaper.mcqQuestions.length;
+      fullText += `[খ বিভাগ: বহুনির্বাচনী প্রশ্ন (MCQ / কুইজ) — পূর্ণমান: ${toBnDigit(totalMcqMarks)}]\n[সকল প্রশ্নের উত্তর দেওয়া আবশ্যক — প্রতিটি সঠিক উত্তরের মান ১: ${toBnDigit(totalMcqMarks)} × ১ = ${toBnDigit(totalMcqMarks)}]\n\n`;
       generatedPaper.mcqQuestions.forEach((m) => {
-        fullText += `${m.num}. ${m.question}\n(ক) ${m.options[0]}  (খ) ${m.options[1]}  (গ) ${m.options[2]}  (ঘ) ${m.options[3]}\n\n`;
+        fullText += `${m.num}. ${m.question}  [১]\n(ক) ${m.options[0]}  (খ) ${m.options[1]}  (গ) ${m.options[2]}  (ঘ) ${m.options[3]}\n\n`;
       });
     }
 
@@ -1636,6 +1689,7 @@ export default function TeacherPortalView() {
                       setSelectedTemplate(tpl.id);
                       setTotalMarks(tpl.marks);
                       setExamTime(tpl.time);
+                      setExamTitle(tpl.defaultTitle || `${tpl.title.replace(/^[^\s]+\s*/, '')} — ২০২৬`);
                       showToast(`${tpl.title} ফরম্যাট নির্বাচিত`, 'success');
                     }}
                     className={`p-3 rounded-2xl border cursor-pointer transition-all ${
@@ -1782,9 +1836,16 @@ export default function TeacherPortalView() {
           <div className="bg-white p-6 rounded-3xl border border-slate-300 shadow-xl space-y-4 print:p-0 print:m-0 print:border-none print:shadow-none print:rounded-none print:space-y-3">
             
             {/* Header of Question Paper */}
-            <div className="text-center pb-3 border-b-2 border-slate-900 space-y-1">
-              <h2 className="text-lg font-black text-slate-950 tracking-tight">{schoolName}</h2>
-              <p className="text-xs font-extrabold text-slate-800">{examTitle}</p>
+            <div className="text-center pb-3 border-b-2 border-slate-900 space-y-1.5">
+              <h2 className="text-xl font-black text-slate-950 tracking-tight">{schoolName}</h2>
+              <div className="text-sm font-extrabold text-slate-800">
+                <span>{examTitle}</span>
+              </div>
+              <div className="text-center">
+                <span className="text-[11px] font-black bg-slate-100 text-slate-800 border border-slate-300 px-3 py-0.5 rounded-full inline-block">
+                  {SAMPLE_TEMPLATES.find(t => t.id === selectedTemplate)?.title || 'সৃজনশীল ও বহুনির্বাচনী প্রশ্নপত্র'}
+                </span>
+              </div>
               <div className="flex items-center justify-between text-xs font-bold text-slate-700 pt-1">
                 <span>শ্রেণি: {classObj.nameBn}</span>
                 <span>বিষয়: {availableSubjects.find(s => s.id === selectedSubjectId)?.nameBn || 'বাংলা'}</span>
@@ -1793,31 +1854,36 @@ export default function TeacherPortalView() {
                 <span>সময়: {examTime}</span>
                 <span>পূর্ণমান: {totalMarks}</span>
               </div>
-              <div className="text-right text-[10px] font-black text-slate-600 pt-0.5">
-                <span>পরীক্ষক / প্রস্তুতকারক: {teacherProfile?.name} ({teacherProfile?.designation || 'বিষয় শিক্ষক'})</span>
+              <div className="flex items-center justify-between text-[11px] font-bold text-slate-600 border-t border-dashed border-slate-200 pt-1">
+                <span className="text-left truncate max-w-[65%]">
+                  অন্তর্ভুক্ত অধ্যায়: {chosenChapters.map(c => c.title.split('—')[0].replace(/[০-৯\.\‘\’]/g, '').trim()).join(', ')}
+                </span>
+                <span className="text-right">
+                  পরীক্ষক: {teacherProfile?.name || 'বিষয় শিক্ষক'} ({teacherProfile?.designation || 'সহকারী শিক্ষক'})
+                </span>
               </div>
-            </div>
-
-            {/* Selected Chapters Note (Hidden in Print) */}
-            <div className="bg-slate-50 p-2 rounded-xl text-[10px] font-bold text-slate-600 flex items-center justify-between print:hidden">
-              <span>অন্তর্ভুক্ত অধ্যায়: {chosenChapters.map(c => c.title.split('—')[0]).join(', ')}</span>
-              <span className="text-red-600 font-black">{chosenChapters.length}টি অধ্যায় • {toBnDigit(refreshKey)}ম সংস্করণ</span>
             </div>
 
             {/* SECTION 1: CREATIVE QUESTIONS (CQ - ক বিভাগ) */}
             {generatedPaper && generatedPaper.cqQuestions?.length > 0 && (
               <div className="space-y-4 pt-1 print:space-y-3.5">
-                <div className="text-center">
-                  <span className="text-xs font-black bg-slate-100 px-3 py-1 rounded-full border border-slate-300 print:border-none print:bg-transparent print:font-extrabold">
-                    [ক বিভাগ: সৃজনশীল প্রশ্ন — যেকোনো {chosenChapters.length > 2 ? '৫' : chosenChapters.length}টি প্রশ্নের উত্তর দাও]
-                  </span>
+                <div className="text-center space-y-0.5">
+                  <div className="text-xs font-black bg-slate-100 px-3 py-1 rounded-full border border-slate-300 inline-block print:border-none print:bg-transparent print:font-extrabold">
+                    [ক বিভাগ: সৃজনশীল প্রশ্নাবলী — পূর্ণমান: {toBnDigit(Math.min(5, generatedPaper.cqQuestions.length) * 10)}]
+                  </div>
+                  <p className="text-[11px] font-bold text-slate-600 print:text-black">
+                    [যেকোনো {toBnDigit(Math.min(5, generatedPaper.cqQuestions.length))}টি প্রশ্নের উত্তর দাও — প্রতিটি প্রশ্নের মান ১০ (ক=১, খ=২, গ=৩, ঘ=৪)]
+                  </p>
                 </div>
 
                 {generatedPaper.cqQuestions.map((q, idx) => (
                   <div key={idx} className="space-y-2 text-xs border-b border-slate-100 pb-3 break-inside-avoid print:break-inside-avoid print:border-slate-300 print:pb-2.5">
-                    <div className="font-black text-slate-900 flex items-start gap-1">
-                      <span>{q.num}.</span>
-                      <p className="font-medium text-slate-800 leading-relaxed text-justify">{q.stem}</p>
+                    <div className="font-black text-slate-900 flex items-start justify-between gap-2">
+                      <div className="flex items-start gap-1">
+                        <span className="font-black">{q.num}.</span>
+                        <p className="font-medium text-slate-800 leading-relaxed text-justify">{q.stem}</p>
+                      </div>
+                      <span className="font-black text-slate-900 shrink-0 text-xs">[১০]</span>
                     </div>
 
                     <div className="space-y-1 pl-4">
@@ -1827,7 +1893,7 @@ export default function TeacherPortalView() {
                             <span className="font-black text-slate-900">({p.label})</span>
                             <span className="text-slate-800 font-medium">{p.q}</span>
                           </div>
-                          <span className="font-black text-slate-900 shrink-0">{p.marks}</span>
+                          <span className="font-black text-slate-900 shrink-0">[{p.marks}]</span>
                         </div>
                       ))}
                     </div>
@@ -1852,18 +1918,24 @@ export default function TeacherPortalView() {
             {/* SECTION 2: MULTIPLE CHOICE (MCQ / কুইজ - খ বিভাগ) */}
             {generatedPaper && generatedPaper.mcqQuestions?.length > 0 && (
               <div className="space-y-3 pt-3 border-t-2 border-dashed border-slate-200 print:border-slate-300 print:space-y-2.5">
-                <div className="text-center">
-                  <span className="text-xs font-black bg-slate-100 px-3 py-1 rounded-full border border-slate-300 print:border-none print:bg-transparent print:font-extrabold">
-                    [খ বিভাগ: বহুনির্বাচনী প্রশ্ন (MCQ / কুইজ) — সঠিক উত্তরের বৃত্ত ভরাট করো]
-                  </span>
+                <div className="text-center space-y-0.5">
+                  <div className="text-xs font-black bg-slate-100 px-3 py-1 rounded-full border border-slate-300 inline-block print:border-none print:bg-transparent print:font-extrabold">
+                    [খ বিভাগ: বহুনির্বাচনী প্রশ্ন (MCQ / কুইজ) — পূর্ণমান: {toBnDigit(generatedPaper.mcqQuestions.length)}]
+                  </div>
+                  <p className="text-[11px] font-bold text-slate-600 print:text-black">
+                    [সকল প্রশ্নের উত্তর দেওয়া আবশ্যক — প্রতিটি সঠিক উত্তরের জন্য ১ নম্বর বরাদ্দ: {toBnDigit(generatedPaper.mcqQuestions.length)} × ১ = {toBnDigit(generatedPaper.mcqQuestions.length)}]
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs print:gap-2">
                   {generatedPaper.mcqQuestions.map((m, idx) => (
                     <div key={idx} className="space-y-1 border-b border-slate-100 pb-2 break-inside-avoid print:break-inside-avoid print:border-slate-300">
-                      <div className="font-black text-slate-900 flex items-start gap-1">
-                        <span>{m.num}.</span>
-                        <span className="font-bold text-slate-800">{m.question}</span>
+                      <div className="font-black text-slate-900 flex items-start justify-between gap-2">
+                        <div className="flex items-start gap-1">
+                          <span className="font-black">{m.num}.</span>
+                          <span className="font-bold text-slate-800">{m.question}</span>
+                        </div>
+                        <span className="font-bold text-slate-700 shrink-0 text-[11px] bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200 print:bg-transparent print:border-none">[১]</span>
                       </div>
 
                       <div className="grid grid-cols-2 gap-1 pl-4 text-[11px] text-slate-700">
