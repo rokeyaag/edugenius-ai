@@ -29,7 +29,7 @@ import { NCTB_FULL_BOOK_CHAPTERS_MAP } from './KnowledgeVaultView';
 import SleekCustomDropdown from './SleekCustomDropdown';
 
 // Comprehensive NCTB Board Standard Creative Question (CQ / সৃজনশীল) Database in Bangla (১০ নম্বর: ক=১, খ=২, গ=৩, ঘ=৪)
-const NCTB_CREATIVE_QUESTIONS_BN = {
+export const NCTB_CREATIVE_QUESTIONS_BN = {
   'general-math': [
     {
       id: 'cq-gm-ch3',

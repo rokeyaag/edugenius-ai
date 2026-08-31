@@ -47,6 +47,112 @@ import {
   AtSign,
   AlertCircle
 } from 'lucide-react';
+import { NCTB_CREATIVE_QUESTIONS_BN } from './CreativeQuestionsView';
+
+// Number to Bengali digits helper
+const toBnDigit = (num) => {
+  const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+  return String(num).replace(/[0-9]/g, (d) => bnDigits[d]);
+};
+
+// Generate Dynamic Multi-Variation Board CQ for any chapter
+function generateDynamicChapterCQ(ch, subjectId, refreshIdx, qNum) {
+  const cleanTitle = (ch.title || '').split('—')[0].replace(/[০-৯\.\‘\’]/g, '').trim();
+  const authorOrSource = (ch.title || '').includes('—') ? ch.title.split('—')[1].trim() : 'পাঠ্যবই';
+  const notes = ch.lectureNotes || [];
+  const tests = ch.selfTest || [];
+  const summary = ch.summary || `${cleanTitle} অধ্যায়ের মূল প্রতিপাদ্য বিষয় ও অনুধাবন।`;
+  const qNumBn = toBnDigit(qNum);
+
+  // 1. Check if there are pre-authored Board CQs in NCTB_CREATIVE_QUESTIONS_BN
+  const subjectCQs = NCTB_CREATIVE_QUESTIONS_BN[subjectId] || [];
+  const matchedBoardCQs = subjectCQs.filter(cq => 
+    cq.chapterNameBn?.toLowerCase().includes(cleanTitle.toLowerCase()) || 
+    cq.id?.toLowerCase().includes(ch.id?.toLowerCase())
+  );
+
+  if (matchedBoardCQs.length > 0) {
+    const pickedCQ = matchedBoardCQs[(refreshIdx - 1 + qNum) % matchedBoardCQs.length];
+    return {
+      num: qNumBn,
+      chapter: cleanTitle,
+      stem: pickedCQ.stimulus?.replace(/^উদ্দীপক:\s*/, '').trim(),
+      parts: pickedCQ.questions.map(q => ({
+        label: q.tag,
+        marks: q.marks.toString(),
+        q: q.question,
+        ans: q.answer
+      }))
+    };
+  }
+
+  // 2. Dynamic multi-variation CQ generation for any selected chapter (Rotates on 1st, 2nd, 3rd time Refresh)
+  const cycle = (refreshIdx - 1 + qNum) % 3;
+
+  // 3 Distinct Thematic Stems per chapter
+  const STEMS = [
+    `দৃশ্যপট-১: সমাজসেবক রহমান সাহেব নিজের সম্পদ ও শ্রম ব্যয় করে এলাকার সুবিধাবঞ্চিত ও প্রতিবন্ধী মানুষদের স্বাবলম্বী করার উদ্যোগ নেন। কিন্তু কিছু স্বার্থান্বেষী মানুষ তার মহৎ কাজকে ভুল ব্যাখ্যা করে বাধা সৃষ্টি করতে চায়। রহমান সাহেব দমে না গিয়ে মানবসেবার ব্রত নিয়ে সত্যের পথে অবিচল থাকেন।`,
+    `দৃশ্যপট-২: দশম শ্রেণির মেধাবী শিক্ষার্থী তন্ময় প্রতিকূল পারিবারিক পরিস্থিতির মধ্যেও নিজ সততা, নিষ্ঠা ও নৈতিকতাকে বিসর্জন দেয়নি। তার শিক্ষক তাকে উদ্দেশ্য করে বলেন— "সংকটের সময়েই মানুষের আত্মমর্যাদা ও প্রকৃত মূল্যবোধের আসল পরীক্ষা হয়।"`,
+    `দৃশ্যপট-৩: সাম্প্রতিক এক দুর্যোগপূর্ণ পরিস্থিতিতে একদল তরুণ নিজেদের জীবনের ঝুঁকি নিয়ে আর্তমানবতার সেবায় এগিয়ে আসে। তাদের এই নিঃস্বার্থ ত্যাগ দেখে প্রবীণ এক ব্যক্তিত্ব মন্তব্য করেন— "ব্যক্তিগত স্বার্থের ঊর্ধ্বে উঠে মানবতার জয়গান গাওয়াই জীবনের শ্রেষ্ঠ সাধনা।"`
+  ];
+
+  const selectedStem = STEMS[cycle];
+
+  // Dynamic (ক, খ, গ, ঘ) based on chapter notes and self-test items
+  const test0 = tests[cycle % Math.max(1, tests.length)] || {};
+  const test1 = tests[(cycle + 1) % Math.max(1, tests.length)] || {};
+  const note0 = notes[cycle % Math.max(1, notes.length)] || { title: 'মূলভাব', detail: summary };
+  const note1 = notes[(cycle + 1) % Math.max(1, notes.length)] || { title: 'তাৎপর্য', detail: summary };
+
+  const qKaList = [
+    test0.q?.replace(/^[০-৯১-৫\.\?]+\s*/, '') || `‘${cleanTitle}’ রচয়িতা কে?`,
+    test1.q?.replace(/^[০-৯১-৫\.\?]+\s*/, '') || `‘${cleanTitle}’ অধ্যায়ের মূল উৎস কী?`,
+    `‘${cleanTitle}’ বিষয়টির সংজ্ঞা বা মূল অর্থ কী?`
+  ];
+
+  const qKhaList = [
+    `“${note0.title}”— বলতে কী বোঝানো হয়েছে? বুঝিয়ে লেখো।`,
+    `“${note1.title}”— উক্তিটির অন্তর্নিহিত তাৎপর্য ব্যাখ্যা করো।`,
+    `‘${cleanTitle}’ অধ্যায়ের মূল সুর ও সামাজিক প্রেক্ষাপট আলোচনা করো।`
+  ];
+
+  const qKa = qKaList[cycle];
+  const ansKa = test0.options?.[test0.correct] || `পাঠ্যবইয়ের সুনির্দিষ্ট তথ্য অনুযায়ী ${cleanTitle} এর সঠিক উত্তর।`;
+  const qKha = qKhaList[cycle];
+  const ansKha = note0.detail || summary;
+
+  return {
+    num: qNumBn,
+    chapter: cleanTitle,
+    stem: selectedStem,
+    parts: [
+      {
+        label: 'ক',
+        marks: '১',
+        q: `${qKa}?`,
+        ans: ansKa
+      },
+      {
+        label: 'খ',
+        marks: '২',
+        q: qKha,
+        ans: ansKha
+      },
+      {
+        label: 'গ',
+        marks: '৩',
+        q: `উদ্দীপকের ঘটনাটি ‘${cleanTitle}’ অধ্যায়ের কোন মূল দিকটির সাথে সাদৃশ্যপূর্ণ? ব্যাখ্যা করো।`,
+        ans: `উদ্দীপকে বর্ণিত ঘটনা ও চারিত্রিক বৈশিষ্ট্য ‘${cleanTitle}’ অধ্যায়ের মূল প্রতিপাদ্যের সাথে সংগতিপূর্ণ।`
+      },
+      {
+        label: 'ঘ',
+        marks: '৪',
+        q: `“উদ্দীপকটি যেন ‘${cleanTitle}’ অধ্যায়ের সামগ্রিক তাৎপর্য ও মূল শিক্ষাকেই প্রতিফলিত করে”— উক্তিটির যথার্থতা মূল্যায়ন করো।`,
+        ans: `উক্তিটি সম্পূর্ণ যথার্থ। ‘${cleanTitle}’ অধ্যায়ের মূল বাণী এবং উদ্দীপকের ঘটনা উভয় ক্ষেত্রেই নৈতিকতা, মানবকল্যাণ ও সত্যের জয়গান পরিস্ফুটিত হয়েছে।`
+      }
+    ]
+  };
+}
 
 export default function TeacherPortalView() {
   const { currentClass, currentClassId, showToast, language } = useApp();
@@ -497,61 +603,56 @@ export default function TeacherPortalView() {
     }
   ];
 
-  // Generate Questions dynamically from chosen chapters
+  // Generate Questions dynamically from chosen chapters (Rotates on 1st, 2nd, 3rd time Refresh)
   const generatedPaper = useMemo(() => {
     if (!chosenChapters.length) return null;
 
-    // Build CQ questions
+    // 1. Build CQ questions for each chosen chapter (Dynamic multi-variant Board stems)
     const cqQuestions = chosenChapters.map((ch, idx) => {
-      const qNum = ['১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯', '১০'][idx] || (idx + 1);
-      const st = ch.selfTest || [];
-      const note = ch.lectureNotes || [];
-      
-      const qKa = st[0]?.q?.replace(/[০-৯১-৫\.\‘\’\?]/g, '').trim() || 'উক্ত রচনার মূল বক্তব্য কী?';
-      const qKha = note[1]?.detail || 'উক্ত ঘটনাটির তাৎপর্য ও মূলভাব ব্যাখ্যা করো।';
-
-      return {
-        num: qNum,
-        chapter: ch.title,
-        stem: `দৃশ্যপট: গ্রামের এক নিঃস্ব পরিবারে চরম বিপর্যয়ের মুখে এক প্রতিবেশী নিজের জীবনের ঝুঁকি নিয়ে তাদের পাশে দাঁড়ায়। কিন্তু পরবর্তীতে সমাজ তাদের উপকারের কথা ভুলে গিয়ে উল্টো অপবাদ দেয়।`,
-        parts: [
-          { label: 'ক', marks: '১', q: `‘${ch.title.split('—')[0].replace(/[০-৯\.\‘\’]/g, '').trim()}’ সম্পর্কিত: ${qKa}?`, ans: st[0]?.options?.[st[0]?.correct] || 'পাঠ্যবইয়ের সঠিক তথ্য অনুযায়ী।' },
-          { label: 'খ', marks: '২', q: `“${note[0]?.title || 'মূলভাব'}”— বলতে কী বোঝানো হয়েছে? বুঝিয়ে লেখো।`, ans: qKha },
-          { label: 'গ', marks: '৩', q: `উদ্দীপকের ঘটনাটি ‘${ch.title.split('—')[0].replace(/[০-৯\.\‘\’]/g, '').trim()}’ রচনার কোন দিকের সাথে সাদৃশ্যপূর্ণ? ব্যাখ্যা করো।`, ans: 'উপকার স্বীকার ও প্রতিদানের দিকটি পরিস্ফুটিত হয়েছে।' },
-          { label: 'ঘ', marks: '৪', q: `“উদ্দীপকটি যেন ‘${ch.title.split('—')[0].replace(/[০-৯\.\‘\’]/g, '').trim()}’ রচনার মূল শিক্ষাকেই প্রতিফলিত করে”— উক্তিটির যথার্থতা মূল্যায়ন করো।`, ans: 'উক্তিটি সম্পূর্ণ যথার্থ কারণ উভয় ক্ষেত্রেই মানবতার জয়গান ও আত্মত্যাগের কথা বলা হয়েছে।' }
-        ]
-      };
+      return generateDynamicChapterCQ(ch, selectedSubjectId, refreshKey, idx + 1);
     });
 
-    // Build MCQ questions
+    // 2. Build MCQ questions from ALL chosen chapters (Rotates dynamically on refreshKey)
     const mcqQuestions = chosenChapters.flatMap((ch, cIdx) => {
       const st = ch.selfTest || [];
-      return st.map((s, sIdx) => ({
-        num: (cIdx * 5) + sIdx + 1,
-        chapter: ch.title,
+      if (!st.length) return [];
+
+      // Dynamic rotation offset per chapter per refresh
+      const offset = ((refreshKey - 1) * 2 + cIdx) % st.length;
+      const rotated = [...st.slice(offset), ...st.slice(0, offset)];
+
+      return rotated.map((s) => ({
+        chapter: ch.title.split('—')[0].replace(/[০-৯\.\‘\’]/g, '').trim(),
         question: s.q.replace(/^[০-৯১-৫\.]+\s*/, ''),
         options: s.options,
         correct: s.correct,
         explanation: s.explanation
       }));
-    }).slice(0, selectedTemplate === 'mcq-test' ? 30 : selectedTemplate === 'final-exam' ? 30 : 15);
+    }).map((m, idx) => ({
+      num: toBnDigit(idx + 1),
+      ...m
+    })).slice(0, selectedTemplate === 'final-exam' ? 30 : selectedTemplate === 'mcq-test' ? 30 : Math.max(10, chosenChapters.length * 4));
 
-    // Build Knowledge Drill
+    // 3. Build Knowledge Drill
     const drillQuestions = chosenChapters.flatMap((ch, cIdx) => {
-      const st = ch.selfTest || [];
       const note = ch.lectureNotes || [];
+      const st = ch.selfTest || [];
+      const testItem = st[(refreshKey - 1 + cIdx) % Math.max(1, st.length)] || {};
+      const noteItem = note[(refreshKey - 1 + cIdx) % Math.max(1, note.length)] || {};
+      const cleanTitle = ch.title.split('—')[0].replace(/[০-৯\.\‘\’]/g, '').trim();
+
       return [
         {
-          num: (cIdx * 2) + 1,
+          num: toBnDigit((cIdx * 2) + 1),
           type: 'ক (জ্ঞানমূলক - ১ নম্বর)',
-          q: `‘${ch.title.split('—')[0].replace(/[০-৯\.\‘\’]/g, '').trim()}’ রচয়িতা কে এবং উৎস কী?`,
-          ans: `রচয়িতা ও উৎস: পাঠ্যবই অনুযায়ী ${ch.summary}`
+          q: testItem.q?.replace(/^[০-৯১-৫\.]+\s*/, '') || `‘${cleanTitle}’ অধ্যায়ের মূল রচয়িতা ও প্রেক্ষাপট কী?`,
+          ans: testItem.options?.[testItem.correct] || `পাঠ্যবই অনুযায়ী ${ch.summary}`
         },
         {
-          num: (cIdx * 2) + 2,
+          num: toBnDigit((cIdx * 2) + 2),
           type: 'খ (অনুধাবনমূলক - ২ নম্বর)',
-          q: `${note[0]?.detail || 'উক্ত অধ্যায়ের মূল প্রতিপাদ্য বিষয় আলোচনা করো।'}`,
-          ans: `মূল ব্যাখ্যা: ${ch.summary}`
+          q: `“${noteItem.title || 'মূল প্রতিপাদ্য'}”— বুঝিয়ে লেখো।`,
+          ans: noteItem.detail || ch.summary
         }
       ];
     });
@@ -561,7 +662,7 @@ export default function TeacherPortalView() {
       mcqQuestions,
       drillQuestions
     };
-  }, [chosenChapters, selectedTemplate, refreshKey]);
+  }, [chosenChapters, selectedSubjectId, selectedTemplate, refreshKey]);
 
   // Dedicated Isolated Print Engine (Guarantees zero app chrome, zero navbars, zero buttons, zero student lines)
   const handlePrint = () => {
@@ -569,13 +670,13 @@ export default function TeacherPortalView() {
 
     let questionsHtml = '';
 
-    // 1. Creative Questions (CQ)
-    if ((selectedTemplate === 'cq-board' || selectedTemplate === 'final-exam' || selectedTemplate === 'class-test') && generatedPaper.cqQuestions?.length) {
+    // 1. Creative Questions (CQ - ক বিভাগ)
+    if (generatedPaper.cqQuestions?.length) {
       questionsHtml += `
-        <div style="margin-top: 12px; margin-bottom: 20px;">
+        <div style="margin-top: 12px; margin-bottom: 22px;">
           <div style="text-align: center; margin-bottom: 14px;">
-            <span style="font-weight: 800; font-size: 13px; border-bottom: 1.5px solid #000; padding-bottom: 2px;">
-              [সৃজনশীল প্রশ্ন — যেকোনো ${chosenChapters.length > 2 ? '৫' : chosenChapters.length}টি প্রশ্নের উত্তর দাও]
+            <span style="font-weight: 800; font-size: 13.5px; border-bottom: 1.5px solid #000; padding-bottom: 2px;">
+              [ক বিভাগ: সৃজনশীল প্রশ্নাবলী — যেকোনো ${chosenChapters.length > 2 ? '৫' : chosenChapters.length}টি প্রশ্নের উত্তর দাও]
             </span>
           </div>
           ${generatedPaper.cqQuestions.map((q) => `
@@ -597,22 +698,22 @@ export default function TeacherPortalView() {
       `;
     }
 
-    // 2. MCQ Sheet
-    if ((selectedTemplate === 'mcq-test' || selectedTemplate === 'final-exam') && generatedPaper.mcqQuestions?.length) {
+    // 2. MCQ Sheet (খ বিভাগ)
+    if (generatedPaper.mcqQuestions?.length) {
       questionsHtml += `
-        <div style="margin-top: 12px; margin-bottom: 20px;">
+        <div style="margin-top: 15px; margin-bottom: 20px; page-break-before: auto;">
           <div style="text-align: center; margin-bottom: 14px;">
-            <span style="font-weight: 800; font-size: 13px; border-bottom: 1.5px solid #000; padding-bottom: 2px;">
-              [বহুনির্বাচনী প্রশ্ন (MCQ) — সঠিক উত্তরের বৃত্ত ভরাট করো]
+            <span style="font-weight: 800; font-size: 13.5px; border-bottom: 1.5px solid #000; padding-bottom: 2px;">
+              [খ বিভাগ: বহুনির্বাচনী প্রশ্ন (MCQ / কুইজ) — সঠিক উত্তরের বৃত্ত ভরাট করো]
             </span>
           </div>
-          <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px;">
             ${generatedPaper.mcqQuestions.map((m) => `
-              <div style="page-break-inside: avoid; break-inside: avoid; border-bottom: 1px dashed #e2e8f0; padding-bottom: 8px;">
+              <div style="page-break-inside: avoid; break-inside: avoid; border-bottom: 1px dashed #e2e8f0; padding-bottom: 6px;">
                 <div style="font-weight: bold; font-size: 12.5px; margin-bottom: 4px;">
                   <span style="font-weight: 800;">${m.num}.</span> ${m.question}
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding-left: 16px; font-size: 12px; color: #333;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3px; padding-left: 14px; font-size: 11.5px; color: #222;">
                   ${m.options.map((opt, optIdx) => `
                     <div>(${['ক', 'খ', 'গ', 'ঘ'][optIdx]}) ${opt}</div>
                   `).join('')}
@@ -620,27 +721,6 @@ export default function TeacherPortalView() {
               </div>
             `).join('')}
           </div>
-        </div>
-      `;
-    }
-
-    // 3. Knowledge Drill
-    if (selectedTemplate === 'knowledge-drill' && generatedPaper.drillQuestions?.length) {
-      questionsHtml += `
-        <div style="margin-top: 12px; margin-bottom: 20px;">
-          <div style="text-align: center; margin-bottom: 14px;">
-            <span style="font-weight: 800; font-size: 13px; border-bottom: 1.5px solid #000; padding-bottom: 2px;">
-              [জ্ঞান ও অনুধাবনমূলক প্রশ্নাবলি — সকল প্রশ্নের উত্তর দাও]
-            </span>
-          </div>
-          ${generatedPaper.drillQuestions.map((d) => `
-            <div style="margin-bottom: 12px; page-break-inside: avoid; break-inside: avoid; border-bottom: 1px dashed #ccc; padding-bottom: 8px; font-size: 12.5px;">
-              <div style="display: flex; justify-content: space-between; font-weight: bold;">
-                <div><span style="font-weight: 800;">${d.num}.</span> ${d.q}</div>
-                <div style="font-size: 11px; white-space: nowrap; padding-left: 10px;">[${d.type.split(' ')[0]}]</div>
-              </div>
-            </div>
-          `).join('')}
         </div>
       `;
     }
@@ -762,35 +842,28 @@ export default function TeacherPortalView() {
     }, 350);
   };
 
-  // Copy Question Text
+  // Copy Question Text (Includes Both CQ & MCQ)
   const handleCopy = () => {
     if (!generatedPaper) return;
     let fullText = `${schoolName}\n${examTitle}\nশ্রেণি: ${classObj.nameBn} | বিষয়: ${availableSubjects.find(s => s.id === selectedSubjectId)?.nameBn || 'বাংলা'}\nপরীক্ষক: ${teacherProfile?.name || 'বিষয় শিক্ষক'}\nসময়: ${examTime} | পূর্ণমান: ${totalMarks}\n------------------------------------------------\n\n`;
 
-    if (selectedTemplate === 'cq-board' || selectedTemplate === 'final-exam') {
-      fullText += `[সৃজনশীল অংশ — যেকোনো ৫টি প্রশ্নের উত্তর দাও]\n\n`;
-      generatedPaper.cqQuestions.forEach((q, i) => {
+    if (generatedPaper.cqQuestions?.length) {
+      fullText += `[ক বিভাগ: সৃজনশীল অংশ — যেকোনো ${chosenChapters.length > 2 ? '৫' : chosenChapters.length}টি প্রশ্নের উত্তর দাও]\n\n`;
+      generatedPaper.cqQuestions.forEach((q) => {
         fullText += `প্রশ্ন নং ${q.num}:\n${q.stem}\n(ক) ${q.parts[0].q} [১]\n(খ) ${q.parts[1].q} [২]\n(গ) ${q.parts[2].q} [৩]\n(ঘ) ${q.parts[3].q} [৪]\n\n`;
       });
     }
 
-    if (selectedTemplate === 'mcq-test' || selectedTemplate === 'final-exam') {
-      fullText += `[বহুনির্বাচনী প্রশ্ন (MCQ)]\n\n`;
-      generatedPaper.mcqQuestions.forEach((m, i) => {
-        fullText += `${m.num}. ${m.question}\n(ক) ${m.options[0]} (খ) ${m.options[1]} (গ) ${m.options[2]} (ঘ) ${m.options[3]}\n\n`;
-      });
-    }
-
-    if (selectedTemplate === 'knowledge-drill' || selectedTemplate === 'class-test') {
-      fullText += `[জ্ঞান ও অনুধাবন প্রশ্ন]\n\n`;
-      generatedPaper.drillQuestions.forEach((d, i) => {
-        fullText += `${d.num}. [${d.type}] ${d.q}\n\n`;
+    if (generatedPaper.mcqQuestions?.length) {
+      fullText += `[খ বিভাগ: বহুনির্বাচনী প্রশ্ন (MCQ / কুইজ)]\n\n`;
+      generatedPaper.mcqQuestions.forEach((m) => {
+        fullText += `${m.num}. ${m.question}\n(ক) ${m.options[0]}  (খ) ${m.options[1]}  (গ) ${m.options[2]}  (ঘ) ${m.options[3]}\n\n`;
       });
     }
 
     navigator.clipboard.writeText(fullText);
     setCopied(true);
-    showToast('সম্পূর্ণ প্রশ্নপত্র ক্লিপবোর্ডে কপি হয়েছে!', 'success');
+    showToast('সৃজনশীল ও MCQ সমন্বিত প্রশ্নপত্র ক্লিপবোর্ডে কপি হয়েছে!', 'success');
     setTimeout(() => setCopied(false), 3000);
   };
 
@@ -1668,12 +1741,12 @@ export default function TeacherPortalView() {
             <button
               onClick={() => {
                 setRefreshKey(prev => prev + 1);
-                showToast('নতুন প্রশ্ন রিলোড করা হয়েছে!', 'info');
+                showToast(`🔄 নতুন প্রশ্নাবলি রিলোড হয়েছে (${toBnDigit(refreshKey + 1)}ম সংস্করণ)!`, 'info');
               }}
               className="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-black flex items-center gap-1.5 transition-all cursor-pointer"
             >
               <RefreshCw className="w-3.5 h-3.5 text-red-600" />
-              <span>রিলোড প্রশ্ন</span>
+              <span>রিলোড প্রশ্ন ({toBnDigit(refreshKey)}ম সংস্করণ)</span>
             </button>
 
             <button
@@ -1728,15 +1801,15 @@ export default function TeacherPortalView() {
             {/* Selected Chapters Note (Hidden in Print) */}
             <div className="bg-slate-50 p-2 rounded-xl text-[10px] font-bold text-slate-600 flex items-center justify-between print:hidden">
               <span>অন্তর্ভুক্ত অধ্যায়: {chosenChapters.map(c => c.title.split('—')[0]).join(', ')}</span>
-              <span className="text-red-600 font-black">{chosenChapters.length}টি অধ্যায়</span>
+              <span className="text-red-600 font-black">{chosenChapters.length}টি অধ্যায় • {toBnDigit(refreshKey)}ম সংস্করণ</span>
             </div>
 
-            {/* SECTION 1: CREATIVE QUESTIONS (CQ) */}
-            {(selectedTemplate === 'cq-board' || selectedTemplate === 'final-exam' || selectedTemplate === 'class-test') && generatedPaper && (
+            {/* SECTION 1: CREATIVE QUESTIONS (CQ - ক বিভাগ) */}
+            {generatedPaper && generatedPaper.cqQuestions?.length > 0 && (
               <div className="space-y-4 pt-1 print:space-y-3.5">
                 <div className="text-center">
                   <span className="text-xs font-black bg-slate-100 px-3 py-1 rounded-full border border-slate-300 print:border-none print:bg-transparent print:font-extrabold">
-                    [সৃজনশীল প্রশ্ন — যেকোনো {chosenChapters.length > 2 ? '৫' : chosenChapters.length}টি প্রশ্নের উত্তর দাও]
+                    [ক বিভাগ: সৃজনশীল প্রশ্ন — যেকোনো {chosenChapters.length > 2 ? '৫' : chosenChapters.length}টি প্রশ্নের উত্তর দাও]
                   </span>
                 </div>
 
@@ -1776,16 +1849,16 @@ export default function TeacherPortalView() {
               </div>
             )}
 
-            {/* SECTION 2: MULTIPLE CHOICE (MCQ) */}
-            {(selectedTemplate === 'mcq-test' || selectedTemplate === 'final-exam') && generatedPaper && (
-              <div className="space-y-3 pt-2 print:space-y-2.5">
+            {/* SECTION 2: MULTIPLE CHOICE (MCQ / কুইজ - খ বিভাগ) */}
+            {generatedPaper && generatedPaper.mcqQuestions?.length > 0 && (
+              <div className="space-y-3 pt-3 border-t-2 border-dashed border-slate-200 print:border-slate-300 print:space-y-2.5">
                 <div className="text-center">
                   <span className="text-xs font-black bg-slate-100 px-3 py-1 rounded-full border border-slate-300 print:border-none print:bg-transparent print:font-extrabold">
-                    [বহুনির্বাচনী প্রশ্ন (MCQ) — সঠিক উত্তরের বৃত্ত ভরাট করো]
+                    [খ বিভাগ: বহুনির্বাচনী প্রশ্ন (MCQ / কুইজ) — সঠিক উত্তরের বৃত্ত ভরাট করো]
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 gap-2.5 text-xs print:gap-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs print:gap-2">
                   {generatedPaper.mcqQuestions.map((m, idx) => (
                     <div key={idx} className="space-y-1 border-b border-slate-100 pb-2 break-inside-avoid print:break-inside-avoid print:border-slate-300">
                       <div className="font-black text-slate-900 flex items-start gap-1">
