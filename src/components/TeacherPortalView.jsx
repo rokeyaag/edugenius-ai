@@ -264,13 +264,16 @@ export default function TeacherPortalView() {
   const [selectedSubjectId, setSelectedSubjectId] = useState('bangla-sahitya');
   const [selectedChapterIds, setSelectedChapterIds] = useState(['bs-g1', 'bs-g2']);
   const [selectedTemplate, setSelectedTemplate] = useState('cq-board'); // 'cq-board', 'mcq-test', 'class-test', 'knowledge-drill', 'final-exam'
+  const [questionFormat, setQuestionFormat] = useState('cq-board'); // 'cq-board' | 'mcq-test' | 'combo' | 'class-test' | 'knowledge-drill'
 
-  // 2. Exam Header Customization State
+  // 2. Exam Header & Parameter Customization State
   const [schoolName, setSchoolName] = useState(teacherProfile?.school || 'রকেয়া আইডিয়াল হাই স্কুল অ্যান্ড কলেজ');
   const [examTitle, setExamTitle] = useState('সৃজনশীল মূল্যায়ন ও সাময়িক পরীক্ষা — ২০২৬');
   const [examTime, setExamTime] = useState('২ ঘণ্টা ৩০ মিনিট');
   const [totalMarks, setTotalMarks] = useState('৭০');
   const [difficulty, setDifficulty] = useState('board'); // 'easy', 'board', 'hard'
+  const [cqCount, setCqCount] = useState('7');
+  const [mcqCount, setMcqCount] = useState('30');
   const [showAnswerKey, setShowAnswerKey] = useState(false);
   const [refreshKey, setRefreshKey] = useState(1);
   const [copied, setCopied] = useState(false);
@@ -564,6 +567,77 @@ export default function TeacherPortalView() {
     return list.length > 0 ? list : availableChapters.slice(0, 2);
   }, [availableChapters, selectedChapterIds, refreshKey]);
 
+  // Dropdown Configuration Constants
+  const MARKS_OPTIONS = [
+    { value: '১০০', label: '১০০ নম্বর — পূর্ণাঙ্গ মডেল টেস্ট / বার্ষিক', badge: '১০০ Marks' },
+    { value: '৭৫', label: '৭৫ নম্বর — স্ট্যান্ডার্ড পূর্ণমান', badge: '৭৫ Marks' },
+    { value: '৭০', label: '৭০ নম্বর — সৃজনশীল পূর্ণমান (CQ)', badge: '৭০ Marks' },
+    { value: '৫০', label: '৫০ নম্বর — সাময়িক / অর্ধবার্ষিক পরীক্ষা', badge: '৫০ Marks' },
+    { value: '৪০', label: '৪০ নম্বর — বিশেষ মূল্যায়ন ড্রিল', badge: '৪০ Marks' },
+    { value: '৩০', label: '৩০ নম্বর — নৈর্ব্যক্তিক (MCQ) পরীক্ষা', badge: '৩০ Marks' },
+    { value: '২৫', label: '২৫ নম্বর — অধ্যায়ভিত্তিক ক্লাস টেস্ট', badge: '২৫ Marks' },
+    { value: '২০', label: '২০ নম্বর — সংক্ষিপ্ত ক্লাস পরীক্ষা', badge: '২০ Marks' },
+    { value: '১৫', label: '১৫ নম্বর — দ্রুত কুইজ মূল্যায়ন', badge: '১৫ Marks' },
+    { value: '১০', label: '১০ নম্বর — সাপ্তাহিক ক্লাস কুইজ', badge: '১০ Marks' },
+  ];
+
+  const TIME_OPTIONS = [
+    { value: '৩ ঘণ্টা', label: '৩ ঘণ্টা (বোর্ড পূর্ণাঙ্গ পরীক্ষা)', badge: '১৮০ মিনিট' },
+    { value: '২ ঘণ্টা ৩০ মিনিট', label: '২ ঘণ্টা ৩০ মিনিট (সৃজনশীল বোর্ড স্ট্যান্ডার্ড)', badge: '১৫০ মিনিট' },
+    { value: '২ ঘণ্টা', label: '২ ঘণ্টা (সাময়িক / মডেল টেস্ট)', badge: '১২০ মিনিট' },
+    { value: '১ ঘণ্টা ৩০ মিনিট', label: '১ ঘণ্টা ৩০ মিনিট (মিড টার্ম)', badge: '৯০ মিনিট' },
+    { value: '১ ঘণ্টা', label: '১ ঘণ্টা (সংক্ষিপ্ত মডেল পরীক্ষা)', badge: '৬০ মিনিট' },
+    { value: '৪৫ মিনিট', label: '৪৫ মিনিট (ক্লাস টেস্ট)', badge: '৪৫ মিনিট' },
+    { value: '৪০ মিনিট', label: '৪০ মিনিট (পিরিয়ড টেস্ট / ড্রিল)', badge: '৪০ মিনিট' },
+    { value: '৩০ মিনিট', label: '৩০ মিনিট (MCQ নৈর্ব্যক্তিক পরীক্ষা)', badge: '৩০ মিনিট' },
+    { value: '২৫ মিনিট', label: '২৫ মিনিট (কুইক টেস্ট)', badge: '২৫ মিনিট' },
+    { value: '২০ মিনিট', label: '২০ মিনিট (স্পেশাল ড্রিল)', badge: '২০ মিনিট' },
+    { value: '১৫ মিনিট', label: '১৫ মিনিট (দ্রুত কুইজ)', badge: '১৫ মিনিট' },
+  ];
+
+  const EXAM_TITLE_OPTIONS = [
+    { value: 'বার্ষিক ও সাময়িক পূর্ণাঙ্গ মডেল টেস্ট পরীক্ষা — ২০২৬', label: 'বার্ষিক ও সাময়িক পূর্ণাঙ্গ মডেল টেস্ট পরীক্ষা — ২০২৬', icon: '🏆' },
+    { value: 'অর্ধবার্ষিক ও প্রাক-নির্বাচনী পরীক্ষা — ২০২৬', label: 'অর্ধবার্ষিক ও প্রাক-নির্বাচনী পরীক্ষা — ২০২৬', icon: '📋' },
+    { value: 'সৃজনশীল মূল্যায়ন ও সাময়িক পরীক্ষা — ২০২৬', label: 'সৃজনশীল মূল্যায়ন ও সাময়িক পরীক্ষা — ২০২৬', icon: '🎯' },
+    { value: 'নৈর্ব্যক্তিক মূল্যায়ন ও MCQ পরীক্ষা — ২০২৬', label: 'নৈর্ব্যক্তিক মূল্যায়ন ও MCQ পরীক্ষা — ২০২৬', icon: '⚡' },
+    { value: 'অধ্যায়ভিত্তিক মূল্যায়ন ক্লাস টেস্ট — ২০২৬', label: 'অধ্যায়ভিত্তিক মূল্যায়ন ক্লাস টেস্ট — ২০২৬', icon: '📝' },
+    { value: 'জ্ঞান ও অনুধাবন বিশেষ মডেল ড্রিল — ২০২৬', label: 'জ্ঞান ও অনুধাবন বিশেষ মডেল ড্রিল — ২০২৬', icon: '💡' },
+    { value: 'মাসিক টিউটোরিয়াল প্রস্তুতি পরীক্ষা — ২০২৬', label: 'মাসিক টিউটোরিয়াল প্রস্তুতি পরীক্ষা — ২০২৬', icon: '📅' },
+    { value: 'সাপ্তাহিক মূল্যায়ন ও মেধা যাচাই পরীক্ষা — ২০২৬', label: 'সাপ্তাহিক মূল্যায়ন ও মেধা যাচাই পরীক্ষা — ২০২৬', icon: '⏳' },
+  ];
+
+  const QUESTION_FORMAT_OPTIONS = [
+    { value: 'combo', label: 'সৃজনশীল (CQ) + বহুনির্বাচনী (MCQ) সমন্বিত', icon: '📜', badge: 'পূর্ণাঙ্গ' },
+    { value: 'cq-board', label: 'কেবল সৃজনশীল প্রশ্নাবলী (CQ Model)', icon: '📝', badge: 'সৃজনশীল' },
+    { value: 'mcq-test', label: 'কেবল নৈর্ব্যক্তিক ও বহুনির্বাচনী (MCQ Sheet)', icon: '🔘', badge: 'নৈর্ব্যক্তিক' },
+    { value: 'class-test', label: 'অধ্যায়ভিত্তিক ক্লাস টেস্ট (CQ + MCQ কম্বো)', icon: '⏱️', badge: 'ক্লাস টেস্ট' },
+    { value: 'knowledge-drill', label: 'জ্ঞান ও অনুধাবন বিশেষ ড্রিল (ক ও খ বিশেষ)', icon: '💡', badge: 'ক ও খ' },
+  ];
+
+  const DIFFICULTY_OPTIONS = [
+    { value: 'board', label: 'বোর্ড স্ট্যান্ডার্ড (সুষম ও প্রমাণ্য প্রশ্নাবলী)', badge: 'বোর্ড মান' },
+    { value: 'easy', label: 'সহজ ও মৌলিক (বেসিক রিভিশন ও প্র্যাকটিস)', badge: 'সহজ মান' },
+    { value: 'hard', label: 'উচ্চতর মেধা যাচাই (চ্যালেঞ্জিং ও উদ্দীপকধর্মী)', badge: 'উচ্চতর মান' },
+  ];
+
+  const CQ_COUNT_OPTIONS = [
+    { value: '7', label: '১১টি প্রশ্ন (উত্তর দিতে হবে যেকোনো ৭টি — ৭০ নম্বর)', badge: '৭টি উত্তর' },
+    { value: '5', label: '৮টি প্রশ্ন (উত্তর দিতে হবে যেকোনো ৫টি — ৫০ নম্বর)', badge: '৫টি উত্তর' },
+    { value: '3', label: '৫টি প্রশ্ন (উত্তর দিতে হবে যেকোনো ৩টি — ৩০ নম্বর)', badge: '৩টি উত্তর' },
+    { value: '2', label: '৩টি প্রশ্ন (উত্তর দিতে হবে যেকোনো ২টি — ২০ নম্বর)', badge: '২টি উত্তর' },
+    { value: '1', label: '২টি প্রশ্ন (উত্তর দিতে হবে যেকোনো ১টি — ১০ নম্বর)', badge: '১টি উত্তর' },
+  ];
+
+  const MCQ_COUNT_OPTIONS = [
+    { value: '35', label: '৩৫টি বহুনির্বাচনী প্রশ্ন (৩৫ নম্বর)', badge: '৩৫ প্রশ্ন' },
+    { value: '30', label: '৩০টি বহুনির্বাচনী প্রশ্ন (৩০ নম্বর)', badge: '৩০ প্রশ্ন' },
+    { value: '25', label: '২৫টি বহুনির্বাচনী প্রশ্ন (২৫ নম্বর)', badge: '২৫ প্রশ্ন' },
+    { value: '20', label: '২০টি বহুনির্বাচনী প্রশ্ন (২০ নম্বর)', badge: '২০ প্রশ্ন' },
+    { value: '15', label: '১৫টি বহুনির্বাচনী প্রশ্ন (১৫ নম্বর)', badge: '১৫ প্রশ্ন' },
+    { value: '10', label: '১০টি বহুনির্বাচনী প্রশ্ন (১০ নম্বর)', badge: '১০ প্রশ্ন' },
+    { value: '5', label: '৫টি বহুনির্বাচনী প্রশ্ন (৫ নম্বর)', badge: '৫ প্রশ্ন' },
+  ];
+
   // 5 Ready Sample Templates Definition
   const SAMPLE_TEMPLATES = [
     {
@@ -574,7 +648,10 @@ export default function TeacherPortalView() {
       marks: '৭০',
       time: '২ ঘণ্টা ৩০ মিনিট',
       icon: '📝',
-      defaultTitle: 'সৃজনশীল মূল্যায়ন ও সাময়িক পরীক্ষা — ২০২৬'
+      defaultTitle: 'সৃজনশীল মূল্যায়ন ও সাময়িক পরীক্ষা — ২০২৬',
+      defaultCqCount: '7',
+      defaultMcqCount: '0',
+      format: 'cq-board'
     },
     {
       id: 'mcq-test',
@@ -584,17 +661,23 @@ export default function TeacherPortalView() {
       marks: '৩০',
       time: '৩০ মিনিট',
       icon: '🔘',
-      defaultTitle: 'নৈর্ব্যক্তিক মূল্যায়ন ও MCQ পরীক্ষা — ২০২৬'
+      defaultTitle: 'নৈর্ব্যক্তিক মূল্যায়ন ও MCQ পরীক্ষা — ২০২৬',
+      defaultCqCount: '0',
+      defaultMcqCount: '30',
+      format: 'mcq-test'
     },
     {
       id: 'class-test',
       title: '📋 অধ্যায়ভিত্তিক ক্লাস টেস্ট',
       badge: 'কুইক টেস্ট',
-      desc: 'অধ্যায়ভিত্তিক সংক্ষিপ্ত বহুনির্বাচনী ও ১টি সৃজনশীল প্রশ্ন',
+      desc: 'অধ্যায়ভিত্তিক সংক্ষিপ্ত বহুনির্বাচনী ও সৃজনশীল প্রশ্ন',
       marks: '২৫',
       time: '৪৫ মিনিট',
       icon: '⏱️',
-      defaultTitle: 'অধ্যায়ভিত্তিক মূল্যায়ন ক্লাস টেস্ট — ২০২৬'
+      defaultTitle: 'অধ্যায়ভিত্তিক মূল্যায়ন ক্লাস টেস্ট — ২০২৬',
+      defaultCqCount: '1',
+      defaultMcqCount: '15',
+      format: 'class-test'
     },
     {
       id: 'knowledge-drill',
@@ -604,7 +687,10 @@ export default function TeacherPortalView() {
       marks: '২৫',
       time: '৪০ মিনিট',
       icon: '💡',
-      defaultTitle: 'জ্ঞান ও অনুধাবন বিশেষ মডেল পরীক্ষা — ২০২৬'
+      defaultTitle: 'জ্ঞান ও অনুধাবন বিশেষ মডেল ড্রিল — ২০২৬',
+      defaultCqCount: '0',
+      defaultMcqCount: '10',
+      format: 'knowledge-drill'
     },
     {
       id: 'final-exam',
@@ -614,7 +700,10 @@ export default function TeacherPortalView() {
       marks: '১০০',
       time: '৩ ঘণ্টা',
       icon: '📜',
-      defaultTitle: 'বার্ষিক / সাময়িক পূর্ণাঙ্গ মডেল টেস্ট পরীক্ষা — ২০২৬'
+      defaultTitle: 'বার্ষিক ও সাময়িক পূর্ণাঙ্গ মডেল টেস্ট পরীক্ষা — ২০২৬',
+      defaultCqCount: '7',
+      defaultMcqCount: '30',
+      format: 'combo'
     }
   ];
 
@@ -622,62 +711,87 @@ export default function TeacherPortalView() {
   const generatedPaper = useMemo(() => {
     if (!chosenChapters.length) return null;
 
-    // 1. Build CQ questions for each chosen chapter (Dynamic multi-variant Board stems)
-    const cqQuestions = chosenChapters.map((ch, idx) => {
-      return generateDynamicChapterCQ(ch, selectedSubjectId, refreshKey, idx + 1);
-    });
+    const isCQIncluded = questionFormat === 'cq-board' || questionFormat === 'combo' || questionFormat === 'class-test' || selectedTemplate === 'cq-board' || selectedTemplate === 'final-exam' || selectedTemplate === 'class-test';
+    const isMCQIncluded = questionFormat === 'mcq-test' || questionFormat === 'combo' || questionFormat === 'class-test' || questionFormat === 'knowledge-drill' || selectedTemplate === 'mcq-test' || selectedTemplate === 'final-exam' || selectedTemplate === 'class-test';
+    const isDrillIncluded = questionFormat === 'knowledge-drill' || selectedTemplate === 'knowledge-drill';
 
-    // 2. Build MCQ questions from ALL chosen chapters (Rotates dynamically on refreshKey)
-    const mcqQuestions = chosenChapters.flatMap((ch, cIdx) => {
-      const st = ch.selfTest || [];
-      if (!st.length) return [];
+    const numCqToAnswer = parseInt(cqCount, 10) || (selectedTemplate === 'class-test' ? 1 : 7);
+    const totalCqQuestionsToGenerate = numCqToAnswer === 7 ? 11 : numCqToAnswer === 5 ? 8 : numCqToAnswer === 3 ? 5 : numCqToAnswer === 2 ? 3 : Math.max(2, numCqToAnswer + 1);
 
-      // Dynamic rotation offset per chapter per refresh
-      const offset = ((refreshKey - 1) * 2 + cIdx) % st.length;
-      const rotated = [...st.slice(offset), ...st.slice(0, offset)];
+    // 1. Build CQ questions for chosen chapters
+    let cqQuestions = [];
+    if (isCQIncluded && questionFormat !== 'mcq-test') {
+      for (let i = 0; i < totalCqQuestionsToGenerate; i++) {
+        const ch = chosenChapters[i % chosenChapters.length];
+        cqQuestions.push(generateDynamicChapterCQ(ch, selectedSubjectId, refreshKey + i, i + 1));
+      }
+    }
 
-      return rotated.map((s) => ({
-        chapter: ch.title.split('—')[0].replace(/[০-৯\.\‘\’]/g, '').trim(),
-        question: s.q.replace(/^[০-৯১-৫\.]+\s*/, ''),
-        options: s.options,
-        correct: s.correct,
-        explanation: s.explanation
+    // 2. Build MCQ questions from chosen chapters
+    let mcqQuestions = [];
+    const targetMcqCount = parseInt(mcqCount, 10) || (selectedTemplate === 'class-test' ? 15 : 30);
+    if (isMCQIncluded && questionFormat !== 'cq-board') {
+      const allMcqs = chosenChapters.flatMap((ch, cIdx) => {
+        const st = ch.selfTest || [];
+        if (!st.length) return [];
+
+        const offset = ((refreshKey - 1) * 2 + cIdx) % st.length;
+        const rotated = [...st.slice(offset), ...st.slice(0, offset)];
+
+        return rotated.map((s) => ({
+          chapter: ch.title.split('—')[0].replace(/[০-৯\.\‘\’]/g, '').trim(),
+          question: s.q.replace(/^[০-৯১-৫\.]+\s*/, ''),
+          options: s.options,
+          correct: s.correct,
+          explanation: s.explanation
+        }));
+      });
+
+      let pool = allMcqs;
+      while (pool.length < targetMcqCount && pool.length > 0) {
+        pool = [...pool, ...allMcqs];
+      }
+
+      mcqQuestions = pool.slice(0, targetMcqCount).map((m, idx) => ({
+        num: toBnDigit(idx + 1),
+        ...m
       }));
-    }).map((m, idx) => ({
-      num: toBnDigit(idx + 1),
-      ...m
-    })).slice(0, selectedTemplate === 'final-exam' ? 30 : selectedTemplate === 'mcq-test' ? 30 : Math.max(10, chosenChapters.length * 4));
+    }
 
     // 3. Build Knowledge Drill
-    const drillQuestions = chosenChapters.flatMap((ch, cIdx) => {
-      const note = ch.lectureNotes || [];
-      const st = ch.selfTest || [];
-      const testItem = st[(refreshKey - 1 + cIdx) % Math.max(1, st.length)] || {};
-      const noteItem = note[(refreshKey - 1 + cIdx) % Math.max(1, note.length)] || {};
-      const cleanTitle = ch.title.split('—')[0].replace(/[০-৯\.\‘\’]/g, '').trim();
+    let drillQuestions = [];
+    if (isDrillIncluded) {
+      drillQuestions = chosenChapters.flatMap((ch, cIdx) => {
+        const note = ch.lectureNotes || [];
+        const st = ch.selfTest || [];
+        const testItem = st[(refreshKey - 1 + cIdx) % Math.max(1, st.length)] || {};
+        const noteItem = note[(refreshKey - 1 + cIdx) % Math.max(1, note.length)] || {};
+        const cleanTitle = ch.title.split('—')[0].replace(/[০-৯\.\‘\’]/g, '').trim();
 
-      return [
-        {
-          num: toBnDigit((cIdx * 2) + 1),
-          type: 'ক (জ্ঞানমূলক - ১ নম্বর)',
-          q: testItem.q?.replace(/^[০-৯১-৫\.]+\s*/, '') || `‘${cleanTitle}’ অধ্যায়ের মূল রচয়িতা ও প্রেক্ষাপট কী?`,
-          ans: testItem.options?.[testItem.correct] || `পাঠ্যবই অনুযায়ী ${ch.summary}`
-        },
-        {
-          num: toBnDigit((cIdx * 2) + 2),
-          type: 'খ (অনুধাবনমূলক - ২ নম্বর)',
-          q: `“${noteItem.title || 'মূল প্রতিপাদ্য'}”— বুঝিয়ে লেখো।`,
-          ans: noteItem.detail || ch.summary
-        }
-      ];
-    });
+        return [
+          {
+            num: toBnDigit((cIdx * 2) + 1),
+            type: 'ক (জ্ঞানমূলক - ১ নম্বর)',
+            q: testItem.q?.replace(/^[০-৯১-৫\.]+\s*/, '') || `‘${cleanTitle}’ অধ্যায়ের মূল রচয়িতা ও প্রেক্ষাপট কী?`,
+            ans: testItem.options?.[testItem.correct] || `পাঠ্যবই অনুযায়ী ${ch.summary}`
+          },
+          {
+            num: toBnDigit((cIdx * 2) + 2),
+            type: 'খ (অনুধাবনমূলক - ২ নম্বর)',
+            q: `“${noteItem.title || 'মূল প্রতিপাদ্য'}”— বুঝিয়ে লেখো।`,
+            ans: noteItem.detail || ch.summary
+          }
+        ];
+      });
+    }
 
     return {
       cqQuestions,
       mcqQuestions,
-      drillQuestions
+      drillQuestions,
+      numCqToAnswer
     };
-  }, [chosenChapters, selectedSubjectId, selectedTemplate, refreshKey]);
+  }, [chosenChapters, selectedSubjectId, selectedTemplate, questionFormat, cqCount, mcqCount, refreshKey]);
 
   // Dedicated Isolated Print Engine (Guarantees zero app chrome, zero navbars, zero buttons, zero student lines)
   const handlePrint = () => {
@@ -691,7 +805,7 @@ export default function TeacherPortalView() {
 
     // 1. Creative Questions (CQ - ক বিভাগ)
     if (generatedPaper.cqQuestions?.length) {
-      const numToAnswer = Math.min(5, generatedPaper.cqQuestions.length);
+      const numToAnswer = generatedPaper.numCqToAnswer || Math.min(5, generatedPaper.cqQuestions.length);
       const totalCqMarks = numToAnswer * 10;
       questionsHtml += `
         <div style="margin-top: 12px; margin-bottom: 22px;">
@@ -730,7 +844,7 @@ export default function TeacherPortalView() {
         <div style="margin-top: 15px; margin-bottom: 20px; page-break-before: auto;">
           <div style="text-align: center; margin-bottom: 12px;">
             <div style="font-weight: 900; font-size: 13.5px; border-bottom: 1.5px solid #000; padding-bottom: 2px; display: inline-block;">
-              [খ বিভাগ: বহুনির্বাচনী প্রশ্ন (MCQ / কুইজ) — পূর্ণমান: ${toBnDigit(totalMcqMarks)}]
+              [খ বিভাগ: বহুনির্বাচনী প্রশ্ন (MCQ / ওএমআর) — পূর্ণমান: ${toBnDigit(totalMcqMarks)}]
             </div>
             <div style="font-size: 11px; font-weight: bold; color: #222; margin-top: 3px;">
               [সকল প্রশ্নের উত্তর দেওয়া আবশ্যক — প্রতিটি সঠিক উত্তরের জন্য ১ নম্বর বরাদ্দ: ${toBnDigit(totalMcqMarks)} × ১ = ${toBnDigit(totalMcqMarks)}]
@@ -747,6 +861,32 @@ export default function TeacherPortalView() {
                   ${m.options.map((opt, optIdx) => `
                     <div>(${['ক', 'খ', 'গ', 'ঘ'][optIdx]}) ${opt}</div>
                   `).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // 3. Knowledge Drill (গ বিভাগ: জ্ঞান ও অনুধাবন)
+    if (generatedPaper.drillQuestions?.length) {
+      questionsHtml += `
+        <div style="margin-top: 15px; margin-bottom: 20px; page-break-before: auto;">
+          <div style="text-align: center; margin-bottom: 12px;">
+            <div style="font-weight: 900; font-size: 13.5px; border-bottom: 1.5px solid #000; padding-bottom: 2px; display: inline-block;">
+              [বিশেষ বিভাগ: জ্ঞান ও অনুধাবনমূলক প্রশ্নাবলী]
+            </div>
+            <div style="font-size: 11px; font-weight: bold; color: #222; margin-top: 3px;">
+              [সংক্ষিপ্ত ও নির্ভুল উত্তর দাও — ক=১ নম্বর, খ=২ নম্বর]
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr; gap: 8px;">
+            ${generatedPaper.drillQuestions.map((d) => `
+              <div style="page-break-inside: avoid; break-inside: avoid; border-bottom: 1px dashed #e2e8f0; padding-bottom: 6px;">
+                <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 12.5px;">
+                  <div><span style="font-weight: 900;">${d.num}.</span> ${d.q}</div>
+                  <div style="font-weight: 800; font-size: 11px; padding-left: 8px; white-space: nowrap;">${d.type.includes('১') ? '[১]' : '[২]'}</div>
                 </div>
               </div>
             `).join('')}
@@ -888,7 +1028,7 @@ export default function TeacherPortalView() {
     }, 350);
   };
 
-  // Copy Question Text (Includes Both CQ & MCQ with Marks)
+  // Copy Question Text (Includes Both CQ, MCQ, and Drill with Marks)
   const handleCopy = () => {
     if (!generatedPaper) return;
     const currentTemplateObj = SAMPLE_TEMPLATES.find(t => t.id === selectedTemplate) || SAMPLE_TEMPLATES[0];
@@ -898,7 +1038,7 @@ export default function TeacherPortalView() {
     let fullText = `${schoolName}\n${examTitle}\n[${currentTemplateObj.title.replace(/^[^\s]+\s*/, '')}]\nশ্রেণি: ${classObj.nameBn} | বিষয়: ${subjectNameBn}\nসময়: ${examTime} | পূর্ণমান: ${totalMarks}\nঅন্তর্ভুক্ত অধ্যায়: ${chaptersText}\nপরীক্ষক: ${teacherProfile?.name || 'বিষয় শিক্ষক'} (${teacherProfile?.designation || 'সহকারী শিক্ষক'})\n------------------------------------------------\n\n`;
 
     if (generatedPaper.cqQuestions?.length) {
-      const numToAnswer = Math.min(5, generatedPaper.cqQuestions.length);
+      const numToAnswer = generatedPaper.numCqToAnswer || Math.min(5, generatedPaper.cqQuestions.length);
       const totalCqMarks = numToAnswer * 10;
       fullText += `[ক বিভাগ: সৃজনশীল অংশ — পূর্ণমান: ${toBnDigit(totalCqMarks)}]\n[যেকোনো ${toBnDigit(numToAnswer)}টি প্রশ্নের উত্তর দাও — প্রতিটি প্রশ্নের মান ১০ (ক=১, খ=২, গ=৩, ঘ=৪)]\n\n`;
       generatedPaper.cqQuestions.forEach((q) => {
@@ -908,9 +1048,16 @@ export default function TeacherPortalView() {
 
     if (generatedPaper.mcqQuestions?.length) {
       const totalMcqMarks = generatedPaper.mcqQuestions.length;
-      fullText += `[খ বিভাগ: বহুনির্বাচনী প্রশ্ন (MCQ / কুইজ) — পূর্ণমান: ${toBnDigit(totalMcqMarks)}]\n[সকল প্রশ্নের উত্তর দেওয়া আবশ্যক — প্রতিটি সঠিক উত্তরের মান ১: ${toBnDigit(totalMcqMarks)} × ১ = ${toBnDigit(totalMcqMarks)}]\n\n`;
+      fullText += `[খ বিভাগ: বহুনির্বাচনী প্রশ্ন (MCQ / ওএমআর) — পূর্ণমান: ${toBnDigit(totalMcqMarks)}]\n[সকল প্রশ্নের উত্তর দেওয়া আবশ্যক — প্রতিটি সঠিক উত্তরের মান ১: ${toBnDigit(totalMcqMarks)} × ১ = ${toBnDigit(totalMcqMarks)}]\n\n`;
       generatedPaper.mcqQuestions.forEach((m) => {
         fullText += `${m.num}. ${m.question}  [১]\n(ক) ${m.options[0]}  (খ) ${m.options[1]}  (গ) ${m.options[2]}  (ঘ) ${m.options[3]}\n\n`;
+      });
+    }
+
+    if (generatedPaper.drillQuestions?.length) {
+      fullText += `[বিশেষ বিভাগ: জ্ঞান ও অনুধাবনমূলক প্রশ্নাবলি]\n[সংক্ষিপ্ত ও নির্ভুল উত্তর দাও — ক=১, খ=২]\n\n`;
+      generatedPaper.drillQuestions.forEach((d) => {
+        fullText += `${d.num}. ${d.q} ${d.type.includes('১') ? '[১]' : '[২]'}\n\n`;
       });
     }
 
@@ -1667,108 +1814,230 @@ export default function TeacherPortalView() {
             </div>
           </div>
 
-          {/* STEP 3: 5 READY SAMPLE QUESTION TEMPLATES */}
+          {/* STEP 3: 5 READY SAMPLE QUESTION TEMPLATES (DROPDOWN) */}
           <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-3">
             <div className="flex items-center justify-between">
               <span className="font-black text-slate-800 text-xs flex items-center gap-1.5">
                 <span className="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-[10px] font-black">৩</span>
                 <span>৫টি স্যাম্পল প্রশ্নপত্র ফরম্যাট (পছন্দ করুন):</span>
               </span>
-              <span className="text-[10px] font-black text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md">
+              <span className="text-[10px] font-black text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
                 ৫টি রেডি ফরম্যাট
               </span>
             </div>
 
-            <div className="grid grid-cols-1 gap-2">
-              {SAMPLE_TEMPLATES.map(tpl => {
-                const isSelected = selectedTemplate === tpl.id;
+            <div className="space-y-2">
+              <SleekCustomDropdown
+                options={SAMPLE_TEMPLATES.map(tpl => ({
+                  value: tpl.id,
+                  label: tpl.title,
+                  icon: tpl.icon,
+                  badge: tpl.badge,
+                  group: '৫টি রেডি ফরম্যাট'
+                }))}
+                value={selectedTemplate}
+                onChange={(val) => {
+                  const tpl = SAMPLE_TEMPLATES.find(t => t.id === val);
+                  if (tpl) {
+                    setSelectedTemplate(tpl.id);
+                    setQuestionFormat(tpl.format || tpl.id);
+                    setTotalMarks(tpl.marks);
+                    setExamTime(tpl.time);
+                    if (tpl.defaultCqCount) setCqCount(tpl.defaultCqCount);
+                    if (tpl.defaultMcqCount) setMcqCount(tpl.defaultMcqCount);
+                    setExamTitle(tpl.defaultTitle || `${tpl.title.replace(/^[^\s]+\s*/, '')} — ২০২৬`);
+                    showToast(`${tpl.title} ফরম্যাট নির্বাচিত`, 'success');
+                  }
+                }}
+              />
+
+              {/* Selected Format Summary Card */}
+              {(() => {
+                const currentTpl = SAMPLE_TEMPLATES.find(t => t.id === selectedTemplate) || SAMPLE_TEMPLATES[0];
                 return (
-                  <div
-                    key={tpl.id}
-                    onClick={() => {
-                      setSelectedTemplate(tpl.id);
-                      setTotalMarks(tpl.marks);
-                      setExamTime(tpl.time);
-                      setExamTitle(tpl.defaultTitle || `${tpl.title.replace(/^[^\s]+\s*/, '')} — ২০২৬`);
-                      showToast(`${tpl.title} ফরম্যাট নির্বাচিত`, 'success');
-                    }}
-                    className={`p-3 rounded-2xl border cursor-pointer transition-all ${
-                      isSelected
-                        ? 'bg-gradient-to-r from-red-50 to-amber-50 border-red-400 ring-2 ring-red-400 shadow-md'
-                        : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="flex items-center gap-2 font-black text-xs text-slate-900">
-                        <span className="text-sm">{tpl.icon}</span>
-                        <span>{tpl.title}</span>
+                  <div className="p-2.5 bg-gradient-to-r from-red-50/70 via-amber-50/50 to-orange-50/60 rounded-2xl border border-amber-200/80 flex items-center justify-between gap-2 shadow-xs animate-in fade-in duration-200">
+                    <div className="space-y-0.5 truncate">
+                      <div className="flex items-center gap-1.5 font-black text-xs text-slate-900">
+                        <span>{currentTpl.icon}</span>
+                        <span className="truncate">{currentTpl.title}</span>
                       </div>
-                      <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-white border border-red-200 text-red-600 shadow-xs">
-                        {tpl.badge}
-                      </span>
+                      <p className="text-[11px] text-slate-600 font-medium truncate">{currentTpl.desc}</p>
                     </div>
-                    <p className="text-[11px] text-slate-600 font-medium pl-6">{tpl.desc}</p>
-                    <div className="flex items-center gap-3 pl-6 mt-1.5 text-[10px] font-black text-slate-500">
-                      <span>⏱️ {tpl.time}</span>
-                      <span>•</span>
-                      <span>🎯 পূর্ণমান: {tpl.marks}</span>
-                    </div>
+                    <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-white border border-red-200 text-red-600 shadow-xs shrink-0">
+                      {currentTpl.badge}
+                    </span>
                   </div>
                 );
-              })}
+              })()}
             </div>
           </div>
 
-          {/* STEP 4: SCHOOL & EXAM HEADER SETTINGS */}
-          <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-3">
-            <span className="font-black text-slate-800 text-xs flex items-center gap-1.5">
-              <span className="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-[10px] font-black">৪</span>
-              <span>পরীক্ষার হেডার ও সেটিংস:</span>
-            </span>
+          {/* STEP 4: SCHOOL & EXAM PARAMETER SETTINGS (DROPDOWNS) */}
+          <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-3.5">
+            <div className="flex items-center justify-between">
+              <span className="font-black text-slate-800 text-xs flex items-center gap-1.5">
+                <span className="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-[10px] font-black">৪</span>
+                <span>পরীক্ষার হেডার ও সেটিংস (ড্রপডাউন নির্বাচন):</span>
+              </span>
+              <span className="text-[10px] font-black text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md">
+                প্যারামিটার সেটিংস
+              </span>
+            </div>
 
-            <div className="grid grid-cols-1 gap-2 text-xs font-bold">
+            <div className="space-y-3 text-xs">
+              {/* School / Institution Name */}
               <div>
-                <label className="text-[10px] text-slate-500 font-black block mb-0.5">স্কুল / শিক্ষা প্রতিষ্ঠানের নাম:</label>
+                <label className="text-[10px] text-slate-600 font-black flex items-center gap-1 mb-1">
+                  <School className="w-3.5 h-3.5 text-red-600" />
+                  <span>স্কুল / শিক্ষা প্রতিষ্ঠানের নাম:</span>
+                </label>
                 <input
                   type="text"
                   value={schoolName}
                   onChange={e => setSchoolName(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-red-400 text-xs font-bold text-slate-800"
+                  className="w-full p-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-red-400 text-xs font-bold text-slate-800 bg-white"
                   placeholder="স্কুলের নাম লিখুন..."
                 />
               </div>
 
+              {/* Exam Title Preset Dropdown */}
               <div>
-                <label className="text-[10px] text-slate-500 font-black block mb-0.5">পরীক্ষার শিরোনাম:</label>
-                <input
-                  type="text"
+                <label className="text-[10px] text-slate-600 font-black flex items-center justify-between mb-1">
+                  <span className="flex items-center gap-1">
+                    <Award className="w-3.5 h-3.5 text-amber-600" />
+                    <span>পরীক্ষার ধরন ও শিরোনাম:</span>
+                  </span>
+                  <span className="text-[9px] text-slate-400 font-bold">Exam Title</span>
+                </label>
+                <SleekCustomDropdown
+                  options={EXAM_TITLE_OPTIONS}
                   value={examTitle}
-                  onChange={e => setExamTitle(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-red-400 text-xs font-bold text-slate-800"
-                  placeholder="যেমন: অর্ধবার্ষিক পরীক্ষা ২০২৬"
+                  onChange={(val) => {
+                    setExamTitle(val);
+                    showToast(`পরীক্ষা: ${val.split('—')[0]}`, 'info');
+                  }}
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              {/* 2-Column: Marks (পূর্ণমান) & Time (সময়) Dropdowns */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <div>
-                  <label className="text-[10px] text-slate-500 font-black block mb-0.5">সময়:</label>
-                  <input
-                    type="text"
-                    value={examTime}
-                    onChange={e => setExamTime(e.target.value)}
-                    className="w-full p-2 rounded-xl border border-slate-300 text-xs font-bold"
+                  <label className="text-[10px] text-slate-600 font-black flex items-center justify-between mb-1">
+                    <span className="flex items-center gap-1">
+                      <Award className="w-3.5 h-3.5 text-red-600" />
+                      <span>পূর্ণমান (Marks / নম্বর):</span>
+                    </span>
+                    <span className="text-[9px] text-red-600 font-black bg-red-50 px-1.5 py-0.2 rounded">{totalMarks} নম্বর</span>
+                  </label>
+                  <SleekCustomDropdown
+                    options={MARKS_OPTIONS}
+                    value={totalMarks}
+                    onChange={(val) => {
+                      setTotalMarks(val);
+                      showToast(`পূর্ণমান: ${val} নম্বর`, 'info');
+                    }}
                   />
                 </div>
+
                 <div>
-                  <label className="text-[10px] text-slate-500 font-black block mb-0.5">পূর্ণমান:</label>
-                  <input
-                    type="text"
-                    value={totalMarks}
-                    onChange={e => setTotalMarks(e.target.value)}
-                    className="w-full p-2 rounded-xl border border-slate-300 text-xs font-bold"
+                  <label className="text-[10px] text-slate-600 font-black flex items-center justify-between mb-1">
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5 text-amber-600" />
+                      <span>সময় (Time / সময়কাল):</span>
+                    </span>
+                    <span className="text-[9px] text-amber-700 font-black bg-amber-50 px-1.5 py-0.2 rounded">{examTime}</span>
+                  </label>
+                  <SleekCustomDropdown
+                    options={TIME_OPTIONS}
+                    value={examTime}
+                    onChange={(val) => {
+                      setExamTime(val);
+                      showToast(`সময়: ${val}`, 'info');
+                    }}
                   />
                 </div>
               </div>
+
+              {/* 2-Column: Question Format & Difficulty Level Dropdowns */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div>
+                  <label className="text-[10px] text-slate-600 font-black flex items-center justify-between mb-1">
+                    <span className="flex items-center gap-1">
+                      <FileText className="w-3.5 h-3.5 text-slate-700" />
+                      <span>প্রশ্নের বিন্যাস ও ধরন:</span>
+                    </span>
+                    <span className="text-[9px] text-slate-400 font-bold">Format</span>
+                  </label>
+                  <SleekCustomDropdown
+                    options={QUESTION_FORMAT_OPTIONS}
+                    value={questionFormat}
+                    onChange={(val) => {
+                      setQuestionFormat(val);
+                      const opt = QUESTION_FORMAT_OPTIONS.find(f => f.value === val);
+                      showToast(`বিন্যাস: ${opt?.label || val}`, 'info');
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] text-slate-600 font-black flex items-center justify-between mb-1">
+                    <span className="flex items-center gap-1">
+                      <Sliders className="w-3.5 h-3.5 text-slate-700" />
+                      <span>কাঠিন্যের স্তর:</span>
+                    </span>
+                    <span className="text-[9px] text-slate-400 font-bold">Difficulty</span>
+                  </label>
+                  <SleekCustomDropdown
+                    options={DIFFICULTY_OPTIONS}
+                    value={difficulty}
+                    onChange={(val) => {
+                      setDifficulty(val);
+                      const diffObj = DIFFICULTY_OPTIONS.find(d => d.value === val);
+                      showToast(`মান: ${diffObj?.badge || val}`, 'info');
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* 2-Column: CQ Question Count & MCQ Question Count Dropdowns */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-0.5">
+                <div>
+                  <label className="text-[10px] text-slate-600 font-black flex items-center justify-between mb-1">
+                    <span className="flex items-center gap-1">
+                      <span>📝</span>
+                      <span>সৃজনশীল প্রশ্নের সংখ্যা (CQ):</span>
+                    </span>
+                    <span className="text-[9px] text-red-600 font-black">{cqCount}টি উত্তর</span>
+                  </label>
+                  <SleekCustomDropdown
+                    options={CQ_COUNT_OPTIONS}
+                    value={cqCount}
+                    onChange={(val) => {
+                      setCqCount(val);
+                      showToast(`সৃজনশীল: ${val}টি উত্তর`, 'info');
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] text-slate-600 font-black flex items-center justify-between mb-1">
+                    <span className="flex items-center gap-1">
+                      <span>🔘</span>
+                      <span>নৈর্ব্যক্তিক প্রশ্নের সংখ্যা (MCQ):</span>
+                    </span>
+                    <span className="text-[9px] text-amber-700 font-black">{mcqCount}টি MCQ</span>
+                  </label>
+                  <SleekCustomDropdown
+                    options={MCQ_COUNT_OPTIONS}
+                    value={mcqCount}
+                    onChange={(val) => {
+                      setMcqCount(val);
+                      showToast(`নৈর্ব্যক্তিক: ${val}টি প্রশ্ন`, 'info');
+                    }}
+                  />
+                </div>
+              </div>
+
             </div>
           </div>
 
@@ -1869,10 +2138,10 @@ export default function TeacherPortalView() {
               <div className="space-y-4 pt-1 print:space-y-3.5">
                 <div className="text-center space-y-0.5">
                   <div className="text-xs font-black bg-slate-100 px-3 py-1 rounded-full border border-slate-300 inline-block print:border-none print:bg-transparent print:font-extrabold">
-                    [ক বিভাগ: সৃজনশীল প্রশ্নাবলী — পূর্ণমান: {toBnDigit(Math.min(5, generatedPaper.cqQuestions.length) * 10)}]
+                    [ক বিভাগ: সৃজনশীল প্রশ্নাবলী — পূর্ণমান: {toBnDigit((generatedPaper.numCqToAnswer || Math.min(5, generatedPaper.cqQuestions.length)) * 10)}]
                   </div>
                   <p className="text-[11px] font-bold text-slate-600 print:text-black">
-                    [যেকোনো {toBnDigit(Math.min(5, generatedPaper.cqQuestions.length))}টি প্রশ্নের উত্তর দাও — প্রতিটি প্রশ্নের মান ১০ (ক=১, খ=২, গ=৩, ঘ=৪)]
+                    [যেকোনো {toBnDigit(generatedPaper.numCqToAnswer || Math.min(5, generatedPaper.cqQuestions.length))}টি প্রশ্নের উত্তর দাও — প্রতিটি প্রশ্নের মান ১০ (ক=১, খ=২, গ=৩, ঘ=৪)]
                   </p>
                 </div>
 
